@@ -1,6 +1,6 @@
 export default {
     'menu.dashboard': '仪表盘',
-    'menu.chart': '图表管理',
+    'menu.chart': '图表',
     'menu.chart.antv': 'Antv图表',
     'menu.chart.d3': 'D3图表',
     'menu.chart.echart': 'Echart图表',
@@ -8,7 +8,7 @@ export default {
     'menu.three': '三维',
     'menu.three.babylon': 'Babylon图表',
     'menu.three.three': 'Three图表',
-    'menu.map': '地图管理',
+    'menu.map': '地图',
     'menu.map.cesium': 'Cesium地图',
     'menu.map.deckgl': 'Deckgl地图',
     'menu.map.l7': 'L7地图',

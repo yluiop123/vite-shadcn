@@ -1,5 +1,6 @@
-import loadable from '@loadable/component';
+import { lazy } from '@loadable/component';
 import { Bot } from "lucide-react";
+import React from 'react';
 import { RouteObject } from "react-router";
 type NavItem = {
   title?: string;
@@ -8,20 +9,8 @@ type NavItem = {
   isActive?: boolean;
   children?: NavItem[];
   fullpath?: string;
+  index?: boolean;
 };
-// const routes: NavItem[] = [
-//   { path: "dashboard", title: "Dashboard", icon: Bot , Component: Dashboard},
-//   {
-//     path: "system",
-//     title: "系统管理",
-//     icon: Bot,
-//     children: [
-//       { path: "role", title: "角色管理", icon: Bot, Component: Role },
-//       { path: "menu", title: "菜单管理", icon: Bot, Component: Menu },
-//       { path: "dept", title: "部门管理", icon: Bot, Component: Dept },
-//     ],
-//   },
-// ];
 const routeSetting: NavItem[] = [
   { path: "dashboard", title: "menu.dashboard", icon: Bot },
   {
@@ -30,6 +19,7 @@ const routeSetting: NavItem[] = [
     icon: Bot,
     children: [
       { path: "antv", title: "menu.chart.antv", icon: Bot},
+      { path: "d3", title: "menu.chart.d3", icon: Bot},
       { path: "echart", title: "menu.chart.echart", icon: Bot},
       { path: "rechart", title: "menu.chart.rechart", icon: Bot}
     ],
@@ -73,20 +63,41 @@ function addFullPath(node:NavItem, parentPath = '', routeObject:RouteObject={}):
   const currentFullPath = parentPath ? `${parentPath}/${node.path}` : node.path;
   // 如果有子节点，递归处理
   const child:NavItem[] = node.children || [];
-  routeObject.path = node.path;
+
+  if(node.index){
+    node.fullpath = parentPath;
+    routeObject.index = node.index;
+  }else if(node.path){
+    node.fullpath = currentFullPath;
+    routeObject.path = node.path;
+  }
+
   if (child.length > 0) {
-    routeObject.children = Array(child.length).fill(null).map((_,index) => ({path:'/'+index}));
+    routeObject.children = Array(child.length).fill(null).map(() => ({}));
     child.forEach((child,index) => addFullPath(child, currentFullPath,routeObject.children?.[index]));
   }else{
-    node.fullpath = currentFullPath;
-    routeObject.Component = loadable(modules['./pages/'+currentFullPath+'/index.tsx']);
+    routeObject.Component = lazy(modules['./pages/'+currentFullPath+'/index.tsx'],
+      {fallback:() =>React.createElement('div',{},'Loading...')});
   }
   return routeObject;
 }
 const routes = routeSetting.map(item => addFullPath(item));
+
+function treeToListWithLevel(tree:NavItem[]) {
+  const menuMap = new Map<string,string>();
+
+  function traverse(node:NavItem) {
+    menuMap.set(node.fullpath || '',node.title || '');
+    if (node.children) {
+      node.children.forEach(child => traverse(child));
+    }
+  }
+
+  tree.forEach(node => traverse(node));
+  return menuMap;
+}
+const menuMap:Map<string,string> = treeToListWithLevel(routeSetting);
 console.log(routeSetting);
 console.log(routes);
-export {
-  routes, routeSetting, type NavItem
-};
+export { menuMap, routes, routeSetting, type NavItem };
 
