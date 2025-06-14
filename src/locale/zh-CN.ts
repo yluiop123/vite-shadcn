@@ -2,6 +2,7 @@ export default {
     'menu.dashboard': '仪表盘',
     'menu.chart': '图表管理',
     'menu.chart.antv': 'Antv图表',
+    'menu.chart.d3': 'D3图表',
     'menu.chart.echart': 'Echart图表',
     'menu.chart.rechart': 'Rechart图表',
     'menu.three': '三维',

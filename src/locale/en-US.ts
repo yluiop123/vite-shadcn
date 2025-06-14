@@ -2,6 +2,7 @@ export default {
     'menu.dashboard': 'Dashboard',
     'menu.chart': 'Chart',
     'menu.chart.antv': 'Antv',
+    'menu.chart.d3': 'D3',
     'menu.chart.echart': 'Echart',
     'menu.chart.rechart': 'Rechart',
     'menu.three': 'Three',
