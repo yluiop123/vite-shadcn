@@ -1,0 +1,34 @@
+"use client"
+
+import { type LucideIcon } from "lucide-react"
+
+import { SidebarMenuTree } from "@/components/sidebar-menutree"
+import { NavItem } from "@/routes"
+import {
+  SidebarGroup,
+  SidebarGroupLabel,
+  SidebarMenu
+} from "@/components/ui/sidebar"
+export function NavMain({items}: {items: NavItem[]}) {
+
+  //   function checkIsActive(href: string, item: NavItem, mainNav = false) {
+  //   return (
+  //     href === item.url || // /endpint?search=param
+  //     href.split('?')[0] === item.url || // endpoint
+  //     !!item?.items?.filter((i) => i.url === href).length || // if child nav is active
+  //     (mainNav &&
+  //       href.split('/')[1] !== '' &&
+  //       href.split('/')[1] === item?.url?.split('/')[1])
+  //   )
+  // }
+  return (
+    <SidebarGroup>
+      <SidebarGroupLabel>Platform</SidebarGroupLabel>
+      <SidebarMenu>
+        {items.map((item, index) => (
+          <SidebarMenuTree item={item} key={index}></SidebarMenuTree>
+        ))}
+      </SidebarMenu>
+    </SidebarGroup>
+  )
+}

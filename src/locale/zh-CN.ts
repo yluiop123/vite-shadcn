@@ -1,0 +1,21 @@
+export default {
+    'menu.dashboard': '仪表盘',
+    'menu.chart': '图表管理',
+    'menu.chart.antv': 'Antv图表',
+    'menu.chart.echart': 'Echart图表',
+    'menu.chart.rechart': 'Rechart图表',
+    'menu.three': '三维',
+    'menu.three.babylon': 'Babylon图表',
+    'menu.three.three': 'Three图表',
+    'menu.map': '地图管理',
+    'menu.map.cesium': 'Cesium地图',
+    'menu.map.deckgl': 'Deckgl地图',
+    'menu.map.l7': 'L7地图',
+    'menu.map.mapbox': 'Mapbox地图',
+    'menu.map.openlayers': 'Openlayers地图',
+    'menu.system': '系统管理',
+    'menu.system.role': '角色管理',
+    'menu.system.menu': '菜单管理',
+    'menu.system.dept': '部门管理',
+
+};
