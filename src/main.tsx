@@ -37,6 +37,8 @@ createRoot(document.getElementById('root')!).render(
    <BrowserRouter>
     <Routes>
       <Route path="/login" element={<Login />} />
+      <Route path="/" element={<Navigate to="/login" />} />
+      <Route path="*" element={<Navigate to="/login" />} />
       <Route path="/" Component={PageLayout}>
         {routes.map(route => (
           route.redirect?
@@ -47,8 +49,6 @@ createRoot(document.getElementById('root')!).render(
         )} /> 
         ))}
       </Route>
-      <Route path="/" element={<Navigate to="/dashboard" />} />
-      <Route path="*" element={<Navigate to="/dashboard" />} />
     </Routes>
     </BrowserRouter>
     </IntlProvider>
