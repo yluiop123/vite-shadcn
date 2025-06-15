@@ -15,7 +15,7 @@ const router = createBrowserRouter([
   { path: "login",
     Component: Login
   },
-    { path: "/",
+  { path: "/",
     Component: PageLayout,
         children: routes
   },

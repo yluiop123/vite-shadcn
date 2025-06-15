@@ -1,22 +1,23 @@
 import { lazy } from '@loadable/component';
-import { Bot } from "lucide-react";
+import { Bot, ChartPie, ChartSpline } from "lucide-react";
 import React from 'react';
-import { RouteObject } from "react-router";
+import { RouteObject, redirect } from "react-router-dom";
+
 type NavItem = {
   title?: string;
   path: string;
   icon?: React.ElementType;
-  isActive?: boolean;
   children?: NavItem[];
   fullpath?: string;
   index?: boolean;
+  redirect?: string;
 };
 const routeSetting: NavItem[] = [
-  { path: "dashboard", title: "menu.dashboard", icon: Bot },
+  { path: "dashboard", title: "menu.dashboard", icon: ChartPie },
   {
     path: "chart",
     title: "menu.chart",
-    icon: Bot,
+    icon: ChartSpline,
     children: [
       { path: "antv", title: "menu.chart.antv", icon: Bot},
       { path: "d3", title: "menu.chart.d3", icon: Bot},
@@ -55,7 +56,6 @@ const routeSetting: NavItem[] = [
       { path: "dept", title: "menu.system.dept", icon: Bot},
     ],
   },
-
 ];
 const modules = import.meta.glob('./pages/**/index.tsx');
 function addFullPath(node:NavItem, parentPath = '', routeObject:RouteObject={}):RouteObject {
@@ -71,7 +71,6 @@ function addFullPath(node:NavItem, parentPath = '', routeObject:RouteObject={}):
     node.fullpath = currentFullPath;
     routeObject.path = node.path;
   }
-
   if (child.length > 0) {
     routeObject.children = Array(child.length).fill(null).map(() => ({}));
     child.forEach((child,index) => addFullPath(child, currentFullPath,routeObject.children?.[index]));
@@ -82,8 +81,7 @@ function addFullPath(node:NavItem, parentPath = '', routeObject:RouteObject={}):
   return routeObject;
 }
 const routes = routeSetting.map(item => addFullPath(item));
-
-function treeToListWithLevel(tree:NavItem[]) {
+function treeToList(tree:NavItem[]) {
   const menuMap = new Map<string,string>();
 
   function traverse(node:NavItem) {
@@ -96,8 +94,6 @@ function treeToListWithLevel(tree:NavItem[]) {
   tree.forEach(node => traverse(node));
   return menuMap;
 }
-const menuMap:Map<string,string> = treeToListWithLevel(routeSetting);
-console.log(routeSetting);
-console.log(routes);
-export { menuMap, routes, routeSetting, type NavItem };
+const menuMap:Map<string,string> = treeToList(routeSetting);
+export { menuMap, routeSetting, routes, type NavItem };
 
