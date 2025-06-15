@@ -77,8 +77,6 @@ function treeToList(tree:NavItem[]) {
       routes.push({
         path:fullpath,
         element:fullpath
-      //   Compoment:lazy(modules['./pages/'+fullpath+'/index.tsx'],
-      // {fallback:() =>React.createElement('div',{},'Loading...')})
       })
     }
   }

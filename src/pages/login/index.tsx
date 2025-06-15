@@ -15,17 +15,19 @@ import {
   FormMessage
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
+import axios from "@/lib/axios"
 import { cn } from "@/lib/utils"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { Loader2Icon } from "lucide-react"
+import React, { useState } from 'react'
 import { useForm } from "react-hook-form"
 import { z } from "zod"
-
 const formSchema = z.object({
-  username: z.string().min(5, {
-    message: "Username must be at least 5 characters.",
+  username: z.string().min(4, {
+    message: "Username must be at least 4 characters.",
   }),
-  password: z.string().min(5, {
-    message: "Password must be at least 5 characters.",
+  password: z.string().min(4, {
+    message: "Password must be at least 4 characters.",
   })
 })
 export default function Login({
@@ -39,9 +41,26 @@ export default function Login({
       password: "admin"
     },
   })
-
+  const [loading, setLoading] = useState(false)
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values)
+    setLoading(true);
+    axios
+      .post('user/login', values)
+      .then((res) => {
+        const { status, msg, field,token } = res.data;
+        if (status === 'ok') {
+          //afterLoginSuccess(params);
+          window.location.href = "/";
+          localStorage.setItem('token',token)
+        } else if (['password', 'username'].includes(field)) {
+          form.setError(field, {
+            message: msg
+          })
+        }
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   }
   return (
     <div className="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
@@ -83,7 +102,9 @@ export default function Login({
                       </FormItem>
                     )}
                   />
-                  <Button type="submit">Submit</Button>
+                  <Button type="submit" >
+                    {loading&&<Loader2Icon className='animate-spin'/>}             
+                    Submit</Button>
                 </form>
               </Form>
             </CardContent>

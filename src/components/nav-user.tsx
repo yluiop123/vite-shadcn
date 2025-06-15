@@ -96,7 +96,10 @@ export function NavUser({
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            <DropdownMenuItem onClick={() => {
+              localStorage.removeItem("token");
+              window.location.href = "/login";
+            }}>
               <IconLogout />
               Log out
             </DropdownMenuItem>

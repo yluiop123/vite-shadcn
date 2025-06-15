@@ -13,6 +13,8 @@ import {
   Routes
 } from "react-router";
 import './index.css';
+import './mock';
+
 const Login = lazy(() => import("@/pages/login"));
 const messageMap = {
   zh,
@@ -37,7 +39,7 @@ createRoot(document.getElementById('root')!).render(
    <BrowserRouter>
     <Routes>
       <Route path="/login" element={<Login />} />
-      <Route path="/" element={<Navigate to="/login" />} />
+      <Route path="/" element={<Navigate to={routes[0].path}/>} />
       <Route path="*" element={<Navigate to="/login" />} />
       <Route path="/" Component={PageLayout}>
         {routes.map(route => (
