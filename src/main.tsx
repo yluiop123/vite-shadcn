@@ -2,24 +2,18 @@ import PageLayout from '@/layout';
 import en from '@/locale/en-US';
 import zh from '@/locale/zh-CN';
 import { routes } from '@/routes';
-import { lazy, StrictMode } from 'react';
+import { lazy } from '@loadable/component';
+import React, { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { IntlProvider } from 'react-intl';
 import {
-  createBrowserRouter,
-  RouterProvider
+  BrowserRouter,
+  Navigate,
+  Route,
+  Routes
 } from "react-router";
 import './index.css';
 const Login = lazy(() => import("@/pages/login"));
-const router = createBrowserRouter([
-  { path: "login",
-    Component: Login
-  },
-  { path: "/",
-    Component: PageLayout,
-        children: routes
-  },
-]);
 const messageMap = {
   zh,
   en,
@@ -36,10 +30,27 @@ const getLocale = () => {
   }
 };
 const locale = getLocale();
+const modules = import.meta.glob('./pages/**/index.tsx');
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <IntlProvider locale={locale} messages={messageMap[locale]}>
-      <RouterProvider router={router} />
+   <BrowserRouter>
+    <Routes>
+      <Route path="/login" element={<Login />} />
+      <Route path="/" Component={PageLayout}>
+        {routes.map(route => (
+          route.redirect?
+          <Route path={route.path} element={<Navigate to={route.redirect} />} />
+          :
+          <Route path={route.path} Component={lazy(modules['./pages'+route.element+'/index.tsx'],
+          {fallback:() =>React.createElement('div',{},'Loading...')}
+        )} /> 
+        ))}
+      </Route>
+      <Route path="/" element={<Navigate to="/dashboard" />} />
+      <Route path="*" element={<Navigate to="/dashboard" />} />
+    </Routes>
+    </BrowserRouter>
     </IntlProvider>
   </StrictMode>,
 )

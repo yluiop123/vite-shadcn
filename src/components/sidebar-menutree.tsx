@@ -18,21 +18,20 @@ export function SidebarMenuTree({ item }: { item: NavItem }) {
   const location = useLocation();
   const intl = useIntl()
   function checkIsActive(href: string) {
-    const pathname = location.pathname;
-    return "/" + href === pathname;
+    return href === location.pathname;
   }
   return (
     <Collapsible
       key={item.title}
       asChild
-      defaultOpen={item.isActive}
+      // defaultOpen={item.isActive}
       className="group/collapsible"
     >
       <SidebarMenuItem>
         <CollapsibleTrigger asChild>
           {item.children ?
             <SidebarMenuButton tooltip={intl.formatMessage({ id: item.title })}
-              isActive={checkIsActive(item.fullpath ?? "")}>
+              isActive={checkIsActive(item.keys?.join("/") ?? "")}>
               {item.icon && <item.icon />}
               <span>{intl.formatMessage({ id: item.title })}</span>
 
@@ -41,10 +40,10 @@ export function SidebarMenuTree({ item }: { item: NavItem }) {
             :
 
             <Link to={{
-              pathname: item.fullpath,
+              pathname: '/'+item.keys?.join("/"),
             }}>
               <SidebarMenuButton tooltip={intl.formatMessage({ id: item.title })}
-                isActive={checkIsActive(item.fullpath ?? "")}>
+                isActive={checkIsActive(item.keys?.join("/") ?? "")}>
                 {item.icon && <item.icon />}
                 <span>{intl.formatMessage({ id: item.title })}</span>
 
