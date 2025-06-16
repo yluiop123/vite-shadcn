@@ -42,7 +42,9 @@ const getLazyComponent = (path: string) => {
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <IntlProvider locale={locale} messages={messageMap[locale]}>
-   <BrowserRouter basename='/vite-shadcn'>
+   <BrowserRouter 
+  //  basename='/vite-shadcn'
+   >
     <Routes>
       <Route path="/login" element={<Login />} />
       {routes.length>0&&<Route path="/" element={<Navigate to={routes[0].path}/>} />}
