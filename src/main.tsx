@@ -39,11 +39,12 @@ const getLazyComponent = (path: string) => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return lazy(module as any);
 };
+const basename = import.meta.env.VITE_PLATFORM === 'github' ? '/vite-shadcn' : '/'
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <IntlProvider locale={locale} messages={messageMap[locale]}>
    <BrowserRouter 
-   basename='/vite-shadcn'
+   basename={basename}
    >
     <Routes>
       <Route path="/login" element={<Login />} />
