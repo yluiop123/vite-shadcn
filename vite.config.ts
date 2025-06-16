@@ -10,7 +10,7 @@ export default defineConfig(({ mode }) => {
 
   // 如果指定了平台是 github，使用子路径
   if (env.VITE_PLATFORM === 'github') {
-    base = '/你的项目名/' // ⚠️ 替换为你的 GitHub 项目名
+    base = '/shadcn-vite/' // ⚠️ 替换为你的 GitHub 项目名
   }
 
   return {
