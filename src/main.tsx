@@ -2,8 +2,8 @@ import PageLayout from '@/layout';
 import en from '@/locale/en-US';
 import zh from '@/locale/zh-CN';
 import { routes } from '@/routes';
-import loadable from '@loadable/component';
-import { StrictMode } from 'react';
+// import loadable from '@loadable/component';
+import { StrictMode, lazy } from 'react';
 import { createRoot } from 'react-dom/client';
 import { IntlProvider } from 'react-intl';
 import {
@@ -15,7 +15,7 @@ import {
 import './index.css';
 import './mock';
 
-const Login = loadable(() => import("@/pages/login"));
+const Login = lazy(() => import("@/pages/login"));
 const messageMap = {
   zh,
   en,
@@ -32,6 +32,13 @@ const getLocale = () => {
   }
 };
 const locale = getLocale();
+const modules = import.meta.glob('./pages/**/index.tsx');
+const getLazyComponent = (path: string) => {
+  const module = modules[`./pages${path}/index.tsx`];
+  if (!module) throw new Error(`Module not found: ./pages${path}/index.tsx`);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  return lazy(module as any);
+};
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <IntlProvider locale={locale} messages={messageMap[locale]}>
@@ -45,9 +52,7 @@ createRoot(document.getElementById('root')!).render(
           route.redirect?
           <Route path={route.path} element={<Navigate to={route.redirect} replace/>} />
           :
-        //   <Route path={route.path} Component={loadable(() =>modules['./pages'+route.element+'/index.tsx']
-        // )} /> 
-          <Route path={route.path} Component={loadable(() => import('./pages'+route.element+'/index.tsx'))} /> 
+          <Route path={route.path} Component={getLazyComponent(route.element??'')} /> 
         ))}
       </Route>
     </Routes>
