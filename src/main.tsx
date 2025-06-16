@@ -43,7 +43,7 @@ createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <IntlProvider locale={locale} messages={messageMap[locale]}>
    <BrowserRouter 
-  //  basename='/vite-shadcn'
+   basename='/vite-shadcn'
    >
     <Routes>
       <Route path="/login" element={<Login />} />

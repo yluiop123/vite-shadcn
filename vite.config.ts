@@ -5,7 +5,7 @@ import { defineConfig } from 'vite'
 
 // https://vite.dev/config/
 export default defineConfig({
-  // base: '/vite-shadcn/',
+  base: '/vite-shadcn/',
   server: {
     port: 3000,
     host:"0.0.0.0"
