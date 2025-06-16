@@ -41,6 +41,8 @@ jobs:
         run: npm ci
       - name: Rename .env.github to .env.production
         run: mv .env.github .env.production
+      - name: Show .env.production content (debug)
+        run: cat .env.production
       - name: Build
         run: npm run build
       - name: Setup Pages
