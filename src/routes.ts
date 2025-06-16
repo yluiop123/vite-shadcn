@@ -85,7 +85,5 @@ function treeToList(tree:NavItem[]) {
   return {menuMap,routes};
 }
 const {menuMap,routes} = treeToList(routeSetting);
-console.log(routes)
-console.log(menuMap)
 export { menuMap, routes, routeSetting, type NavItem };
 

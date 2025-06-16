@@ -54,6 +54,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.24.0",
+    "@types/loadable__component": "^5.13.9",
     "@types/mockjs": "^1.0.10",
     "@types/node": "^22.14.1",
     "@types/react": "^19.1.1",

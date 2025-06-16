@@ -2,10 +2,42 @@ import Mock from "mockjs";
 export default function () {
   Mock.mock(new RegExp("/api/user/userInfo"), () => {
     return Mock.mock({
-      user: "admin",
-      email: "yluiop123@email.com",
+      user: "super",
+      email: "yluiop123@qq.com",
       name: "YL",
-      role: ["admin"],
+      role: ["super", "admin", "user"],
+      menus: [{path:"/dashboard",
+            role:"super"
+        },{path:"/dashboard",
+            role:"user"
+        },{path:"/chart/*",
+            role:"super"
+        },{path:"/chart/*",
+            role:"user"
+        }, {path:"/map/*",
+            role:"super"
+        }, {path:"/map/*",
+            role:"super"
+        }, {path:"/tree/*",
+            role:"super"
+        }, {path:"/tree/*",
+            role:"user"
+        }, {path:"/system/*",
+            roleL:"super"
+        }, {path:"/system/*",
+            role:"admin"
+        }],
+      permissions:[{permission:"/dashboard:read",
+            role:["super","user"]
+        }, {permission:"/chart/*:read",
+            roleList:["super","user"]
+        }, {permission:"/map/*",
+            roleList:["super","user"]
+        }, {permission:"/tree/*",
+            roleList:["super","user"]
+        }, {permission:"/system/*",
+            roleList:["super","admin"]
+        }]
     });
   });
 
