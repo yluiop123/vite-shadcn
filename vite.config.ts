@@ -4,9 +4,8 @@ import path from "path"
 import { defineConfig, loadEnv } from 'vite'
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(),'')
-  console.log('configVITE_PLATFORM:', env.VITE_PLATFORM);
   // 默认为根路径
-  let base = '/'
+  let base = env.VITE_PLATFORM
 
   // 如果指定了平台是 github，使用子路径
   if (env.VITE_PLATFORM === 'github') {
