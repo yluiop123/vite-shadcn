@@ -1,6 +1,6 @@
 # vite-shadcn
 
-A front-end project built with modern tools.
+一个基于现代工具构建的前端项目。
 
 ## 🚀 快速开始
 
@@ -19,7 +19,7 @@ npm run dev
 | `lint` | `eslint .` |
 | `preview` | `vite preview` |
 | `preview:github` | `vite preview --mode github` |
-| `readme` | `ppj2r > README.md` |
+| `readme` | `node readme.js&& node readme-us.js` |
 
 ## 📦 依赖
 

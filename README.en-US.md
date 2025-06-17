@@ -19,7 +19,7 @@ npm run dev
 | `lint` | `eslint .` |
 | `preview` | `vite preview` |
 | `preview:github` | `vite preview --mode github` |
-| `readme` | `ppj2r > README.md` |
+| `readme` | `node readme.js&& node readme-us.js` |
 
 ## 📦 dependencies
 
