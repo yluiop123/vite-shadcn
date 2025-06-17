@@ -26,7 +26,7 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar"
-
+import { useNavigate } from 'react-router'
 export function NavUser({
   user,
 }: {
@@ -37,7 +37,7 @@ export function NavUser({
   }
 }) {
   const { isMobile } = useSidebar()
-
+const navigate = useNavigate();
   return (
     <SidebarMenu>
       <SidebarMenuItem>
@@ -98,7 +98,7 @@ export function NavUser({
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={() => {
               localStorage.removeItem("token");
-              window.location.href = "/login";
+              navigate('/');
             }}>
               <IconLogout />
               Log out
