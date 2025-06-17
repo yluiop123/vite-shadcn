@@ -2,17 +2,17 @@
 
 A front-end project built with modern tools.
 
-## 🚀 快速开始
+## 🚀 Quick Start
 
 ```bash
 npm install
 npm run dev
 ```
 
-## 🛠️ 脚本命令
+## 🛠️ command
 
-| 命令        | 描述             |
-|-------------|------------------|
+| command | description             |
+|---------|-------------------------|
 | `dev` | `vite` |
 | `build` | `tsc -b && vite build` |
 | `build:github` | `tsc -b && vite build --mode github` |
@@ -21,9 +21,9 @@ npm run dev
 | `preview:github` | `vite preview --mode github` |
 | `readme` | `ppj2r > README.md` |
 
-## 📦 依赖
+## 📦 dependencies
 
-- 主依赖:
+- dependencies:
   - @dnd-kit/core
   - @dnd-kit/modifiers
   - @dnd-kit/sortable
@@ -66,7 +66,7 @@ npm run dev
   - zod
   - zustand
 
-- 开发依赖:
+- devDependencies:
   - @eslint/js
   - @types/loadable__component
   - @types/mockjs
