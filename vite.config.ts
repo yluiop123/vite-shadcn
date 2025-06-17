@@ -5,13 +5,7 @@ import { defineConfig, loadEnv } from 'vite'
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(),'')
   // 默认为根路径
-  let base = env.VITE_PLATFORM
-
-  // 如果指定了平台是 github，使用子路径
-  if (env.VITE_PLATFORM === 'github') {
-    base = '/vite-shadcn/' // ⚠️ 替换为你的 GitHub 项目名
-  }
-
+  const base = env.VITE_BASE || '/';
   return {
     base,
     // 其他配置...
