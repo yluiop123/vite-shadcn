@@ -7,7 +7,7 @@ import { StrictMode, lazy } from 'react';
 import { createRoot } from 'react-dom/client';
 import { IntlProvider } from 'react-intl';
 import {
-  BrowserRouter,
+  HashRouter,
   Navigate,
   Route,
   Routes
@@ -39,13 +39,11 @@ const getLazyComponent = (path: string) => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return lazy(module as any);
 };
-const basename = import.meta.env.VITE_BASENAME || '/';;
+// const basename = import.meta.env.VITE_BASENAME || '/';
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <IntlProvider locale={locale} messages={messageMap[locale]}>
-   <BrowserRouter 
-   basename={basename}
-   >
+   <HashRouter >
     <Routes>
       <Route path="/login" element={<Login />} />
       {routes.length>0&&<Route path="/" element={<Navigate to={routes[0].path}/>} />}
@@ -59,7 +57,7 @@ createRoot(document.getElementById('root')!).render(
         ))}
       </Route>
     </Routes>
-    </BrowserRouter>
+    </HashRouter>
     </IntlProvider>
   </StrictMode>,
 )
