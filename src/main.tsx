@@ -16,7 +16,7 @@ import {
 import './index.css';
 import './mock';
 
-const Login = lazy(() => import("@/pages/login"));
+//国际化相关
 const messageMap = {
   zh,
   en,
@@ -33,6 +33,9 @@ const getLocale = () => {
   }
 };
 const locale = getLocale();
+
+//路由组件懒加载
+const Login = lazy(() => import("@/pages/login"));
 const modules = import.meta.glob('./pages/**/index.tsx');
 const getLazyComponent = (path: string) => {
   const module = modules[`./pages${path}/index.tsx`];

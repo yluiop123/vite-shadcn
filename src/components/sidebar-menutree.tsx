@@ -11,12 +11,16 @@ import {
   SidebarMenuSub
 } from "@/components/ui/sidebar";
 import { NavItem } from "@/routes";
+import { useUserStore } from '@/store';
 import { ChevronRight } from "lucide-react";
 import { useIntl } from 'react-intl';
 import { Link, useLocation } from 'react-router';
 export function SidebarMenuTree({ item }: { item: NavItem }) {
   const location = useLocation();
+  const {userInfo} = useUserStore();
+  debugger;
   const intl = useIntl()
+
   function checkIsActive(href: string) {
     return href === location.pathname;
   }
@@ -56,6 +60,7 @@ export function SidebarMenuTree({ item }: { item: NavItem }) {
           <CollapsibleContent>
             <SidebarMenuSub>
               {item.children?.map((subItem, index) => (
+                userInfo.currentMenuPermission.includes('/'+subItem.keys?.join("/")) && 
                 <SidebarMenuTree item={subItem} key={index}></SidebarMenuTree>
 
                 // <SidebarMenuSubItem key={subItem.title}>

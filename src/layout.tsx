@@ -1,9 +1,34 @@
 import { AppSidebar } from "@/components/app-sidebar";
 import { SiteHeader } from "@/components/site-header";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
-import { Suspense } from 'react';
-import { Outlet } from "react-router";
-export default function Dashboard() {
+import axios from "@/lib/axios";
+import { useUserStore } from '@/store';
+import { Suspense, useEffect } from 'react';
+import { Outlet, useLocation, useNavigate } from "react-router";
+
+//根据用户登录信息进行权限控制
+export default function Index() {
+    const {userInfo,setUserInfo} = useUserStore();
+    const navigate = useNavigate();
+    const location = useLocation();
+    useEffect(() => {
+        if (localStorage.getItem('token') == null){
+            navigate('/login');
+        }else if(!userInfo.currentMenuPermission.includes(location.pathname)){
+            axios
+            .post('/user/userInfo')
+            .then((res) => {
+                const data = res.data;
+                setUserInfo({...data,currentRole:data.defaultRole});
+                const aaa = userInfo;
+                console.log(aaa);
+                if(!userInfo.currentMenuPermission.includes(location.pathname)){
+                    localStorage.removeItem('token');
+                    navigate('/login');
+                }
+            })
+        }
+    }, [navigate,location,userInfo,setUserInfo]);
     return (
         <SidebarProvider>
             <AppSidebar variant="inset" />
