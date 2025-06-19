@@ -18,5 +18,7 @@ export default {
     'menu.system.role': '角色管理',
     'menu.system.menu': '菜单管理',
     'menu.system.dept': '部门管理',
-
+    'sidebar.user.message': '用户信息',
+    'sidebar.user.all': '全部',
+    'sidebar.user.logout': '退出登录',
 };

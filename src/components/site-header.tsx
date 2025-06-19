@@ -42,9 +42,9 @@ export function SiteHeader() {
           </BreadcrumbList>
         </Breadcrumb>
         <div className="ml-auto flex items-center gap-2">
-          <Button variant="ghost" asChild size="sm" className="hidden sm:flex">
+          <Button variant="ghost" asChild size="sm" className="hidden sm:flex" title="code">
             <a
-              href="https://github.com/shadcn-ui/ui/tree/main/apps/v4/app/(examples)/dashboard"
+              href="https://github.com/yluiop123/vite-shadcn"
               rel="noopener noreferrer"
               target="_blank"
               className="dark:text-foreground"

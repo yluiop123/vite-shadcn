@@ -18,4 +18,7 @@ export default {
     'menu.system.role': 'Role',
     'menu.system.menu': 'Menu',
     'menu.system.dept': 'Dept',
+    'sidebar.user.message': 'INFO',
+    'sidebar.user.all': 'ALL',
+    'sidebar.user.logout': 'Log out',
 };

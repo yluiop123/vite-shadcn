@@ -242,7 +242,7 @@ export default function () {
         data: {
           status: "error",
           field: "username",
-          msg: "用户名错误",
+          msg: "username error",
         },
       };
     }
@@ -253,7 +253,7 @@ export default function () {
         data: {
           status: "error",
           field: "password",
-          msg: "密码错误",
+          msg: "password error",
         },
       };
     }

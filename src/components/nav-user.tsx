@@ -25,8 +25,10 @@ import {
 } from "@/components/ui/sidebar";
 import { cn } from "@/lib/utils";
 import { useUserStore } from '@/store';
+import { useIntl } from "react-intl";
 export function NavUser() {
 const { isMobile } = useSidebar()
+const intl = useIntl()
 const {logout,userInfo,updateUserInfo} = useUserStore();
   return (
     <SidebarMenu>
@@ -73,11 +75,11 @@ const {logout,userInfo,updateUserInfo} = useUserStore();
             <DropdownMenuSeparator />
             <DropdownMenuItem>
               <IconUserCircle />
-              信息设置
+              {intl.formatMessage({ id: 'sidebar.user.message' })}
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem className={cn(userInfo?.currentRole==='all' && "bg-accent text-accent-foreground")}   key={'all'} onClick={()=>updateUserInfo({currentRole:'all'})}>
-              全部
+              {intl.formatMessage({ id: 'sidebar.user.all' })}
             </DropdownMenuItem>
             <DropdownMenuGroup>
               {userInfo?.roles?.map((role) => (
@@ -92,7 +94,7 @@ const {logout,userInfo,updateUserInfo} = useUserStore();
               logout();
             }}>
               <IconLogout />
-              Log out
+              {intl.formatMessage({ id: 'sidebar.user.logout' })}
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
