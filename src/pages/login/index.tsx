@@ -17,6 +17,7 @@ import {
 import { Input } from "@/components/ui/input"
 import axios from "@/lib/axios"
 import { cn } from "@/lib/utils"
+import { useUserStore } from '@/store'
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Loader2Icon } from "lucide-react"
 import React, { useState } from 'react'
@@ -44,6 +45,7 @@ export default function Login({
   })
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate();
+  const {login} = useUserStore();
   function onSubmit(values: z.infer<typeof formSchema>) {
     setLoading(true);
     axios
@@ -51,9 +53,8 @@ export default function Login({
       .then((res) => {
         const { status, msg, field,token } = res.data;
         if (status === 'ok') {
-          //afterLoginSuccess(params);
+          login(token);
           navigate('/');
-          localStorage.setItem('token',token)
         } else if (['password', 'username'].includes(field)) {
           form.setError(field, {
             message: msg

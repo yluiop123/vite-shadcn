@@ -1,16 +1,13 @@
 import {
-  IconCreditCard,
   IconDotsVertical,
   IconLogout,
-  IconNotification,
-  IconUserCircle,
-} from "@tabler/icons-react"
+  IconUserCircle
+} from "@tabler/icons-react";
 
 import {
   Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "@/components/ui/avatar"
+  AvatarFallback
+} from "@/components/ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -19,25 +16,18 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from "@/components/ui/dropdown-menu";
 import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
   useSidebar,
-} from "@/components/ui/sidebar"
-import { useNavigate } from 'react-router'
-export function NavUser({
-  user,
-}: {
-  user: {
-    name: string
-    email: string
-    avatar: string
-  }
-}) {
-  const { isMobile } = useSidebar()
-const navigate = useNavigate();
+} from "@/components/ui/sidebar";
+import { cn } from "@/lib/utils";
+import { useUserStore } from '@/store';
+export function NavUser() {
+const { isMobile } = useSidebar()
+const {logout,userInfo,updateUserInfo} = useUserStore();
   return (
     <SidebarMenu>
       <SidebarMenuItem>
@@ -48,13 +38,13 @@ const navigate = useNavigate();
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
               <Avatar className="h-8 w-8 rounded-lg grayscale">
-                <AvatarImage src={user.avatar} alt={user.name} />
+                {/* <AvatarImage src={userInfo?.avatar} alt={userInfo?.name} /> */}
                 <AvatarFallback className="rounded-lg">CN</AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
-                <span className="truncate font-medium">{user.name}</span>
+                <span className="truncate font-medium">{userInfo?.name}</span>
                 <span className="text-muted-foreground truncate text-xs">
-                  {user.email}
+                  {userInfo?.email}
                 </span>
               </div>
               <IconDotsVertical className="ml-auto size-4" />
@@ -69,36 +59,37 @@ const navigate = useNavigate();
             <DropdownMenuLabel className="p-0 font-normal">
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                 <Avatar className="h-8 w-8 rounded-lg">
-                  <AvatarImage src={user.avatar} alt={user.name} />
-                  <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+                  {/* <AvatarImage src={user.avatar} alt={user.name} /> */}
+                  <AvatarFallback className="rounded-lg">{userInfo?.name}</AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-medium">{user.name}</span>
+                  <span className="truncate font-medium">{userInfo?.name}</span>
                   <span className="text-muted-foreground truncate text-xs">
-                    {user.email}
+                    {userInfo?.email}
                   </span>
                 </div>
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
+            <DropdownMenuItem>
+              <IconUserCircle />
+              信息设置
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem className={cn(userInfo?.currentRole==='all' && "bg-accent text-accent-foreground")}   key={'all'} onClick={()=>updateUserInfo({currentRole:'all'})}>
+              全部
+            </DropdownMenuItem>
             <DropdownMenuGroup>
-              <DropdownMenuItem>
-                <IconUserCircle />
-                Account
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <IconCreditCard />
-                Billing
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <IconNotification />
-                Notifications
-              </DropdownMenuItem>
+              {userInfo?.roles?.map((role) => (
+                <DropdownMenuItem className={cn(userInfo?.currentRole===role.role && "bg-accent text-accent-foreground")}  key={role.role} onClick={()=>updateUserInfo({currentRole:role.role})}>
+                  {role.name}
+                </DropdownMenuItem>
+              ))}
             </DropdownMenuGroup>
+
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={() => {
-              localStorage.removeItem("token");
-              navigate('/');
+              logout();
             }}>
               <IconLogout />
               Log out

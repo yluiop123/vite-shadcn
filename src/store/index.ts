@@ -1,3 +1,4 @@
+import axios from "@/lib/axios";
 import { create } from "zustand";
 type Permission = {
   path: string;
@@ -6,60 +7,102 @@ type Permission = {
   action: string;
 };
 type UserInfo = {
-  user: string;
-  email: string;
-  dept: string;
-  deptName: string;
-  name: string;
-  defaultRole: string;
-  role: string[];
-  rolePermissions: Permission[];
-  userPermissions: Permission[];
-  currentPermission: Permission[];
-  currentRole: string;
-  currentMenuPermission: string[];
+  username?: string;
+  email?: string;
+  dept?: string;
+  deptName?: string;
+  name?: string;
+  defaultRole?: string;
+  roles?: {
+    role: string;
+    name: string;
+  }[];
+  rolePermissions?: Permission[];
+  userPermissions?: Permission[];
+  currentPermission?: Permission[];
+  currentRole?: string;
+  currentMenuPermission?: string[];
 };
 
 type GlobalInfo = {
-  userInfo: UserInfo;
-  setUserInfo: (userInfo: UserInfo) => void;
+  token: string | null;
+  userInfo: UserInfo | null;
+  login: (token: string) => void;
+  fetchUser: () => Promise<void>;
+  logout: () => void;
+  updateUserInfo: (userInfo: UserInfo) => void;
 };
-const useUserStore = create<GlobalInfo>()((set) => ({
-  userInfo: {
-    user: "",
-    email: "",
-    dept: "",
-    deptName: "",
-    name: "",
-    defaultRole: "",
-    role: [],
-    rolePermissions: [],
-    userPermissions: [],
-    currentPermission: [],
-    currentRole: "",
-    currentMenuPermission: [],
+const useUserStore = create<GlobalInfo>()((set, get) => ({
+  token: null,
+  userInfo: null,
+  login: (token) => {
+    localStorage.setItem("token", token);
+    set({ token });
   },
-  setUserInfo: (userInfo) => {
+  fetchUser: async () => {
+    const token = get().token;
+    if (!token) return;
+
+    // 模拟获取用户信息
+    const res = await axios.post("/user/userInfo");
+    if (res.data) {
+      const userInfo: UserInfo = res.data;
+      userInfo.currentRole = userInfo.defaultRole;
+      const currentPermission = [
+        ...(userInfo.userPermissions||[]),
+        ...(userInfo.rolePermissions||[]).filter(
+          (item) => 'all'==userInfo.currentRole || item.role == userInfo.currentRole
+        ),
+      ];
+      const currentMenuPermission = currentPermission
+        .filter((item) => item.type == "menu")
+        .map((item) => item.path);
+      console.log(currentMenuPermission);
+      set((state) => ({
+        userInfo: {
+          ...state.userInfo,
+          ...userInfo,
+          currentPermission,
+          currentMenuPermission,
+        },
+      }));
+    } else {
+      // token 失效等错误
+      get().logout();
+    }
+  },
+  logout: () => {
+    localStorage.removeItem("token");
+    set({ token: null, userInfo: null });
+  },
+  updateUserInfo: (userInfoState) => {
+    const userInfo = get().userInfo;
+    if (!userInfo) return; // 保护，防止 null
+
+    const newUserInfo = {
+      ...userInfo,
+      ...userInfoState,
+    };
+
     const currentPermission = [
-      ...userInfo.userPermissions,
-      ...userInfo.rolePermissions.filter(
-        (item) => item.role == userInfo.currentRole
+      ...(newUserInfo.userPermissions||[]),
+      ...(newUserInfo.rolePermissions||[]).filter(
+        (item) => 'all'==newUserInfo.currentRole || item.role === newUserInfo.currentRole
       ),
     ];
-    const currentMenuPermission = currentPermission.
-    filter((item) => item.type == 'menu').
-    map((item) => item.path);
-    set((state) => ({
+
+    const currentMenuPermission = currentPermission
+      .filter((item) => item.type === 'menu')
+      .map((item) => item.path);
+
+    set({
       userInfo: {
-        ...state.userInfo,
-        ...userInfo,
-        currentRole: userInfo.defaultRole,
+        ...newUserInfo,
         currentPermission,
-        currentMenuPermission
+        currentMenuPermission,
       },
-    }))
-  }
+    })
+  },
 }));
 
 export { useUserStore };
-

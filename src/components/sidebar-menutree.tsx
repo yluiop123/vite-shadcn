@@ -24,7 +24,7 @@ export function SidebarMenuTree({ item }: { item: NavItem }) {
     return href === location.pathname;
   }
   return (
-    userInfo.currentMenuPermission.includes('/'+item.keys?.join("/"))&&
+    (userInfo?.currentMenuPermission||[]).includes('/'+item.keys?.join("/"))&&
     <Collapsible
       key={item.title}
       asChild

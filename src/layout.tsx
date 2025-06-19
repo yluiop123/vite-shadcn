@@ -1,33 +1,22 @@
 import { AppSidebar } from "@/components/app-sidebar";
 import { SiteHeader } from "@/components/site-header";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
-import axios from "@/lib/axios";
 import { useUserStore } from '@/store';
 import { Suspense, useEffect } from 'react';
 import { Outlet, useLocation, useNavigate } from "react-router";
 
 //根据用户登录信息进行权限控制
 export default function Index() {
-    const {userInfo,setUserInfo} = useUserStore();
+    const {token,userInfo,fetchUser} = useUserStore();
     const navigate = useNavigate();
     const location = useLocation();
-    async function getUserInfo () {
-        return await axios.post('/user/userInfo');
-    }
     useEffect(() => {
-        if (localStorage.getItem('token') == null){
+        if (token && !userInfo){
+            fetchUser();
+        }else if(!userInfo||!userInfo?.currentMenuPermission.includes(location.pathname)){
             navigate('/login');
-        }else if(!userInfo.currentMenuPermission.includes(location.pathname)){
-            getUserInfo().then((res) => {
-                const data = res.data;
-                setUserInfo({...data,currentRole:data.defaultRole});
-                if(!userInfo.currentMenuPermission.includes(location.pathname)){
-                    localStorage.removeItem('token');
-                    navigate('/login');
-                }
-            })
         }
-    }, [navigate,location,userInfo,setUserInfo]);
+    }, [navigate,location,userInfo,token,fetchUser]);
     return (
         <SidebarProvider>
             <AppSidebar variant="inset" />

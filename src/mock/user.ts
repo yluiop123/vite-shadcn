@@ -5,13 +5,17 @@ export default function () {
     return {
       code: 200,
       data: {
-        user: "super",
+        username: "super",
         email: "yluiop123@qq.com",
-        dept: "",
+        dept: "01",
         deptName: "研发部",
         name: "YL",
         defaultRole: "super",
-        role: ["super", "admin", "user"],
+        roles: [
+          { role: "super", name: "超级管理员" },
+          { role: "admin", name: "管理员" },
+          { role: "user", name: "普通用户" },
+        ],
         rolePermissions: [
           //supper menu permissions
           { path: "/dashboard", role: "super", type: "menu" },
