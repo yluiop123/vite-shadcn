@@ -11,13 +11,14 @@ export default function Index() {
     const {userInfo,setUserInfo} = useUserStore();
     const navigate = useNavigate();
     const location = useLocation();
+    async function getUserInfo () {
+        return await axios.post('/user/userInfo');
+    }
     useEffect(() => {
         if (localStorage.getItem('token') == null){
             navigate('/login');
         }else if(!userInfo.currentMenuPermission.includes(location.pathname)){
-            axios
-            .post('/user/userInfo')
-            .then((res) => {
+            getUserInfo().then((res) => {
                 const data = res.data;
                 setUserInfo({...data,currentRole:data.defaultRole});
                 if(!userInfo.currentMenuPermission.includes(location.pathname)){

@@ -18,13 +18,13 @@ import { Link, useLocation } from 'react-router';
 export function SidebarMenuTree({ item }: { item: NavItem }) {
   const location = useLocation();
   const {userInfo} = useUserStore();
-  debugger;
   const intl = useIntl()
 
   function checkIsActive(href: string) {
     return href === location.pathname;
   }
   return (
+    userInfo.currentMenuPermission.includes('/'+item.keys?.join("/"))&&
     <Collapsible
       key={item.title}
       asChild
@@ -59,8 +59,7 @@ export function SidebarMenuTree({ item }: { item: NavItem }) {
         {item.children &&
           <CollapsibleContent>
             <SidebarMenuSub>
-              {item.children?.map((subItem, index) => (
-                userInfo.currentMenuPermission.includes('/'+subItem.keys?.join("/")) && 
+              {item.children?.map((subItem, index) => (                
                 <SidebarMenuTree item={subItem} key={index}></SidebarMenuTree>
 
                 // <SidebarMenuSubItem key={subItem.title}>
