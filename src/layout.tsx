@@ -20,8 +20,6 @@ export default function Index() {
             .then((res) => {
                 const data = res.data;
                 setUserInfo({...data,currentRole:data.defaultRole});
-                const aaa = userInfo;
-                console.log(aaa);
                 if(!userInfo.currentMenuPermission.includes(location.pathname)){
                     localStorage.removeItem('token');
                     navigate('/login');
