@@ -34,7 +34,7 @@ export function SidebarMenuTree({ item }: { item: NavItem }) {
       <SidebarMenuItem>
         <CollapsibleTrigger asChild>
           {item.children ?
-            <SidebarMenuButton tooltip={intl.formatMessage({ id: item.title })}
+            <SidebarMenuButton  tooltip={intl.formatMessage({ id: item.title })}
               isActive={checkIsActive(item.keys?.join("/") ?? "")}>
               {item.icon && <item.icon />}
               <span>{intl.formatMessage({ id: item.title })}</span>

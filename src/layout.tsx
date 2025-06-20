@@ -4,7 +4,6 @@ import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { useUserStore } from '@/store';
 import { Suspense, useEffect } from 'react';
 import { Outlet, useLocation, useNavigate } from "react-router";
-
 //根据用户登录信息进行权限控制
 export default function Index() {
     const {token,userInfo,fetchUser} = useUserStore();

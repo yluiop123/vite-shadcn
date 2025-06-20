@@ -1,3 +1,4 @@
+import { ColorSwitcher } from "@/components/color-switcher";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -42,6 +43,7 @@ export function SiteHeader() {
           </BreadcrumbList>
         </Breadcrumb>
         <div className="ml-auto flex items-center gap-2">
+          <ColorSwitcher />
           <Button variant="ghost" asChild size="sm" className="hidden sm:flex" title="code">
             <a
               href="https://github.com/yluiop123/vite-shadcn"
