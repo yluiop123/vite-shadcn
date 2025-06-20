@@ -13,7 +13,7 @@ export default function Index() {
     useEffect(() => {
         if (token && !userInfo){
             fetchUser();
-        }else if(!userInfo||!userInfo?.currentMenuPermission.includes(location.pathname)){
+        }else if(!userInfo||!userInfo?.currentMenuPermission?.includes(location.pathname)){
             navigate('/login');
         }
     }, [navigate,location,userInfo,token,fetchUser]);
