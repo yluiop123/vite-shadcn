@@ -21,7 +21,7 @@ export function SidebarMenuTree({ item }: { item: NavItem }) {
   const intl = useIntl()
 
   function checkIsActive(href: string) {
-    return href === location.pathname;
+    return '/'+href === location.pathname;
   }
   return (
     (userInfo?.currentMenuPermission||[]).includes('/'+item.keys?.join("/"))&&
@@ -35,7 +35,8 @@ export function SidebarMenuTree({ item }: { item: NavItem }) {
         <CollapsibleTrigger asChild>
           {item.children ?
             <SidebarMenuButton  tooltip={intl.formatMessage({ id: item.title })}
-              isActive={checkIsActive(item.keys?.join("/") ?? "")}>
+              isActive={checkIsActive(item.keys?.join("/") ?? "")}
+              >
               {item.icon && <item.icon />}
               <span>{intl.formatMessage({ id: item.title })}</span>
 
