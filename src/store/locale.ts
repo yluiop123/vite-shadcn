@@ -14,9 +14,20 @@ const localeMap = {
   zh,
   en,
 };
-
+function getLocal(): Locale {
+  const lang = navigator.language.split("-")[0] as Locale;
+  if (typeof window === "undefined"){
+    localStorage.setItem("locale", lang);
+    return lang;
+  }else if (!localStorage.getItem("locale")) {
+    localStorage.setItem("locale", lang);
+    return lang;
+  }else{
+    return (localStorage.getItem("locale") as Locale);
+  }
+}
 const useLocaleStore = create<LocaleStore>((set) => {
-  const initialLocale = (localStorage.getItem("locale") as Locale) || "zh";
+  const initialLocale = getLocal();
   return {
     locale: initialLocale,
     messages: localeMap[initialLocale],
