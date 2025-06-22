@@ -18,13 +18,27 @@ interface ThemeStore {
   setColor: (c: Color) => void;
 }
 function getInitialMode(): Mode {
-  if (typeof window === "undefined") return "light";
-  return (localStorage.getItem("theme-mode") as Mode) || "light";
+  if (typeof window === "undefined"){
+    localStorage.setItem("theme-mode", "light");
+    return "light";
+  } else if (!localStorage.getItem("theme-mode")) {
+    localStorage.setItem("theme-mode", "light");
+    return "light";
+  }else{
+    return localStorage.getItem("theme-mode") as Mode || "light";  
+  }
 }
 
 function getInitialColor(): Color {
-  if (typeof window === "undefined") return "default";
-  return (localStorage.getItem("theme-color") as Color) || "default";
+  if (typeof window === "undefined"){
+    localStorage.setItem("theme-color", "default");
+    return "default";
+  }else if (!localStorage.getItem("theme-color")) {
+    localStorage.setItem("theme-color", "default");
+    return "default";
+  }else{
+    return (localStorage.getItem("theme-color") as Color) || "default";
+  }
 }
 function setModeColor(color: Color, mode: Mode): void {
   const root = document.documentElement;
