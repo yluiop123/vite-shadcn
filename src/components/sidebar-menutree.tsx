@@ -34,7 +34,7 @@ export function SidebarMenuTree({ item }: { item: NavItem }) {
       <SidebarMenuItem>
         <CollapsibleTrigger asChild>
           {item.children ?
-            <SidebarMenuButton variant="parentmenu" tooltip={intl.formatMessage({ id: item.title })}
+            <SidebarMenuButton className="data-[active=true]:text-sidebar-active-foreground data-[active=true]:bg-sidebar hover:bg-sidebar hover:text-sidebar-active-foreground data-[state=open]:hover:bg-sidebar data-[state=open]:hover:text-sidebar-active-foreground" tooltip={intl.formatMessage({ id: item.title })}
               isActive={checkIsActive(item.keys?.join("/") ?? "")}
               >
               {item.icon && <item.icon />}
@@ -47,7 +47,7 @@ export function SidebarMenuTree({ item }: { item: NavItem }) {
             <Link to={{
               pathname: '/'+item.keys?.join("/"),
             }}>
-              <SidebarMenuButton variant="submenu" tooltip={intl.formatMessage({ id: item.title })}
+              <SidebarMenuButton  className="data-[active=true]:bg-sidebar-active" tooltip={intl.formatMessage({ id: item.title })}
                 isActive={checkIsActive(item.keys?.join("/") ?? "")}>
                 {item.icon && <item.icon />}
                 <span>{intl.formatMessage({ id: item.title })}</span>
