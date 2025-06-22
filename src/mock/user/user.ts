@@ -24,7 +24,6 @@ const localeMap: Record<string, Record<string, string>> = {
 
 const handlers = [
   http.get<never, never>('/api/user/userInfo', ({ request }) => {
-    debugger;
     const locale = request.headers.get("locale") || "zh";
     return HttpResponse.json({
         code: 200,
@@ -257,7 +256,6 @@ const handlers = [
       )
     }),
   http.post<never, never,never>(/\/api\/user\/login$/, async ({ request }) => {
-    debugger;
     const locale = request.headers.get("locale") || "zh";
     const newPost = await request.clone().json()
     // 例如读取用户名和密码
@@ -272,8 +270,7 @@ const handlers = [
             msg: localeMap[locale]["username.error"],
           },
         };
-      }
-      if (password !== "super") {
+      }else if (password !== "super") {
         result= {
           code: 200,
           message: "",
@@ -283,13 +280,14 @@ const handlers = [
             msg: localeMap[locale]["password.error"],
           },
         };
-      }
-      result = {
-        code: 200,
-        data: {
-          token: "jifnadsnfkajjk",
-          status: "ok",
-        },
+      }else {
+        result = {
+          code: 200,
+          data: {
+            token: "jifnadsnfkajjk",
+            status: "ok",
+          },
+        }
       }
     return HttpResponse.json(result)
   })
