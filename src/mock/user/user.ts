@@ -1,24 +1,32 @@
-import { MockMethod, Recordable } from "vite-plugin-mock";
-import en from "./user-en";
-import zh from "./user-zh";
+import { http, HttpResponse } from 'msw';
+ 
+
+const zh ={
+    'super':'超级管理员',
+    'admin':'管理员',
+    'user':'普通用户',
+    'username.error':'用户名错误',
+    'password.error':'密码错误',
+    'deptName':'研发部',
+}
+const en ={
+    'super':'Super',
+    'admin':'Admin',
+    'user':'User',
+    'username.error':'username error',
+    'password.error':'password error',
+    'deptName':'Develop',
+}
 const localeMap: Record<string, Record<string, string>> = {
   zh,
   en,
 };
-export default [
-  {
-    url: "/api/user/userInfo",
-    method: "get",
-    response: (opt: {
-      url: Recordable;
-      body: Recordable;
-      query: Recordable;
-      headers: Recordable;
-    }) => {
-      debugger;
-      console.log(opt.headers);
-      const locale = opt.headers["locale"] || "zh";
-      return {
+
+const handlers = [
+  http.get<never, never>('/api/user/userInfo', ({ request }) => {
+    debugger;
+    const locale = request.headers.get("locale") || "zh";
+    return HttpResponse.json({
         code: 200,
         data: {
           username: "super",
@@ -245,23 +253,18 @@ export default [
             //user menu permissions
             { path: "/dashboard", role: "user", type: "menu" },
           ],
-        },
-      };
-    },
-  },
-  {
-    url: "/api/user/login",
-    method: "post",
-    response: (opt: {
-      url: Recordable;
-      body: Recordable;
-      query: Recordable;
-      headers: Recordable;
-    }) => {
-      const locale = opt.headers["locale"] || "zh";
-      const { username, password } = opt.body;
+        }}
+      )
+    }),
+  http.post<never, never,never>(/\/api\/user\/login$/, async ({ request }) => {
+    debugger;
+    const locale = request.headers.get("locale") || "zh";
+    const newPost = await request.clone().json()
+    // 例如读取用户名和密码
+    const { username, password } = newPost;
+    let result=null;
       if (username !== "super") {
-        return {
+        result= {
           code: 200,
           data: {
             status: "error",
@@ -271,7 +274,7 @@ export default [
         };
       }
       if (password !== "super") {
-        return {
+        result= {
           code: 200,
           message: "",
           data: {
@@ -281,14 +284,14 @@ export default [
           },
         };
       }
-      return {
+      result = {
         code: 200,
         data: {
           token: "jifnadsnfkajjk",
           status: "ok",
         },
-      };
-    },
-  },
-] as MockMethod[];
-
+      }
+    return HttpResponse.json(result)
+  })
+];
+export default handlers;
