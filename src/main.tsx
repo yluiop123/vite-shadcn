@@ -14,6 +14,7 @@ import {
   Routes
 } from "react-router";
 import './index.css';
+//生产环境请注释，这里用于演示
 import './mock';
 
 //国际化相关

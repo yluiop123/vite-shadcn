@@ -47,7 +47,7 @@ export function SiteHeader() {
         </Breadcrumb>
         <div className="ml-auto flex items-center gap-2">
           <Switch id="airplane-mode" checked={theme.mode === 'dark'}
-            className="bg-white dark:bg-white text-black dark:text-black data-[state=checked]:bg-white"
+            // className="bg-white dark:bg-white data-[state=checked]:bg-black"
             onCheckedChange={(checked) => theme.setMode(checked ? 'dark' : 'light')} />
           <ColorSwitcher />
           <Button variant="ghost" asChild size="sm" className="hidden sm:flex" title="code">
