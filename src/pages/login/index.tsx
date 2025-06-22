@@ -22,6 +22,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { Loader2Icon } from "lucide-react"
 import React, { useState } from 'react'
 import { useForm } from "react-hook-form"
+import { useIntl } from "react-intl"
 import { useNavigate } from 'react-router'
 import { z } from "zod"
 const formSchema = z.object({
@@ -45,13 +46,14 @@ export default function Login({
   })
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate();
-  const {login} = useUserStore();
+  const { login } = useUserStore();
+  const intl = useIntl();
   function onSubmit(values: z.infer<typeof formSchema>) {
     setLoading(true);
     axios
       .post('user/login', values)
       .then((res) => {
-        const { status, msg, field,token } = res.data;
+        const { status, msg, field, token } = res.data;
         if (status === 'ok') {
           login(token);
           navigate('/');
@@ -71,9 +73,9 @@ export default function Login({
         <div className={cn("flex flex-col gap-6", className)} {...props}>
           <Card>
             <CardHeader>
-              <CardTitle>欢迎使用</CardTitle>
+              <CardTitle>{intl.formatMessage({id: 'page.login.title'})}</CardTitle>
               <CardDescription>
-                请输入您的账户信息以登录
+                {intl.formatMessage({id: 'page.login.desc'})}
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -84,7 +86,7 @@ export default function Login({
                     name="username"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Username</FormLabel>
+                        <FormLabel>{intl.formatMessage({id: 'page.login.username'})}</FormLabel>
                         <FormControl>
                           <Input placeholder="super" {...field} />
                         </FormControl>
@@ -97,7 +99,7 @@ export default function Login({
                     name="password"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Password</FormLabel>
+                        <FormLabel>{intl.formatMessage({id: 'page.login.password'})}</FormLabel>
                         <FormControl>
                           <Input placeholder="super" {...field} />
                         </FormControl>
@@ -106,8 +108,9 @@ export default function Login({
                     )}
                   />
                   <Button type="submit" >
-                    {loading&&<Loader2Icon className='animate-spin'/>}             
-                    Submit</Button>
+                    {loading && <Loader2Icon className='animate-spin' />}
+                    {intl.formatMessage({id: 'page.login.login'})}
+                  </Button>
                 </form>
               </Form>
             </CardContent>

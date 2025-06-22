@@ -21,4 +21,9 @@ export default {
     'sidebar.user.message': 'INFO',
     'sidebar.user.all': 'ALL',
     'sidebar.user.logout': 'Log out',
+    'page.login.title': 'Welcome',
+    'page.login.desc': 'Please enter your account information to log in',
+    'page.login.username': 'Username',
+    'page.login.password': 'Password',
+    'page.login.login': 'Login',
 };

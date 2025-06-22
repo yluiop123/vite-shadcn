@@ -21,7 +21,10 @@ instance.interceptors.request.use(
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
-
+    const locale = localStorage.getItem("locale")||navigator.language.split("-")[0];
+    if (locale) {
+      config.headers['Locale'] = locale;
+    }
     return config;
   },
   (error) => {

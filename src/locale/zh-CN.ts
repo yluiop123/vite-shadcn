@@ -21,4 +21,9 @@ export default {
     'sidebar.user.message': '用户信息',
     'sidebar.user.all': '全部',
     'sidebar.user.logout': '退出登录',
+    'page.login.title': '欢迎登录',
+    'page.login.desc': '请输入您的账户信息以登录',
+    'page.login.username': '用户名',
+    'page.login.password': '密码',
+    'page.login.login': '登录',
 };

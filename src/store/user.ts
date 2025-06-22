@@ -44,7 +44,7 @@ const useUserStore = create<GlobalInfo>()((set, get) => ({
     if (!token) return;
 
     // 模拟获取用户信息
-    const res = await axios.post("/user/userInfo");
+    const res = await axios.get("/user/userInfo");
     if (res.data) {
       const userInfo: UserInfo = res.data;
       userInfo.currentRole = userInfo.defaultRole;
