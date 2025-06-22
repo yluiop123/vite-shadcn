@@ -57,7 +57,6 @@ const useUserStore = create<GlobalInfo>()((set, get) => ({
       const currentMenuPermission = currentPermission
         .filter((item) => item.type == "menu")
         .map((item) => item.path);
-      console.log(currentMenuPermission);
       set((state) => ({
         userInfo: {
           ...state.userInfo,

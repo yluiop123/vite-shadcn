@@ -9,13 +9,16 @@ import {
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { SidebarTrigger } from "@/components/ui/sidebar";
+import { Switch } from "@/components/ui/switch";
 import { menuMap } from "@/routes";
+import { useThemeStore } from '@/store/index';
 import React from 'react';
 import { useIntl } from 'react-intl';
 import { useLocation } from 'react-router';
 export function SiteHeader() {
   const location = useLocation();
   const intl = useIntl()
+  const theme = useThemeStore();
   const pathname: string = location.pathname;
   const titles:string[] = menuMap.get(pathname)??[];
   return (
@@ -43,6 +46,9 @@ export function SiteHeader() {
           </BreadcrumbList>
         </Breadcrumb>
         <div className="ml-auto flex items-center gap-2">
+          <Switch id="airplane-mode" checked={theme.mode === 'dark'}
+            className="bg-white dark:bg-white text-black dark:text-black data-[state=checked]:bg-white"
+            onCheckedChange={(checked) => theme.setMode(checked ? 'dark' : 'light')} />
           <ColorSwitcher />
           <Button variant="ghost" asChild size="sm" className="hidden sm:flex" title="code">
             <a

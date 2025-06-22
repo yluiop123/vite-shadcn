@@ -10,15 +10,6 @@ export type Color =
   | "rose"
   | "violet"
   | "yellow";
-const themeColors: string[] = [
-  "theme-blue",
-  "theme-green",
-  "theme-orange",
-  "theme-red",
-  "theme-rose",
-  "theme-violet",
-  "theme-yellow",
-];
 interface ThemeStore {
   mode: Mode;
   color: Color;
@@ -34,20 +25,46 @@ function getInitialColor(): Color {
   if (typeof window === "undefined") return "default";
   return (localStorage.getItem("theme-color") as Color) || "default";
 }
-const useThemeStore = create<ThemeStore>((set) => ({
+const useThemeStore = create<ThemeStore>((set, get) => ({
   mode: getInitialMode(),
   color: getInitialColor(),
   setMode: (mode) => {
-    document.documentElement.classList.toggle("dark", mode === "dark");
+    const root = document.documentElement;
+    const color = get().color;
+    // 移除旧主题类
+    Array.from(root.classList)
+      .filter((c) => c.startsWith("theme-"))
+      .forEach((c) => root.classList.remove(c));
+    if (color === "default") {
+      document.documentElement.classList.toggle("dark", mode === "dark");
+    } else {
+      let themeColor: string = `theme-${color}`;
+      if (mode === "dark") {
+        themeColor += "-dark";
+      }
+      document.documentElement.classList.add(themeColor);
+    }
     localStorage.setItem("theme-mode", mode);
     set({
       mode,
     });
   },
   setColor: (color) => {
-    document.documentElement.classList.remove(...themeColors);
-    if (color !== "default") {
-      document.documentElement.classList.add(`theme-${color}`);
+    const root = document.documentElement;
+    // 移除旧主题类
+    Array.from(root.classList)
+      .filter((c) => c.startsWith("theme-"))
+      .forEach((c) => root.classList.remove(c));
+    if (color === "default") {
+      const mode = get().mode;
+      document.documentElement.classList.toggle("dark", mode === "dark");
+    } else {
+      let themeColor: string = `theme-${color}`;
+      const mode = get().mode;
+      if (mode === "dark") {
+        themeColor += "-dark";
+      }
+      document.documentElement.classList.add(themeColor);
     }
     localStorage.setItem("theme-color", color);
     set({ color });
