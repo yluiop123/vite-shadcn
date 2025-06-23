@@ -26,4 +26,5 @@ export default {
     'page.login.username': 'Username',
     'page.login.password': 'Password',
     'page.login.login': 'Login',
+    'header.language':'EN',
 };

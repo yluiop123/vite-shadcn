@@ -26,7 +26,6 @@ export function SiteHeader() {
   const location = useLocation();
   const intl = useIntl()
   const {mode,setMode} = useThemeStore();
-
   const pathname: string = location.pathname;
   const titles:string[] = menuMap.get(pathname)??[];
   const {locale,setLocale} = useLocaleStore();
@@ -61,7 +60,7 @@ export function SiteHeader() {
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline" className="w-15 h-7">
-                {locale === "zh" ? "中文" : "EN"}
+                {intl.formatMessage({id:'header.language'})}
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent >

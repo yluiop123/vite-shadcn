@@ -26,4 +26,5 @@ export default {
     'page.login.username': '用户名',
     'page.login.password': '密码',
     'page.login.login': '登录',
+    'header.language':'中文',
 };
