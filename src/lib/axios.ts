@@ -1,10 +1,6 @@
 import { notify } from "@/lib/notify";
 import axios from "axios";
-let BASE_API = '/api/'
-if (import.meta.env.MODE === 'production') {
-    // 正式环境地址
-    BASE_API = 'http://xxxxx/api/'
-}
+const BASE_API = import.meta.env.VITE_BASE_API || '/api/'
 const instance = axios.create({
   baseURL: BASE_API, // 根据环境配置
   timeout: 10000,
