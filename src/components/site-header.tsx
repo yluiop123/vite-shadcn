@@ -25,7 +25,8 @@ import { useLocation } from 'react-router';
 export function SiteHeader() {
   const location = useLocation();
   const intl = useIntl()
-  const theme = useThemeStore();
+  const {mode,setMode} = useThemeStore();
+
   const pathname: string = location.pathname;
   const titles:string[] = menuMap.get(pathname)??[];
   const {locale,setLocale} = useLocaleStore();
@@ -70,9 +71,9 @@ export function SiteHeader() {
               </DropdownMenuRadioGroup>
             </DropdownMenuContent>
           </DropdownMenu>
-          <Switch id="airplane-mode" checked={theme.mode === 'dark'}
+          <Switch id="airplane-mode" checked={mode === 'dark'}
             // className="bg-white dark:bg-white data-[state=checked]:bg-black"
-            onCheckedChange={(checked) => theme.setMode(checked ? 'dark' : 'light')} />
+            onCheckedChange={(checked) => setMode(checked ? 'dark' : 'light')} />
           <ColorSwitcher />
           <Button variant="ghost" asChild size="sm" className="hidden sm:flex" title="code">
             <a
