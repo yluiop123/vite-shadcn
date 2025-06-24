@@ -42,7 +42,7 @@ export default function User() {
     const intl = useIntl();
     const statusEnum = new Map([["0", "停用"], ["1", "启用"]]);
     const [page, setPage] = useState(1);
-    const [size, setSize] = useState(10);
+    const [size] = useState(10);
     const [username, setUsername] = useState("");
     useEffect(() => {
         fetchData(page,size,username); // 初次加载
@@ -151,7 +151,7 @@ export default function User() {
             id: "actions",
             enableHiding: false,
             cell: ({ row }) => {
-                const payment = row.original
+                const user = row.original as User;
 
                 return (
                     <DropdownMenu>
@@ -164,7 +164,7 @@ export default function User() {
                         <DropdownMenuContent align="end">
                             <DropdownMenuLabel>Actions</DropdownMenuLabel>
                             <DropdownMenuItem
-                                onClick={() => navigator.clipboard.writeText(payment.id)}
+                                onClick={() => navigator.clipboard.writeText(user.username)}
                             >
                                 Copy payment ID
                             </DropdownMenuItem>
