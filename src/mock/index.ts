@@ -1,2 +1,3 @@
-import userHandlers from './user/user'
-export default [...userHandlers]
+import userHandlers from './login/user'
+import systemHandlers from './system/user'
+export default [...userHandlers,...systemHandlers]

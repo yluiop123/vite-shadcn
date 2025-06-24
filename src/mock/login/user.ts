@@ -57,11 +57,31 @@ const handlers = [
             { path: "/map/mapbox", role: "super", type: "menu" },
             { path: "/map/openlayers", role: "super", type: "menu" },
             { path: "/system", role: "super", type: "menu" },
+            { path: "/system/user", role: "super", type: "menu" },
             { path: "/system/role", role: "super", type: "menu" },
             { path: "/system/menu", role: "super", type: "menu" },
+            { path: "/system/permission", role: "super", type: "menu" },
             { path: "/system/dept", role: "super", type: "menu" },
             //supper action permissions
             {
+              path: "/system/user",
+              role: "super",
+              action: "add",
+              type: "action",
+            },
+            {
+              path: "/system/user",
+              role: "super",
+              action: "delete",
+              type: "action",
+            },
+            {
+              path: "/system/user",
+              role: "super",
+              action: "edit",
+              type: "action",
+            },
+            {
               path: "/system/role",
               role: "super",
               action: "add",
@@ -111,6 +131,24 @@ const handlers = [
             },
             {
               path: "/system/dept",
+              role: "super",
+              action: "edit",
+              type: "action",
+            },
+            {
+              path: "/system/permission",
+              role: "super",
+              action: "add",
+              type: "action",
+            },
+            {
+              path: "/system/permission",
+              role: "super",
+              action: "delete",
+              type: "action",
+            },
+            {
+              path: "/system/permission",
               role: "super",
               action: "edit",
               type: "action",
@@ -118,10 +156,30 @@ const handlers = [
             //admin menu permissions
             { path: "/dashboard", role: "admin", type: "menu" },
             { path: "/system", role: "admin", type: "menu" },
+            { path: "/system/user", role: "admin", type: "menu" },
             { path: "/system/role", role: "admin", type: "menu" },
             { path: "/system/menu", role: "admin", type: "menu" },
+            { path: "/system/permission", role: "admin", type: "menu" },
             { path: "/system/dept", role: "admin", type: "menu" },
             //admin action permissions
+           {
+              path: "/system/user",
+              role: "admin",
+              action: "add",
+              type: "action",
+            },
+            {
+              path: "/system/user",
+              role: "admin",
+              action: "delete",
+              type: "action",
+            },
+            {
+              path: "/system/user",
+              role: "admin",
+              action: "edit",
+              type: "action",
+            },
             {
               path: "/system/role",
               role: "admin",
@@ -227,6 +285,24 @@ const handlers = [
             },
             {
               path: "/system/dept",
+              role: "admin",
+              action: "edit",
+              type: "action",
+            },
+            {
+              path: "/system/permission",
+              role: "admin",
+              action: "add",
+              type: "action",
+            },
+            {
+              path: "/system/permission",
+              role: "admin",
+              action: "delete",
+              type: "action",
+            },
+            {
+              path: "/system/permission",
               role: "admin",
               action: "edit",
               type: "action",

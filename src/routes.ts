@@ -53,8 +53,10 @@ const routeSetting: NavItem[] = [
     title: "menu.system",
     icon: Bot,
     children: [
+      { key: "user", title: "menu.system.user", icon: Bot},
       { key: "role", title: "menu.system.role", icon: Bot},
       { key: "menu", title: "menu.system.menu", icon: Bot},
+      { key: "permission", title: "menu.system.permission", icon: Bot},
       { key: "dept", title: "menu.system.dept", icon: Bot},
     ],
   },
