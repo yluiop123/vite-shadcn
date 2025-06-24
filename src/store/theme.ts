@@ -25,7 +25,7 @@ function getInitialMode(): Mode {
     localStorage.setItem("theme-mode", "light");
     return "light";
   }else{
-    return localStorage.getItem("theme-mode") as Mode || "light";  
+    return localStorage.getItem("theme-mode") as Mode;  
   }
 }
 
@@ -61,14 +61,14 @@ const useThemeStore = create<ThemeStore>((set, get) => {
     const mode = getInitialMode();
     const color = getInitialColor();
     setModeColor(color, mode);
-    set({ mode, color });
+    return {mode,color};
   };
 
   // 初始执行一次
-  initTheme();
+  const {mode,color} = initTheme();
   return {
-    mode: "light", // 默认值，仅作为占位
-    color: "default",
+    mode: mode, // 默认值，仅作为占位
+    color: color,
     setMode: (mode) => {
       const color = get().color;
       setModeColor(color, mode);

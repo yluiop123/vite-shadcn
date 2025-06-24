@@ -26,6 +26,7 @@ export function SiteHeader() {
   const location = useLocation();
   const intl = useIntl()
   const {mode,setMode} = useThemeStore();
+  console.log(mode);
   const pathname: string = location.pathname;
   const titles:string[] = menuMap.get(pathname)??[];
   const {locale,setLocale} = useLocaleStore();
