@@ -11,7 +11,7 @@ const pkg = JSON.parse(fs.readFileSync(path.join(__dirname, 'package.json'), 'ut
 
 const readme = `# ${pkg.name}
 
-${pkg.description || '一个基于现代工具构建的前端项目。'}
+${pkg.description || 'SHADCN ADMIN UI 基于 Shadcn 和 Vite 、 React、Zustand、React-Router 等构建。'}
 
 ## 🚀 快速开始
 

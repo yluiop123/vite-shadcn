@@ -1,6 +1,6 @@
 # vite-shadcn
 
-A front-end project built with modern tools.
+SHADCN ADMIN UI built with Shadcn and Vite 、 React、Zustand、React-Route
 
 ## 🚀 Quick Start
 

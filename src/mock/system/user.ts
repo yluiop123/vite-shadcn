@@ -61,6 +61,7 @@ const handlers = [
   http.delete<{ id: string }>('/api/system/users/:id', async ({ request,params}) => {
     const locale = request.headers.get("locale") || "zh";
     const id = params.id;
+    console.log(id);
     return HttpResponse.json({
         code: 200,
         data: {

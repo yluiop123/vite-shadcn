@@ -67,9 +67,11 @@ export default function User() {
         })
     }
     function handleEdit(row: User) {
+        console.log(row);
 
     }
     function handleDetail(row: User) {
+        console.log(row);
         // axios.get("/system/users/" + row.id).then(res => {
 
         // })

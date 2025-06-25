@@ -1,6 +1,6 @@
 # vite-shadcn
 
-一个基于现代工具构建的前端项目。
+SHADCN ADMIN UI 基于 Shadcn 和 Vite 、 React、Zustand、React-Router 等构建。
 
 ## 🚀 快速开始
 
