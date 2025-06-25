@@ -43,10 +43,12 @@ export default function User() {
     const statusEnum = new Map([["0", "停用"], ["1", "启用"]]);
     const [page, setPage] = useState(1);
     const [size] = useState(10);
-    const [username, setUsername] = useState("");
+    // const [username, setUsername] = useState("");
+    const [filterField, setFilterField] = useState("username");
+    const [filterValue, setFilterValue] = useState("");
     useEffect(() => {
-        fetchData(page,size,username); // 初次加载
-    }, [page, size, username]);
+        fetchData(page, size, filterField, filterValue); // 初次加载
+    }, [page, size, filterField, filterValue]);
     const [data, setData] = useState<{
         list: User[]
         total: number
@@ -54,28 +56,34 @@ export default function User() {
         list: [],
         total: 0,
     })
-    function fetchData(page = 1, size = 10, username = "") {
+    function fetchData(page = 1, size = 10, filterField = "username", filterValue = "") {
         axios.post("/system/users", {
             page,
             size,
-            username
+            filterField,
+            filterValue,
         }).then(res => {
             setData(res.data);
         })
     }
     function handleEdit(row: User) {
-        
+
+    }
+    function handleDetail(row: User) {
+        // axios.get("/system/users/" + row.id).then(res => {
+
+        // })
     }
     function handleDelete(row: User) {
-        axios.delete("/system/users/"+row.id).then(res => {
-            if(res.data.code === "S"){
-                fetchData(page,size,username);
+        axios.delete("/system/users/" + row.id).then(res => {
+            if (res.data.code === "S") {
+                fetchData(page, size, filterField, filterValue);
                 toast.success(res.data.message);
-            }else{
+            } else {
                 toast.error(res.data.message);
             }
         })
-        
+
     }
     type User = {
         id: string
@@ -114,6 +122,10 @@ export default function User() {
             enableHiding: false,
         },
         {
+            meta: {
+                title: 'page.system.user.header.user',
+            },
+            enableHiding: false,
             accessorKey: "name",
             header: ({ column }) => {
                 return (
@@ -126,48 +138,48 @@ export default function User() {
                     </Button>
                 )
             },
-            cell: ({ row }) => <div className="lowercase">{row.getValue("name")}</div>,
+            cell: ({ row }) => <div >{row.getValue("name")}</div>,
         },
         {
             accessorKey: "username",
             header: intl.formatMessage({ id: 'page.system.user.header.userName' }),
             cell: ({ row }) => (
-                <div className="capitalize">{row.getValue("username")}</div>
+                <div >{row.getValue("username")}</div>
             ),
         },
         {
             accessorKey: "status",
             header: intl.formatMessage({ id: 'page.system.user.header.status' }),
             cell: ({ row }) => (
-                <div className="capitalize">{statusEnum.get(row.getValue("status"))}</div>
+                <div >{statusEnum.get(row.getValue("status"))}</div>
             ),
         },
         {
             accessorKey: "email",
             header: intl.formatMessage({ id: 'page.system.user.header.email' }),
             cell: ({ row }) => (
-                <div className="capitalize">{row.getValue("email")}</div>
+                <div >{row.getValue("email")}</div>
             ),
         },
         {
             accessorKey: "phone",
             header: intl.formatMessage({ id: 'page.system.user.header.phone' }),
             cell: ({ row }) => (
-                <div className="capitalize">{row.getValue("phone")}</div>
+                <div >{row.getValue("phone")}</div>
             ),
         },
         {
             accessorKey: "deptName",
             header: intl.formatMessage({ id: 'page.system.user.header.deptName' }),
             cell: ({ row }) => (
-                <div className="capitalize">{row.getValue("deptName")}</div>
+                <div >{row.getValue("deptName")}</div>
             ),
         },
         {
             accessorKey: "defaultRole",
             header: intl.formatMessage({ id: 'page.system.user.header.defaultRole' }),
             cell: ({ row }) => (
-                <div className="capitalize">{row.getValue("defaultRole")}</div>
+                <div >{row.getValue("defaultRole")}</div>
             ),
         },
         {
@@ -175,7 +187,6 @@ export default function User() {
             enableHiding: false,
             cell: ({ row }) => {
                 const user = row.original as User;
-
                 return (
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
@@ -185,16 +196,17 @@ export default function User() {
                             </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
-                            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                            <DropdownMenuItem
+                            <DropdownMenuLabel>{intl.formatMessage({ id: 'table.actions' })}</DropdownMenuLabel>
+
+                            {/* <DropdownMenuItem
                                 onClick={() => navigator.clipboard.writeText(user.username)}
                             >
                                 Copy payment ID
-                            </DropdownMenuItem>
+                            </DropdownMenuItem> */}
                             <DropdownMenuSeparator />
                             <DropdownMenuItem onClick={() => handleEdit(user)}>{intl.formatMessage({ id: 'button.edit' })}</DropdownMenuItem>
                             <DropdownMenuItem onClick={() => handleDelete(user)}>{intl.formatMessage({ id: 'button.delete' })}</DropdownMenuItem>
-                            <DropdownMenuItem>View payment details</DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => handleDetail(user)}>{intl.formatMessage({ id: 'button.detail' })}</DropdownMenuItem>
                         </DropdownMenuContent>
                     </DropdownMenu>
                 )
@@ -208,7 +220,6 @@ export default function User() {
     const [columnVisibility, setColumnVisibility] =
         React.useState<VisibilityState>({})
     const [rowSelection, setRowSelection] = React.useState({})
-
     const table = useReactTable({
         data: data.list,
         columns,
@@ -231,18 +242,48 @@ export default function User() {
     return (
         <div className="w-full">
             <div className="flex items-center py-3">
+                <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                        <Button variant="outline" className="ml-auto">
+                            {intl.formatMessage({ id: 'table.columns' })} <ChevronDown />
+
+                        </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="start">
+                        {table
+                            .getAllColumns()
+                            .filter((column) => !['select','actions'].includes(column.id))
+                            .map((column) => {
+                                const header = column.columnDef.header;
+                                const meta = column.columnDef.meta as {title:string};
+                                const headerText = typeof header === 'string' || typeof header === 'number'? header: intl.formatMessage({ id: meta.title });
+                                return (
+                                    <DropdownMenuCheckboxItem
+                                        key={column.id}
+                                        className="capitalize"
+                                        checked={column.id==filterField}
+                                        onCheckedChange={(value) =>
+                                            setFilterField(value?column.id:'')
+                                        }
+                                    >
+                                        {headerText}
+                                    </DropdownMenuCheckboxItem>
+                                )
+                            })}
+                    </DropdownMenuContent>
+                </DropdownMenu>
                 <Input
-                    placeholder="Filter Names..."
-                    value={username}
+                    placeholder={intl.formatMessage({ id: 'table.filterField' })}
+                    value={filterValue}
                     onChange={(event) =>
-                        setUsername(event.target.value)
+                        setFilterValue(event.target.value)
                     }
                     className="max-w-sm"
                 />
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <Button variant="outline" className="ml-auto">
-                            Columns <ChevronDown />
+                            {intl.formatMessage({ id: 'table.columns' })} <ChevronDown />
                         </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
@@ -250,6 +291,7 @@ export default function User() {
                             .getAllColumns()
                             .filter((column) => column.getCanHide())
                             .map((column) => {
+                                const header = column.columnDef.header;
                                 return (
                                     <DropdownMenuCheckboxItem
                                         key={column.id}
@@ -259,7 +301,7 @@ export default function User() {
                                             column.toggleVisibility(!!value)
                                         }
                                     >
-                                        {column.id}
+                                        {typeof header === 'string' || typeof header === 'number'? header: column.id}
                                     </DropdownMenuCheckboxItem>
                                 )
                             })}
@@ -330,7 +372,8 @@ export default function User() {
                         onClick={() => setPage(page - 1)}
                         disabled={page === 1}
                     >
-                        Previous
+                        {intl.formatMessage({ id: 'table.previous' })}
+
                     </Button>
                     <Button
                         variant="outline"
@@ -338,7 +381,8 @@ export default function User() {
                         onClick={() => setPage(page + 1)}
                         disabled={page * size >= data.total}
                     >
-                        Next
+                        {intl.formatMessage({ id: 'table.next' })}
+
                     </Button>
                 </div>
             </div>

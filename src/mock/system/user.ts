@@ -14,15 +14,27 @@ const localeMap: Record<string, Record<string, string>> = {
   zh,
   en,
 };
-
+type User = {
+    id: string
+    name: string
+    username: string
+    email: string
+    dept: string
+    deptName: string
+    defaultRole: string
+    status: "0" | "1"
+    create: string
+    update: string
+    phone: string
+}
 const handlers = [
   http.post<never, never>('/api/system/users', async ({ request }) => {
     const locale = request.headers.get("locale") || "zh";
     const dept = localeMap[locale]['dept'];
     const user = localeMap[locale]['user'];
     const body = await request.clone().json();
-    const {username,page,size} = body;
-    const list = Array.from({ length: 23 }, (_, i) => ({
+    const {filterField,filterValue,page,size} = body;
+    const list   = Array.from({ length: 23 }, (_, i) => ({
     id: `${i+100000000}`,
     name: `${user}${i + 1}`,
     username: `user${i + 1}`,
@@ -34,8 +46,8 @@ const handlers = [
     phone: `${13800000000 + i}`,
     create: "2025-01-01 23:59:59",
     update: "2025-01-01 23:59:59",
-    }))
-    const filterList = list.filter((item) => item.username.startsWith(username));
+    })) as User[];
+    const filterList = list.filter((item) => item[filterField as keyof User].startsWith(filterValue));
     const start = (page-1)*size;
     const result = filterList.slice(start,start+size);
     return HttpResponse.json({
