@@ -36,7 +36,7 @@ import axios from "@/lib/axios"
 import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react"
 import { useEffect, useState } from "react"
 import { useIntl } from "react-intl"
-
+import { toast } from "sonner"
 export default function User() {
 
     const intl = useIntl();
@@ -63,7 +63,22 @@ export default function User() {
             setData(res.data);
         })
     }
+    function handleEdit(row: User) {
+        
+    }
+    function handleDelete(row: User) {
+        axios.delete("/system/users/"+row.id).then(res => {
+            if(res.data.code === "S"){
+                fetchData(page,size,username);
+                toast.success(res.data.message);
+            }else{
+                toast.error(res.data.message);
+            }
+        })
+        
+    }
     type User = {
+        id: string
         name: string
         username: string
         email: string
@@ -73,6 +88,7 @@ export default function User() {
         status: "0" | "1"
         create: string
         update: string
+        phone: string
     }
     const columns: ColumnDef<User>[] = [
         {
@@ -134,6 +150,13 @@ export default function User() {
             ),
         },
         {
+            accessorKey: "phone",
+            header: intl.formatMessage({ id: 'page.system.user.header.phone' }),
+            cell: ({ row }) => (
+                <div className="capitalize">{row.getValue("phone")}</div>
+            ),
+        },
+        {
             accessorKey: "deptName",
             header: intl.formatMessage({ id: 'page.system.user.header.deptName' }),
             cell: ({ row }) => (
@@ -169,7 +192,8 @@ export default function User() {
                                 Copy payment ID
                             </DropdownMenuItem>
                             <DropdownMenuSeparator />
-                            <DropdownMenuItem>View customer</DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => handleEdit(user)}>{intl.formatMessage({ id: 'button.edit' })}</DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => handleDelete(user)}>{intl.formatMessage({ id: 'button.delete' })}</DropdownMenuItem>
                             <DropdownMenuItem>View payment details</DropdownMenuItem>
                         </DropdownMenuContent>
                     </DropdownMenu>

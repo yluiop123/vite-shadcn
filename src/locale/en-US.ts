@@ -31,8 +31,13 @@ export default {
     'page.system.user.header.user': 'User',
     'page.system.user.header.userName': 'UserName',
     'page.system.user.header.email': 'Email',
+    'page.system.user.header.phone': 'Phone',
     'page.system.user.header.deptName': 'DeptName',
     'page.system.user.header.defaultRole': 'DefaultRole',
     'page.system.user.header.status': 'Status',
     'header.language':'EN',
+    'button.add':'Add',
+    'button.edit':'Edit',
+    'button.delete':'Delete',
+    'button.save':'Save',
 };

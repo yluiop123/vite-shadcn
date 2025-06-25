@@ -31,8 +31,13 @@ export default {
     'page.system.user.header.user': '用户',
     'page.system.user.header.userName': '用户名',
     'page.system.user.header.email': '邮箱',
+    'page.system.user.header.phone': '手机号',
     'page.system.user.header.deptName': '部门',
     'page.system.user.header.defaultRole': '默认角色',
     'page.system.user.header.status': '状态',
     'header.language':'中文',
+    'button.add':'新增',
+    'button.edit':'编辑',
+    'button.delete':'删除',
+    'button.save':'保存',
 };

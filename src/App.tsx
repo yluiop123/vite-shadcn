@@ -1,6 +1,7 @@
 import PageLayout from '@/layout';
 import { routes } from '@/routes';
 // import loadable from '@loadable/component';
+import { Toaster } from "@/components/ui/sonner";
 import { useLocaleStore } from "@/store/index";
 import { lazy } from 'react';
 import { IntlProvider } from 'react-intl';
@@ -43,6 +44,7 @@ export default function Index() {
                     </Route>
                 </Routes>
             </Router>
+            <Toaster />
         </IntlProvider>
     )
 }
