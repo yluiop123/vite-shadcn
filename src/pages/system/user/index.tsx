@@ -123,7 +123,7 @@ export default function User() {
         },
         {
             meta: {
-                title: 'page.system.user.header.user',
+                title: intl.formatMessage({ id: 'page.system.user.header.user' }),
             },
             enableHiding: false,
             accessorKey: "name",
@@ -256,7 +256,7 @@ export default function User() {
                             .map((column) => {
                                 const header = column.columnDef.header;
                                 const meta = column.columnDef.meta as {title:string};
-                                const headerText = typeof header === 'string' || typeof header === 'number'? header: intl.formatMessage({ id: meta.title });
+                                const headerText = typeof header === 'string' || typeof header === 'number'? header: meta.title;
                                 return (
                                     <DropdownMenuCheckboxItem
                                         key={column.id}
