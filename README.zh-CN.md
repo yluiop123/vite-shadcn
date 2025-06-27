@@ -1,29 +1,29 @@
 # vite-shadcn
 
-SHADCN ADMIN UI built with Shadcn and Vite 、 React、Zustand、React-Route
+SHADCN ADMIN UI 基于 Shadcn 和 Vite 、 React、Zustand、React-Router 等构建。
 
-## 🚀 Quick Start
+## 🚀 快速开始
 
 ```bash
 npm install
 npm run dev
 ```
 
-## 🛠️ command
+## 🛠️ 脚本命令
 
-| command | description             |
-|---------|-------------------------|
+| 命令        | 描述             |
+|-------------|------------------|
 | `dev` | `vite` |
 | `build` | `tsc -b && vite build` |
 | `build:github` | `tsc -b && vite build --mode github` |
 | `lint` | `eslint .` |
 | `preview` | `vite preview` |
 | `preview:github` | `vite preview --mode github` |
-| `readme` | `node readme.js&& node readme-us.js` |
+| `readme` | `node readme.js&& node readme-zh-CN.js` |
 
-## 📦 dependencies
+## 📦 依赖
 
-- dependencies:
+- 主依赖:
   - @dnd-kit/core
   - @dnd-kit/modifiers
   - @dnd-kit/sortable
@@ -67,7 +67,7 @@ npm run dev
   - zod
   - zustand
 
-- devDependencies:
+- 开发依赖:
   - @eslint/js
   - @types/loadable__component
   - @types/mockjs
