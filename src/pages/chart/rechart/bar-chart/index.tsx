@@ -1,13 +1,13 @@
 // src/components/ThreeChartLayout.tsx
-import { ChartBarActive } from "./active";
-import { ChartBarLabelCustom } from "./custom-label";
-import { ChartBarDefault } from "./default";
-import { ChartBarHorizontal } from "./horizontal";
-import { ChartBarMixed } from "./mixed";
-import { ChartBarMultiple } from "./multiple";
-import { ChartBarNegative } from "./negative";
-import { ChartBarStacked } from "./stacked-legend";
-import { ChartBarLabel } from "./with-label";
+import { ChartBarActive } from "./bar-chart-active";
+import { ChartBarLabelCustom } from "./bar-chart-custom-label";
+import { ChartBarDefault } from "./bar-chart-default";
+import { ChartBarHorizontal } from "./bar-chart-horizontal";
+import { ChartBarMixed } from "./bar-chart-mixed";
+import { ChartBarMultiple } from "./bar-chart-multiple";
+import { ChartBarNegative } from "./bar-chart-negative";
+import { ChartBarStacked } from "./bar-chart-stacked-legend";
+import { ChartBarLabel } from "./bar-chart-label";
 
 export default function Index() {
   return (
