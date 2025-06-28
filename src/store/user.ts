@@ -28,7 +28,7 @@ type GlobalInfo = {
   token: string | null;
   userInfo: UserInfo | null;
   login: (token: string) => void;
-  fetchUser: () => Promise<void>;
+  fetchUser: () => Promise<UserInfo | null>;
   logout: () => void;
   updateUserInfo: (userInfo: UserInfo) => void;
 };
@@ -41,8 +41,8 @@ const useUserStore = create<GlobalInfo>()((set, get) => ({
   },
   fetchUser: async () => {
     const token = get().token;
-    if (!token) return;
-
+    if (!token) return  null;
+    try {
     // 模拟获取用户信息
     const res = await axios.get("/user/userInfo");
     if (res.data) {
@@ -65,9 +65,16 @@ const useUserStore = create<GlobalInfo>()((set, get) => ({
           currentMenuPermission,
         },
       }));
+      return userInfo;
     } else {
       // token 失效等错误
       get().logout();
+      return null;
+    }
+    } catch (error) {
+      console.error(error);
+      get().logout();
+      return null;
     }
   },
   logout: () => {

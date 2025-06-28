@@ -6,16 +6,20 @@ import { Suspense, useEffect } from 'react';
 import { Outlet, useLocation, useNavigate } from "react-router";
 //根据用户登录信息进行权限控制
 export default function Index() {
-    const {token,userInfo,fetchUser} = useUserStore();
+    const { token, userInfo, fetchUser } = useUserStore();
     const navigate = useNavigate();
     const location = useLocation();
+
     useEffect(() => {
-        if (token && !userInfo){
-            fetchUser();
-        }else if(!userInfo||!userInfo?.currentMenuPermission?.includes(location.pathname)){
-            navigate('/login');
-        }
-    }, [navigate,location,userInfo,token,fetchUser]);
+        const check = async () => {
+            if (token && !userInfo) {
+                await fetchUser(); // ✅ 这里能拿到 userInfo
+            }else if (!userInfo?.currentMenuPermission?.includes(location.pathname)) {
+                navigate('/login');
+            }
+        };
+        check();
+    }, [navigate, location, userInfo, token, fetchUser]);
     return (
         <SidebarProvider>
             <AppSidebar variant="inset" />
