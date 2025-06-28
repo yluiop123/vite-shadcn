@@ -1,11 +1,13 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import AreaChart from "./area-chart";
-import BarChart from "./bar-chart";
-import LineChart from "./line-chart";
-import PieChart from "./pie-chart";
-import RadarChart from "./radar-chart";
-import RadialChart from "./radial-chart";
-import Tooltips from "./tooltips";
+import { lazy } from "react";
+
+const AreaChart = lazy(() => import('./area-chart/area-chart-index'));
+const BarChart = lazy(() => import('./bar-chart/bar-chart-index'));
+const LineChart = lazy(() => import('./line-chart/line-chart-index'));
+const PieChart = lazy(() => import('./pie-chart/pie-chart-index'));
+const RadarChart = lazy(() => import('./radar-chart/radar-chart-index'));
+const RadialChart = lazy(() => import('./radial-chart/radial-chart-index'));
+const Tooltips = lazy(() => import('./tooltips/tooltips-index'));
 export default function Index() {
   return (
     <Tabs defaultValue="area">
