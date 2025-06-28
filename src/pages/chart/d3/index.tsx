@@ -8,7 +8,7 @@ export default function Index() {
     { letter: "C", frequency: 2 },
     { letter: "D", frequency: 7 },
     { letter: "E", frequency: 8 }
-  ], { x: "letter", y: "frequency" }).plot({
+  ], { x: "letter", y: "frequency",stroke: 'var(--primary)' }).plot({
     y: { grid: true }, style: {
       fontSize: '20'
     },
@@ -32,7 +32,7 @@ export default function Index() {
         { letter: "C", frequency: 2 },
         { letter: "D", frequency: 7 },
         { letter: "E", frequency: 8 }
-      ], { x: "frequency", y: "letter", sort: { y: "x", reverse: true } })
+      ], { x: "frequency", y: "letter",fill: 'var(--primary)', sort: { y: "x", reverse: true } })
     ]
   })
   const hChartPlot = Plot.plot({
@@ -48,7 +48,7 @@ export default function Index() {
         { letter: "C", frequency: 2 },
         { letter: "D", frequency: 7 },
         { letter: "E", frequency: 8 }
-      ], {x: "letter", y: "frequency", sort: {x: "y", reverse: true}})
+      ], {x: "letter", y: "frequency",fill: 'var(--primary)', sort: {x: "y", reverse: true}})
   ]
 })
   const areaChartPlot = Plot.areaY([
@@ -57,7 +57,7 @@ export default function Index() {
     { letter: "C", frequency: 2 },
     { letter: "D", frequency: 7 },
     { letter: "E", frequency: 8 }
-  ], { x: "letter", y: "frequency" }).plot({
+  ], { x: "letter", y: "frequency",fill: 'var(--primary)'}).plot({
     height: 400, style: {
       fontSize: '20',
     },
@@ -69,7 +69,7 @@ export default function Index() {
     { letter: "C", frequency: 2 },
     { letter: "D", frequency: 7 },
     { letter: "E", frequency: 8 }
-  ], { x: "letter", y: "frequency" }).plot(
+  ], { x: "letter", y: "frequency",fill: 'var(--primary)',r: 10}).plot(
     {
       height: 400,
       style: {
@@ -91,7 +91,7 @@ const treePlot = Plot.plot({
   "Chaos/Eros",
   "Chaos/Erebus",
   "Chaos/Tartarus"
-], {textStroke: "white",fontSize: 30})
+], {textStroke: "white",fontSize: 30,stroke: 'var(--primary)'})
   ]
 })
   return (
