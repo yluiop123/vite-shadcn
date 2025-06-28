@@ -21,10 +21,10 @@ const routeSetting: NavItem[] = [
     title: "menu.chart",
     icon: ChartSpline,
     children: [
-      { key: "antv", title: "menu.chart.antv", icon: Bot},
-      { key: "d3", title: "menu.chart.d3", icon: Bot},
-      { key: "echart", title: "menu.chart.echart", icon: Bot},
-      { key: "rechart", title: "menu.chart.rechart", icon: Bot}
+      { key: "rechart", title: "menu.chart.rechart", icon: Bot}, 
+      { key: "echart", title: "menu.chart.echart", icon: Bot},     
+      { key: "d3", title: "menu.chart.d3", icon: Bot},     
+      { key: "antv", title: "menu.chart.antv", icon: Bot}    
     ],
   },
   {

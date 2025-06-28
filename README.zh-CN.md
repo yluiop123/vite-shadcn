@@ -51,6 +51,7 @@ npm run dev
   - axios
   - class-variance-authority
   - clsx
+  - echarts-for-react
   - lucide-react
   - next-themes
   - react
