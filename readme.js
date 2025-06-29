@@ -11,8 +11,12 @@ const pkg = JSON.parse(fs.readFileSync(path.join(__dirname, 'package.json'), 'ut
 
 const readme = `# ${pkg.name}
 
-${pkg.description || 'SHADCN ADMIN UI built with Shadcn and Vite 、 React、Zustand、React-Route'}
+${pkg.description || 'VITE-SHADCN is a Shadcn Admin UI built with Shadcn, Vite, React, Zustand, and React Router.'}
+<div align="center">
 
+English | [简体中文](./README.zh-CN.md)
+
+</div>
 ## 🚀 Quick Start
 
 \`\`\`bash
@@ -38,7 +42,7 @@ ${Object.keys(pkg.devDependencies || {}).map(dep => `  - ${dep}`).join('\n') || 
 
 ## 🧾 License
 
-${pkg.license || 'MIT'}
+This project is [MIT licensed](./LICENSE).
 `;
 
 fs.writeFileSync('README.md', readme);

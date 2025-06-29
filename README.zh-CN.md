@@ -1,7 +1,11 @@
 # vite-shadcn
 
-SHADCN ADMIN UI 基于 Shadcn 和 Vite 、 React、Zustand、React-Router 等构建。
+VITE-SHADCN 是一个基于 Shadcn 和 Vite 、 React、Zustand、React-Router 等构建的SHADCN ADMIN UI 。
+<div align="center">
 
+[English](./README.md) | 简体中文
+
+</div>
 ## 🚀 快速开始
 
 ```bash
@@ -89,4 +93,4 @@ npm run dev
 
 ## 🧾 License
 
-MIT
+[MIT 协议](./LICENSE)
