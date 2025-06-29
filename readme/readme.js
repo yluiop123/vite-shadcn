@@ -37,10 +37,10 @@ ${Object.entries(pkg.scripts || {})
 ## 📦 dependencies
 
 - dependencies:
-${Object.keys(pkg.dependencies || {}).map(dep => `  - ${dep}`).join('\n') || '  - none'}
+${Object.keys(pkg.dependencies || {}).map(dep => `  - ${dep}: ${pkg.dependencies[dep]}`).join('\n') || '  - none'}
 
 - devDependencies:
-${Object.keys(pkg.devDependencies || {}).map(dep => `  - ${dep}`).join('\n') || '  - none'}
+${Object.keys(pkg.devDependencies || {}).map(dep => `  - ${dep}: ${pkg.devDependencies[dep]}`).join('\n') || '  - none'}
 
 ## 🧾 License
 

@@ -37,10 +37,10 @@ ${Object.entries(pkg.scripts || {})
 ## 📦 依赖
 
 - 主依赖:
-${Object.keys(pkg.dependencies || {}).map(dep => `  - ${dep}`).join('\n') || '  - 无'}
+${Object.keys(pkg.dependencies || {}).map(dep => `  - ${dep}: ${pkg.dependencies[dep]}`).join('\n') || '  - 无'}
 
 - 开发依赖:
-${Object.keys(pkg.devDependencies || {}).map(dep => `  - ${dep}`).join('\n') || '  - 无'}
+${Object.keys(pkg.devDependencies || {}).map(dep => `  - ${dep}: ${pkg.devDependencies[dep]}`).join('\n') || '  - 无'}
 
 ## 🧾 License
 
