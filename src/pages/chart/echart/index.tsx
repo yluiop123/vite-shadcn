@@ -1,7 +1,24 @@
-import { graphic } from 'echarts/core';
+import { useThemeStore } from '@/store';
+import Color from 'colorjs.io';
+import { EChartsOption } from 'echarts';
+import { useEffect, useState } from 'react';
 import { EchartCard } from './EchartCard';
+const getCSSColor = (name:string) =>{
+  const oklchString:string = getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+  const color = new Color(oklchString);
+  return color.toString({ format: 'rgb' });
+}
+
+
 export default function Index() {
-  const basicLineChartOption = {
+  const {mode,color} = useThemeStore();
+  const [chartColor,setChartColor] = useState<string[]>([]);
+  useEffect(() => {
+    setChartColor(['--chart-1','--chart-2','--chart-3','--chart-4','--chart-5'].map(getCSSColor));
+  },[color]);
+  const basicLineChartOption: EChartsOption = {
+    darkMode: mode === 'dark',
+    color: chartColor,
     grid: { top: 8, right: 8, bottom: 24, left: 36 },
     xAxis: {
       type: 'category',
@@ -15,6 +32,9 @@ export default function Index() {
         data: [820, 932, 901, 934, 1290, 1330, 1320],
         type: 'line',
         smooth: true,
+        // itemStyle: {
+        //   color: getCSSColor('--chart-1'),
+        // }
       },
     ],
     tooltip: {
@@ -22,6 +42,7 @@ export default function Index() {
     },
   };
   const smoothedLineChartOption = {
+    color: chartColor,
     xAxis: {
       type: 'category',
       data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
@@ -38,6 +59,7 @@ export default function Index() {
     ]
   };
   const basicAreaChartOption = {
+    color: chartColor,
     xAxis: {
       type: 'category',
       boundaryGap: false,
@@ -58,6 +80,7 @@ export default function Index() {
     //   title: {
     //     text: 'Stacked Line'
     //   },
+    color: chartColor,
     tooltip: {
       trigger: 'axis'
     },
@@ -120,6 +143,7 @@ export default function Index() {
     //   title: {
     //     text: 'Stacked Area Chart'
     //   },
+    color: chartColor,
     tooltip: {
       trigger: 'axis',
       axisPointer: {
@@ -214,7 +238,7 @@ export default function Index() {
   };
 
   const gradientStackedAreaChartOption = {
-    color: ['#80FFA5', '#00DDFF', '#37A2FF', '#FF0087', '#FFBF00'],
+    color: chartColor,
     //   title: {
     //     text: 'Gradient Stacked Area Chart'
     //   },
@@ -265,16 +289,16 @@ export default function Index() {
         showSymbol: false,
         areaStyle: {
           opacity: 0.8,
-          color: new graphic.LinearGradient(0, 0, 0, 1, [
-            {
-              offset: 0,
-              color: 'rgb(128, 255, 165)'
-            },
-            {
-              offset: 1,
-              color: 'rgb(1, 191, 236)'
-            }
-          ])
+          // color: new graphic.LinearGradient(0, 0, 0, 1, [
+          //   {
+          //     offset: 0,
+          //     color: 'rgb(128, 255, 165)'
+          //   },
+          //   {
+          //     offset: 1,
+          //     color: 'rgb(1, 191, 236)'
+          //   }
+          // ])
         },
         emphasis: {
           focus: 'series'
@@ -292,16 +316,16 @@ export default function Index() {
         showSymbol: false,
         areaStyle: {
           opacity: 0.8,
-          color: new graphic.LinearGradient(0, 0, 0, 1, [
-            {
-              offset: 0,
-              color: 'rgb(0, 221, 255)'
-            },
-            {
-              offset: 1,
-              color: 'rgb(77, 119, 255)'
-            }
-          ])
+          // color: new graphic.LinearGradient(0, 0, 0, 1, [
+          //   {
+          //     offset: 0,
+          //     color: 'rgb(0, 221, 255)'
+          //   },
+          //   {
+          //     offset: 1,
+          //     color: 'rgb(77, 119, 255)'
+          //   }
+          // ])
         },
         emphasis: {
           focus: 'series'
@@ -319,16 +343,16 @@ export default function Index() {
         showSymbol: false,
         areaStyle: {
           opacity: 0.8,
-          color: new graphic.LinearGradient(0, 0, 0, 1, [
-            {
-              offset: 0,
-              color: 'rgb(55, 162, 255)'
-            },
-            {
-              offset: 1,
-              color: 'rgb(116, 21, 219)'
-            }
-          ])
+          // color: new graphic.LinearGradient(0, 0, 0, 1, [
+          //   {
+          //     offset: 0,
+          //     color: 'rgb(55, 162, 255)'
+          //   },
+          //   {
+          //     offset: 1,
+          //     color: 'rgb(116, 21, 219)'
+          //   }
+          // ])
         },
         emphasis: {
           focus: 'series'
@@ -346,16 +370,16 @@ export default function Index() {
         showSymbol: false,
         areaStyle: {
           opacity: 0.8,
-          color: new graphic.LinearGradient(0, 0, 0, 1, [
-            {
-              offset: 0,
-              color: 'rgb(255, 0, 135)'
-            },
-            {
-              offset: 1,
-              color: 'rgb(135, 0, 157)'
-            }
-          ])
+          // color: new graphic.LinearGradient(0, 0, 0, 1, [
+          //   {
+          //     offset: 0,
+          //     color: 'rgb(255, 0, 135)'
+          //   },
+          //   {
+          //     offset: 1,
+          //     color: 'rgb(135, 0, 157)'
+          //   }
+          // ])
         },
         emphasis: {
           focus: 'series'
@@ -377,16 +401,16 @@ export default function Index() {
         },
         areaStyle: {
           opacity: 0.8,
-          color: new graphic.LinearGradient(0, 0, 0, 1, [
-            {
-              offset: 0,
-              color: 'rgb(255, 191, 0)'
-            },
-            {
-              offset: 1,
-              color: 'rgb(224, 62, 76)'
-            }
-          ])
+          // color: new graphic.LinearGradient(0, 0, 0, 1, [
+          //   {
+          //     offset: 0,
+          //     color: 'rgb(255, 191, 0)'
+          //   },
+          //   {
+          //     offset: 1,
+          //     color: 'rgb(224, 62, 76)'
+          //   }
+          // ])
         },
         emphasis: {
           focus: 'series'
@@ -397,6 +421,7 @@ export default function Index() {
   };
 
   const basicBaroption = {
+    color: chartColor,
     xAxis: {
       type: 'category',
       data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
@@ -413,6 +438,7 @@ export default function Index() {
   };
 
   const basicRingOption = {
+    color: chartColor,
     tooltip: {
       trigger: 'item'
     },
@@ -461,6 +487,7 @@ export default function Index() {
     //     subtext: 'Fake Data',
     //     left: 'center'
     //   },
+    color: chartColor,
     tooltip: {
       trigger: 'item'
     },
