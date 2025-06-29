@@ -7,16 +7,18 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // 同步读取 package.json 内容
-const pkg = JSON.parse(fs.readFileSync(path.join(__dirname, 'package.json'), 'utf-8'));
+const pkg = JSON.parse(fs.readFileSync(path.join(__dirname, '../package.json'), 'utf-8'));
 
 const readme = `# ${pkg.name}
 
 ${pkg.description || 'VITE-SHADCN 是一个基于 Shadcn 和 Vite 、 React、Zustand、React-Router 等构建的SHADCN ADMIN UI 。'}
-<div align="center">
 
 [English](./README.md) | 简体中文
 
-</div>
+<img height="500" src="./readme/images/dashboard.png">
+
+<img height="500" src="./readme/images/rechart.png">
+
 ## 🚀 快速开始
 
 \`\`\`bash

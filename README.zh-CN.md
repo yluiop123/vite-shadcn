@@ -1,11 +1,13 @@
 # vite-shadcn
 
 VITE-SHADCN 是一个基于 Shadcn 和 Vite 、 React、Zustand、React-Router 等构建的SHADCN ADMIN UI 。
-<div align="center">
 
 [English](./README.md) | 简体中文
 
-</div>
+<img height="500" src="./readme/images/dashboard.png">
+
+<img height="500" src="./readme/images/rechart.png">
+
 ## 🚀 快速开始
 
 ```bash
@@ -23,7 +25,7 @@ npm run dev
 | `lint` | `eslint .` |
 | `preview` | `vite preview` |
 | `preview:github` | `vite preview --mode github` |
-| `readme` | `node readme.js&& node readme-zh-CN.js` |
+| `readme` | `node ./readme/readme.js && node ./readme/readme-zh-CN.js` |
 
 ## 📦 依赖
 

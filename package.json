@@ -10,7 +10,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "preview:github": "vite preview --mode github",
-    "readme": "node readme.js&& node readme-zh-CN.js"
+    "readme": "node ./readme/readme.js && node ./readme/readme-zh-CN.js"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",

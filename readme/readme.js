@@ -7,16 +7,18 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // get package.json content
-const pkg = JSON.parse(fs.readFileSync(path.join(__dirname, 'package.json'), 'utf-8'));
+const pkg = JSON.parse(fs.readFileSync(path.join(__dirname, '../package.json'), 'utf-8'));
 
 const readme = `# ${pkg.name}
 
 ${pkg.description || 'VITE-SHADCN is a Shadcn Admin UI built with Shadcn, Vite, React, Zustand, and React Router.'}
-<div align="center">
 
 English | [简体中文](./README.zh-CN.md)
 
-</div>
+<img height="500" src="./readme/images/dashboard.png">
+
+<img height="500" src="./readme/images/rechart.png">
+
 ## 🚀 Quick Start
 
 \`\`\`bash
