@@ -7,6 +7,7 @@ English | [简体中文](./README.zh-CN.md)
 <img height="500" src="./readme/images/dashboard.png">
 
 <img height="500" src="./readme/images/rechart.png">
+
 ## 🚀 Quick Start
 
 ```bash

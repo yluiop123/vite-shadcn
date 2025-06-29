@@ -4,9 +4,9 @@ VITE-SHADCN 是一个基于 Shadcn 和 Vite 、 React、Zustand、React-Router �
 
 [English](./README.md) | 简体中文
 
-<img height="500" src="./readme/images/dashboard.png">
+<img height="500" src="./readme/images/dashboard-zh-CN.png">
 
-<img height="500" src="./readme/images/rechart.png">
+<img height="500" src="./readme/images/rechart-zh-CN.png">
 
 ## 🚀 快速开始
 
