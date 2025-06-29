@@ -30,6 +30,7 @@ npm run dev
   - @dnd-kit/utilities
   - @hookform/resolvers
   - @loadable/component
+  - @observablehq/plot
   - @radix-ui/react-avatar
   - @radix-ui/react-checkbox
   - @radix-ui/react-collapsible
@@ -51,6 +52,7 @@ npm run dev
   - axios
   - class-variance-authority
   - clsx
+  - colorjs.io
   - echarts-for-react
   - lucide-react
   - next-themes
