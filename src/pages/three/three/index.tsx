@@ -2,7 +2,7 @@
 export default function Index() {
     return (
         <>
-        Tree
+        Three
         </>
     )
 }

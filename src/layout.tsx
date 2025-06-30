@@ -22,7 +22,7 @@ export default function Index() {
     }, [navigate, location, userInfo, token, fetchUser]);
     return (
         <SidebarProvider>
-            <AppSidebar variant="inset" />
+            <AppSidebar variant="sidebar" />
             <SidebarInset>
                 <SiteHeader />
                 <div className="flex flex-1 flex-col">
