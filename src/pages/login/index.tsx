@@ -25,18 +25,21 @@ import { useForm } from "react-hook-form"
 import { useIntl } from "react-intl"
 import { useNavigate } from 'react-router'
 import { z } from "zod"
-const formSchema = z.object({
-  username: z.string().min(4, {
-    message: "Username must be at least 4 characters.",
-  }),
-  password: z.string().min(4, {
-    message: "Password must be at least 4 characters.",
-  })
-})
+
+
 export default function Login({
   className,
   ...props
 }: React.ComponentProps<"div">) {
+  const intl = useIntl();
+  const formSchema = z.object({
+    username: z.string().min(4, {
+      message: intl.formatMessage({ id: 'page.login.username.valid' }),
+    }),
+    password: z.string().min(4, {
+      message: intl.formatMessage({ id: 'page.login.password.valid' }),
+    })
+  })
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -47,7 +50,7 @@ export default function Login({
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate();
   const { login } = useUserStore();
-  const intl = useIntl();
+
   function onSubmit(values: z.infer<typeof formSchema>) {
     setLoading(true);
     axios
@@ -73,9 +76,9 @@ export default function Login({
         <div className={cn("flex flex-col gap-6", className)} {...props}>
           <Card>
             <CardHeader>
-              <CardTitle>{intl.formatMessage({id: 'page.login.title'})}</CardTitle>
+              <CardTitle>{intl.formatMessage({ id: 'page.login.title' })}</CardTitle>
               <CardDescription>
-                {intl.formatMessage({id: 'page.login.desc'})}
+                {intl.formatMessage({ id: 'page.login.desc' })}
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -86,7 +89,7 @@ export default function Login({
                     name="username"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>{intl.formatMessage({id: 'page.login.username'})}</FormLabel>
+                        <FormLabel>{intl.formatMessage({ id: 'page.login.username' })}</FormLabel>
                         <FormControl>
                           <Input placeholder="super" {...field} />
                         </FormControl>
@@ -99,7 +102,7 @@ export default function Login({
                     name="password"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>{intl.formatMessage({id: 'page.login.password'})}</FormLabel>
+                        <FormLabel>{intl.formatMessage({ id: 'page.login.password' })}</FormLabel>
                         <FormControl>
                           <Input placeholder="super" {...field} />
                         </FormControl>
@@ -109,7 +112,7 @@ export default function Login({
                   />
                   <Button type="submit" >
                     {loading && <Loader2Icon className='animate-spin' />}
-                    {intl.formatMessage({id: 'page.login.login'})}
+                    {intl.formatMessage({ id: 'page.login.login' })}
                   </Button>
                 </form>
               </Form>
