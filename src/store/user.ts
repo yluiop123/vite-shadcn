@@ -40,9 +40,11 @@ const useUserStore = create<GlobalInfo>()((set, get) => ({
     set({ token });
   },
   fetchUser: async () => {
-    debugger;
     const token = get().token;
-    if (!token) return  null;
+    if (!token) {
+      get().logout();
+      return null;
+    }
     try {
     // 模拟获取用户信息
     const res = await axios.get("/user/userInfo");
