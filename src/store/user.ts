@@ -33,13 +33,14 @@ type GlobalInfo = {
   updateUserInfo: (userInfo: UserInfo) => void;
 };
 const useUserStore = create<GlobalInfo>()((set, get) => ({
-  token: null,
+  token: localStorage.getItem('token'),
   userInfo: null,
   login: (token) => {
     localStorage.setItem("token", token);
     set({ token });
   },
   fetchUser: async () => {
+    debugger;
     const token = get().token;
     if (!token) return  null;
     try {
