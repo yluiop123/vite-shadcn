@@ -3,17 +3,17 @@
 import { Bar, BarChart, XAxis } from "recharts"
 
 import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardHeader,
-    CardTitle,
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
 } from "@/components/ui/card"
 import {
-    ChartConfig,
-    ChartContainer,
-    ChartTooltip,
-    ChartTooltipContent,
+  ChartConfig,
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
 } from "@/components/ui/chart"
 
 export const description = "A stacked bar chart with a legend"
@@ -42,8 +42,8 @@ export function ChartTooltipLabelNone() {
   return (
     <Card className="h-90">
       <CardHeader>
-        <CardTitle>Tooltip - No Label</CardTitle>
-        <CardDescription>Tooltip with no label.</CardDescription>
+        <CardTitle>提示 - 无标签</CardTitle>
+        <CardDescription>Tooltip - No Label</CardDescription>
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig}>

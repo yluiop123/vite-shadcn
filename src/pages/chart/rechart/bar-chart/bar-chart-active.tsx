@@ -58,8 +58,8 @@ export function ChartBarActive() {
   return (
     <Card className="h-90">
       <CardHeader>
-        <CardTitle>Bar Chart - Active</CardTitle>
-        <CardDescription>January - June 2024</CardDescription>
+        <CardTitle>柱状图 - 活跃</CardTitle>
+        <CardDescription>Bar Chart - Active</CardDescription>
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig}>

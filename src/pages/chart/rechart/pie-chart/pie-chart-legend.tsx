@@ -56,8 +56,8 @@ export function ChartPieLegend() {
   return (
     <Card className="flex flex-col">
       <CardHeader className="items-center pb-0">
-        <CardTitle>Pie Chart - Legend</CardTitle>
-        <CardDescription>January - June 2024</CardDescription>
+        <CardTitle>饼图 - 图例</CardTitle>
+        <CardDescription>Pie Chart - Legend</CardDescription>
       </CardHeader>
       <CardContent className="flex-1 pb-0">
         <ChartContainer

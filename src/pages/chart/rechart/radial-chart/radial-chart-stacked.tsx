@@ -39,8 +39,8 @@ export function ChartRadialStacked() {
   return (
     <Card className="flex flex-col">
       <CardHeader className="items-center pb-0">
-        <CardTitle>Radial Chart - Stacked</CardTitle>
-        <CardDescription>January - June 2024</CardDescription>
+        <CardTitle>扇形图 - 堆叠</CardTitle>
+        <CardDescription>Radial Chart - Stacked</CardDescription>
       </CardHeader>
       <CardContent className="flex flex-1 items-center pb-0">
         <ChartContainer

@@ -4,18 +4,18 @@ import { TrendingUp } from "lucide-react"
 import { PolarAngleAxis, PolarGrid, Radar, RadarChart } from "recharts"
 
 import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardFooter,
-    CardHeader,
-    CardTitle,
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
 } from "@/components/ui/card"
 import {
-    ChartConfig,
-    ChartContainer,
-    ChartTooltip,
-    ChartTooltipContent,
+  ChartConfig,
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
 } from "@/components/ui/chart"
 
 export const description = "A radar chart with a custom label"
@@ -44,9 +44,9 @@ export function ChartRadarLabelCustom() {
   return (
     <Card className="flex flex-col">
       <CardHeader className="items-center pb-4">
-        <CardTitle>Radar Chart - Custom Label</CardTitle>
+        <CardTitle>雷达图 - 自定义标签</CardTitle>
         <CardDescription>
-          Showing total visitors for the last 6 months
+          Radar Chart - Custom Label
         </CardDescription>
       </CardHeader>
       <CardContent className="pb-0">

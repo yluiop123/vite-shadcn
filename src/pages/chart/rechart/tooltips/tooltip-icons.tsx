@@ -4,17 +4,17 @@ import { Footprints, Waves } from "lucide-react"
 import { Bar, BarChart, XAxis } from "recharts"
 
 import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardHeader,
-    CardTitle,
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
 } from "@/components/ui/card"
 import {
-    ChartConfig,
-    ChartContainer,
-    ChartTooltip,
-    ChartTooltipContent,
+  ChartConfig,
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
 } from "@/components/ui/chart"
 
 export const description = "A stacked bar chart with a legend"
@@ -45,8 +45,8 @@ export function ChartTooltipIcons() {
   return (
     <Card className="h-90">
       <CardHeader>
-        <CardTitle>Tooltip - Icons</CardTitle>
-        <CardDescription>Tooltip with icons.</CardDescription>
+        <CardTitle>提示 - 图标</CardTitle>
+        <CardDescription>Tooltip - Icons</CardDescription>
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig}>

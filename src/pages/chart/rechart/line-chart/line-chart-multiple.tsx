@@ -4,18 +4,18 @@ import { TrendingUp } from "lucide-react"
 import { CartesianGrid, Line, LineChart, XAxis } from "recharts"
 
 import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardFooter,
-    CardHeader,
-    CardTitle,
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
 } from "@/components/ui/card"
 import {
-    ChartConfig,
-    ChartContainer,
-    ChartTooltip,
-    ChartTooltipContent,
+  ChartConfig,
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
 } from "@/components/ui/chart"
 
 export const description = "A multiple line chart"
@@ -44,8 +44,8 @@ export function ChartLineMultiple() {
   return (
     <Card className="h-90">
       <CardHeader>
-        <CardTitle>Line Chart - Multiple</CardTitle>
-        <CardDescription>January - June 2024</CardDescription>
+        <CardTitle>折线图 - 多条折线</CardTitle>
+        <CardDescription>Line Chart - Multiple</CardDescription>
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig}>

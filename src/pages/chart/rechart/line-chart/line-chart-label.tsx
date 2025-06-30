@@ -4,18 +4,18 @@ import { TrendingUp } from "lucide-react"
 import { CartesianGrid, LabelList, Line, LineChart, XAxis } from "recharts"
 
 import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardFooter,
-    CardHeader,
-    CardTitle,
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
 } from "@/components/ui/card"
 import {
-    ChartConfig,
-    ChartContainer,
-    ChartTooltip,
-    ChartTooltipContent,
+  ChartConfig,
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
 } from "@/components/ui/chart"
 
 export const description = "A line chart with a label"
@@ -44,8 +44,8 @@ export function ChartLineLabel() {
   return (
     <Card className="h-90">
       <CardHeader>
-        <CardTitle>Line Chart - Label</CardTitle>
-        <CardDescription>January - June 2024</CardDescription>
+        <CardTitle>折线图 - 自定义标签</CardTitle>
+        <CardDescription>Line Chart - Label</CardDescription>
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig}>

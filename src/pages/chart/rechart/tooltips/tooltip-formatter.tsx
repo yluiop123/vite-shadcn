@@ -3,17 +3,17 @@
 import { Bar, BarChart, XAxis } from "recharts"
 
 import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardHeader,
-    CardTitle,
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
 } from "@/components/ui/card"
 import {
-    ChartConfig,
-    ChartContainer,
-    ChartTooltip,
-    ChartTooltipContent,
+  ChartConfig,
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
 } from "@/components/ui/chart"
 
 export const description = "A stacked bar chart with a legend"
@@ -42,8 +42,8 @@ export function ChartTooltipFormatter() {
   return (
     <Card className="h-90">
       <CardHeader>
-        <CardTitle>Tooltip - Formatter</CardTitle>
-        <CardDescription>Tooltip with custom formatter .</CardDescription>
+        <CardTitle>提示 - 格式化程序</CardTitle>
+        <CardDescription>Tooltip - Formatter</CardDescription>
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig}>

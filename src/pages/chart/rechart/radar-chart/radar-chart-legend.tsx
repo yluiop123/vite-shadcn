@@ -46,9 +46,9 @@ export function ChartRadarLegend() {
   return (
     <Card className="flex flex-col">
       <CardHeader className="items-center pb-4">
-        <CardTitle>Radar Chart - Legend</CardTitle>
+        <CardTitle>雷达图 - 图例</CardTitle>
         <CardDescription>
-          Showing total visitors for the last 6 months
+          Radar Chart - Legend
         </CardDescription>
       </CardHeader>
       <CardContent>

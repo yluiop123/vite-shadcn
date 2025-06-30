@@ -44,9 +44,9 @@ export function ChartAreaGradient() {
     return (
         <Card className="h-90">
             <CardHeader>
-                <CardTitle>Area Chart - Gradient</CardTitle>
+                <CardTitle>面积图 - 渐变色</CardTitle>
                 <CardDescription>
-                    Showing total visitors for the last 6 months
+                    Area Chart - Gradient
                 </CardDescription>
             </CardHeader>
             <CardContent>

@@ -58,8 +58,8 @@ export function ChartPieSeparatorNone() {
   return (
     <Card className="flex flex-col">
       <CardHeader className="items-center pb-0">
-        <CardTitle>Pie Chart - Separator None</CardTitle>
-        <CardDescription>January - June 2024</CardDescription>
+        <CardTitle>饼图 - 无分隔符</CardTitle>
+        <CardDescription>Pie Chart - Separator None</CardDescription>
       </CardHeader>
       <CardContent className="flex-1 pb-0">
         <ChartContainer

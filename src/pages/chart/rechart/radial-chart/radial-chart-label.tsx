@@ -58,8 +58,8 @@ export function ChartRadialLabel() {
   return (
     <Card className="flex flex-col">
       <CardHeader className="items-center pb-0">
-        <CardTitle>Radial Chart - Label</CardTitle>
-        <CardDescription>January - June 2024</CardDescription>
+        <CardTitle>扇形图 - 标签</CardTitle>
+        <CardDescription>Radial Chart - Label</CardDescription>
       </CardHeader>
       <CardContent className="flex-1 pb-0">
         <ChartContainer

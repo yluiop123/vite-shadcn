@@ -4,18 +4,18 @@ import { TrendingUp } from "lucide-react"
 import { Bar, BarChart, CartesianGrid, Cell, LabelList } from "recharts"
 
 import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardFooter,
-    CardHeader,
-    CardTitle,
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
 } from "@/components/ui/card"
 import {
-    ChartConfig,
-    ChartContainer,
-    ChartTooltip,
-    ChartTooltipContent,
+  ChartConfig,
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
 } from "@/components/ui/chart"
 
 export const description = "A bar chart with negative values"
@@ -39,8 +39,8 @@ export function ChartBarNegative() {
   return (
     <Card className="h-90">
       <CardHeader>
-        <CardTitle>Bar Chart - Negative</CardTitle>
-        <CardDescription>January - June 2024</CardDescription>
+        <CardTitle>柱状图 - 负数</CardTitle>
+        <CardDescription>Bar Chart - Negative</CardDescription>
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig}>

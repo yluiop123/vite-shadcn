@@ -58,8 +58,8 @@ export function ChartRadialSimple() {
   return (
     <Card className="flex flex-col">
       <CardHeader className="items-center pb-0">
-        <CardTitle>Radial Chart</CardTitle>
-        <CardDescription>January - June 2024</CardDescription>
+        <CardTitle>扇形图</CardTitle>
+        <CardDescription>Radial Chart</CardDescription>
       </CardHeader>
       <CardContent className="flex-1 pb-0">
         <ChartContainer

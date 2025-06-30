@@ -72,8 +72,8 @@ export function ChartPieStacked() {
   return (
     <Card className="flex flex-col">
       <CardHeader className="items-center pb-0">
-        <CardTitle>Pie Chart - Stacked</CardTitle>
-        <CardDescription>January - June 2024</CardDescription>
+        <CardTitle>饼图 - 堆叠</CardTitle>
+        <CardDescription>Pie Chart - Stacked</CardDescription>
       </CardHeader>
       <CardContent className="flex-1 pb-0">
         <ChartContainer

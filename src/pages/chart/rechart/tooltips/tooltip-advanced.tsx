@@ -3,17 +3,17 @@
 import { Bar, BarChart, XAxis } from "recharts"
 
 import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardHeader,
-    CardTitle,
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
 } from "@/components/ui/card"
 import {
-    ChartConfig,
-    ChartContainer,
-    ChartTooltip,
-    ChartTooltipContent,
+  ChartConfig,
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
 } from "@/components/ui/chart"
 
 export const description = "A stacked bar chart with a legend"
@@ -42,9 +42,9 @@ export function ChartTooltipAdvanced() {
   return (
     <Card className="h-90">
       <CardHeader>
-        <CardTitle>Tooltip - Advanced</CardTitle>
+        <CardTitle>提示 - 高级</CardTitle>
         <CardDescription>
-          Tooltip with custom formatter and total.
+          Tooltip - Advanced
         </CardDescription>
       </CardHeader>
       <CardContent>

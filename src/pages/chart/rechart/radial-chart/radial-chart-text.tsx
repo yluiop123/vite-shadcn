@@ -39,8 +39,8 @@ export function ChartRadialText() {
   return (
     <Card className="flex flex-col">
       <CardHeader className="items-center pb-0">
-        <CardTitle>Radial Chart - Text</CardTitle>
-        <CardDescription>January - June 2024</CardDescription>
+        <CardTitle>扇形图 - 文本</CardTitle>
+        <CardDescription>Radial Chart - Text</CardDescription>
       </CardHeader>
       <CardContent className="flex-1 pb-0">
         <ChartContainer

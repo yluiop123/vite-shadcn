@@ -48,9 +48,9 @@ export function ChartAreaStackedExpand() {
     return (
         <Card className="h-90">
             <CardHeader>
-                <CardTitle>Area Chart - Stacked Expanded</CardTitle>
+                <CardTitle>面积图 - 堆叠展开</CardTitle>
                 <CardDescription>
-                    Showing total visitors for the last 6months
+                    Area Chart - Stacked Expanded
                 </CardDescription>
             </CardHeader>
             <CardContent>

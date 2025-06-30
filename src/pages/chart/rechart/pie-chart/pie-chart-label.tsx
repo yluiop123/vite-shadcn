@@ -58,8 +58,8 @@ export function ChartPieLabel() {
   return (
     <Card className="flex flex-col">
       <CardHeader className="items-center pb-0">
-        <CardTitle>Pie Chart - Label</CardTitle>
-        <CardDescription>January - June 2024</CardDescription>
+        <CardTitle>饼图 - 自定义标签</CardTitle>
+        <CardDescription>Pie Chart - Label</CardDescription>
       </CardHeader>
       <CardContent className="flex-1 pb-0">
         <ChartContainer

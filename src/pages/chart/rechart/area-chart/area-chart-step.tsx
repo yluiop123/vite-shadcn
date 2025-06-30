@@ -41,9 +41,9 @@ export function ChartAreaStep() {
   return (
     <Card className="h-90">
       <CardHeader>
-        <CardTitle>Area Chart - Step</CardTitle>
+        <CardTitle>面积图 - 阶梯</CardTitle>
         <CardDescription>
-          Showing total visitors for the last 6 months
+          Area Chart - Step
         </CardDescription>
       </CardHeader>
       <CardContent>

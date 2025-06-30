@@ -40,9 +40,9 @@ export function ChartRadarGridCircleNoLines() {
   return (
     <Card>
       <CardHeader className="items-center pb-4">
-        <CardTitle>Radar Chart - Grid Circle - No lines</CardTitle>
+        <CardTitle>雷达图 - 网格圆点 - 无线</CardTitle>
         <CardDescription>
-          Showing total visitors for the last 6 months
+          Radar Chart - Grid Circle - No lines
         </CardDescription>
       </CardHeader>
       <CardContent className="pb-0">

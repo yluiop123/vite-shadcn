@@ -44,8 +44,8 @@ export function ChartBarMultiple() {
   return (
     <Card className="h-90">
       <CardHeader>
-        <CardTitle>Bar Chart - Multiple</CardTitle>
-        <CardDescription>January - June 2024</CardDescription>
+        <CardTitle>柱状图 - 多个</CardTitle>
+        <CardDescription>Bar Chart - Multiple</CardDescription>
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig}>

@@ -44,9 +44,9 @@ export function ChartAreaAxes() {
     return (
         <Card className="h-90">
             <CardHeader>
-                <CardTitle>Area Chart - Axes</CardTitle>
+                <CardTitle>面积图 - 坐标轴</CardTitle>
                 <CardDescription>
-                    Showing total visitors for the last 6 months
+                    Area Chart - Axes
                 </CardDescription>
             </CardHeader>
             <CardContent>

@@ -40,9 +40,9 @@ export function ChartAreaLinear() {
     return (
         <Card className="h-90">
             <CardHeader>
-                <CardTitle>Area Chart - Linear</CardTitle>
+                <CardTitle>面积图 - 线性</CardTitle>
                 <CardDescription>
-                    Showing total visitors for the last 6 months
+                    Area Chart - Linear
                 </CardDescription>
             </CardHeader>
             <CardContent>

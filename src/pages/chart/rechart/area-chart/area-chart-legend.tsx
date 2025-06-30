@@ -46,9 +46,9 @@ export function ChartAreaLegend() {
     return (
         <Card className="h-90">
             <CardHeader>
-                <CardTitle>Area Chart - Legend</CardTitle>
+                <CardTitle>面积图 - 图例</CardTitle>
                 <CardDescription>
-                    Showing total visitors for the last 6 months
+                    Area Chart - Legend
                 </CardDescription>
             </CardHeader>
             <CardContent>

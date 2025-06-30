@@ -47,8 +47,8 @@ export function ChartBarLabelCustom() {
   return (
     <Card className="h-90">
       <CardHeader>
-        <CardTitle>Bar Chart - Custom Label</CardTitle>
-        <CardDescription>January - June 2024</CardDescription>
+        <CardTitle>柱状图 - 自定义标签</CardTitle>
+        <CardDescription>Bar Chart - Custom Label</CardDescription>
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig}>

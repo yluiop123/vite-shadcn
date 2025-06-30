@@ -39,8 +39,8 @@ export function ChartRadialShape() {
   return (
     <Card className="flex flex-col">
       <CardHeader className="items-center pb-0">
-        <CardTitle>Radial Chart - Shape</CardTitle>
-        <CardDescription>January - June 2024</CardDescription>
+        <CardTitle>扇形图 - 形状</CardTitle>
+        <CardDescription>Radial Chart - Shape</CardDescription>
       </CardHeader>
       <CardContent className="flex-1 pb-0">
         <ChartContainer

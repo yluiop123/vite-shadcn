@@ -4,18 +4,18 @@ import { TrendingUp } from "lucide-react"
 import { PolarAngleAxis, Radar, RadarChart } from "recharts"
 
 import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardFooter,
-    CardHeader,
-    CardTitle,
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
 } from "@/components/ui/card"
 import {
-    ChartConfig,
-    ChartContainer,
-    ChartTooltip,
-    ChartTooltipContent,
+  ChartConfig,
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
 } from "@/components/ui/chart"
 
 export const description = "A radar chart with no grid"
@@ -40,9 +40,9 @@ export function ChartRadarGridNone() {
   return (
     <Card className="flex flex-col">
       <CardHeader className="items-center pb-4">
-        <CardTitle>Radar Chart - Grid None</CardTitle>
+        <CardTitle>雷达图 - 无网格</CardTitle>
         <CardDescription>
-          Showing total visitors for the last 6 months
+          Radar Chart - Grid None
         </CardDescription>
       </CardHeader>
       <CardContent className="pb-0">

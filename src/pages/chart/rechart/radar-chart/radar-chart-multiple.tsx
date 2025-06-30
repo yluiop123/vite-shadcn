@@ -44,9 +44,9 @@ export function ChartRadarMultiple() {
   return (
     <Card className="flex flex-col">
       <CardHeader className="items-center pb-4">
-        <CardTitle>Radar Chart - Multiple</CardTitle>
+        <CardTitle>雷达图 - 多数据</CardTitle>
         <CardDescription>
-          Showing total visitors for the last 6 months
+          Radar Chart - Multiple
         </CardDescription>
       </CardHeader>
       <CardContent className="pb-0">

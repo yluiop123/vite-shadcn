@@ -58,8 +58,8 @@ export function ChartBarMixed() {
   return (
     <Card className="h-90">
       <CardHeader>
-        <CardTitle>Bar Chart - Mixed</CardTitle>
-        <CardDescription>January - June 2024</CardDescription>
+        <CardTitle>柱状图 - 混合</CardTitle>
+        <CardDescription>Bar Chart - Mixed</CardDescription>
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig}>

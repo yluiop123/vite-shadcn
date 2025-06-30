@@ -3,17 +3,17 @@
 import { Bar, BarChart, XAxis } from "recharts"
 
 import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardHeader,
-    CardTitle,
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
 } from "@/components/ui/card"
 import {
-    ChartConfig,
-    ChartContainer,
-    ChartTooltip,
-    ChartTooltipContent,
+  ChartConfig,
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
 } from "@/components/ui/chart"
 
 export const description = "A stacked bar chart with a legend"
@@ -45,8 +45,8 @@ export function ChartTooltipIndicatorLine() {
   return (
     <Card className="h-90">
       <CardHeader>
-        <CardTitle>Tooltip - Line Indicator</CardTitle>
-        <CardDescription>Tooltip with line indicator.</CardDescription>
+        <CardTitle>提示 - 线指示器</CardTitle>
+        <CardDescription>Tooltip - Line Indicator</CardDescription>
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig}>

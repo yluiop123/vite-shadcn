@@ -45,9 +45,9 @@ export function ChartTooltipLabelCustom() {
   return (
     <Card className="h-90">
       <CardHeader>
-        <CardTitle>Tooltip - Custom label</CardTitle>
+        <CardTitle>提示 - 自定义标签</CardTitle>
         <CardDescription>
-          Tooltip with custom label from chartConfig.
+          Tooltip - Custom label
         </CardDescription>
       </CardHeader>
       <CardContent>

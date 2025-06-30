@@ -1,7 +1,7 @@
 "use client"
 
-import * as React from "react"
 import { TrendingUp } from "lucide-react"
+import * as React from "react"
 import { Label, Pie, PieChart } from "recharts"
 
 import {
@@ -63,8 +63,8 @@ export function ChartPieDonutText() {
   return (
     <Card className="h-flex flex-col">
       <CardHeader className="items-center pb-0">
-        <CardTitle>Pie Chart - Donut with Text</CardTitle>
-        <CardDescription>January - June 2024</CardDescription>
+        <CardTitle>饼图 - 带文本</CardTitle>
+        <CardDescription>Pie Chart - Donut with Text</CardDescription>
       </CardHeader>
       <CardContent className="flex-1 pb-0">
         <ChartContainer

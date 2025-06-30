@@ -40,8 +40,8 @@ export function ChartBarDefault() {
   return (
     <Card className="h-90">
       <CardHeader>
-        <CardTitle>Bar Chart</CardTitle>
-        <CardDescription>January - June 2024</CardDescription>
+        <CardTitle>柱状图</CardTitle>
+        <CardDescription>Bar Chart</CardDescription>
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig}>

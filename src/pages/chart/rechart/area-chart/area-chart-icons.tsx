@@ -48,9 +48,9 @@ export function ChartAreaIcons() {
     return (
         <Card className="h-90">
             <CardHeader>
-                <CardTitle>Area Chart - Icons</CardTitle>
+                <CardTitle>面积图 - 图标</CardTitle>
                 <CardDescription>
-                    Showing total visitors for the last 6 months
+                    Area Chart - Icons
                 </CardDescription>
             </CardHeader>
             <CardContent>

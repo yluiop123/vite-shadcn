@@ -40,9 +40,9 @@ export function ChartRadarGridFill() {
   return (
     <Card className="flex flex-col">
       <CardHeader className="items-center pb-4">
-        <CardTitle>Radar Chart - Grid Filled</CardTitle>
+        <CardTitle>雷达图 - 网格填充</CardTitle>
         <CardDescription>
-          Showing total visitors for the last 6 months
+          Radar Chart - Grid Filled
         </CardDescription>
       </CardHeader>
       <CardContent className="pb-0">

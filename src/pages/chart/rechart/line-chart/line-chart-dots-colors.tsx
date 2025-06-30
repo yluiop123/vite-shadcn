@@ -4,18 +4,18 @@ import { TrendingUp } from "lucide-react"
 import { CartesianGrid, Dot, Line, LineChart } from "recharts"
 
 import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardFooter,
-    CardHeader,
-    CardTitle,
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
 } from "@/components/ui/card"
 import {
-    ChartConfig,
-    ChartContainer,
-    ChartTooltip,
-    ChartTooltipContent,
+  ChartConfig,
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
 } from "@/components/ui/chart"
 
 export const description = "A line chart with dots and colors"
@@ -59,8 +59,8 @@ export function ChartLineDotsColors() {
   return (
     <Card className="h-90">
       <CardHeader>
-        <CardTitle>Line Chart - Dots Colors</CardTitle>
-        <CardDescription>January - June 2024</CardDescription>
+        <CardTitle>折线图 - 自定义点颜色</CardTitle>
+        <CardDescription>Line Chart - Dots Colors</CardDescription>
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig}>
