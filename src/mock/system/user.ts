@@ -63,11 +63,9 @@ const handlers = [
     const id = params.id;
     console.log(id);
     return HttpResponse.json({
-        code: 200,
-        data: {
-          code:'S',
-          message:localeMap[locale]['success'],
-        }}
+          code:200,
+          message:localeMap[locale]['success']
+        }
       )
   })
 ];

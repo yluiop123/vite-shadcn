@@ -1,5 +1,5 @@
 import { notify } from "@/lib/notify";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 const BASE_API = import.meta.env.VITE_BASE_API || '/api/'
 const instance = axios.create({
   baseURL: BASE_API, // 根据环境配置
@@ -23,8 +23,8 @@ instance.interceptors.request.use(
     }
     return config;
   },
-  (error) => {
-    notify.error("请求发送失败");
+  (error:AxiosError) => {
+    notify.error(error.message ||"请求发送失败");
     Promise.reject(error);
   }
 );
@@ -37,8 +37,8 @@ instance.interceptors.response.use(
     }
     return data;
   },
-  (error) => {
-    notify.error(error?.response?.data?.message || "网络异常");
+  (error:AxiosError) => {
+    notify.error(error.message || "网络异常");
     return Promise.reject(error);
   }
 );

@@ -41,14 +41,26 @@ export default function User() {
 
     const intl = useIntl();
     const statusEnum = new Map([["0", "停用"], ["1", "启用"]]);
-    const [page, setPage] = useState(1);
-    const [size] = useState(10);
-    // const [username, setUsername] = useState("");
-    const [filterField, setFilterField] = useState("username");
-    const [filterValue, setFilterValue] = useState("");
+    type TableParams = {
+        page: number
+        size: number
+        filterField: string
+        filterValue: string
+    }
+    const [params, setParams] = useState({
+        page: 1,
+        size: 10,
+        filterField: 'name',
+        filterValue: '',
+    } as TableParams);
     useEffect(() => {
-        fetchData(page, size, filterField, filterValue); // 初次加载
-    }, [page, size, filterField, filterValue]);
+        function fetchData(params: TableParams) {
+            axios.post("/system/users", params).then(res => {
+                setData(res.data);
+            })
+        }
+        fetchData(params); // 初次加载
+    }, [params]);
     const [data, setData] = useState<{
         list: User[]
         total: number
@@ -56,16 +68,7 @@ export default function User() {
         list: [],
         total: 0,
     })
-    function fetchData(page = 1, size = 10, filterField = "username", filterValue = "") {
-        axios.post("/system/users", {
-            page,
-            size,
-            filterField,
-            filterValue,
-        }).then(res => {
-            setData(res.data);
-        })
-    }
+
     function handleEdit(row: User) {
         console.log(row);
 
@@ -79,10 +82,8 @@ export default function User() {
     function handleDelete(row: User) {
         axios.delete("/system/users/" + row.id).then(res => {
             if (res.data.code === "S") {
-                fetchData(page, size, filterField, filterValue);
+                setParams({...params,page:1});
                 toast.success(res.data.message);
-            } else {
-                toast.error(res.data.message);
             }
         })
 
@@ -247,25 +248,34 @@ export default function User() {
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <Button variant="outline" className="ml-auto">
-                            {intl.formatMessage({ id: 'table.columns' })} <ChevronDown />
-
+                            {table
+                            .getAllColumns().filter((column) => column.id == params.filterField).map((column) => {
+                                const header = column.columnDef.header;
+                                const meta = column.columnDef.meta as { title: string };
+                                const headerText = typeof header === 'string' || typeof header === 'number' ? header : meta.title;
+                                return (
+                                    <div key={column.id}>
+                                        {headerText}
+                                    </div>
+                                )
+                            })}<ChevronDown />
                         </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="start">
                         {table
                             .getAllColumns()
-                            .filter((column) => !['select','actions'].includes(column.id))
+                            .filter((column) => !['select', 'actions'].includes(column.id))
                             .map((column) => {
                                 const header = column.columnDef.header;
-                                const meta = column.columnDef.meta as {title:string};
-                                const headerText = typeof header === 'string' || typeof header === 'number'? header: meta.title;
+                                const meta = column.columnDef.meta as { title: string };
+                                const headerText = typeof header === 'string' || typeof header === 'number' ? header : meta.title;
                                 return (
                                     <DropdownMenuCheckboxItem
                                         key={column.id}
                                         className="capitalize"
-                                        checked={column.id==filterField}
+                                        checked={column.id == params.filterField}
                                         onCheckedChange={(value) =>
-                                            setFilterField(value?column.id:'')
+                                            setParams({ ...params, filterField: value ? column.id : '' })
                                         }
                                     >
                                         {headerText}
@@ -276,9 +286,9 @@ export default function User() {
                 </DropdownMenu>
                 <Input
                     placeholder={intl.formatMessage({ id: 'table.filterField' })}
-                    value={filterValue}
+                    value={params.filterValue}
                     onChange={(event) =>
-                        setFilterValue(event.target.value)
+                        setParams({ ...params, filterValue: event.target.value })
                     }
                     className="max-w-sm"
                 />
@@ -303,7 +313,7 @@ export default function User() {
                                             column.toggleVisibility(!!value)
                                         }
                                     >
-                                        {typeof header === 'string' || typeof header === 'number'? header: column.id}
+                                        {typeof header === 'string' || typeof header === 'number' ? header : column.id}
                                     </DropdownMenuCheckboxItem>
                                 )
                             })}
@@ -366,13 +376,13 @@ export default function User() {
                     {data.total} row(s) selected.
                 </div>
                 <div className="space-x-2">
-                    {page} /{" "}
-                    {Math.ceil(data.total / size)}{"   "}
+                    {params.page} /{" "}
+                    {Math.ceil(data.total / params.size)}{"   "}
                     <Button
                         variant="outline"
                         size="sm"
-                        onClick={() => setPage(page - 1)}
-                        disabled={page === 1}
+                        onClick={() => setParams({ ...params, page: params.page - 1 })}
+                        disabled={params.page === 1}
                     >
                         {intl.formatMessage({ id: 'table.previous' })}
 
@@ -380,8 +390,8 @@ export default function User() {
                     <Button
                         variant="outline"
                         size="sm"
-                        onClick={() => setPage(page + 1)}
-                        disabled={page * size >= data.total}
+                        onClick={() => setParams({ ...params, page: params.page + 1 })}
+                        disabled={params.page * params.size >= data.total}
                     >
                         {intl.formatMessage({ id: 'table.next' })}
 
