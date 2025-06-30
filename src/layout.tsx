@@ -2,7 +2,7 @@ import { AppSidebar } from "@/components/app-sidebar";
 import { SiteHeader } from "@/components/site-header";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { useUserStore } from '@/store';
-import { Suspense, useEffect, useState } from 'react';
+import { Suspense, useEffect, useRef, useState } from 'react';
 import { Outlet, useLocation, useNavigate } from "react-router";
 //根据用户登录信息进行权限控制
 export default function Index() {
@@ -10,15 +10,22 @@ export default function Index() {
     const navigate = useNavigate();
     const location = useLocation();
     const [loading, setLoading] = useState(true);
+    const hasFetchedRef = useRef(false);
     useEffect(() => {
         const check = async () => {
-            if (token && !userInfo&&loading) {
-                await fetchUser(); // ✅ 这里能拿到 userInfo
+            if (token && !userInfo) {
+                if (!hasFetchedRef.current) {
+                    hasFetchedRef.current = true;
+                    await fetchUser().finally(() => {
+                        setLoading(false);
+                    }); // ✅ 这里能拿到 userInfo
+                }
+            } else {
+                setLoading(false);
             }
-            setLoading(false);
         };
         check();
-    }, [userInfo, token, fetchUser,loading]);
+    }, [userInfo, token, fetchUser]);
     if (loading) return <div>Loading...</div>;
 
     // 没有登录或没有权限
