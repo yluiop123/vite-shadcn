@@ -25,6 +25,7 @@ npm run dev
 | `lint` | `eslint .` |
 | `preview` | `vite preview` |
 | `preview:github` | `vite preview --mode github` |
+| `analyze` | `cross-env ANALYZE=true vite build` |
 | `readme` | `node ./readme/readme.js && node ./readme/readme-zh-CN.js` |
 
 ## 📦 依赖
@@ -84,11 +85,13 @@ npm run dev
   - @types/react: ^19.1.1
   - @types/react-dom: ^19.1.2
   - @vitejs/plugin-react-swc: ^3.8.1
+  - cross-env: ^7.0.3
   - eslint: ^9.24.0
   - eslint-plugin-react-hooks: ^5.2.0
   - eslint-plugin-react-refresh: ^0.4.19
   - globals: ^16.0.0
   - msw: ^2.10.2
+  - rollup-plugin-visualizer: ^6.0.3
   - typescript: ~5.8.3
   - typescript-eslint: ^8.29.1
   - vite: ^6.2.6
