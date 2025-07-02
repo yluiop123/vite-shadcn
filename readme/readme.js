@@ -26,6 +26,96 @@ npm install
 npm run dev
 \`\`\`
 
+## ✅ Task List
+
+- [x] Initialize the project
+- [x] Set up environment: Vite + React + TypeScript + React Router + Zustand + Axios + MSW + ShadCN
+- [x] Implement dynamic permission-based routing
+- [x] Internationalization, theme color switching, and dark mode
+
+<details>
+<summary>Login and Route Permission Control</summary>
+
+  - [x] Login functionality
+  - [x] Route access control
+  - [x] Role switching (supports fusion mode)
+
+</details>
+
+<details>
+<summary>Dashboard</summary>
+
+  - [x] Basic dashboard
+  - [ ] Situational Awareness - Cybersecurity
+  - [ ] Situational Awareness - Military
+  - [ ] Disaster Command
+  - [ ] Agriculture and Forestry Management
+  - [ ] Industrial Management
+
+</details>
+
+<details>
+<summary>Component Library</summary>
+
+  - [ ] General components
+  - [ ] Form components (react-hook-form)
+  - [ ] Table components (tanstack/react-table)
+  - [ ] Custom components
+
+</details>
+
+<details>
+<summary>Charts</summary>
+
+  - [x] Recharts components
+  - [x] ECharts components
+  - [x] D3 components
+  - [ ] AntV components
+
+</details>
+
+<details>
+<summary>3D</summary>
+
+  - [ ] Babylon  
+  - [ ] Three.js
+
+</details>
+
+<details>
+<summary>Map</summary>
+
+  - [ ] Cesium  
+  - [ ] Deck.gl  
+  - [ ] L7  
+  - [ ] Mapbox  
+  - [ ] OpenLayers
+
+</details>
+
+<details>
+<summary>System Management</summary>
+
+  - [x] User Management  
+  - [ ] Role Management  
+  - [ ] Menu Management  
+  - [ ] Permission Management  
+  - [ ] Department Management  
+  - [ ] Log Management  
+  - [ ] System Settings  
+  - [ ] Dictionary Management
+
+</details>
+
+<details>
+<summary>Backend Plan</summary>
+
+  - [ ] Develop backend APIs using Spring Boot  
+  - [ ] Implement microservices
+
+</details>
+
+
 ## 🛠️ command
 
 | command | description             |

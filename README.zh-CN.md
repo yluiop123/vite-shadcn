@@ -15,6 +15,79 @@ npm install
 npm run dev
 ```
 
+## ✅ 项目开发任务清单
+
+- [x] 初始化项目
+- [x] 配置 Vite + React + TypeScript + React-Router + Zustand + Axios + MSW +ShadCN 环境
+- [x] 动态权限路由加载
+- [x] 国际化、主题色切换、暗黑模式
+<details>
+<summary>登录和路由权限控制</summary>
+
+  - [x] 登录功能
+  - [x] 路由权限控制
+  - [x] 角色切换（支持融合模式）
+</details>
+<details>
+<summary>仪表盘</summary>
+
+  - [x] 基本仪表盘
+  - [ ] 态势感知-网络安全
+  - [ ] 态势感知-军事
+  - [ ] 灾情指挥
+  - [ ] 农林业管理
+  - [ ] 工业管理
+</details>
+<details>
+<summary>组件库</summary>
+
+  - [ ] 普通组件
+  - [ ] react-hook-form 表单组件
+  - [ ] tanstack/react-table 表格组件
+  - [ ] 自定义组件
+</details>
+<details>
+<summary>图表</summary>
+
+  - [x] Rechart 图表组件
+  - [x] Echart 图表组件
+  - [x] D3 图表组件
+  - [ ] Antv 图表组件
+</details>
+<details>
+<summary>三维</summary>
+
+  - [ ] Babylon  
+  - [ ] Three
+</details>
+<details>
+<summary>地图</summary>
+
+  - [ ] Cesium地图  
+  - [ ] Deckgl地图
+  - [ ] L7地图  
+  - [ ] Mapbox地图
+  - [ ] Openlayers地图
+</details>
+<details>
+<summary>系统管理</summary>
+
+  - [x] 用户管理  
+  - [ ] 角色管理
+  - [ ] 菜单管理  
+  - [ ] 权限管理
+  - [ ] 部门管理
+  - [ ] 日志管理
+  - [ ] 系统配置
+  - [ ] 字典管理
+</details>
+<details>
+<summary>后端规划</summary>
+
+  - [ ] springboot实现后端接口
+  - [ ] 实现微服务
+</details>
+
 ## 🛠️ 脚本命令
 
 | 命令        | 描述             |
