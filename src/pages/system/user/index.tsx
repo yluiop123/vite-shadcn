@@ -93,8 +93,8 @@ export default function User() {
         name: string
         username: string
         email: string
-        dept: string
-        deptName: string
+        group: string
+        groupName: string
         defaultRole: string
         status: "0" | "1"
         create: string
@@ -172,10 +172,10 @@ export default function User() {
             ),
         },
         {
-            accessorKey: "deptName",
-            header: intl.formatMessage({ id: 'page.system.user.header.deptName' }),
+            accessorKey: "groupName",
+            header: intl.formatMessage({ id: 'page.system.user.header.groupName' }),
             cell: ({ row }) => (
-                <div >{row.getValue("deptName")}</div>
+                <div >{row.getValue("groupName")}</div>
             ),
         },
         {

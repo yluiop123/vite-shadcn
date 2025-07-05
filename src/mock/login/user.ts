@@ -7,7 +7,7 @@ const zh ={
     'user':'普通用户',
     'username.error':'用户名错误',
     'password.error':'密码错误',
-    'deptName':'研发部',
+    'groupName':'研发部',
 }
 const en ={
     'super':'Super',
@@ -15,7 +15,7 @@ const en ={
     'user':'User',
     'username.error':'username error',
     'password.error':'password error',
-    'deptName':'Develop',
+    'groupName':'Develop',
 }
 const localeMap: Record<string, Record<string, string>> = {
   zh,
@@ -30,8 +30,8 @@ const handlers = [
         data: {
           username: "super",
           email: "yluiop123@qq.com",
-          dept: "01",
-          deptName: localeMap[locale]["deptName"],
+          group: "01",
+          groupName: localeMap[locale]["groupName"],
           name: "YL",
           defaultRole: "super",
           roles: [
@@ -61,7 +61,7 @@ const handlers = [
             { path: "/system/role", role: "super", type: "menu" },
             { path: "/system/menu", role: "super", type: "menu" },
             { path: "/system/permission", role: "super", type: "menu" },
-            { path: "/system/dept", role: "super", type: "menu" },
+            { path: "/system/group", role: "super", type: "menu" },
             //supper action permissions
             {
               path: "/system/user",
@@ -118,19 +118,19 @@ const handlers = [
               type: "action",
             },
             {
-              path: "/system/dept",
+              path: "/system/group",
               role: "super",
               action: "add",
               type: "action",
             },
             {
-              path: "/system/dept",
+              path: "/system/group",
               role: "super",
               action: "delete",
               type: "action",
             },
             {
-              path: "/system/dept",
+              path: "/system/group",
               role: "super",
               action: "edit",
               type: "action",
@@ -160,7 +160,7 @@ const handlers = [
             { path: "/system/role", role: "admin", type: "menu" },
             { path: "/system/menu", role: "admin", type: "menu" },
             { path: "/system/permission", role: "admin", type: "menu" },
-            { path: "/system/dept", role: "admin", type: "menu" },
+            { path: "/system/group", role: "admin", type: "menu" },
             //admin action permissions
            {
               path: "/system/user",
@@ -217,19 +217,19 @@ const handlers = [
               type: "action",
             },
             {
-              path: "/system/dept",
+              path: "/system/group",
               role: "admin",
               action: "add",
               type: "action",
             },
             {
-              path: "/system/dept",
+              path: "/system/group",
               role: "admin",
               action: "delete",
               type: "action",
             },
             {
-              path: "/system/dept",
+              path: "/system/group",
               role: "admin",
               action: "edit",
               type: "action",
@@ -272,19 +272,19 @@ const handlers = [
               type: "action",
             },
             {
-              path: "/system/dept",
+              path: "/system/group",
               role: "admin",
               action: "add",
               type: "action",
             },
             {
-              path: "/system/dept",
+              path: "/system/group",
               role: "admin",
               action: "delete",
               type: "action",
             },
             {
-              path: "/system/dept",
+              path: "/system/group",
               role: "admin",
               action: "edit",
               type: "action",

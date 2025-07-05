@@ -2,12 +2,12 @@ import { http, HttpResponse } from 'msw';
 
 const zh ={
     'user':'用户',
-    'dept':'部门',
+    'group':'部门',
     'success':'成功',
 }
 const en ={
     'user':'User',
-    'dept':'Dept',
+    'group':'Group',
     'success':'Success',
 }
 const localeMap: Record<string, Record<string, string>> = {
@@ -19,8 +19,8 @@ type User = {
     name: string
     username: string
     email: string
-    dept: string
-    deptName: string
+    group: string
+    groupName: string
     defaultRole: string
     status: "0" | "1"
     create: string
@@ -30,7 +30,7 @@ type User = {
 const handlers = [
   http.post<never, never>('/api/system/users', async ({ request }) => {
     const locale = request.headers.get("locale") || "zh";
-    const dept = localeMap[locale]['dept'];
+    const group = localeMap[locale]['group'];
     const user = localeMap[locale]['user'];
     const body = await request.clone().json();
     const {filterField,filterValue,page,size} = body;
@@ -39,8 +39,8 @@ const handlers = [
     name: `${user}${i + 1}`,
     username: `user${i + 1}`,
     email: `user${i + 1}@example.com`,
-    dept: "01",
-    deptName: dept+"1",
+    group: "01",
+    groupName: group+"1",
     defaultRole: "0000001",
     status: "0",
     phone: `${13800000000 + i}`,

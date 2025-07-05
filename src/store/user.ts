@@ -9,8 +9,8 @@ type Permission = {
 type UserInfo = {
   username?: string;
   email?: string;
-  dept?: string;
-  deptName?: string;
+  group?: string;
+  groupName?: string;
   name?: string;
   defaultRole?: string;
   roles?: {

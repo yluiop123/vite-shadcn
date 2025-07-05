@@ -32,6 +32,7 @@ npm run dev
 - [x] 配置 Vite + React + TypeScript + React-Router + Zustand + Axios + MSW +ShadCN 环境
 - [x] 动态权限路由加载
 - [x] 国际化、主题色切换、暗黑模式
+- [ ] 多布局
 <details>
 <summary>登录和路由权限控制</summary>
 

@@ -15,7 +15,7 @@ npm install
 npm run dev
 ```
 
-## ✅ Project Development Task List
+## ✅ Task List
 
 - [x] Initialize the project
 - [x] Set up environment: Vite + React + TypeScript + React Router + Zustand + Axios + MSW + ShadCN

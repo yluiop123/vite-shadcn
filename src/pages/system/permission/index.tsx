@@ -34,7 +34,7 @@ import {
 } from "@/components/ui/table"
 import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react"
 const statusEnum = new Map([["0", "停用"], ["1", "启用"]]);
-const data: Dept[] = [
+const data: Group[] = [
     {
         name: "角色1",
         id: "0000001",
@@ -79,7 +79,7 @@ const data: Dept[] = [
     },
 ]
 
-type Dept = {
+type Group = {
     name: string
     id: string
     status: "0" | "1"
@@ -87,7 +87,7 @@ type Dept = {
     create: string
 }
 
-const columns: ColumnDef<Dept>[] = [
+const columns: ColumnDef<Group>[] = [
     {
         id: "select",
         header: ({ table }) => (
@@ -178,7 +178,7 @@ const columns: ColumnDef<Dept>[] = [
     }
 ]
 
-export default function Dept() {
+export default function Group() {
     const [sorting, setSorting] = React.useState<SortingState>([])
     const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
         []
