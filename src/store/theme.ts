@@ -1,5 +1,8 @@
 import { create } from "zustand";
-
+const defaultTheme = {
+  mode: "dark" as Mode,
+  color: "default" as Color,
+}
 export type Mode = "light" | "dark";
 export type Color =
   | "default"
@@ -19,11 +22,11 @@ interface ThemeStore {
 }
 function getInitialMode(): Mode {
   if (typeof window === "undefined"){
-    localStorage.setItem("theme-mode", "light");
-    return "light";
+    localStorage.setItem("theme-mode", defaultTheme.mode);
+    return defaultTheme.mode;
   } else if (!localStorage.getItem("theme-mode")) {
-    localStorage.setItem("theme-mode", "light");
-    return "light";
+    localStorage.setItem("theme-mode", defaultTheme.mode);
+    return defaultTheme.mode;
   }else{
     return localStorage.getItem("theme-mode") as Mode;  
   }
@@ -31,13 +34,13 @@ function getInitialMode(): Mode {
 
 function getInitialColor(): Color {
   if (typeof window === "undefined"){
-    localStorage.setItem("theme-color", "default");
-    return "default";
+    localStorage.setItem("theme-color", defaultTheme.color);
+    return defaultTheme.color;
   }else if (!localStorage.getItem("theme-color")) {
-    localStorage.setItem("theme-color", "default");
-    return "default";
+    localStorage.setItem("theme-color", defaultTheme.color);
+    return defaultTheme.color;
   }else{
-    return (localStorage.getItem("theme-color") as Color) || "default";
+    return (localStorage.getItem("theme-color") as Color) || defaultTheme.color;
   }
 }
 function setModeColor(color: Color, mode: Mode): void {
