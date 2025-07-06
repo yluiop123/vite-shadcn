@@ -1,3 +1,27 @@
+import { GroupTreeSelectPopover } from "@/components/group-tree-select-popver";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+import {
+    DropdownMenu,
+    DropdownMenuCheckboxItem,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuRadioGroup,
+    DropdownMenuRadioItem,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Input } from "@/components/ui/input";
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from "@/components/ui/table";
+import axios from "@/lib/axios";
 import {
     ColumnDef,
     ColumnFiltersState,
@@ -9,36 +33,15 @@ import {
     SortingState,
     useReactTable,
     VisibilityState,
-} from "@tanstack/react-table"
-import * as React from "react"
+} from "@tanstack/react-table";
+import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react";
+import * as React from "react";
+import { useEffect, useState } from "react";
+import { useIntl } from "react-intl";
+import { toast } from "sonner";
 
-import { Button } from "@/components/ui/button"
-import { Checkbox } from "@/components/ui/checkbox"
-import {
-    DropdownMenu,
-    DropdownMenuCheckboxItem,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { Input } from "@/components/ui/input"
-import {
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
-} from "@/components/ui/table"
-import axios from "@/lib/axios"
-import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react"
-import { useEffect, useState } from "react"
-import { useIntl } from "react-intl"
-import { toast } from "sonner"
+
 export default function User() {
-
     const intl = useIntl();
     const statusEnum = new Map([["0", "停用"], ["1", "启用"]]);
     type TableParams = {
@@ -46,13 +49,18 @@ export default function User() {
         size: number
         filterField: string
         filterValue: string
+        group: string
+        groupName:string
     }
     const [params, setParams] = useState({
         page: 1,
         size: 10,
         filterField: 'name',
         filterValue: '',
+        group: '',
+        groupName:''
     } as TableParams);
+
     useEffect(() => {
         function fetchData(params: TableParams) {
             axios.post("/system/users", params).then(res => {
@@ -82,7 +90,7 @@ export default function User() {
     function handleDelete(row: User) {
         axios.delete("/system/users/" + row.id).then(res => {
             if (res.data.code === "S") {
-                setParams({...params,page:1});
+                setParams({ ...params, page: 1 });
                 toast.success(res.data.message);
             }
         })
@@ -245,43 +253,50 @@ export default function User() {
     return (
         <div className="w-full">
             <div className="flex items-center py-3">
+                <GroupTreeSelectPopover
+                onSelect={(node) => {
+                    if(node.length>0){
+                        setParams({ ...params, group: node[0].data.id,groupName:node[0].data.name })
+                    }
+                }} />
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <Button variant="outline" className="ml-auto">
                             {table
-                            .getAllColumns().filter((column) => column.id == params.filterField).map((column) => {
-                                const header = column.columnDef.header;
-                                const meta = column.columnDef.meta as { title: string };
-                                const headerText = typeof header === 'string' || typeof header === 'number' ? header : meta.title;
-                                return (
-                                    <div key={column.id}>
-                                        {headerText}
-                                    </div>
-                                )
-                            })}<ChevronDown />
+                                .getAllColumns().filter((column) => column.id == params.filterField).map((column) => {
+                                    const header = column.columnDef.header;
+                                    const meta = column.columnDef.meta as { title: string };
+                                    const headerText = typeof header === 'string' || typeof header === 'number' ? header : meta.title;
+                                    return (
+                                        <div key={column.id}>
+                                            {headerText}
+                                        </div>
+                                    )
+                                })}<ChevronDown />
                         </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="start">
-                        {table
-                            .getAllColumns()
-                            .filter((column) => !['select', 'actions'].includes(column.id))
-                            .map((column) => {
-                                const header = column.columnDef.header;
-                                const meta = column.columnDef.meta as { title: string };
-                                const headerText = typeof header === 'string' || typeof header === 'number' ? header : meta.title;
-                                return (
-                                    <DropdownMenuCheckboxItem
-                                        key={column.id}
-                                        className="capitalize"
-                                        checked={column.id == params.filterField}
-                                        onCheckedChange={(value) =>
-                                            setParams({ ...params, filterField: value ? column.id : '' })
-                                        }
-                                    >
-                                        {headerText}
-                                    </DropdownMenuCheckboxItem>
-                                )
-                            })}
+                        <DropdownMenuRadioGroup value={params.filterField} onValueChange={(value) =>
+                            setParams({ ...params, filterField: value })
+                        }>
+                            {table
+                                .getAllColumns()
+                                .filter((column) => !['select', 'actions','groupName'].includes(column.id))
+                                .map((column) => {
+                                    const header = column.columnDef.header;
+                                    const meta = column.columnDef.meta as { title: string };
+                                    const headerText = typeof header === 'string' || typeof header === 'number' ? header : meta.title;
+                                    return (
+                                        <DropdownMenuRadioItem
+                                            key={column.id}
+                                            className="capitalize"
+                                            value={column.id}
+                                        >
+                                            {headerText}
+                                        </DropdownMenuRadioItem >
+                                    )
+                                })}
+                        </DropdownMenuRadioGroup>
                     </DropdownMenuContent>
                 </DropdownMenu>
                 <Input

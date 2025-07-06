@@ -21,7 +21,7 @@ npm run dev
 - [x] Set up environment: Vite + React + TypeScript + React Router + Zustand + Axios + MSW + ShadCN
 - [x] Implement dynamic permission-based routing
 - [x] Internationalization, theme color switching, and dark mode
-
+- [ ] Multiple layouts
 <details>
 <summary>Login and Route Permission Control</summary>
 
@@ -89,7 +89,7 @@ npm run dev
   - [ ] Role Management  
   - [ ] Menu Management  
   - [ ] Permission Management  
-  - [ ] Department Management  
+  - [ ] Group Management  
   - [ ] Log Management  
   - [ ] System Settings  
   - [ ] Dictionary Management

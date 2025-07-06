@@ -100,7 +100,7 @@ npm run dev
   - [ ] Role Management  
   - [ ] Menu Management  
   - [ ] Permission Management  
-  - [ ] Department Management  
+  - [ ] Group Management  
   - [ ] Log Management  
   - [ ] System Settings  
   - [ ] Dictionary Management
