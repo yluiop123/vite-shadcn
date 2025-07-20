@@ -30,12 +30,12 @@ instance.interceptors.request.use(
 );
 instance.interceptors.response.use(
   (response) => {
-    const { data } = response;
+    const data = response.data;
     if (data.code !== 200) {
       notify.error(data.message || "请求错误");
       return Promise.reject(data);
     }
-    return data;
+    return response;
   },
   (error:AxiosError) => {
     notify.error(error.message || "网络异常");

@@ -7,12 +7,17 @@ import {
     DropdownMenuContent,
     DropdownMenuItem,
     DropdownMenuLabel,
-    DropdownMenuRadioGroup,
-    DropdownMenuRadioItem,
     DropdownMenuSeparator,
-    DropdownMenuTrigger,
+    DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select";
 import {
     Table,
     TableBody,
@@ -40,7 +45,6 @@ import { useEffect, useState } from "react";
 import { useIntl } from "react-intl";
 import { toast } from "sonner";
 
-
 export default function User() {
     const intl = useIntl();
     const statusEnum = new Map([["0", "停用"], ["1", "启用"]]);
@@ -50,7 +54,7 @@ export default function User() {
         filterField: string
         filterValue: string
         group: string
-        groupName:string
+        groupName: string
     }
     const [params, setParams] = useState({
         page: 1,
@@ -58,13 +62,13 @@ export default function User() {
         filterField: 'name',
         filterValue: '',
         group: '',
-        groupName:''
+        groupName: ''
     } as TableParams);
 
     useEffect(() => {
         function fetchData(params: TableParams) {
             axios.post("/system/users", params).then(res => {
-                setData(res.data);
+                setData(res.data.data);
             })
         }
         fetchData(params); // 初次加载
@@ -89,10 +93,8 @@ export default function User() {
     }
     function handleDelete(row: User) {
         axios.delete("/system/users/" + row.id).then(res => {
-            if (res.data.code === "S") {
-                setParams({ ...params, page: 1 });
-                toast.success(res.data.message);
-            }
+            setParams({ ...params, page: 1 });
+            toast.success(res.data.message);
         })
 
     }
@@ -249,56 +251,37 @@ export default function User() {
             rowSelection,
         },
     })
-
     return (
         <div className="w-full">
-            <div className="flex items-center py-3">
+            <div className="flex items-center py-3 gap-4">
                 <GroupTreeSelectPopover
-                onSelect={(node) => {
-                    if(node.length>0){
-                        setParams({ ...params, group: node[0].data.id,groupName:node[0].data.name })
-                    }
-                }} />
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button variant="outline" className="ml-auto">
-                            {table
-                                .getAllColumns().filter((column) => column.id == params.filterField).map((column) => {
-                                    const header = column.columnDef.header;
-                                    const meta = column.columnDef.meta as { title: string };
-                                    const headerText = typeof header === 'string' || typeof header === 'number' ? header : meta.title;
-                                    return (
-                                        <div key={column.id}>
-                                            {headerText}
-                                        </div>
-                                    )
-                                })}<ChevronDown />
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="start">
-                        <DropdownMenuRadioGroup value={params.filterField} onValueChange={(value) =>
-                            setParams({ ...params, filterField: value })
-                        }>
-                            {table
-                                .getAllColumns()
-                                .filter((column) => !['select', 'actions','groupName'].includes(column.id))
-                                .map((column) => {
-                                    const header = column.columnDef.header;
-                                    const meta = column.columnDef.meta as { title: string };
-                                    const headerText = typeof header === 'string' || typeof header === 'number' ? header : meta.title;
-                                    return (
-                                        <DropdownMenuRadioItem
-                                            key={column.id}
-                                            className="capitalize"
-                                            value={column.id}
-                                        >
-                                            {headerText}
-                                        </DropdownMenuRadioItem >
-                                    )
-                                })}
-                        </DropdownMenuRadioGroup>
-                    </DropdownMenuContent>
-                </DropdownMenu>
+                    onChange={(node) => {
+                        if (node.length > 0) {
+                            setParams({ ...params, group: node[0].id, groupName: node[0].name })
+                        }
+                    }}
+                />
+                <Select
+                    onValueChange={(value) =>
+                        setParams({ ...params, filterField: value })
+                    } defaultValue={params.filterField}>
+                    <SelectTrigger className="flex items-center">
+                        <SelectValue placeholder="FilterField" />
+                    </SelectTrigger>
+                    <SelectContent>
+                        {table
+                            .getAllColumns()
+                            .filter((column) => ['name', 'username', 'email', 'phone'].includes(column.id))
+                            .map((column) => {
+                                const header = column.columnDef.header;
+                                const meta = column.columnDef.meta as { title: string };
+                                const headerText = typeof header === 'string' || typeof header === 'number' ? header : meta.title;
+                                return (
+                                    <SelectItem key={column.id} value={column.id}>{headerText}</SelectItem>
+                                )
+                            })}
+                    </SelectContent>
+                </Select>
                 <Input
                     placeholder={intl.formatMessage({ id: 'table.filterField' })}
                     value={params.filterValue}

@@ -6,7 +6,7 @@ import {
 } from "@/components/ui/popover";
 import { ChevronDown, ChevronRight } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-import { NodeApi, NodeRendererProps, Tree, TreeApi } from "react-arborist";
+import { NodeRendererProps, Tree, TreeApi } from "react-arborist";
 import { MdRadioButtonChecked, MdRadioButtonUnchecked } from "react-icons/md";
 export type TreeNode = {
   id: string;
@@ -77,8 +77,8 @@ function Node({ node, style, dragHandle }: NodeRendererProps<any>) {
   );
 }
 
-export function TreeSelect(props: { onSelect: (node: NodeApi<TreeNode>[]) => void,choose:{id:string,name:string},data:TreeNode[] }) {
-  const { onSelect,choose,data } = props; 
+export function TreeSelect(props: {choose:TreeNode, setChoose: (choose:TreeNode) => void,data:TreeNode[],onChange:(node:TreeNode[])=>void }) {
+  const {choose,setChoose, data,onChange } = props;
   const treeData: TreeNode[] = buildTree(data);
   const rowHeight = 36;
   const [height, setHeight] = useState(100);
@@ -94,14 +94,12 @@ export function TreeSelect(props: { onSelect: (node: NodeApi<TreeNode>[]) => voi
     changeHeight();
     return () => cancelAnimationFrame(animationFrame);
   }, [treeRef]);
-  
-
   return (
     <Tree
       ref={treeRef}
       initialData={treeData}
       openByDefault={true}
-      selection={choose.id}
+      selection={choose?.id}
       indent={24}
       height={height}
       width={300}
@@ -110,21 +108,25 @@ export function TreeSelect(props: { onSelect: (node: NodeApi<TreeNode>[]) => voi
       paddingBottom={10}
       children={Node}
       onSelect={(node) => {
-        onSelect(node);
+        if(node.length>0){
+          setChoose(node[0].data);
+          onChange(treeRef.current?.selectedNodes.map((item)=>item.data)||[]);
+        }
       }}
     />
   );
 }
 
-export function TreeSelectPopover(props: { onSelect: (node: NodeApi<TreeNode>[]) => void,data:TreeNode[] ,choose:{id:string,name:string}}) {
-  const {data,choose}=props
+export function TreeSelectPopover(props: {data:TreeNode[],onChange:(node:TreeNode[])=>void,choose:TreeNode,setChoose: (choose:TreeNode) => void }) {
+  const {data,onChange,choose,setChoose}=props
+  // const [choose, setChoose] = useState<TreeNode>(data[0]);
   return (
       <Popover>
           <PopoverTrigger asChild>
-              <Button variant="outline" className="w-[300px]">{choose.name}</Button>
+              <Button variant="outline" className="w-[200px]">{choose?.name}</Button>
           </PopoverTrigger>
           <PopoverContent className="w-auto">
-              <TreeSelect {...props} choose={choose} data={data} />
+              <TreeSelect choose={choose} data={data}  setChoose={setChoose} onChange={onChange}/>
           </PopoverContent>
       </Popover>
   );

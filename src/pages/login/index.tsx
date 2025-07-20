@@ -56,7 +56,7 @@ export default function Login({
     axios
       .post('user/login', values)
       .then((res) => {
-        const { status, msg, field, token } = res.data;
+        const { status, msg, field, token } = res.data.data;
         if (status === 'ok') {
           login(token);
           navigate('/');

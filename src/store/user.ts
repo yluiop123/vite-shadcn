@@ -48,8 +48,8 @@ const useUserStore = create<GlobalInfo>()((set, get) => ({
     try {
     // 模拟获取用户信息
     const res = await axios.get("/user/userInfo");
-    if (res.data) {
-      const userInfo: UserInfo = res.data;
+    if (res.data.data) {
+      const userInfo: UserInfo = res.data.data;
       userInfo.currentRole = userInfo.defaultRole;
       const currentPermission = [
         ...(userInfo.userPermissions||[]),
