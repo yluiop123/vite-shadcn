@@ -104,7 +104,7 @@ export default function Login({
                       <FormItem>
                         <FormLabel>{intl.formatMessage({ id: 'page.login.password' })}</FormLabel>
                         <FormControl>
-                          <Input placeholder="super" {...field} />
+                          <Input placeholder="super" type="password" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>

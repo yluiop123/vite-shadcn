@@ -44,6 +44,7 @@ import * as React from "react";
 import { useEffect, useState } from "react";
 import { useIntl } from "react-intl";
 import { toast } from "sonner";
+import AddDialog from "./add-dialog";
 
 export default function User() {
     const intl = useIntl();
@@ -91,8 +92,13 @@ export default function User() {
 
         // })
     }
-    function handleDelete(row: User) {
-        axios.delete("/system/users/" + row.id).then(res => {
+    function handleDelete(rows: User[]) {
+        if (rows.length === 0) {
+            return;
+        }
+        axios.delete("/system/users", {
+            data: rows.map(item => item.id)
+        }).then(res => {
             setParams({ ...params, page: 1 });
             toast.success(res.data.message);
         })
@@ -218,7 +224,7 @@ export default function User() {
                             </DropdownMenuItem> */}
                             <DropdownMenuSeparator />
                             <DropdownMenuItem onClick={() => handleEdit(user)}>{intl.formatMessage({ id: 'button.edit' })}</DropdownMenuItem>
-                            <DropdownMenuItem onClick={() => handleDelete(user)}>{intl.formatMessage({ id: 'button.delete' })}</DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => handleDelete([user])}>{intl.formatMessage({ id: 'button.delete' })}</DropdownMenuItem>
                             <DropdownMenuItem onClick={() => handleDetail(user)}>{intl.formatMessage({ id: 'button.detail' })}</DropdownMenuItem>
                         </DropdownMenuContent>
                     </DropdownMenu>
@@ -290,6 +296,11 @@ export default function User() {
                     }
                     className="max-w-sm"
                 />
+                <div className="ml-auto flex items-center gap-2">
+                    <AddDialog />
+                    <Button>{intl.formatMessage({ id: 'button.edit' })}</Button>
+                    <Button onClick={() => handleDelete(table.getSelectedRowModel().rows.map(row => row.original))}>{intl.formatMessage({ id: 'button.delete' })}</Button>
+                </div>
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <Button variant="outline" className="ml-auto">

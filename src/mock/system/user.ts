@@ -80,10 +80,10 @@ const handlers = [
         }}
       )
   }),
-  http.delete<{ id: string },never>('/api/system/users/:id', async ({ request,params}) => {
+  http.delete<{ id: string },never>('/api/system/users', async ({ request,params}) => {
     const locale = request.headers.get("locale") || "zh";
-    const id = params.id;
-    console.log(id);
+    const ids = await request.clone().json();
+    console.log(ids);
     return HttpResponse.json({
           code:200,
           message:localeMap[locale]['success']

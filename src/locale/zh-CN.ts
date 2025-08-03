@@ -59,4 +59,8 @@ export default {
     'table.previous':'上一页',
     'table.columns':'列',
     'table.filterField':'筛选字段...',
+    'validate.user': '用户姓名至少2个字符。',
+    'validate.username': '用户名至少4个字符。',
+    'validate.email': '无效的邮箱地址。',
+    'validate.phone': '无效的手机号。'
 };

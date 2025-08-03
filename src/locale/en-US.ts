@@ -59,4 +59,8 @@ export default {
     'table.previous':'Previous',
     'table.columns':'Columns',
     'table.filterField':'Filter Field...',
+    'validate.user': 'User must be at least 2 characters.',
+    'validate.username': 'Username must be at least 4 characters."',
+    'validate.email': 'Invalid email address.',
+    'validate.phone': 'Invalid phone number.'
 };
