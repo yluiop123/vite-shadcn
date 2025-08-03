@@ -80,7 +80,7 @@ const handlers = [
         }}
       )
   }),
-  http.delete<{ id: string },never>('/api/system/users', async ({ request,params}) => {
+  http.delete<{ id: string },never>('/api/system/users', async ({ request}) => {
     const locale = request.headers.get("locale") || "zh";
     const ids = await request.clone().json();
     console.log(ids);
