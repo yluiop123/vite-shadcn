@@ -3,7 +3,7 @@ import { http, HttpResponse } from 'msw';
 const zh ={
     'user':'用户',
     'group':'组织',
-    'success':'成功',
+    'success':'操作成功',
     '0001':'人事部',
     '0002':'后勤部',
     '0003':'研发部',
@@ -52,7 +52,7 @@ const handlers = [
       { id: "0003", name: localeMap[locale]['0003'],parentId:"00",depth:1,order:2 },
       { id: "000301", name: localeMap[locale]['000301'],parentId:"0003",depth:2,order:0 },
       { id: "000302", name: localeMap[locale]['000302'],parentId:"0003",depth:2,order:1 },
-      { id: "000303", name: "研发3部",parentId:"0003",depth:2,order:2 },
+      { id: "000303", name: localeMap[locale]['000303'],parentId:"0003",depth:2,order:2 },
     ]
     const list   = Array.from({ length: 23 }, (_, i) => ({
     id: `${i+100000000}`,
@@ -89,6 +89,38 @@ const handlers = [
           message:localeMap[locale]['success']
         }
       )
-  })
+  }),
+   http.post<never, never>('/api/system/users/add', async ({ request }) => {
+    const locale = request.headers.get("locale") || "zh";
+    return HttpResponse.json({
+          code:200,
+          message:localeMap[locale]['success']
+        }
+      )
+  }),
+  http.post<never, never>('/api/system/users/edit', async ({ request }) => {
+    const locale = request.headers.get("locale") || "zh";
+    return HttpResponse.json({
+          code:200,
+          message:localeMap[locale]['success']
+        }
+      )
+  }),
+  http.get<never, never>('/api/system/users/detail/:id', async () => {
+    // const locale = request.headers.get("locale") || "zh";
+    return HttpResponse.json({
+          code:200,
+          data: {
+              id: `100000000`,
+              name: `name`,
+              username: `userName`,
+              email: `example@example.com`,
+              group: '0001',
+              defaultRole: "all", 
+              phone:'13800000000',
+          }
+        }
+      )
+  }),
 ];
 export default handlers;

@@ -14,7 +14,7 @@ export function GroupTreeSelectPopover( props: {onChange:(node:TreeNode[])=>void
       setArrayData(res.data.data);
       setChoose(res.data.data[0]);
     })
-  },[groupId])
+  },[])
  
   return (
     <TreeSelectPopover onChange={onChange} data={arrayData} choose={choose} setChoose={setChoose} />)

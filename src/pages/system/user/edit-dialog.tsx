@@ -1,26 +1,28 @@
 import DialogForm, { Field } from "@/components/dialog-form";
 import axios from "@/lib/axios";
+import { useEffect, useState } from "react";
 import { useIntl } from "react-intl";
 import { toast } from "sonner";
 import { z } from "zod";
-export default function Index(props: {open: boolean,setOpen:(open:boolean)=>void,onSave: () => void }) {
-    const {open,setOpen,onSave}=props;
-    const intl = useIntl();
+
+export default function Index(props: {setOpen: (open: boolean) => void, open: boolean, onSave: () => void, id: string }) {
+    const {setOpen, onSave, open, id} = props;
+     const intl = useIntl();
     const fields:Field[] = [
-        {
-            name: "username",
-            label: "page.system.user.header.userName",
-            defaultValue: "",
-            validate: z.string().min(2, {
-                message: intl.formatMessage({ id: 'validate.username' }),
-            })
-        },
         {
             name: "name",
             label: "page.system.user.header.name",
             defaultValue: "",
             validate: z.string().min(2, {
                 message: intl.formatMessage({ id: 'validate.name' }),
+            })
+        },
+        {
+            name: "username",
+            label: "page.system.user.header.userName",
+            defaultValue: "",
+            validate: z.string().min(2, {
+                message: intl.formatMessage({ id: 'validate.username' }),
             })
         },
         {
@@ -54,15 +56,27 @@ export default function Index(props: {open: boolean,setOpen:(open:boolean)=>void
             type: "role"
         },
     ]
+    const [values, setValues] = useState<Record<string, unknown>>({});
+
+    useEffect(() => {
+        axios.get("/system/users/detail/" + id).then(res => {
+            if (res.data.code === 200) {
+                const user = res.data.data;
+                setValues (user);     
+            } 
+        })
+    }, [id])
+
     const schemaShape = fields.reduce((acc, field) => {
         acc[field.name] = field.validate || z.string().optional();
         return acc;
     }, {} as Record<string, z.ZodTypeAny>);
     const formSchema = z.object(schemaShape);
     // 2. Define a submit handler. 
-    function onSubmit(values: z.infer<typeof formSchema>) {
-        axios.post("/system/users/add", {
-            ...values
+    function onSubmit(fieldValues: z.infer<typeof formSchema>) {
+        axios.post("/system/users/edit", {
+            ...fieldValues,
+            id:id
         }).then(res => {
             if(res.data.code === 200) {
                 setOpen(false);
@@ -75,10 +89,11 @@ export default function Index(props: {open: boolean,setOpen:(open:boolean)=>void
     }
     return (
         <DialogForm
-            open={open}
             setOpen={setOpen}
-            title={intl.formatMessage({ id: 'button.add' })}
+            open={open}
+            title={intl.formatMessage({ id: 'button.edit' })}
             fields={fields}
+            values={values}
             onSubmit={onSubmit}>
         </DialogForm>
     )

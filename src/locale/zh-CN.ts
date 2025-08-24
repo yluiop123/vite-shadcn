@@ -37,7 +37,7 @@ export default {
     'page.chart.rechart.radarChart': '雷达图',
     'page.chart.rechart.radialChart': '径向图',
     'page.chart.rechart.tooltip': '提示信息',
-    'page.system.user.header.user': '用户',
+    'page.system.user.header.name': '姓名',
     'page.system.user.header.userName': '用户名',
     'page.system.user.header.email': '邮箱',
     'page.system.user.header.phone': '手机号',
@@ -59,7 +59,7 @@ export default {
     'table.previous':'上一页',
     'table.columns':'列',
     'table.filterField':'筛选字段...',
-    'validate.user': '用户姓名至少2个字符。',
+    'validate.name': '姓名至少2个字符。',
     'validate.username': '用户名至少4个字符。',
     'validate.email': '无效的邮箱地址。',
     'validate.phone': '无效的手机号。'

@@ -45,6 +45,7 @@ import { useEffect, useState } from "react";
 import { useIntl } from "react-intl";
 import { toast } from "sonner";
 import AddDialog from "./add-dialog";
+import EditDialog from "./edit-dialog";
 
 export default function User() {
     const intl = useIntl();
@@ -57,6 +58,7 @@ export default function User() {
         group: string
         groupName: string
     }
+  
     const [params, setParams] = useState({
         page: 1,
         size: 10,
@@ -81,10 +83,13 @@ export default function User() {
         list: [],
         total: 0,
     })
+    const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
+    const [id, setId] = useState('0');
 
+    const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
     function handleEdit(row: User) {
-        console.log(row);
-
+        setId(row.id);
+        setIsEditDialogOpen(true);
     }
     function handleDetail(row: User) {
         console.log(row);
@@ -142,7 +147,7 @@ export default function User() {
         },
         {
             meta: {
-                title: intl.formatMessage({ id: 'page.system.user.header.user' }),
+                title: intl.formatMessage({ id: 'page.system.user.header.name' }),
             },
             enableHiding: false,
             accessorKey: "name",
@@ -152,7 +157,7 @@ export default function User() {
                         variant="ghost"
                         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
                     >
-                        {intl.formatMessage({ id: 'page.system.user.header.user' })}
+                        {intl.formatMessage({ id: 'page.system.user.header.name' })}
                         <ArrowUpDown />
                     </Button>
                 )
@@ -259,9 +264,13 @@ export default function User() {
     })
     return (
         <div className="w-full">
+            <EditDialog id={id} setOpen={setIsEditDialogOpen} open={isEditDialogOpen} 
+            onSave={() => setParams({ ...params, page: 1 })} />
+
             <div className="flex items-center py-3 gap-4">
                 <GroupTreeSelectPopover
                     onChange={(node) => {
+                        debugger;
                         if (node.length > 0) {
                             setParams({ ...params, group: node[0].id, groupName: node[0].name })
                         }
@@ -297,8 +306,8 @@ export default function User() {
                     className="max-w-sm"
                 />
                 <div className="ml-auto flex items-center gap-2">
-                    <AddDialog />
-                    <Button>{intl.formatMessage({ id: 'button.edit' })}</Button>
+                    <Button onClick={() => setIsAddDialogOpen(true)}>{intl.formatMessage({ id: 'button.add' })}</Button>
+                    <AddDialog open={isAddDialogOpen} setOpen={setIsAddDialogOpen} onSave={() => setParams({ ...params, page: 1 })}/>
                     <Button onClick={() => handleDelete(table.getSelectedRowModel().rows.map(row => row.original))}>{intl.formatMessage({ id: 'button.delete' })}</Button>
                 </div>
                 <DropdownMenu>

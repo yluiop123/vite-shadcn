@@ -1,13 +1,12 @@
+import { GroupTreeSelectPopover } from "@/components/group-tree-select-popver";
 import { Button } from "@/components/ui/button";
 import {
     Dialog,
-    DialogClose,
     DialogContent,
     DialogDescription,
     DialogFooter,
     DialogHeader,
-    DialogTitle,
-    DialogTrigger
+    DialogTitle
 } from "@/components/ui/dialog";
 import {
     Form,
@@ -18,20 +17,32 @@ import {
     FormMessage
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import {
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectTrigger,
+    SelectValue
+} from "@/components/ui/select";
+import { useUserStore } from '@/store';
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-
 import { useIntl } from "react-intl";
 import { z } from "zod";
-type FormField = {
+type Field = {
     name: string;
     label: string;
     validate?: z.ZodTypeAny;
     defaultValue?: string;
+    type?: string;
 };
 
-export default function Index({title,description,fields,onSubmit}: {title: string,description?: string,fields: FormField[], onSubmit:  (values: Record<string, unknown>) => void}) {
-
+export default function Index({open,setOpen,title,fields,values,onSubmit}: 
+    {open: boolean,setOpen:(open:boolean)=>void,title:string,
+        fields: Field[],values?: Record<string, unknown>, onSubmit:  (values: Record<string, unknown>) => void}) {
+    const {userInfo} = useUserStore();
     const schemaShape = fields.reduce((acc, field) => {
         acc[field.name] = field.validate || z.string().optional();
         return acc;
@@ -41,24 +52,27 @@ export default function Index({title,description,fields,onSubmit}: {title: strin
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: Object.fromEntries(fields.map(item => [item.name, item.defaultValue || ""])),
-    })
-
+    });
+    useEffect(() => {
+        if (open) {
+            if (values) {
+                form.reset(values);
+            }
+        }else{
+            form.reset();
+        }
+    }, [values,form,open]);
     return (
-        <Dialog>
-            <DialogTrigger asChild>
-                <Button>{intl.formatMessage({ id: title })}</Button>
-            </DialogTrigger>
+        <Dialog open={open} 
+        onOpenChange={setOpen}> 
             <DialogContent className="sm:max-w-[425px]">
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
                         <DialogHeader>
                             <DialogTitle>{title}</DialogTitle>
-                            <DialogDescription>
-                                {description}
-                            </DialogDescription>
+                            <DialogDescription></DialogDescription>
                         </DialogHeader>
-
-                        {fields.map((f) => (
+                        {fields.map((f) => (                            
                             <FormField
                                 key={f.name}
                                 control={form.control}
@@ -67,7 +81,32 @@ export default function Index({title,description,fields,onSubmit}: {title: strin
                                     <FormItem>
                                         <FormLabel>{intl.formatMessage({ id: f.label })}</FormLabel>
                                         <FormControl>
-                                            <Input placeholder="" {...field} />
+                                            {
+                                            f?.type === "role"?
+                                            <Select   onValueChange={field.onChange} defaultValue="all">
+                                            <SelectTrigger className="w-[180px]">
+                                                <SelectValue placeholder={intl.formatMessage({ id: f.label })} />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                                <SelectGroup>
+                                                {/* <SelectLabel>{intl.formatMessage({ id: f.label })}</SelectLabel> */}
+                                                <SelectItem  value="all">{intl.formatMessage({ id: 'sidebar.user.all' })}</SelectItem>
+                                                {userInfo?.roles?.map((role) => (
+                                                    <SelectItem key={role.role} value={role.role}>{role.name}</SelectItem>
+                                                ))}
+                                                </SelectGroup>
+                                            </SelectContent>
+                                            </Select>:
+                                            f?.type === "group"?
+                                            <GroupTreeSelectPopover
+                                                onChange={(node) => {
+                                                    if (node.length > 0) {
+                                                        field.onChange(node[0].id);
+                                                    }
+                                                }}
+                                            />:
+                                            <Input placeholder="" {...field} />                                            
+                                        }
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>
@@ -75,9 +114,6 @@ export default function Index({title,description,fields,onSubmit}: {title: strin
                             />
                         ))}
                         <DialogFooter>
-                            <DialogClose asChild>
-                                <Button variant="outline">{intl.formatMessage({ id: 'button.cancel' })}</Button>
-                            </DialogClose>
                             <Button type="submit">{intl.formatMessage({ id: 'button.save' })}</Button>
                         </DialogFooter>
                     </form>
@@ -86,5 +122,5 @@ export default function Index({title,description,fields,onSubmit}: {title: strin
         </Dialog >
     )
 }
-export type { FormField };
+export type { Field };
 

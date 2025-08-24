@@ -37,7 +37,7 @@ export default {
     'page.chart.rechart.radarChart': 'Radar Chart',
     'page.chart.rechart.radialChart': 'Radial Chart',
     'page.chart.rechart.tooltip': 'Tooltip',
-    'page.system.user.header.user': 'User',
+    'page.system.user.header.name': 'Name',
     'page.system.user.header.userName': 'UserName',
     'page.system.user.header.email': 'Email',
     'page.system.user.header.phone': 'Phone',
@@ -59,7 +59,7 @@ export default {
     'table.previous':'Previous',
     'table.columns':'Columns',
     'table.filterField':'Filter Field...',
-    'validate.user': 'User must be at least 2 characters.',
+    'validate.name': 'Name must be at least 2 characters.',
     'validate.username': 'Username must be at least 4 characters."',
     'validate.email': 'Invalid email address.',
     'validate.phone': 'Invalid phone number.'
