@@ -7,7 +7,7 @@ import { z } from "zod";
 
 export default function Index(props: {setOpen: (open: boolean) => void, open: boolean, onSave: () => void, id: string }) {
     const {setOpen, onSave, open, id} = props;
-     const intl = useIntl();
+    const intl = useIntl();
     const fields:Field[] = [
         {
             name: "name",
@@ -59,6 +59,9 @@ export default function Index(props: {setOpen: (open: boolean) => void, open: bo
     const [values, setValues] = useState<Record<string, unknown>>({});
 
     useEffect(() => {
+        if(id === '') {
+            return;
+        }
         axios.get("/system/users/detail/" + id).then(res => {
             if (res.data.code === 200) {
                 const user = res.data.data;
@@ -88,7 +91,7 @@ export default function Index(props: {setOpen: (open: boolean) => void, open: bo
         })
     }
     return (
-        <DialogForm
+        open && Object.keys(values).length > 0 &&<DialogForm
             setOpen={setOpen}
             open={open}
             title={intl.formatMessage({ id: 'button.edit' })}

@@ -40,12 +40,8 @@ type User = {
     update: string
     phone: string
 }
-const handlers = [
-  http.post<never, never>('/api/system/users', async ({ request }) => {
-    const locale = request.headers.get("locale") || "zh";
+function getUserList(locale:string){
     const user = localeMap[locale]['user'];
-    const body = await request.clone().json();
-    const {filterField,filterValue,group,page,size} = body;
     const dataArray = [
       { id: "0001", name: localeMap[locale]['0001'],parentId:"00",depth:1,order:0 },
       { id: "0002", name: localeMap[locale]['0002'],parentId:"00",depth:1,order:1 },
@@ -61,12 +57,21 @@ const handlers = [
     email: `user${i + 1}@example.com`,
     group: dataArray[i%6].id,
     groupName: dataArray[i%6].name,
-    defaultRole: "0000001",
+    defaultRole: "admin",
     status: "0",
     phone: `${13800000000 + i}`,
     create: "2025-01-01 23:59:59",
     update: "2025-01-01 23:59:59",
     })) as User[];
+    return list;
+}
+const handlers = [
+  http.post<never, never>('/api/system/users', async ({ request }) => {
+    const locale = request.headers.get("locale") || "zh";
+
+    const body = await request.clone().json();
+    const {filterField,filterValue,group,page,size} = body;
+    const list = getUserList(locale);
     const filterList = list.filter((item) => 
       item[filterField as keyof User].startsWith(filterValue)&&
       item.group.startsWith(group));
@@ -106,19 +111,14 @@ const handlers = [
         }
       )
   }),
-  http.get<never, never>('/api/system/users/detail/:id', async () => {
-    // const locale = request.headers.get("locale") || "zh";
+  http.get<{ id: string }>('/api/system/users/detail/:id', async ({ request,params }) => {
+    const locale = request.headers.get("locale") || "zh";
+    const id = params.id;
+    const list = getUserList(locale);
+    const user = list.find(item=>item.id === id);
     return HttpResponse.json({
           code:200,
-          data: {
-              id: `100000000`,
-              name: `name`,
-              username: `userName`,
-              email: `example@example.com`,
-              group: '0001',
-              defaultRole: "all", 
-              phone:'13800000000',
-          }
+          data: user
         }
       )
   }),

@@ -84,7 +84,8 @@ export default function User() {
         total: 0,
     })
     const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
-    const [id, setId] = useState('0');
+    const [id, setId] = useState('' as string);
+
 
     const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
     function handleEdit(row: User) {
@@ -270,7 +271,6 @@ export default function User() {
             <div className="flex items-center py-3 gap-4">
                 <GroupTreeSelectPopover
                     onChange={(node) => {
-                        debugger;
                         if (node.length > 0) {
                             setParams({ ...params, group: node[0].id, groupName: node[0].name })
                         }
