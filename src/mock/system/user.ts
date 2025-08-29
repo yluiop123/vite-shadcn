@@ -50,11 +50,13 @@ function getUserList(locale:string){
       { id: "000302", name: localeMap[locale]['000302'],parentId:"0003",depth:2,order:1 },
       { id: "000303", name: localeMap[locale]['000303'],parentId:"0003",depth:2,order:2 },
     ]
-    const list   = Array.from({ length: 23 }, (_, i) => ({
+    const list   = Array.from({ length: 23 }, (_, i) => {
+      const userId = i.toString().padStart(3, '0');
+    return {
     id: `${i+100000000}`,
-    name: `${user}${i + 1}`,
-    username: `user${i + 1}`,
-    email: `user${i + 1}@example.com`,
+    name: `${user}${userId}`,
+    username: `user${userId}`,
+    email: `user${userId}@example.com`,
     group: dataArray[i%6].id,
     groupName: dataArray[i%6].name,
     defaultRole: "admin",
@@ -62,7 +64,8 @@ function getUserList(locale:string){
     phone: `${13800000000 + i}`,
     create: "2025-01-01 23:59:59",
     update: "2025-01-01 23:59:59",
-    })) as User[];
+    }
+    }) as User[];
     return list;
 }
 const handlers = [
@@ -70,11 +73,20 @@ const handlers = [
     const locale = request.headers.get("locale") || "zh";
 
     const body = await request.clone().json();
-    const {filterField,filterValue,group,page,size} = body;
+    const {filterField,filterValue,group,page,size,orderField,orderValue} = body;
     const list = getUserList(locale);
     const filterList = list.filter((item) => 
       item[filterField as keyof User].startsWith(filterValue)&&
       item.group.startsWith(group));
+      debugger;
+    if(orderField){
+      filterList.sort((a,b)=>{
+        if(orderValue === 'asc'){
+          return a[orderField as keyof User] > b[orderField as keyof User] ? 1 : -1;
+        }
+        return a[orderField as keyof User] < b[orderField as keyof User] ? 1 : -1;
+      })
+    }
     const start = (page-1)*size;
     const result = filterList.slice(start,start+size);
     return HttpResponse.json({

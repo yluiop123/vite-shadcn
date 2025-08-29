@@ -57,6 +57,8 @@ export default function User() {
         filterValue: string
         group: string
         groupName: string
+        orderField?: string
+        orderValue?: "asc" | "desc"
     }
   
     const [params, setParams] = useState({
@@ -156,7 +158,13 @@ export default function User() {
                 return (
                     <Button
                         variant="ghost"
-                        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+                        onClick={() => {
+                            // column.toggleSorting(column.getIsSorted() === "asc")
+                            const isAsc = column.getIsSorted() === "asc";
+                            const newSorting = [{ id: "name", desc: isAsc }];
+                            table.setSorting(newSorting);
+                            setParams({ ...params, orderValue: isAsc ? "desc" : "asc", orderField: 'name' } )                        
+                            }}
                     >
                         {intl.formatMessage({ id: 'page.system.user.header.name' })}
                         <ArrowUpDown />
