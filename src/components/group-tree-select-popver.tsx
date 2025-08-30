@@ -16,7 +16,7 @@ export function GroupTreeSelectPopover( props: {defaultValue?:string,onChange:(n
       const defaultChoose = arrayData.find((item) => item.id === defaultValue)||res.data.data[0];
       setChoose(defaultChoose);
     })
-  },[groupId,defaultValue,])
+  },[groupId,defaultValue])
  
   return (
     arrayData.length>0&&<TreeSelectPopover onChange={onChange} data={arrayData} choose={choose} setChoose={setChoose} />)

@@ -12,6 +12,9 @@ export default defineConfig(({ mode }: ConfigEnv) => {
     base,
     // 其他配置...
     server: {
+      headers: {
+        'Cache-Control': 'no-store',
+      },
       port: 3000,
       host: "0.0.0.0",
     },

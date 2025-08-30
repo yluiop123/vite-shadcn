@@ -42,14 +42,14 @@ export default function Index(props: {open: boolean,setOpen:(open:boolean)=>void
         {
             name: "group",
             label: "page.system.user.header.groupName",
-            defaultValue: "all",
+            defaultValue: "",
             validate: z.string(),
             type: "group"
         },
         {
             name: "defaultRole",
             label: "page.system.user.header.defaultRole",
-            defaultValue: "",
+            defaultValue: "all",
             validate: z.string(),
             type: "role"
         },
