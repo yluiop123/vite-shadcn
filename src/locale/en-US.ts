@@ -53,6 +53,7 @@ export default {
     'button.cancel':'Cancel',
     'button.create':'Create',
     'button.reset':'Reset',
+    'button.reset.password':'Reset Password',
     'table.search':'Search',
     'table.actions':'Actions',
     'table.next':'Next',

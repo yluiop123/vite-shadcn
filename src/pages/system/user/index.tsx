@@ -94,11 +94,10 @@ export default function User() {
         setId(row.id);
         setIsEditDialogOpen(true);
     }
-    function handleDetail(row: User) {
-        console.log(row);
-        // axios.get("/system/users/" + row.id).then(res => {
-
-        // })
+    function handleReset(row: User) {
+        axios.post("/system/users/reset/" + row.id).then(res => {
+            toast.success(res.data.message);
+        })
     }
     function handleDelete(rows: User[]) {
         if (rows.length === 0) {
@@ -239,7 +238,7 @@ export default function User() {
                             <DropdownMenuSeparator />
                             <DropdownMenuItem onClick={() => handleEdit(user)}>{intl.formatMessage({ id: 'button.edit' })}</DropdownMenuItem>
                             <DropdownMenuItem onClick={() => handleDelete([user])}>{intl.formatMessage({ id: 'button.delete' })}</DropdownMenuItem>
-                            <DropdownMenuItem onClick={() => handleDetail(user)}>{intl.formatMessage({ id: 'button.detail' })}</DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => handleReset(user)}>{intl.formatMessage({ id: 'button.reset.password' })}</DropdownMenuItem>
                         </DropdownMenuContent>
                     </DropdownMenu>
                 )

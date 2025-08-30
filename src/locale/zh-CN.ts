@@ -53,6 +53,7 @@ export default {
     'button.cancel':'取消',
     'button.create':'创建',
     'button.reset':'重置',
+    'button.reset.password':'重置密码',
     'table.search':'搜索',
     'table.actions':'操作',
     'table.next':'下一页',
