@@ -9,6 +9,8 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import {
     Select,
     SelectContent,
@@ -262,54 +264,65 @@ export default function Role() {
             onSave={() => setParams({ ...params, page: 1 })} />
 
             <div className="flex items-center py-3 gap-4">
-                <Select
-                    onValueChange={(value) =>
-                        setParams({ ...params, status: value })
-                    } defaultValue={params.status}>
-                    <SelectTrigger className="flex items-center">
-                        <SelectValue placeholder="Status" />
-                    </SelectTrigger>
-                    <SelectContent>
-                        {Array.from(statusEnum).map(([key, value]) => {
-                                return (
-                                    <SelectItem key={value} value={key}>{intl.formatMessage({ id: `dict.status.${value}` })}</SelectItem>
-                                )
-                            })}
-                    </SelectContent>
-                </Select>
-
+                <div className="flex items-center gap-4">
+                    <Label className="whitespace-nowrap" htmlFor="roleName">{intl.formatMessage({ id: 'page.system.role.header.name' })}</Label>
+                    <Input id="roleName" type="text" placeholder="" value={params.name} onChange={(e) => setParams({ ...params, name: e.target.value })} />
+                </div>
+                <div className="flex items-center gap-4">
+                    <Label className="whitespace-nowrap" htmlFor="roleId">{intl.formatMessage({ id: 'page.system.role.header.role' })}</Label>
+                    <Input id="roleId" type="text" placeholder="" value={params.role} onChange={(e) => setParams({ ...params, role: e.target.value })} />
+                </div>                
+                
+                <div className="flex items-center gap-2">
+                    <Label className="whitespace-nowrap">{intl.formatMessage({ id: 'page.system.role.header.status' })}</Label>
+                    <Select 
+                        onValueChange={(value) =>
+                            setParams({ ...params, status: value })
+                        } defaultValue={params.status}>
+                        <SelectTrigger className="flex items-center">
+                            <SelectValue placeholder="Status" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            {Array.from(statusEnum).map(([key, value]) => {
+                                    return (
+                                        <SelectItem key={value} value={key}>{intl.formatMessage({ id: `dict.status.${value}` })}</SelectItem>
+                                    )
+                                })}
+                        </SelectContent>
+                    </Select>
+                </div>
                 <div className="ml-auto flex items-center gap-2">
                     <Button onClick={() => setIsAddDialogOpen(true)}>{intl.formatMessage({ id: 'button.add' })}</Button>
                     <AddDialog open={isAddDialogOpen} setOpen={setIsAddDialogOpen} onSave={() => setParams({ ...params, page: 1 })}/>
                     <Button onClick={() => handleDelete(table.getSelectedRowModel().rows.map(row => row.original))}>{intl.formatMessage({ id: 'button.delete' })}</Button>
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                            <Button variant="outline" className="ml-auto">
+                                {intl.formatMessage({ id: 'table.columns' })} <ChevronDown />
+                            </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                            {table
+                                .getAllColumns()
+                                .filter((column) => column.getCanHide())
+                                .map((column) => {
+                                    const header = column.columnDef.header;
+                                    return (
+                                        <DropdownMenuCheckboxItem
+                                            key={column.id}
+                                            className="capitalize"
+                                            checked={column.getIsVisible()}
+                                            onCheckedChange={(value) =>
+                                                column.toggleVisibility(!!value)
+                                            }
+                                        >
+                                            {typeof header === 'string' || typeof header === 'number' ? header : column.id}
+                                        </DropdownMenuCheckboxItem>
+                                    )
+                                })}
+                        </DropdownMenuContent>
+                    </DropdownMenu>
                 </div>
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button variant="outline" className="ml-auto">
-                            {intl.formatMessage({ id: 'table.columns' })} <ChevronDown />
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                        {table
-                            .getAllColumns()
-                            .filter((column) => column.getCanHide())
-                            .map((column) => {
-                                const header = column.columnDef.header;
-                                return (
-                                    <DropdownMenuCheckboxItem
-                                        key={column.id}
-                                        className="capitalize"
-                                        checked={column.getIsVisible()}
-                                        onCheckedChange={(value) =>
-                                            column.toggleVisibility(!!value)
-                                        }
-                                    >
-                                        {typeof header === 'string' || typeof header === 'number' ? header : column.id}
-                                    </DropdownMenuCheckboxItem>
-                                )
-                            })}
-                    </DropdownMenuContent>
-                </DropdownMenu>
             </div>
             <div className="rounded-md border">
                 <Table>
