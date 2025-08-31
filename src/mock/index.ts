@@ -1,4 +1,10 @@
 import groupHandlers from './components/group'
-import userHandlers from './login/user'
-import systemHandlers from './system/user'
-export default [...userHandlers,...systemHandlers,...groupHandlers]
+import loginUserHandlers from './login/user'
+import systemRoleHandlers from './system/role'
+import systemUserHandlers from './system/user'
+export default [
+    ...loginUserHandlers,
+    ...groupHandlers,
+    ...systemUserHandlers,
+    ...systemRoleHandlers,
+]

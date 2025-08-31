@@ -45,6 +45,10 @@ export default {
     'page.system.user.header.defaultRole': 'DefaultRole',
     'page.system.user.header.status': 'Status',
     'page.system.user.header.createTime': 'Create Time',
+    'page.system.role.header.name': 'Name',
+    'page.system.role.header.role': 'Role',
+    'page.system.role.header.status': 'Status',
+    'page.system.role.header.createTime': 'Create Time',
     'header.language':'EN',
     'button.add':'Add',
     'button.edit':'Edit',
@@ -64,5 +68,8 @@ export default {
     'validate.name': 'Name must be at least 2 characters.',
     'validate.username': 'Username must be at least 4 characters."',
     'validate.email': 'Invalid email address.',
-    'validate.phone': 'Invalid phone number.'
+    'validate.phone': 'Invalid phone number.',
+    'dict.status.all': 'All',
+    'dict.status.disabled': 'Disabled',
+    'dict.status.enabled': 'Enabled',
 };

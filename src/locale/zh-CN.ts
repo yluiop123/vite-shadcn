@@ -45,6 +45,10 @@ export default {
     'page.system.user.header.defaultRole': '默认角色',
     'page.system.user.header.status': '状态',
     'page.system.user.header.createTime': '创建时间',
+    'page.system.role.header.name': '名称',
+    'page.system.role.header.role': '角色', 
+    'page.system.role.header.status': '状态',
+    'page.system.role.header.createTime': '创建时间',
     'header.language':'中文',
     'button.add':'新增',
     'button.edit':'编辑',
@@ -64,5 +68,8 @@ export default {
     'validate.name': '姓名至少2个字符。',
     'validate.username': '用户名至少4个字符。',
     'validate.email': '无效的邮箱地址。',
-    'validate.phone': '无效的手机号。'
+    'validate.phone': '无效的手机号。',
+    'dict.status.all': '全部',
+    'dict.status.disabled': '停用',
+    'dict.status.enabled': '启用',
 };

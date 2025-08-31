@@ -1,3 +1,32 @@
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+import {
+    DropdownMenu,
+    DropdownMenuCheckboxItem,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger
+} from "@/components/ui/dropdown-menu";
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select";
+import { Switch } from "@/components/ui/switch";
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from "@/components/ui/table";
+import axios from "@/lib/axios";
+import { statusEnum } from "@/lib/dict";
 import {
     ColumnDef,
     ColumnFiltersState,
@@ -9,176 +38,205 @@ import {
     SortingState,
     useReactTable,
     VisibilityState,
-} from "@tanstack/react-table"
-import * as React from "react"
-
-import { Button } from "@/components/ui/button"
-import { Checkbox } from "@/components/ui/checkbox"
-import {
-    DropdownMenu,
-    DropdownMenuCheckboxItem,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { Input } from "@/components/ui/input"
-import {
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
-} from "@/components/ui/table"
-import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react"
-const statusEnum = new Map([["0", "停用"], ["1", "启用"]]);
-const data: Group[] = [
-    {
-        name: "角色1",
-        id: "0000001",
-        status: "0",
-        remark: "备注1",
-        create: "2025-01-01 23:59:59",
-    },
-    {
-        name: "角色2",
-        id: "0000002",
-        status: "0",
-        remark: "备注2",
-        create: "2025-01-01 23:59:59",
-    },
-    {
-        name: "角色3",
-        id: "0000003",
-        status: "0",
-        remark: "备注3",
-        create: "2025-01-01 23:59:59",
-    },
-    {
-        name: "角色4",
-        id: "0000004",
-        status: "0",
-        remark: "备注4",
-        create: "2025-01-01 23:59:59",
-    },
-    {
-        name: "角色5",
-        id: "0000005",
-        status: "1",
-        remark: "备注5",
-        create: "2025-01-01 23:59:59",
-    },
-    {
-        name: "角色6",
-        id: "0000006",
-        status: "1",
-        remark: "备注6",
-        create: "2025-01-01 23:59:59",
-    },
-]
-
-type Group = {
-    name: string
-    id: string
-    status: "0" | "1"
-    remark: string
-    create: string
+} from "@tanstack/react-table";
+import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react";
+import * as React from "react";
+import { useEffect, useState } from "react";
+import { useIntl } from "react-intl";
+import { toast } from "sonner";
+import AddDialog from "./add-dialog";
+import EditDialog from "./edit-dialog";
+function StatusSwitch({ initial, onChange }: { initial: string; onChange: (val: string) => void }) {
+  const [checked, setChecked] = useState(initial === "1")
+  return (
+    <Switch
+      checked={checked}
+      onCheckedChange={(value) => {
+        setChecked(value)
+        onChange(value ? "1" : "0")
+      }}
+    />
+  )
 }
-
-const columns: ColumnDef<Group>[] = [
-    {
-        id: "select",
-        header: ({ table }) => (
-            <Checkbox
-                checked={
-                    table.getIsAllPageRowsSelected() ||
-                    (table.getIsSomePageRowsSelected() && "indeterminate")
-                }
-                onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-                aria-label="Select all"
-            />
-        ),
-        cell: ({ row }) => (
-            <Checkbox
-                checked={row.getIsSelected()}
-                onCheckedChange={(value) => row.toggleSelected(!!value)}
-                aria-label="Select row"
-            />
-        ),
-        enableSorting: false,
-        enableHiding: false,
-    },
-    {
-        accessorKey: "name",
-        header: ({ column }) => {
-            return (
-                <Button
-                    variant="ghost"
-                    onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-                >
-                    Name
-                    <ArrowUpDown />
-                </Button>
-            )
-        },
-        cell: ({ row }) => <div className="lowercase">{row.getValue("name")}</div>,
-    },
-    {
-        accessorKey: "id",
-        header: "Id",
-        cell: ({ row }) => (
-            <div className="capitalize">{row.getValue("id")}</div>
-        ),
-    },
-    {
-        accessorKey: "status",
-        header: "Status",
-        cell: ({ row }) => (
-            <div className="capitalize">{statusEnum.get(row.getValue("status"))}</div>
-        ),
-    },
-    {
-        accessorKey: "remark",
-        header: "Remark",
-        cell: ({ row }) => (
-            <div className="capitalize">{row.getValue("remark")}</div>
-        ),
-    },
-
-    {
-        id: "actions",
-        enableHiding: false,
-        cell: ({ row }) => {
-            const payment = row.original
-
-            return (
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" className="h-8 w-8 p-0">
-                            <span className="sr-only">Open menu</span>
-                            <MoreHorizontal />
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                        <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                        <DropdownMenuItem
-                            onClick={() => navigator.clipboard.writeText(payment.id)}
-                        >
-                            Copy payment ID
-                        </DropdownMenuItem>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuItem>View customer</DropdownMenuItem>
-                        <DropdownMenuItem>View payment details</DropdownMenuItem>
-                    </DropdownMenuContent>
-                </DropdownMenu>
-            )
-        },
-    }
-]
-
 export default function Role() {
+    const intl = useIntl();
+    type TableParams = {
+        page: number
+        size: number
+        role?: string
+        name?: string
+        status?: string
+        orderField?: string
+        orderValue?: "asc" | "desc"
+    }
+  
+    const [params, setParams] = useState({
+        page: 1,
+        size: 10,
+        role: '',
+        name: '',
+        status: 'all'
+    } as TableParams);
+
+    useEffect(() => {
+        function fetchData(params: TableParams) {
+            axios.post("/system/roles", params).then(res => {
+                setData(res.data.data);
+            })
+        }
+        fetchData(params); // 初次加载
+    }, [params]);
+    const [data, setData] = useState<{
+        list: Role[]
+        total: number
+    }>({
+        list: [],
+        total: 0,
+    })
+    const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
+    const [id, setId] = useState('' as string);
+
+
+    const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+    function handleEdit(row: Role) {
+        setId(row.id);
+        setIsEditDialogOpen(true);
+    }
+    function handleReset(row: Role) {
+        axios.post("/system/users/reset/" + row.id).then(res => {
+            toast.success(res.data.message);
+        })
+    }
+    function handleDelete(rows: Role[]) {
+        if (rows.length === 0) {
+            return;
+        }
+        axios.delete("/system/users", {
+            data: rows.map(item => item.id)
+        }).then(res => {
+            setParams({ ...params, page: 1 });
+            toast.success(res.data.message);
+        })
+
+    }
+    function handleStatusChange(row: Role) {
+        axios.post("/system/users/edit",
+            {...row}).then(res => {
+            toast.success(res.data.message);
+        })
+    }
+    type Role = {
+        id: string
+        name: string
+        role: string
+        status: "0" | "1"
+        create: string
+        update: string
+    }
+    const columns: ColumnDef<Role>[] = [
+        {
+            id: "select",
+            header: ({ table }) => (
+                <Checkbox
+                    checked={
+                        table.getIsAllPageRowsSelected() ||
+                        (table.getIsSomePageRowsSelected() && "indeterminate")
+                    }
+                    onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+                    aria-label="Select all"
+                />
+            ),
+            cell: ({ row }) => (
+                <Checkbox
+                    checked={row.getIsSelected()}
+                    onCheckedChange={(value) => row.toggleSelected(!!value)}
+                    aria-label="Select row"
+                />
+            ),
+            enableSorting: false,
+            enableHiding: false,
+        },
+        {
+            meta: {
+                title: intl.formatMessage({ id: 'page.system.role.header.name' }),
+            },
+            enableHiding: false,
+            accessorKey: "name",
+            header: ({ column }) => {
+                return (
+                    <Button
+                        variant="ghost"
+                        onClick={() => {
+                            // column.toggleSorting(column.getIsSorted() === "asc")
+                            const isAsc = column.getIsSorted() === "asc";
+                            const newSorting = [{ id: "name", desc: isAsc }];
+                            table.setSorting(newSorting);
+                            setParams({ ...params, orderValue: isAsc ? "desc" : "asc", orderField: 'name' } )                        
+                            }}
+                    >
+                        {intl.formatMessage({ id: 'page.system.role.header.name' })}
+                        <ArrowUpDown />
+                    </Button>
+                )
+            },
+            cell: ({ row }) => <div >{row.getValue("name")}</div>,
+        },
+        {
+            accessorKey: "role",
+            header: intl.formatMessage({ id: 'page.system.role.header.role' }),
+            cell: ({ row }) => (
+                <div >{row.getValue("role")}</div>
+            ),
+        },
+        {
+            accessorKey: "create",
+            header: intl.formatMessage({ id: 'page.system.user.header.createTime' }),
+            cell: ({ row }) => (
+                <div >{row.getValue("create")}</div>
+            ),
+        },
+        {
+            accessorKey: "status",
+            header: intl.formatMessage({ id: 'page.system.user.header.status' }),
+            cell: ({ row }) =>
+                <StatusSwitch
+                initial={row.getValue("status") as string}
+                onChange={(val) => {
+                    handleStatusChange({id: row.original.id,status:val } as Role);
+                }}/>
+            ,
+        },
+        {
+            id: "actions",
+            enableHiding: false,
+            cell: ({ row }) => {
+                const user = row.original as Role;
+                return (
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                            <Button variant="ghost" className="h-8 w-8 p-0">
+                                <span className="sr-only">Open menu</span>
+                                <MoreHorizontal />
+                            </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                            <DropdownMenuLabel>{intl.formatMessage({ id: 'table.actions' })}</DropdownMenuLabel>
+
+                            {/* <DropdownMenuItem
+                                onClick={() => navigator.clipboard.writeText(user.username)}
+                            >
+                                Copy payment ID
+                            </DropdownMenuItem> */}
+                            <DropdownMenuSeparator />
+                            <DropdownMenuItem onClick={() => handleEdit(user)}>{intl.formatMessage({ id: 'button.edit' })}</DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => handleDelete([user])}>{intl.formatMessage({ id: 'button.delete' })}</DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => handleReset(user)}>{intl.formatMessage({ id: 'button.reset.password' })}</DropdownMenuItem>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+                )
+            },
+        }
+    ]
     const [sorting, setSorting] = React.useState<SortingState>([])
     const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
         []
@@ -186,9 +244,8 @@ export default function Role() {
     const [columnVisibility, setColumnVisibility] =
         React.useState<VisibilityState>({})
     const [rowSelection, setRowSelection] = React.useState({})
-
     const table = useReactTable({
-        data,
+        data: data.list,
         columns,
         onSortingChange: setSorting,
         onColumnFiltersChange: setColumnFilters,
@@ -205,22 +262,37 @@ export default function Role() {
             rowSelection,
         },
     })
-
     return (
         <div className="w-full">
-            <div className="flex items-center py-4">
-                <Input
-                    placeholder="Filter Names..."
-                    value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
-                    onChange={(event) =>
-                        table.getColumn("name")?.setFilterValue(event.target.value)
-                    }
-                    className="max-w-sm"
-                />
+            <EditDialog id={id} setOpen={setIsEditDialogOpen} open={isEditDialogOpen} 
+            onSave={() => setParams({ ...params, page: 1 })} />
+
+            <div className="flex items-center py-3 gap-4">
+                <Select
+                    onValueChange={(value) =>
+                        setParams({ ...params, status: value })
+                    } defaultValue={params.status}>
+                    <SelectTrigger className="flex items-center">
+                        <SelectValue placeholder="Status" />
+                    </SelectTrigger>
+                    <SelectContent>
+                        {Array.from(statusEnum).map(([key, value]) => {
+                                return (
+                                    <SelectItem key={value} value={key}>{intl.formatMessage({ id: `dict.status.${value}` })}</SelectItem>
+                                )
+                            })}
+                    </SelectContent>
+                </Select>
+
+                <div className="ml-auto flex items-center gap-2">
+                    <Button onClick={() => setIsAddDialogOpen(true)}>{intl.formatMessage({ id: 'button.add' })}</Button>
+                    <AddDialog open={isAddDialogOpen} setOpen={setIsAddDialogOpen} onSave={() => setParams({ ...params, page: 1 })}/>
+                    <Button onClick={() => handleDelete(table.getSelectedRowModel().rows.map(row => row.original))}>{intl.formatMessage({ id: 'button.delete' })}</Button>
+                </div>
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <Button variant="outline" className="ml-auto">
-                            Columns <ChevronDown />
+                            {intl.formatMessage({ id: 'table.columns' })} <ChevronDown />
                         </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
@@ -228,6 +300,7 @@ export default function Role() {
                             .getAllColumns()
                             .filter((column) => column.getCanHide())
                             .map((column) => {
+                                const header = column.columnDef.header;
                                 return (
                                     <DropdownMenuCheckboxItem
                                         key={column.id}
@@ -237,7 +310,7 @@ export default function Role() {
                                             column.toggleVisibility(!!value)
                                         }
                                     >
-                                        {column.id}
+                                        {typeof header === 'string' || typeof header === 'number' ? header : column.id}
                                     </DropdownMenuCheckboxItem>
                                 )
                             })}
@@ -294,27 +367,31 @@ export default function Role() {
                     </TableBody>
                 </Table>
             </div>
-            <div className="flex items-center justify-end space-x-2 py-4">
+            <div className="flex items-center justify-end space-x-2 py-2">
                 <div className="text-muted-foreground flex-1 text-sm">
                     {table.getFilteredSelectedRowModel().rows.length} of{" "}
-                    {table.getFilteredRowModel().rows.length} row(s) selected.
+                    {data.total} row(s) selected.
                 </div>
                 <div className="space-x-2">
+                    {params.page} /{" "}
+                    {Math.ceil(data.total / params.size)}{"   "}
                     <Button
                         variant="outline"
                         size="sm"
-                        onClick={() => table.previousPage()}
-                        disabled={!table.getCanPreviousPage()}
+                        onClick={() => setParams({ ...params, page: params.page - 1 })}
+                        disabled={params.page === 1}
                     >
-                        Previous
+                        {intl.formatMessage({ id: 'table.previous' })}
+
                     </Button>
                     <Button
                         variant="outline"
                         size="sm"
-                        onClick={() => table.nextPage()}
-                        disabled={!table.getCanNextPage()}
+                        onClick={() => setParams({ ...params, page: params.page + 1 })}
+                        disabled={params.page * params.size >= data.total}
                     >
-                        Next
+                        {intl.formatMessage({ id: 'table.next' })}
+
                     </Button>
                 </div>
             </div>
