@@ -11,49 +11,19 @@ export default function Index(props: {setOpen: (open: boolean) => void, open: bo
     const fields:Field[] = [
         {
             name: "name",
-            label: "page.system.user.header.name",
+            label: "page.system.role.header.name",
             defaultValue: "",
             validate: z.string().min(2, {
-                message: intl.formatMessage({ id: 'validate.name' }),
+                message: intl.formatMessage({ id: 'validate.roleName' }),
             })
         },
         {
-            name: "username",
-            label: "page.system.user.header.userName",
+            name: "role",
+            label: "page.system.role.header.role",
             defaultValue: "",
-            validate: z.string().min(2, {
-                message: intl.formatMessage({ id: 'validate.username' }),
+            validate: z.string().regex(/^[a-zA-Z]{2,}$/, {
+                message: intl.formatMessage({ id: 'validate.role' }),
             })
-        },
-        {
-            name: "email",
-            label: "page.system.user.header.email",
-            defaultValue: "",
-            validate: z.string().email({
-                message: intl.formatMessage({ id: 'validate.email' }),
-            })
-        },
-        {
-            name: "phone",
-            label: "page.system.user.header.phone",
-            defaultValue: "",
-            validate: z.string().regex(/^1[3-9]\d{9}$/, {
-                message: intl.formatMessage({ id: 'validate.phone' }),
-            })
-        },
-        {
-            name: "group",
-            label: "page.system.user.header.groupName",
-            defaultValue: "all",
-            validate: z.string(),
-            type: "group"
-        },
-        {
-            name: "defaultRole",
-            label: "page.system.user.header.defaultRole",
-            defaultValue: "",
-            validate: z.string(),
-            type: "role"
         },
     ]
     const [values, setValues] = useState<Record<string, unknown>>({});

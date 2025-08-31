@@ -102,16 +102,11 @@ export default function Role() {
         setId(row.id);
         setIsEditDialogOpen(true);
     }
-    function handleReset(row: Role) {
-        axios.post("/system/users/reset/" + row.id).then(res => {
-            toast.success(res.data.message);
-        })
-    }
     function handleDelete(rows: Role[]) {
         if (rows.length === 0) {
             return;
         }
-        axios.delete("/system/users", {
+        axios.delete("/system/roles", {
             data: rows.map(item => item.id)
         }).then(res => {
             setParams({ ...params, page: 1 });
@@ -120,7 +115,7 @@ export default function Role() {
 
     }
     function handleStatusChange(row: Role) {
-        axios.post("/system/users/edit",
+        axios.post("/system/roles/edit",
             {...row}).then(res => {
             toast.success(res.data.message);
         })
@@ -190,14 +185,14 @@ export default function Role() {
         },
         {
             accessorKey: "create",
-            header: intl.formatMessage({ id: 'page.system.user.header.createTime' }),
+            header: intl.formatMessage({ id: 'page.system.role.header.createTime' }),
             cell: ({ row }) => (
                 <div >{row.getValue("create")}</div>
             ),
         },
         {
             accessorKey: "status",
-            header: intl.formatMessage({ id: 'page.system.user.header.status' }),
+            header: intl.formatMessage({ id: 'page.system.role.header.status' }),
             cell: ({ row }) =>
                 <StatusSwitch
                 initial={row.getValue("status") as string}
@@ -210,7 +205,7 @@ export default function Role() {
             id: "actions",
             enableHiding: false,
             cell: ({ row }) => {
-                const user = row.original as Role;
+                const role = row.original as Role;
                 return (
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
@@ -228,9 +223,8 @@ export default function Role() {
                                 Copy payment ID
                             </DropdownMenuItem> */}
                             <DropdownMenuSeparator />
-                            <DropdownMenuItem onClick={() => handleEdit(user)}>{intl.formatMessage({ id: 'button.edit' })}</DropdownMenuItem>
-                            <DropdownMenuItem onClick={() => handleDelete([user])}>{intl.formatMessage({ id: 'button.delete' })}</DropdownMenuItem>
-                            <DropdownMenuItem onClick={() => handleReset(user)}>{intl.formatMessage({ id: 'button.reset.password' })}</DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => handleEdit(role)}>{intl.formatMessage({ id: 'button.edit' })}</DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => handleDelete([role])}>{intl.formatMessage({ id: 'button.delete' })}</DropdownMenuItem>
                         </DropdownMenuContent>
                     </DropdownMenu>
                 )

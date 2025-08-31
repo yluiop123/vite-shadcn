@@ -3,12 +3,14 @@ import { http, HttpResponse } from "msw";
 const zh ={
     'super':'超级管理员',
     'admin':'管理员',
-    'user':'普通用户'
+    'user':'普通用户',
+     success: "操作成功",
 }
 const en ={
     'super':'Super',
     'admin':'Admin',
-    'user':'User'
+    'user':'User',
+    success: "Success",
 }
 const localeMap: Record<string, Record<string, string>> = {
   zh,

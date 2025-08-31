@@ -8,50 +8,20 @@ export default function Index(props: {open: boolean,setOpen:(open:boolean)=>void
     const intl = useIntl();
     const fields:Field[] = [
         {
-            name: "username",
-            label: "page.system.user.header.userName",
-            defaultValue: "",
-            validate: z.string().min(2, {
-                message: intl.formatMessage({ id: 'validate.username' }),
-            })
-        },
-        {
             name: "name",
-            label: "page.system.user.header.name",
+            label: "page.system.role.header.name",
             defaultValue: "",
             validate: z.string().min(2, {
-                message: intl.formatMessage({ id: 'validate.name' }),
+                message: intl.formatMessage({ id: 'validate.roleName' }),
             })
         },
         {
-            name: "email",
-            label: "page.system.user.header.email",
+            name: "role",
+            label: "page.system.role.header.role",
             defaultValue: "",
-            validate: z.string().email({
-                message: intl.formatMessage({ id: 'validate.email' }),
+            validate: z.string().regex(/^[a-zA-Z]{2,}$/, {
+                message: intl.formatMessage({ id: 'validate.role' }),
             })
-        },
-        {
-            name: "phone",
-            label: "page.system.user.header.phone",
-            defaultValue: "",
-            validate: z.string().regex(/^1[3-9]\d{9}$/, {
-                message: intl.formatMessage({ id: 'validate.phone' }),
-            })
-        },
-        {
-            name: "group",
-            label: "page.system.user.header.groupName",
-            defaultValue: "",
-            validate: z.string(),
-            type: "group"
-        },
-        {
-            name: "defaultRole",
-            label: "page.system.user.header.defaultRole",
-            defaultValue: "all",
-            validate: z.string(),
-            type: "role"
         },
     ]
     const schemaShape = fields.reduce((acc, field) => {
