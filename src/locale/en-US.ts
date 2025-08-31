@@ -44,6 +44,7 @@ export default {
     'page.system.user.header.groupName': 'GroupName',
     'page.system.user.header.defaultRole': 'DefaultRole',
     'page.system.user.header.status': 'Status',
+    'page.system.user.header.createTime': 'Create Time',
     'header.language':'EN',
     'button.add':'Add',
     'button.edit':'Edit',

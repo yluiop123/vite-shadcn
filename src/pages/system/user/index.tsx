@@ -18,6 +18,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
+import { Switch } from "@/components/ui/switch";
 import {
     Table,
     TableBody,
@@ -46,10 +47,20 @@ import { useIntl } from "react-intl";
 import { toast } from "sonner";
 import AddDialog from "./add-dialog";
 import EditDialog from "./edit-dialog";
-
+function StatusSwitch({ initial, onChange }: { initial: string; onChange: (val: string) => void }) {
+  const [checked, setChecked] = useState(initial === "1")
+  return (
+    <Switch
+      checked={checked}
+      onCheckedChange={(value) => {
+        setChecked(value)
+        onChange(value ? "1" : "0")
+      }}
+    />
+  )
+}
 export default function User() {
     const intl = useIntl();
-    const statusEnum = new Map([["0", "停用"], ["1", "启用"]]);
     type TableParams = {
         page: number
         size: number
@@ -110,6 +121,12 @@ export default function User() {
             toast.success(res.data.message);
         })
 
+    }
+    function handleStatusChange(row: User) {
+        axios.post("/system/users/edit",
+            {...row}).then(res => {
+            toast.success(res.data.message);
+        })
     }
     type User = {
         id: string
@@ -180,13 +197,6 @@ export default function User() {
             ),
         },
         {
-            accessorKey: "status",
-            header: intl.formatMessage({ id: 'page.system.user.header.status' }),
-            cell: ({ row }) => (
-                <div >{statusEnum.get(row.getValue("status"))}</div>
-            ),
-        },
-        {
             accessorKey: "email",
             header: intl.formatMessage({ id: 'page.system.user.header.email' }),
             cell: ({ row }) => (
@@ -213,6 +223,24 @@ export default function User() {
             cell: ({ row }) => (
                 <div >{row.getValue("defaultRole")}</div>
             ),
+        },
+        {
+            accessorKey: "create",
+            header: intl.formatMessage({ id: 'page.system.user.header.createTime' }),
+            cell: ({ row }) => (
+                <div >{row.getValue("create")}</div>
+            ),
+        },
+        {
+            accessorKey: "status",
+            header: intl.formatMessage({ id: 'page.system.user.header.status' }),
+            cell: ({ row }) =>
+                <StatusSwitch
+                initial={row.getValue("status") as string}
+                onChange={(val) => {
+                    handleStatusChange({id: row.original.id,status:val } as User);
+                }}/>
+            ,
         },
         {
             id: "actions",

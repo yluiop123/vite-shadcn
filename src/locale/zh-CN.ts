@@ -44,6 +44,7 @@ export default {
     'page.system.user.header.groupName': '组织',
     'page.system.user.header.defaultRole': '默认角色',
     'page.system.user.header.status': '状态',
+    'page.system.user.header.createTime': '创建时间',
     'header.language':'中文',
     'button.add':'新增',
     'button.edit':'编辑',
