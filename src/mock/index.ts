@@ -28,4 +28,5 @@ export default async function initMSW() {
     serviceWorker: { url: `${import.meta.env.BASE_URL}mockServiceWorker.js` },
     onUnhandledRequest: 'warn', // 未匹配请求会在 console 警告
   });
+  return worker;
 }
