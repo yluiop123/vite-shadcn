@@ -25,9 +25,7 @@ export default async function initMSW() {
 
   // 启动 MSW
   await worker.start({
-    serviceWorker: { url: '/mockServiceWorker.js' },
+    serviceWorker: { url: `${import.meta.env.BASE_URL}mockServiceWorker.js` },
     onUnhandledRequest: 'warn', // 未匹配请求会在 console 警告
   });
-
-  console.log('MSW worker started');
 }
