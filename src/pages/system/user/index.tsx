@@ -135,7 +135,6 @@ export default function User() {
         email: string
         group: string
         groupName: string
-        defaultRole: string
         status: "0" | "1"
         create: string
         update: string
@@ -215,13 +214,6 @@ export default function User() {
             header: intl.formatMessage({ id: 'page.system.user.header.groupName' }),
             cell: ({ row }) => (
                 <div >{row.getValue("groupName")}</div>
-            ),
-        },
-        {
-            accessorKey: "defaultRole",
-            header: intl.formatMessage({ id: 'page.system.user.header.defaultRole' }),
-            cell: ({ row }) => (
-                <div >{row.getValue("defaultRole")}</div>
             ),
         },
         {

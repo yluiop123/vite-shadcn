@@ -48,13 +48,13 @@ export default function Index(props: {setOpen: (open: boolean) => void, open: bo
             validate: z.string(),
             type: "group"
         },
-        {
-            name: "defaultRole",
-            label: "page.system.user.header.defaultRole",
-            defaultValue: "",
-            validate: z.string(),
-            type: "role"
-        },
+        // {
+        //     name: "defaultRole",
+        //     label: "page.system.user.header.defaultRole",
+        //     defaultValue: "",
+        //     validate: z.string(),
+        //     type: "role"
+        // },
     ]
     const [values, setValues] = useState<Record<string, unknown>>({});
 

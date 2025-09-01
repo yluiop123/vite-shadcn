@@ -42,7 +42,6 @@ export default {
     'page.system.user.header.email': '邮箱',
     'page.system.user.header.phone': '手机号',
     'page.system.user.header.groupName': '组织',
-    'page.system.user.header.defaultRole': '默认角色',
     'page.system.user.header.status': '状态',
     'page.system.user.header.createTime': '创建时间',
     'page.system.role.header.name': '角色名称',

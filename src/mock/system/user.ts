@@ -33,7 +33,6 @@ type User = {
   email: string;
   group: string;
   groupName: string;
-  defaultRole: string;
   status: "0" | "1";
   create: string;
   update: string;
@@ -94,7 +93,6 @@ function getUserList(locale: string) {
       email: `user${userId}@example.com`,
       group: dataArray[i % 6].id,
       groupName: dataArray[i % 6].name,
-      defaultRole: "admin",
       status: "1",
       phone: `${13800000000 + i}`,
       create: "2025-01-01 23:59:59",

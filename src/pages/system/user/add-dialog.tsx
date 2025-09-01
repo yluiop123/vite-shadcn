@@ -46,13 +46,13 @@ export default function Index(props: {open: boolean,setOpen:(open:boolean)=>void
             validate: z.string(),
             type: "group"
         },
-        {
-            name: "defaultRole",
-            label: "page.system.user.header.defaultRole",
-            defaultValue: "all",
-            validate: z.string(),
-            type: "role"
-        },
+        // {
+        //     name: "roles",
+        //     label: "page.system.user.header.defaultRole",
+        //     defaultValue: "all",
+        //     validate: z.string(),
+        //     type: "role"
+        // },
     ]
     const schemaShape = fields.reduce((acc, field) => {
         acc[field.name] = field.validate || z.string().optional();

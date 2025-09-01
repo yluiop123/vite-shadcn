@@ -12,7 +12,6 @@ type UserInfo = {
   group?: string;
   groupName?: string;
   name?: string;
-  defaultRole?: string;
   roles?: {
     role: string;
     name: string;
@@ -50,7 +49,7 @@ const useUserStore = create<GlobalInfo>()((set, get) => ({
     const res = await axios.get("/user/userInfo");
     if (res.data.data) {
       const userInfo: UserInfo = res.data.data;
-      userInfo.currentRole = userInfo.defaultRole;
+      userInfo.currentRole = "all";
       const currentPermission = [
         ...(userInfo.userPermissions||[]),
         ...(userInfo.rolePermissions||[]).filter(

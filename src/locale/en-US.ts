@@ -42,7 +42,6 @@ export default {
     'page.system.user.header.email': 'Email',
     'page.system.user.header.phone': 'Phone',
     'page.system.user.header.groupName': 'GroupName',
-    'page.system.user.header.defaultRole': 'DefaultRole',
     'page.system.user.header.status': 'Status',
     'page.system.user.header.createTime': 'Create Time',
     'page.system.role.header.name': 'RoleName',

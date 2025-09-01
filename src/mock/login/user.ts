@@ -33,7 +33,6 @@ const handlers = [
           group: "01",
           groupName: localeMap[locale]["groupName"],
           name: "YL",
-          defaultRole: "super",
           roles: [
             { role: "super", name: localeMap[locale]["super"] },
             { role: "admin", name: localeMap[locale]["admin"] },
