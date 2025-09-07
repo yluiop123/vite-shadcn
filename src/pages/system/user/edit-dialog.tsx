@@ -8,6 +8,11 @@ import { z } from "zod";
 export default function Index(props: {setOpen: (open: boolean) => void, open: boolean, onSave: () => void, id: string }) {
     const {setOpen, onSave, open, id} = props;
     const intl = useIntl();
+    const rolesSchema = z.object({
+        label: z.string(),
+        value: z.string(),
+        disable: z.boolean().optional(),
+    });
     const fields:Field[] = [
         {
             name: "name",
@@ -48,13 +53,13 @@ export default function Index(props: {setOpen: (open: boolean) => void, open: bo
             validate: z.string(),
             type: "group"
         },
-        // {
-        //     name: "defaultRole",
-        //     label: "page.system.user.header.defaultRole",
-        //     defaultValue: "",
-        //     validate: z.string(),
-        //     type: "role"
-        // },
+        {
+            name: "roles",
+            label: "page.system.user.header.roles",
+            defaultValue: [],
+            validate: z.array(rolesSchema).min(1),
+            type: "role"
+        },
     ]
     const [values, setValues] = useState<Record<string, unknown>>({});
 
@@ -65,7 +70,11 @@ export default function Index(props: {setOpen: (open: boolean) => void, open: bo
         axios.get("/system/users/detail/" + id).then(res => {
             if (res.data.code === 200) {
                 const user = res.data.data;
-                setValues (user);     
+                user.roles = user.roles.map((item: { role: string; name: string; }) => ({
+                    label: item.name,
+                    value: item.role,
+                }));
+                setValues (user);
             } 
         })
     }, [id])

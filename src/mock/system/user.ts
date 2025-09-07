@@ -1,6 +1,11 @@
 import { http, HttpResponse } from "msw";
 
 const zh = {
+  roles:{    
+    'super':'超级管理员',
+    'admin':'管理员',
+    'user':'普通用户',
+  },
   user: "用户",
   group: "组织",
   success: "操作成功",
@@ -12,6 +17,11 @@ const zh = {
   "000303": "研发3部",
 };
 const en = {
+  roles:{    
+    'super':'Super',
+    'admin':'Admin',
+    'user':'User',
+  },
   user: "User",
   group: "Group",
   success: "Success",
@@ -22,7 +32,7 @@ const en = {
   "000302": "Development 2 Department",
   "000303": "Development 3 Department",
 };
-const localeMap: Record<string, Record<string, string>> = {
+const localeMap: Record<string, Record<string, string|Record<string,string>>> = {
   zh,
   en,
 };
@@ -37,6 +47,7 @@ type User = {
   create: string;
   update: string;
   phone: string;
+  roles: Record<string,string>[];
 };
 function getUserList(locale: string) {
   const user = localeMap[locale]["user"];
@@ -84,6 +95,7 @@ function getUserList(locale: string) {
       order: 2,
     },
   ];
+  const roles = localeMap[locale]["roles"] as Record<string,string>;
   const list = Array.from({ length: 23 }, (_, i) => {
     const userId = i.toString().padStart(3, "0");
     return {
@@ -97,6 +109,9 @@ function getUserList(locale: string) {
       phone: `${13800000000 + i}`,
       create: "2025-01-01 23:59:59",
       update: "2025-01-01 23:59:59",
+      roles: [{role:'super',name:roles['super']},
+      {role:'admin',name:roles['admin']},
+      {role:'user',name:roles['user']}].slice(0, (i % 3) + 1),
     };
   }) as User[];
   return list;
@@ -118,7 +133,7 @@ const handlers = [
     const list = getUserList(locale);
     const filterList = list.filter(
       (item) =>
-        item[filterField as keyof User].startsWith(filterValue) &&
+        item[filterField as keyof User].toString().startsWith(filterValue) &&
         item.group.startsWith(group)
     );
     if (orderField) {

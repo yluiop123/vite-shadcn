@@ -44,6 +44,7 @@ export default {
     'page.system.user.header.groupName': '组织',
     'page.system.user.header.status': '状态',
     'page.system.user.header.createTime': '创建时间',
+    'page.system.user.header.roles': '角色',
     'page.system.role.header.name': '角色名称',
     'page.system.role.header.role': '角色编码', 
     'page.system.role.header.status': '状态',

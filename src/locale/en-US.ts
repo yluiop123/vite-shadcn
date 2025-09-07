@@ -44,6 +44,7 @@ export default {
     'page.system.user.header.groupName': 'GroupName',
     'page.system.user.header.status': 'Status',
     'page.system.user.header.createTime': 'Create Time',
+    'page.system.user.header.roles': 'Roles',
     'page.system.role.header.name': 'RoleName',
     'page.system.role.header.role': 'RoleId',
     'page.system.role.header.status': 'Status',

@@ -6,6 +6,11 @@ import { z } from "zod";
 export default function Index(props: {open: boolean,setOpen:(open:boolean)=>void,onSave: () => void }) {
     const {open,setOpen,onSave}=props;
     const intl = useIntl();
+    const rolesSchema = z.object({
+        label: z.string(),
+        value: z.string(),
+        disable: z.boolean().optional(),
+    });
     const fields:Field[] = [
         {
             name: "username",
@@ -46,13 +51,13 @@ export default function Index(props: {open: boolean,setOpen:(open:boolean)=>void
             validate: z.string(),
             type: "group"
         },
-        // {
-        //     name: "roles",
-        //     label: "page.system.user.header.defaultRole",
-        //     defaultValue: "all",
-        //     validate: z.string(),
-        //     type: "role"
-        // },
+        {
+            name: "roles",
+            label: "page.system.user.header.roles",
+            defaultValue: [],
+            validate: z.array(rolesSchema).min(1),
+            type: "role"
+        },
     ]
     const schemaShape = fields.reduce((acc, field) => {
         acc[field.name] = field.validate || z.string().optional();
@@ -61,6 +66,7 @@ export default function Index(props: {open: boolean,setOpen:(open:boolean)=>void
     const formSchema = z.object(schemaShape);
     // 2. Define a submit handler. 
     function onSubmit(values: z.infer<typeof formSchema>) {
+        values.roles = values.roles.map((item: { label: string; value: string;}) => (item.value));
         axios.post("/system/users/add", {
             ...values
         }).then(res => {
