@@ -1,6 +1,7 @@
 import { setupWorker } from 'msw/browser';
 import groupHandlers from './components/group';
 import loginUserHandlers from './login/user';
+import systemGroupHandlers from './system/group';
 import systemRoleHandlers from './system/role';
 import systemUserHandlers from './system/user';
 const mockHandlers = [
@@ -8,6 +9,7 @@ const mockHandlers = [
     ...groupHandlers,
     ...systemUserHandlers,
     ...systemRoleHandlers,
+    ...systemGroupHandlers
 ]
 
 let worker: ReturnType<typeof setupWorker> | null = null;

@@ -1,19 +1,4 @@
-import {
-    ColumnDef,
-    ColumnFiltersState,
-    flexRender,
-    getCoreRowModel,
-    getFilteredRowModel,
-    getPaginationRowModel,
-    getSortedRowModel,
-    SortingState,
-    useReactTable,
-    VisibilityState,
-} from "@tanstack/react-table"
-import * as React from "react"
-
-import { Button } from "@/components/ui/button"
-import { Checkbox } from "@/components/ui/checkbox"
+import { Button } from "@/components/ui/button";
 import {
     DropdownMenu,
     DropdownMenuCheckboxItem,
@@ -22,8 +7,8 @@ import {
     DropdownMenuLabel,
     DropdownMenuSeparator,
     DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { Input } from "@/components/ui/input"
+} from "@/components/ui/dropdown-menu";
+import { Input } from "@/components/ui/input";
 import {
     Table,
     TableBody,
@@ -31,119 +16,228 @@ import {
     TableHead,
     TableHeader,
     TableRow,
-} from "@/components/ui/table"
-import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react"
-const statusEnum = new Map([["0", "停用"], ["1", "启用"]]);
-const data: Group[] = [
-    {
-        name: "角色1",
-        id: "0000001",
-        status: "0",
-        remark: "备注1",
-        create: "2025-01-01 23:59:59",
-    },
-    {
-        name: "角色2",
-        id: "0000002",
-        status: "0",
-        remark: "备注2",
-        create: "2025-01-01 23:59:59",
-    },
-    {
-        name: "角色3",
-        id: "0000003",
-        status: "0",
-        remark: "备注3",
-        create: "2025-01-01 23:59:59",
-    },
-    {
-        name: "角色4",
-        id: "0000004",
-        status: "0",
-        remark: "备注4",
-        create: "2025-01-01 23:59:59",
-    },
-    {
-        name: "角色5",
-        id: "0000005",
-        status: "1",
-        remark: "备注5",
-        create: "2025-01-01 23:59:59",
-    },
-    {
-        name: "角色6",
-        id: "0000006",
-        status: "1",
-        remark: "备注6",
-        create: "2025-01-01 23:59:59",
-    },
-]
+} from "@/components/ui/table";
+import axios from "@/lib/axios";
+import {
+    ColumnDef,
+    ColumnFiltersState,
+    ExpandedState,
+    flexRender,
+    getCoreRowModel,
+    getFilteredRowModel,
+    getPaginationRowModel,
+    getSortedRowModel,
+    SortingState,
+    useReactTable,
+    VisibilityState,
+    getExpandedRowModel
+} from "@tanstack/react-table";
+import { ChevronDown, MoreHorizontal,ChevronRight } from "lucide-react";
+import { Switch } from "@/components/ui/switch";
+import React, { HTMLProps, useEffect, useState } from 'react';
+function StatusSwitch({ initial, onChange }: { initial: string; onChange: (val: string) => void }) {
+  const [checked, setChecked] = useState(initial === "1")
+  return (
+    <Switch
+      checked={checked}
+      onCheckedChange={(value) => {
+        setChecked(value)
+        onChange(value ? "1" : "0")
+      }}
+    />
+  )
+}
+function buildTree(data: Group[]): Group[] {
+  const map = new Map<string, Group>();
+  const roots: Group[] = [];
+
+  // 初始化 map
+  for (const item of data) {
+    map.set(item.id, { ...item, subRows: [] });
+  }
+
+  // 构建树结构
+  for (const item of data) {
+    const node = map.get(item.id)!;
+    if (item.parentId && map.has(item.parentId)) {
+      const parent = map.get(item.parentId)!;
+      parent.subRows!.push(node);
+    } else {
+      roots.push(node);
+    }
+  }
+
+  // 递归排序函数
+  function sortByOrder(nodes: Group[]) {
+    nodes.sort((a, b) => a.order - b.order);
+    nodes.forEach((node) => {
+      if (node.subRows && node.subRows.length > 0) {
+        sortByOrder(node.subRows);
+      }
+    });
+  }
+
+  // 排序根节点
+  sortByOrder(roots);
+  return roots;
+}
 
 type Group = {
     name: string
     id: string
     status: "0" | "1"
     remark: string
-    create: string
+    create: string,
+    parentId?: string
+    order: number
+    subRows?: Group[]
 }
+import { Checkbox } from "@/components/ui/checkbox"
+
+type IndeterminateCheckboxProps = {
+  indeterminate?: boolean
+  checked?: boolean
+  className?: string
+  onCheckedChange?: (checked: boolean | "indeterminate") => void
+}
+
+export function IndeterminateCheckbox({
+  indeterminate,
+  checked,
+  className = "",
+  onCheckedChange,
+  ...rest
+}: IndeterminateCheckboxProps) {
+  // 合并 checked 状态
+  const mergedChecked: boolean | "indeterminate" =
+    indeterminate && !checked ? "indeterminate" : !!checked
+
+  return (
+    <Checkbox
+      className={className + " cursor-pointer"}
+      checked={mergedChecked}
+      onCheckedChange={onCheckedChange}
+      {...rest}
+    />
+  )
+}
+// function IndeterminateCheckbox({
+//   indeterminate,
+//   className = '',
+//   ...rest
+// }: { indeterminate?: boolean } & HTMLProps<HTMLInputElement>) {
+//   const ref = React.useRef<HTMLInputElement>(null!)
+
+//   React.useEffect(() => {
+//     if (typeof indeterminate === 'boolean') {
+//       ref.current.indeterminate = !rest.checked && indeterminate
+//     }
+//   }, [ref, indeterminate])
+
+//   return (
+//     <input
+//       type="checkbox"
+//       ref={ref}
+//       className={className + ' cursor-pointer'}
+//       {...rest}
+//     />
+//   )
+// }
 
 const columns: ColumnDef<Group>[] = [
     {
-        id: "select",
-        header: ({ table }) => (
-            <Checkbox
-                checked={
-                    table.getIsAllPageRowsSelected() ||
-                    (table.getIsSomePageRowsSelected() && "indeterminate")
-                }
-                onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-                aria-label="Select all"
-            />
+        accessorKey: 'name',
+        header: ({ table }) => (  
+                      <>
+            <IndeterminateCheckbox
+              {...{
+                checked: table.getIsAllRowsSelected(),
+                indeterminate: table.getIsSomeRowsSelected(),
+                onCheckedChange: table.getToggleAllRowsSelectedHandler(),
+              }}
+            />{' '}
+            <button
+              {...{
+                onClick: table.getToggleAllRowsExpandedHandler(),
+              }}
+              className="inline-flex items-center justify-center w-6 h-6 cursor-pointer"
+            >
+              {table.getIsAllRowsExpanded() ? <ChevronDown className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />}
+            </button>{' '}
+            Name
+          </>          
+            // <Checkbox
+            //     checked={
+            //         table.getIsAllPageRowsSelected() ||
+            //         (table.getIsSomePageRowsSelected() && "indeterminate")
+            //     }
+            //     onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+            //     aria-label="Select all"
+            // />
         ),
-        cell: ({ row }) => (
-            <Checkbox
-                checked={row.getIsSelected()}
-                onCheckedChange={(value) => row.toggleSelected(!!value)}
-                aria-label="Select row"
-            />
+        cell: ({ row,getValue }) => (
+           <div
+            style={{
+              // Since rows are flattened by default,
+              // we can use the row.depth property
+              // and paddingLeft to visually indicate the depth
+              // of the row
+              paddingLeft: `${row.depth * 2}rem`,
+            }}
+          >
+            <div>
+              <IndeterminateCheckbox
+                {...{
+                  checked: row.getIsSelected(),
+                  indeterminate: row.getIsSomeSelected(),
+                  onCheckedChange: row.getToggleSelectedHandler(),
+                }}
+              />{' '}
+              {row.getCanExpand() ? (
+                <button
+                  {...{
+                    onClick: row.getToggleExpandedHandler(),
+                  }}
+                  className="inline-flex items-center justify-center w-6 h-6 cursor-pointer"
+                >
+                  {row.getIsExpanded() ? <ChevronDown className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />}
+                </button>
+              ) : (
+                ''
+              )}{' '}
+              {getValue<boolean>()}
+            </div>
+          </div>
+            // <Checkbox
+            //     checked={row.getIsSelected()}
+            //     onCheckedChange={(value) => row.toggleSelected(!!value)}
+            //     aria-label="Select row"
+            // />
         ),
         enableSorting: false,
         enableHiding: false,
     },
     {
-        accessorKey: "name",
-        header: ({ column }) => {
-            return (
-                <Button
-                    variant="ghost"
-                    onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-                >
-                    Name
-                    <ArrowUpDown />
-                </Button>
-            )
-        },
-        cell: ({ row }) => <div className="lowercase">{row.getValue("name")}</div>,
-    },
-    {
-        accessorKey: "id",
-        header: "Id",
-        cell: ({ row }) => (
-            <div className="capitalize">{row.getValue("id")}</div>
-        ),
-    },
-    {
         accessorKey: "status",
         header: "Status",
         cell: ({ row }) => (
-            <div className="capitalize">{statusEnum.get(row.getValue("status"))}</div>
+            <StatusSwitch
+            initial={row.getValue("status") as string}
+            onChange={(val) => {
+                // handleStatusChange({id: row.original.id,status:val } as User);
+            }}/>
         ),
     },
     {
-        accessorKey: "remark",
-        header: "Remark",
+        accessorKey: "order",
+         header: "Order",
+        cell: ({ row }) => <div className="lowercase">{row.getValue("order")}</div>,
+    },
+    {
+        accessorKey: "create",
+        header: "create",
         cell: ({ row }) => (
-            <div className="capitalize">{row.getValue("remark")}</div>
+            <div className="capitalize">{row.getValue("create")}</div>
         ),
     },
 
@@ -186,9 +280,28 @@ export default function Group() {
     const [columnVisibility, setColumnVisibility] =
         React.useState<VisibilityState>({})
     const [rowSelection, setRowSelection] = React.useState({})
-
+    const [expanded, setExpanded] = React.useState<ExpandedState>({})
+        const [data, setData] = useState<{
+            list: Group[]
+            total: number
+        }>({
+            list: [],
+            total: 0,
+        });
+    function fetchData() {
+        axios.post("/system/groups").then(res => {
+            const treeData = buildTree(res.data.data);
+            console.log(treeData);
+            setData({list: treeData, total: res.data.data.length});
+        })
+    }
+    useEffect(() => {
+        fetchData();
+    }, [])
     const table = useReactTable({
-        data,
+        onExpandedChange: setExpanded,
+        getSubRows: row => row.subRows,
+        data: data.list,
         columns,
         onSortingChange: setSorting,
         onColumnFiltersChange: setColumnFilters,
@@ -198,51 +311,19 @@ export default function Group() {
         getFilteredRowModel: getFilteredRowModel(),
         onColumnVisibilityChange: setColumnVisibility,
         onRowSelectionChange: setRowSelection,
+        getExpandedRowModel: getExpandedRowModel(),
         state: {
+            expanded,
             sorting,
             columnFilters,
             columnVisibility,
             rowSelection,
         },
     })
-
     return (
         <div className="w-full">
             <div className="flex items-center py-4">
-                <Input
-                    placeholder="Filter Names..."
-                    value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
-                    onChange={(event) =>
-                        table.getColumn("name")?.setFilterValue(event.target.value)
-                    }
-                    className="max-w-sm"
-                />
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button variant="outline" className="ml-auto">
-                            Columns <ChevronDown />
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                        {table
-                            .getAllColumns()
-                            .filter((column) => column.getCanHide())
-                            .map((column) => {
-                                return (
-                                    <DropdownMenuCheckboxItem
-                                        key={column.id}
-                                        className="capitalize"
-                                        checked={column.getIsVisible()}
-                                        onCheckedChange={(value) =>
-                                            column.toggleVisibility(!!value)
-                                        }
-                                    >
-                                        {column.id}
-                                    </DropdownMenuCheckboxItem>
-                                )
-                            })}
-                    </DropdownMenuContent>
-                </DropdownMenu>
+
             </div>
             <div className="rounded-md border">
                 <Table>
