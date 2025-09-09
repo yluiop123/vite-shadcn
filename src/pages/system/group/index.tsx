@@ -362,7 +362,7 @@ export default function Group() {
           <div className="ml-auto flex items-center gap-2">
               <Button onClick={() => setIsAddDialogOpen(true)}>{formatMessage({ id: 'button.add' })}</Button>
               <AddDialog open={isAddDialogOpen} setOpen={setIsAddDialogOpen} onSave={() => setParams({ ...params, page: 1 })}/>
-              {/* <Button onClick={() => handleDelete(table.getSelectedRowModel().rows.map((row) => row.id))}>{formatMessage({ id: 'button.delete' })}</Button> */}
+              <Button onClick={() => handleDelete(table.getSelectedRowModel().flatRows.map((row) => row.original.id))}>{formatMessage({ id: 'button.delete' })}</Button>
               <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                       <Button variant="outline" className="ml-auto">
