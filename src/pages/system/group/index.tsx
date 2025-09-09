@@ -234,7 +234,7 @@ export default function Group() {
                         <DropdownMenuLabel>{formatMessage({ id: 'table.actions' })}</DropdownMenuLabel>
                         <DropdownMenuSeparator />
                         <DropdownMenuItem onClick={() => handleEdit(role)}>{formatMessage({ id: 'button.edit' })}</DropdownMenuItem>
-                        <DropdownMenuItem onClick={() => handleDelete([role])}>{formatMessage({ id: 'button.delete' })}</DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => handleDelete([role.id])}>{formatMessage({ id: 'button.delete' })}</DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
             )
