@@ -15,12 +15,12 @@ if(mockEnable){
   initMSW().then(()=>{
     createRootElement();
   })
-  const handleVisibilityChange = () => {
-      if (document.visibilityState === 'visible') {
-          initMSW();
-      }
-  };
-  document.addEventListener('visibilitychange', handleVisibilityChange);
+  // const handleVisibilityChange = () => {
+  //     if (document.visibilityState === 'visible') {
+  //         initMSW();
+  //     }
+  // };
+  // document.addEventListener('visibilitychange', handleVisibilityChange);
 }else{
   createRootElement();
 }
