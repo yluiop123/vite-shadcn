@@ -1,6 +1,8 @@
 /* eslint-disable */
 /* tslint:disable */
-
+// MSW fix for GitHub Pages
+self.skipWaiting()
+self.clients.claim()
 /**
  * Mock Service Worker.
  * @see https://github.com/mswjs/msw

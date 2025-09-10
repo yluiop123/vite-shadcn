@@ -26,7 +26,7 @@ export default async function initMSW() {
       url: `${import.meta.env.BASE_URL}mockServiceWorker.js?ts=${Date.now()}`,
       options: { updateViaCache: "none" },
     },
-    onUnhandledRequest: "warn", // 未匹配请求会在 console 警告
+    onUnhandledRequest: "bypass", // 未匹配请求会直接绕过 MSW 处理
   });
   return worker;
 }
