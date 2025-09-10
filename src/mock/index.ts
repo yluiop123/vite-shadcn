@@ -12,13 +12,9 @@ const mockHandlers = [
     ...systemGroupHandlers
 ]
 
-let worker: ReturnType<typeof setupWorker> | null = null;
 
 export default async function initMSW() {
-  if (!worker) {
-    worker = setupWorker(...mockHandlers);
-  }
-
+  const worker = setupWorker(...mockHandlers);
   // 注销旧 SW
   // const registrations = await navigator.serviceWorker.getRegistrations();
   // for (const reg of registrations) {
@@ -28,7 +24,7 @@ export default async function initMSW() {
   // 启动 MSW
   await worker.start({
     serviceWorker: { url: `${import.meta.env.BASE_URL}mockServiceWorker.js?ts=${Date.now()}` },
-    onUnhandledRequest: 'bypass', // 未匹配请求会在 console 警告
+    onUnhandledRequest: 'warn', // 未匹配请求会在 console 警告
   });
   return worker;
 }
