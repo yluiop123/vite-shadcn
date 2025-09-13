@@ -279,6 +279,7 @@ export default function Permission() {
       id?: string
       name?: string
       status?: string
+      path?: string
   }
   const [params, setParams] = useState({
       page: 1,
@@ -315,7 +316,7 @@ export default function Permission() {
       if (rows.length === 0) {
           return;
       }
-      axios.delete("/system/roles", {
+      axios.delete("/system/permissions", {
           data: rows
       }).then(res => {
           setParams({ ...params, page: 1 });
@@ -357,16 +358,19 @@ export default function Permission() {
       onSave={() => setParams({ ...params, page: 1 })} />
       <div className="flex items-center py-3 gap-4">
           <div className="flex items-center gap-4">
-              <Label className="whitespace-nowrap" htmlFor="groupName">{formatMessage({ id: 'page.system.group.header.name' })}</Label>
-              <Input id="groupName" type="text" placeholder="" value={params.name} onChange={(e) => setParams({ ...params, name: e.target.value })} />
+              <Label className="whitespace-nowrap" htmlFor="permissionName">{formatMessage({ id: 'page.system.permission.header.name' })}</Label>
+              <Input id="permissionName" type="text" placeholder="" value={params.name} onChange={(e) => setParams({ ...params, name: e.target.value })} />
           </div>
           <div className="flex items-center gap-4">
-              <Label className="whitespace-nowrap" htmlFor="roleId">{formatMessage({ id: 'page.system.group.header.id' })}</Label>
-              <Input id="groupId" type="text" placeholder="" value={params.id} onChange={(e) => setParams({ ...params, id: e.target.value })} />
+              <Label className="whitespace-nowrap" htmlFor="permissionId">{formatMessage({ id: 'page.system.permission.header.id' })}</Label>
+              <Input id="permissionId" type="text" placeholder="" value={params.id} onChange={(e) => setParams({ ...params, id: e.target.value })} />
           </div>
-          
+          <div className="flex items-center gap-4">
+              <Label className="whitespace-nowrap" htmlFor="permissionId">{formatMessage({ id: 'page.system.permission.header.path' })}</Label>
+              <Input id="permissionPath" type="text" placeholder="" value={params.path} onChange={(e) => setParams({ ...params, path: e.target.value })} />
+          </div>
           <div className="flex items-center gap-2">
-              <Label className="whitespace-nowrap">{formatMessage({ id: 'page.system.group.header.status' })}</Label>
+              <Label className="whitespace-nowrap">{formatMessage({ id: 'page.system.permission.header.status' })}</Label>
               <Select 
                   onValueChange={(value) =>
                       setParams({ ...params, status: value })
