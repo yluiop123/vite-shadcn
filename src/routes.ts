@@ -55,7 +55,6 @@ const routeSetting: NavItem[] = [
     children: [
       { key: "user", title: "menu.system.user", icon: Bot},
       { key: "role", title: "menu.system.role", icon: Bot},
-      { key: "menu", title: "menu.system.menu", icon: Bot},
       { key: "permission", title: "menu.system.permission", icon: Bot},
       { key: "group", title: "menu.system.group", icon: Bot},
     ],

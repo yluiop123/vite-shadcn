@@ -147,7 +147,9 @@ export default function Group() {
             {...{
               checked: table.getIsAllRowsSelected(),
               indeterminate: table.getIsSomeRowsSelected(),
-              onCheckedChange: table.getToggleAllRowsSelectedHandler(),
+              onCheckedChange: (checked) => {
+                table.toggleAllRowsSelected(!!checked)
+              },
             }}
           />{' '}
           <button
@@ -158,7 +160,7 @@ export default function Group() {
           >
             {table.getIsAllRowsExpanded() ? <ChevronDown className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />}
           </button>{' '}
-          Name
+          {formatMessage({ id: "page.system.group.header.name" })}
         </>
       ),
       cell: ({ row, getValue }) => (
