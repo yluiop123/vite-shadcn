@@ -49,7 +49,7 @@ import { useIntl } from "react-intl";
 import { toast } from "sonner";
 import AddDialog from "./add-dialog";
 import EditDialog from "./edit-dialog";
-
+import TreeSelect from "@/components/TreeSelect";
 function StatusSwitch({ initial, onChange }: { initial: string; onChange: (val: string) => void }) {
   const [checked, setChecked] = useState(initial === "1")
   return (
@@ -355,8 +355,11 @@ export default function Permission() {
   return (
     <div className="w-full">
       <EditDialog id={id} setOpen={setIsEditDialogOpen} open={isEditDialogOpen} 
-      onSave={() => setParams({ ...params, page: 1 })} />
+      onSave={() => setParams({ ...params, page: 1 })} />    
       <div className="flex items-center py-3 gap-4">
+          <div className="flex items-center gap-4">
+            <TreeSelect />
+          </div>
           <div className="flex items-center gap-4">
               <Label className="whitespace-nowrap" htmlFor="permissionName">{formatMessage({ id: 'page.system.permission.header.name' })}</Label>
               <Input id="permissionName" type="text" placeholder="" value={params.name} onChange={(e) => setParams({ ...params, name: e.target.value })} />
