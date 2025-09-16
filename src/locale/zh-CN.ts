@@ -70,6 +70,8 @@ export default {
     'button.cancel':'取消',
     'button.create':'创建',
     'button.reset':'重置',
+    'button.clear':'清空',
+    'button.selectAll':'全选',
     'button.reset.password':'重置密码',
     'table.search':'搜索',
     'table.actions':'操作',

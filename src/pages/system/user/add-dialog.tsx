@@ -45,18 +45,18 @@ export default function Index(props: {open: boolean,setOpen:(open:boolean)=>void
             })
         },
         {
-            name: "group",
-            label: "page.system.user.header.groupName",
-            defaultValue: "",
-            validate: z.string(),
-            type: "group"
-        },
-        {
             name: "roles",
             label: "page.system.user.header.roles",
             defaultValue: [],
             validate: z.array(rolesSchema).min(1),
             type: "role"
+        },
+        {
+            name: "group",
+            label: "page.system.user.header.groupName",
+            defaultValue: [],
+            validate: z.array(z.string()),
+            type: "group"
         },
     ]
     const schemaShape = fields.reduce((acc, field) => {
@@ -67,6 +67,7 @@ export default function Index(props: {open: boolean,setOpen:(open:boolean)=>void
     // 2. Define a submit handler. 
     function onSubmit(values: z.infer<typeof formSchema>) {
         values.roles = values.roles.map((item: { label: string; value: string;}) => (item.value));
+        values.group = values.group?values.group[0]:'';
         axios.post("/system/users/add", {
             ...values
         }).then(res => {

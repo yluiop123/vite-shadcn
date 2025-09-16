@@ -1,4 +1,4 @@
-import { GroupTreeSelectPopover } from "@/components/group-tree-select-popver";
+import GroupTreeSelect from "@/components/group-tree-select";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
@@ -67,7 +67,7 @@ export default function User() {
         filterField: string
         filterValue: string
         group: string
-        groupName: string
+        // groupName: string
         orderField?: string
         orderValue?: "asc" | "desc"
     }
@@ -78,7 +78,7 @@ export default function User() {
         filterField: 'name',
         filterValue: '',
         group: '',
-        groupName: ''
+        // groupName: ''
     } as TableParams);
 
     useEffect(() => {
@@ -296,10 +296,14 @@ export default function User() {
             onSave={() => setParams({ ...params, page: 1 })} />
 
             <div className="flex items-center py-3 gap-4">
-                <GroupTreeSelectPopover
+                <GroupTreeSelect
+                    groupId="00"
+                    value={params.group==''?[]:[params.group]}
                     onChange={(node) => {
                         if (node.length > 0) {
-                            setParams({ ...params, group: node[0].id, groupName: node[0].name })
+                            setParams({ ...params, group: node[0]})
+                        }else{
+                            setParams({ ...params, group:''})
                         }
                     }}
                 />

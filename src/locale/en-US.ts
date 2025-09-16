@@ -70,6 +70,8 @@ export default {
     'button.cancel':'Cancel',
     'button.create':'Create',
     'button.reset':'Reset',
+    'button.clear':'Clear',
+    'button.selectAll':'Select All',
     'button.reset.password':'Reset Password',
     'table.search':'Search',
     'table.actions':'Actions',

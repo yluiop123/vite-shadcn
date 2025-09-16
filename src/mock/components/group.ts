@@ -35,7 +35,6 @@ const handlers = [
     const id = params.id;
     console.log(id);
     const dataArray = [
-      { id: "00", name: localeMap[locale]['00'],parentId:"",depth:0,order:0 },
       { id: "0001", name: localeMap[locale]['0001'],parentId:"00",depth:1,order:0 },
       { id: "0002", name: localeMap[locale]['0002'],parentId:"00",depth:1,order:1 },
       { id: "0003", name: localeMap[locale]['0003'],parentId:"00",depth:1,order:2 },

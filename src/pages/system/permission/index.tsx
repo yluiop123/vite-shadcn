@@ -1,47 +1,47 @@
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger
+    DropdownMenu,
+    DropdownMenuCheckboxItem,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
 } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
 } from "@/components/ui/table";
 import axios from "@/lib/axios";
 import { statusEnum } from "@/lib/dict";
 import {
-  ColumnDef,
-  ColumnFiltersState,
-  ExpandedState,
-  flexRender,
-  getCoreRowModel,
-  getExpandedRowModel,
-  getFilteredRowModel,
-  getPaginationRowModel,
-  getSortedRowModel,
-  SortingState,
-  useReactTable,
-  VisibilityState,
+    ColumnDef,
+    ColumnFiltersState,
+    ExpandedState,
+    flexRender,
+    getCoreRowModel,
+    getExpandedRowModel,
+    getFilteredRowModel,
+    getPaginationRowModel,
+    getSortedRowModel,
+    SortingState,
+    useReactTable,
+    VisibilityState,
 } from "@tanstack/react-table";
 import { ChevronDown, ChevronRight, MoreHorizontal } from "lucide-react";
 import React, { useEffect, useState } from 'react';
@@ -49,7 +49,6 @@ import { useIntl } from "react-intl";
 import { toast } from "sonner";
 import AddDialog from "./add-dialog";
 import EditDialog from "./edit-dialog";
-import TreeSelect from "@/components/TreeSelect";
 function StatusSwitch({ initial, onChange }: { initial: string; onChange: (val: string) => void }) {
   const [checked, setChecked] = useState(initial === "1")
   return (
@@ -352,13 +351,14 @@ export default function Permission() {
       rowSelection,
     },
   })
+  const [selectedOrg, setSelectedOrg] = useState(['0001'] as string[]);
   return (
     <div className="w-full">
       <EditDialog id={id} setOpen={setIsEditDialogOpen} open={isEditDialogOpen} 
       onSave={() => setParams({ ...params, page: 1 })} />    
       <div className="flex items-center py-3 gap-4">
           <div className="flex items-center gap-4">
-            <TreeSelect />
+            <groupTreeSelect groupId="00" value={selectedOrg} onChange={setSelectedOrg}/>
           </div>
           <div className="flex items-center gap-4">
               <Label className="whitespace-nowrap" htmlFor="permissionName">{formatMessage({ id: 'page.system.permission.header.name' })}</Label>

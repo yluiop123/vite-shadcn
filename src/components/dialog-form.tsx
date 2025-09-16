@@ -1,4 +1,4 @@
-import { GroupTreeSelectPopover } from "@/components/group-tree-select-popver";
+import GroupTreeSelect from "@/components/group-tree-select";
 import RoleSelect from "@/components/role-select";
 import { Button } from "@/components/ui/button";
 import {
@@ -77,14 +77,11 @@ export default function Index({open,setOpen,title,fields,values,onSubmit}:
                                             <RoleSelect {...field}/>
                                             :
                                             f?.type === "group"?
-                                            <GroupTreeSelectPopover
-                                                defaultValue={field.value}
-                                                onChange={(node) => {
-                                                    if (node.length > 0) {
-                                                        field.onChange(node[0].id);
-                                                    }
-                                                }}
-                                            />:
+                                            <GroupTreeSelect
+                                                groupId="00"
+                                                {...field}
+                                            />
+                                            :
                                             <Input placeholder="" {...field} />
                                         }
                                         </FormControl>

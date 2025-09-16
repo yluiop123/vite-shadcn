@@ -47,18 +47,18 @@ export default function Index(props: {setOpen: (open: boolean) => void, open: bo
             })
         },
         {
-            name: "group",
-            label: "page.system.user.header.groupName",
-            defaultValue: "all",
-            validate: z.string(),
-            type: "group"
-        },
-        {
             name: "roles",
             label: "page.system.user.header.roles",
             defaultValue: [],
             validate: z.array(rolesSchema).min(1),
             type: "role"
+        },
+        {
+            name: "group",
+            label: "page.system.user.header.groupName",
+            defaultValue: [],
+            validate: z.array(z.string()),
+            type: "group"
         },
     ]
     const [values, setValues] = useState<Record<string, unknown>>({});
@@ -74,6 +74,7 @@ export default function Index(props: {setOpen: (open: boolean) => void, open: bo
                     label: item.name,
                     value: item.role,
                 }));
+                user.group = user.group?[user.group]:[];
                 setValues (user);
             } 
         })
@@ -85,9 +86,10 @@ export default function Index(props: {setOpen: (open: boolean) => void, open: bo
     }, {} as Record<string, z.ZodTypeAny>);
     const formSchema = z.object(schemaShape);
     // 2. Define a submit handler. 
-    function onSubmit(fieldValues: z.infer<typeof formSchema>) {
+    function onSubmit(values: z.infer<typeof formSchema>) {
+        values.roles = values.roles.map((item: { label: string; value: string;}) => (item.value));
         axios.post("/system/users/edit", {
-            ...fieldValues,
+            ...values,
             id:id
         }).then(res => {
             if(res.data.code === 200) {
