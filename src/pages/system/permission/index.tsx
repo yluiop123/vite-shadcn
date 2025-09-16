@@ -351,15 +351,11 @@ export default function Permission() {
       rowSelection,
     },
   })
-  const [selectedOrg, setSelectedOrg] = useState(['0001'] as string[]);
   return (
     <div className="w-full">
       <EditDialog id={id} setOpen={setIsEditDialogOpen} open={isEditDialogOpen} 
-      onSave={() => setParams({ ...params, page: 1 })} />    
+      onSave={() => setParams({ ...params, page: 1 })} />
       <div className="flex items-center py-3 gap-4">
-          <div className="flex items-center gap-4">
-            <groupTreeSelect groupId="00" value={selectedOrg} onChange={setSelectedOrg}/>
-          </div>
           <div className="flex items-center gap-4">
               <Label className="whitespace-nowrap" htmlFor="permissionName">{formatMessage({ id: 'page.system.permission.header.name' })}</Label>
               <Input id="permissionName" type="text" placeholder="" value={params.name} onChange={(e) => setParams({ ...params, name: e.target.value })} />
