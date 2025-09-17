@@ -1,5 +1,6 @@
 import { setupWorker } from "msw/browser";
 import groupHandlers from "./components/group";
+import permissionHandlers from "./components/permission";
 import loginUserHandlers from "./login/user";
 import systemGroupHandlers from "./system/group";
 import systemPermissionHandlers from "./system/permission";
@@ -8,6 +9,7 @@ import systemUserHandlers from "./system/user";
 const mockHandlers = [
   ...loginUserHandlers,
   ...groupHandlers,
+  ...permissionHandlers,
   ...systemUserHandlers,
   ...systemRoleHandlers,
   ...systemGroupHandlers,

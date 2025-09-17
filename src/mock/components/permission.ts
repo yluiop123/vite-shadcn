@@ -207,70 +207,13 @@ function getPermissionList(locale: string) {
   return dataArray;
 }
 const handlers = [
-  http.post<never, never>("/api/system/permissions", async ({ request }) => {
+  http.get<never, never>("/api/system/permissions", async ({ request }) => {
     const locale = request.headers.get("locale") || "zh";
-     const body = await request.clone().json();
-    const {
-      id,
-      name,
-      status
-    } = body;
     const dataArray = getPermissionList(locale);
-    const filterList = dataArray.filter((item) => {
-      if (id && !item.name.startsWith(name)) {
-        return false;
-      }
-      if (name && !item.name.startsWith(name)) {
-        return false;
-      }
-      if (status!=='all' && item.status !== status) {
-        return false;
-      }
-      return true;
-    });
     return HttpResponse.json({
       code: 200,
-      data: filterList,
+      data: dataArray,
     });
   }),
-  http.delete<{ id: string }, never>(
-    "/api/system/permissions",
-    async ({ request }) => {
-      const locale = request.headers.get("locale") || "zh";
-      const ids = await request.clone().json();
-      console.log(ids);
-      return HttpResponse.json({
-        code: 200,
-        message: localeMap[locale]["success"],
-      });
-    }
-  ),
-  http.post<never, never>("/api/system/permissions/add", async ({ request }) => {
-    const locale = request.headers.get("locale") || "zh";
-    return HttpResponse.json({
-      code: 200,
-      message: localeMap[locale]["success"],
-    });
-  }),
-  http.post<never, never>("/api/system/permissions/edit", async ({ request }) => {
-    const locale = request.headers.get("locale") || "zh";
-    return HttpResponse.json({
-      code: 200,
-      message: localeMap[locale]["success"],
-    });
-  }),
-  http.get<{ id: string }>(
-    "/api/system/groups/detail/:id",
-    async ({ request, params }) => {
-      const locale = request.headers.get("locale") || "zh";
-      const id = params.id;
-      const list = getPermissionList(locale);
-      const role = list.find((item) => item.id === id);
-      return HttpResponse.json({
-        code: 200,
-        data: role,
-      });
-    }
-  ),
 ];
 export default handlers;

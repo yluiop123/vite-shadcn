@@ -90,10 +90,28 @@ function getGroupList(locale: string) {
 const handlers = [
   http.post<never, never>("/api/system/groups", async ({ request }) => {
     const locale = request.headers.get("locale") || "zh";
+    const body = await request.clone().json();
+    const {
+      id,
+      name,
+      status
+    } = body;
     const dataArray = getGroupList(locale);
+    const filterList = dataArray.filter((item) => {
+      if (id && !item.name.startsWith(name)) {
+        return false;
+      }
+      if (name && !item.name.startsWith(name)) {
+        return false;
+      }
+      if (status!=='all' && item.status !== status) {
+        return false;
+      }
+      return true;
+    });
     return HttpResponse.json({
       code: 200,
-      data: dataArray,
+      data: filterList,
     });
   }),
   http.delete<{ id: string }, never>(

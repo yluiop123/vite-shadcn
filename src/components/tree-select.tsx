@@ -22,8 +22,9 @@ export type TreeSelectProps = {
   onChange?: (ids: string[]) => void
   placeholder?: string
   filterable?: boolean
+  showParent?: boolean  // 默认 true
+  showChild?: boolean   // 默认 true
 }
-
 // 计算节点状态
 function getCheckStatus(node: TreeNode, selected: string[]): boolean | "indeterminate" {
   if (!node.children?.length) return selected.includes(node.id)
@@ -153,6 +154,8 @@ export default function TreeSelect(props: TreeSelectProps) {
     onChange,
     placeholder = "",
     filterable = true,
+    showParent = true,
+    showChild = true,
   } = props
 
   const [open, setOpen] = useState(false)
@@ -163,11 +166,56 @@ export default function TreeSelect(props: TreeSelectProps) {
   useEffect(() => {
     if (value) setSelected(value)
   }, [value])
-const getSelectedLabels = (nodes: TreeNode[], selectedIds: string[]): string[] => {
+// const getSelectedLabels = (nodes: TreeNode[], selectedIds: string[]): string[] => {
+//   if (!selectedIds || selectedIds.length === 0) return []
+
+//   if (!multiple) {
+//     // 单选模式，直接查找 label
+//     const findLabel = (nodes: TreeNode[], id: string): string | null => {
+//       for (const node of nodes) {
+//         if (node.id === id) return node.label
+//         if (node.children) {
+//           const res = findLabel(node.children, id)
+//           if (res) return res
+//         }
+//       }
+//       return null
+//     }
+
+//     const label = findLabel(nodes, selectedIds[0])
+//     return label ? [label] : []
+//   }
+
+//   // 多选模式原有逻辑
+//   const result: string[] = []
+
+//   const traverse = (node: TreeNode): number => {
+//     if (!node.children?.length) {
+//       if (selectedIds.includes(node.id)) result.push(node.label)
+//       return selectedIds.includes(node.id) ? 1 : 0
+//     }
+
+//     let count = 0
+//     node.children.forEach((child) => (count += traverse(child)))
+//     if (count === node.children.length) {
+//       result.push(node.label)
+//       return 1
+//     }
+//     return count
+//   }
+
+//   nodes.forEach(traverse)
+//   return result
+// }
+
+const getSelectedLabels = (
+  nodes: TreeNode[],
+  selectedIds: string[]
+): string[] => {
   if (!selectedIds || selectedIds.length === 0) return []
 
   if (!multiple) {
-    // 单选模式，直接查找 label
+    // 单选模式
     const findLabel = (nodes: TreeNode[], id: string): string | null => {
       for (const node of nodes) {
         if (node.id === id) return node.label
@@ -178,33 +226,43 @@ const getSelectedLabels = (nodes: TreeNode[], selectedIds: string[]): string[] =
       }
       return null
     }
-
     const label = findLabel(nodes, selectedIds[0])
     return label ? [label] : []
   }
 
-  // 多选模式原有逻辑
-  const result: string[] = []
+  const result: { id: string; label: string; depth: number }[] = []
 
-  const traverse = (node: TreeNode): number => {
+  const traverse = (node: TreeNode, depth: number): number => {
     if (!node.children?.length) {
-      if (selectedIds.includes(node.id)) result.push(node.label)
+      if (showChild && selectedIds.includes(node.id)) {
+        result.push({ id: node.id, label: node.label, depth })
+      }
       return selectedIds.includes(node.id) ? 1 : 0
     }
 
     let count = 0
-    node.children.forEach((child) => (count += traverse(child)))
+    node.children.forEach((child) => (count += traverse(child, depth + 1)))
+
     if (count === node.children.length) {
-      result.push(node.label)
-      return 1
+      // ✅ 全选
+      if (showParent) result.push({ id: node.id, label: node.label, depth })
+    } else if (count > 0) {
+      // ✅ 半选
+      if (showParent) result.push({ id: node.id, label: node.label, depth })
     }
     return count
   }
 
-  nodes.forEach(traverse)
-  return result
-}
+  nodes.forEach((n) => traverse(n, 0))
 
+  // 去重
+  const unique = Array.from(new Map(result.map((r) => [r.id, r])).values())
+
+  // 父节点优先排序
+  unique.sort((a, b) => a.depth - b.depth)
+
+  return unique.map((r) => r.label)
+}
   const selectedLabels = getSelectedLabels(data, selected)
 
   const handleChange = (ids: string[]) => {
@@ -223,13 +281,12 @@ const getSelectedLabels = (nodes: TreeNode[], selectedIds: string[]): string[] =
           // onClick={() => setOpen(!open)}
         >
           {selectedLabels.length === 0 && <span className="text-muted-foreground">{placeholder}</span>}
-          {selectedLabels.map((label, i) => (
+          {selectedLabels.slice(0, 3).map((label, i) => (
             <Badge
               key={i}
               className="flex items-center gap-1 px-2 py-1 cursor-default relative"
             >
               {label}
-              {multiple && (
                 <button
                   type="button"
                   aria-label="delete"
@@ -242,9 +299,15 @@ const getSelectedLabels = (nodes: TreeNode[], selectedIds: string[]): string[] =
                 >
                   <X className="h-3 w-3 cursor-pointer relative" />
                 </button>
-              )}
             </Badge>
           ))}
+          {selectedLabels.length > 3 && (
+            <Badge
+              className="flex items-center gap-1 px-2 py-1 cursor-default relative"
+            >
+              3+
+            </Badge>
+          )}
         </div>
       </PopoverTrigger>
 
@@ -264,14 +327,14 @@ const getSelectedLabels = (nodes: TreeNode[], selectedIds: string[]): string[] =
 
         {/* 全选/全清 */}
         
-          <div className="flex justify-end gap-2 mt-3 border-t pt-2">
+          {multiple && <div className="flex justify-end gap-2 mt-3 border-t pt-2">
             <Button size="sm" variant="outline" onClick={handleClearAll}>
               {formatMessage({id: 'button.clear'})}
             </Button>
-            {multiple && <Button size="sm" onClick={handleSelectAll} >
+            <Button size="sm" onClick={handleSelectAll} >
               {formatMessage({id: 'button.selectAll'})}
-            </Button>}
-          </div>
+            </Button>
+          </div>}
       </PopoverContent>
     </Popover>
   )

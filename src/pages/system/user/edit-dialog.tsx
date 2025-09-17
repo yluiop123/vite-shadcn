@@ -51,7 +51,7 @@ export default function Index(props: {setOpen: (open: boolean) => void, open: bo
             label: "page.system.user.header.roles",
             defaultValue: [],
             validate: z.array(rolesSchema).min(1),
-            type: "role"
+            type: "roles"
         },
         {
             name: "group",
@@ -59,6 +59,13 @@ export default function Index(props: {setOpen: (open: boolean) => void, open: bo
             defaultValue: [],
             validate: z.array(z.string()),
             type: "group"
+        },
+        {
+            name: "permissions",
+            label: "page.system.user.header.permissions",
+            defaultValue: [],
+            validate: z.array(z.string()),
+            type: "permissions"
         },
     ]
     const [values, setValues] = useState<Record<string, unknown>>({});

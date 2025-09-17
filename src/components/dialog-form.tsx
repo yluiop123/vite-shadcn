@@ -1,4 +1,5 @@
 import GroupTreeSelect from "@/components/group-tree-select";
+import PermissionTreeSelect from "@/components/permission-tree-select";
 import RoleSelect from "@/components/role-select";
 import { Button } from "@/components/ui/button";
 import {
@@ -63,7 +64,7 @@ export default function Index({open,setOpen,title,fields,values,onSubmit}:
                             <DialogTitle>{title}</DialogTitle>
                             <DialogDescription></DialogDescription>
                         </DialogHeader>
-                        {fields.map((f) => (                            
+                        {fields.map((f) => (
                             <FormField
                                 key={f.name}
                                 control={form.control}
@@ -73,7 +74,10 @@ export default function Index({open,setOpen,title,fields,values,onSubmit}:
                                         <FormLabel>{intl.formatMessage({ id: f.label })}</FormLabel>
                                         <FormControl>
                                             {
-                                            f?.type === "role"?
+                                            f?.type === "permissions"?
+                                            <PermissionTreeSelect {...field}/>
+                                            :
+                                            f?.type === "roles"?
                                             <RoleSelect {...field}/>
                                             :
                                             f?.type === "group"?

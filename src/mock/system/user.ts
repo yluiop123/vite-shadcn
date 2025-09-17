@@ -48,6 +48,7 @@ type User = {
   update: string;
   phone: string;
   roles: Record<string,string>[];
+  permissions: string[];
 };
 function getUserList(locale: string) {
   const user = localeMap[locale]["user"];
@@ -112,6 +113,7 @@ function getUserList(locale: string) {
       roles: [{role:'super',name:roles['super']},
       {role:'admin',name:roles['admin']},
       {role:'user',name:roles['user']}].slice(0, (i % 3) + 1),
+      permissions: ['0000','0001'],
     };
   }) as User[];
   return list;
