@@ -74,13 +74,9 @@ npm run dev
 <summary>系统管理</summary>
 
   - [x] 用户管理  
-  - [ ] 角色管理
-  - [ ] 菜单管理  
-  - [ ] 权限管理
-  - [ ] 组织管理
-  - [ ] 日志管理
-  - [ ] 系统配置
-  - [ ] 字典管理
+  - [x] 角色管理
+  - [x] 权限管理
+  - [x] 组织管理
 </details>
 <details>
 <summary>后端规划</summary>
@@ -110,19 +106,19 @@ npm run dev
   - @dnd-kit/sortable: ^10.0.0
   - @dnd-kit/utilities: ^3.2.2
   - @hookform/resolvers: ^5.0.1
-  - @loadable/component: ^5.16.7
   - @observablehq/plot: ^0.6.17
   - @radix-ui/react-avatar: ^1.1.9
   - @radix-ui/react-checkbox: ^1.3.1
   - @radix-ui/react-collapsible: ^1.1.11
-  - @radix-ui/react-dialog: ^1.1.13
+  - @radix-ui/react-dialog: ^1.1.15
   - @radix-ui/react-dropdown-menu: ^2.1.15
   - @radix-ui/react-label: ^2.1.6
   - @radix-ui/react-popover: ^1.1.14
+  - @radix-ui/react-radio-group: ^1.3.8
   - @radix-ui/react-select: ^2.2.4
   - @radix-ui/react-separator: ^1.1.6
   - @radix-ui/react-slot: ^1.2.3
-  - @radix-ui/react-switch: ^1.2.5
+  - @radix-ui/react-switch: ^1.2.6
   - @radix-ui/react-tabs: ^1.1.12
   - @radix-ui/react-toggle: ^1.1.8
   - @radix-ui/react-toggle-group: ^1.1.9
@@ -133,13 +129,16 @@ npm run dev
   - axios: ^1.9.0
   - class-variance-authority: ^0.7.1
   - clsx: ^2.1.1
+  - cmdk: ^1.1.1
   - colorjs.io: ^0.5.2
   - echarts-for-react: ^3.0.2
   - lucide-react: ^0.488.0
   - next-themes: ^0.4.6
   - react: ^19.1.0
+  - react-arborist: ^3.4.3
   - react-dom: ^19.1.0
   - react-hook-form: ^7.56.3
+  - react-icons: ^5.5.0
   - react-intl: ^7.1.11
   - react-router: ^7.6.2
   - recharts: ^2.15.3

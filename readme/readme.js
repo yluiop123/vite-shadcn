@@ -97,13 +97,9 @@ npm run dev
 <summary>System Management</summary>
 
   - [x] User Management  
-  - [ ] Role Management  
-  - [ ] Menu Management  
-  - [ ] Permission Management  
-  - [ ] Group Management  
-  - [ ] Log Management  
-  - [ ] System Settings  
-  - [ ] Dictionary Management
+  - [x] Role Management  
+  - [x] Permission Management  
+  - [x] Group Management  
 
 </details>
 

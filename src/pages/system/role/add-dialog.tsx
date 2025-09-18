@@ -23,6 +23,13 @@ export default function Index(props: {open: boolean,setOpen:(open:boolean)=>void
                 message: intl.formatMessage({ id: 'validate.role' }),
             })
         },
+        {
+            name: "permissions",
+            label: "page.system.user.header.permissions",
+            defaultValue: [],
+            validate: z.array(z.string()),
+            type: "permissions"
+        },
     ]
     const schemaShape = fields.reduce((acc, field) => {
         acc[field.name] = field.validate || z.string().optional();

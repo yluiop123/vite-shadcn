@@ -47,6 +47,8 @@ import { ChevronDown, ChevronRight, MoreHorizontal } from "lucide-react";
 import React, { useEffect, useState } from 'react';
 import { useIntl } from "react-intl";
 import { toast } from "sonner";
+import AddBrotherDialog from "./add-brother-dialog";
+import AddChildDialog from "./add-child-dialog";
 import AddDialog from "./add-dialog";
 import EditDialog from "./edit-dialog";
 
@@ -237,6 +239,8 @@ export default function Group() {
                         <DropdownMenuSeparator />
                         <DropdownMenuItem onClick={() => handleEdit(role)}>{formatMessage({ id: 'button.edit' })}</DropdownMenuItem>
                         <DropdownMenuItem onClick={() => handleDelete([role.id])}>{formatMessage({ id: 'button.delete' })}</DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => handleAddChild(role)}>{formatMessage({ id: 'button.addChild' })}</DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => handleAddBrother(role)}>{formatMessage({ id: 'button.addBrother' })}</DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
             )
@@ -285,21 +289,30 @@ export default function Group() {
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
   const [id, setId] = useState('' as string);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+  const[isAddBrotherDialogOpen, setIsAddBrotherDialogOpen] = useState(false);
+  const[isAddChildDialogOpen, setIsAddChildDialogOpen] = useState(false);
   function handleEdit(row: Group) {
       setId(row.id);
       setIsEditDialogOpen(true);
+  }
+  function handleAddBrother(row: Group) {
+    setId(row.id);
+    setIsAddBrotherDialogOpen(true);
+  }
+  function handleAddChild(row: Group) {
+    setId(row.id);
+    setIsAddChildDialogOpen(true);
   }
   function handleDelete(rows: string[]) {
       if (rows.length === 0) {
           return;
       }
-      axios.delete("/system/roles", {
+      axios.delete("/system/groups", {
           data: rows
       }).then(res => {
           setParams({ ...params, page: 1 });
           toast.success(res.data.message);
       })
-
   }
   function handleStatusChange(row: Group) {
     axios.post("/system/groups/edit",
@@ -332,6 +345,10 @@ export default function Group() {
   return (
     <div className="w-full">
       <EditDialog id={id} setOpen={setIsEditDialogOpen} open={isEditDialogOpen} 
+      onSave={() => setParams({ ...params, page: 1 })} />
+      <AddBrotherDialog id={id} setOpen={setIsAddBrotherDialogOpen} open={isAddBrotherDialogOpen} 
+      onSave={() => setParams({ ...params, page: 1 })} />
+      <AddChildDialog id={id} setOpen={setIsAddChildDialogOpen} open={isAddChildDialogOpen} 
       onSave={() => setParams({ ...params, page: 1 })} />
       <div className="flex items-center py-3 gap-4">
           <div className="flex items-center gap-4">

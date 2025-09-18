@@ -153,5 +153,19 @@ const handlers = [
       });
     }
   ),
+  http.post<never, never>("/api/system/groups/addChild", async ({ request }) => {
+    const locale = request.headers.get("locale") || "zh";
+    return HttpResponse.json({
+      code: 200,
+      message: localeMap[locale]["success"],
+    });
+  }),
+  http.post<never, never>("/api/system/groups/addBrother", async ({ request }) => {
+    const locale = request.headers.get("locale") || "zh";
+    return HttpResponse.json({
+      code: 200,
+      message: localeMap[locale]["success"],
+    });
+  }),  
 ];
 export default handlers;

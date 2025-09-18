@@ -47,18 +47,18 @@ export default function Index(props: {setOpen: (open: boolean) => void, open: bo
             })
         },
         {
-            name: "roles",
-            label: "page.system.user.header.roles",
-            defaultValue: [],
-            validate: z.array(rolesSchema).min(1),
-            type: "roles"
-        },
-        {
             name: "group",
             label: "page.system.user.header.groupName",
             defaultValue: [],
             validate: z.array(z.string()),
             type: "group"
+        },
+        {
+            name: "roles",
+            label: "page.system.user.header.roles",
+            defaultValue: [],
+            validate: z.array(rolesSchema).min(1),
+            type: "roles"
         },
         {
             name: "permissions",

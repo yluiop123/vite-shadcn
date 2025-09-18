@@ -25,6 +25,13 @@ export default function Index(props: {setOpen: (open: boolean) => void, open: bo
                 message: intl.formatMessage({ id: 'validate.groupId' }),
             })
         },
+        {
+            name: "parentId",
+            label: "page.system.group.header.parentGroup",
+            defaultValue: [],
+            validate: z.array(z.string()),
+            type: "group"
+        },
     ]
     const [values, setValues] = useState<Record<string, unknown>>({});
 
@@ -34,8 +41,9 @@ export default function Index(props: {setOpen: (open: boolean) => void, open: bo
         }
         axios.get("/system/groups/detail/" + id).then(res => {
             if (res.data.code === 200) {
-                const user = res.data.data;
-                setValues (user);     
+                const group = res.data.data;
+                group.parentId = [group.parentId];
+                setValues (group);     
             } 
         })
     }, [id])

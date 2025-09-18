@@ -85,13 +85,9 @@ npm run dev
 <summary>系统管理</summary>
 
   - [x] 用户管理  
-  - [ ] 角色管理
-  - [ ] 菜单管理  
-  - [ ] 权限管理
-  - [ ] 组织管理
-  - [ ] 日志管理
-  - [ ] 系统配置
-  - [ ] 字典管理
+  - [x] 角色管理
+  - [x] 权限管理
+  - [x] 组织管理
 </details>
 <details>
 <summary>后端规划</summary>

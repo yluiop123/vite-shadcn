@@ -25,6 +25,7 @@ const zh = {
     'button.add':'新增',
     'button.edit':'编辑',
     'button.delete':'删除',
+    success: "成功",
 };
 const en = {
     'menu.dashboard': 'Dashboard',
@@ -51,6 +52,7 @@ const en = {
     'button.add':'Add',
     'button.edit':'Edit',
     'button.delete':'Delete',
+    success: "Success",
 };
 const localeMap: Record<string, Record<string, string>> = {
   zh,
@@ -259,18 +261,5 @@ const handlers = [
       message: localeMap[locale]["success"],
     });
   }),
-  http.get<{ id: string }>(
-    "/api/system/groups/detail/:id",
-    async ({ request, params }) => {
-      const locale = request.headers.get("locale") || "zh";
-      const id = params.id;
-      const list = getPermissionList(locale);
-      const role = list.find((item) => item.id === id);
-      return HttpResponse.json({
-        code: 200,
-        data: role,
-      });
-    }
-  ),
 ];
 export default handlers;

@@ -11,26 +11,26 @@ export default function Index(props: {setOpen: (open: boolean) => void, open: bo
     const fields:Field[] = [
         {
             name: "name",
-            label: "page.system.role.header.name",
+            label: "page.system.group.header.name",
             defaultValue: "",
             validate: z.string().min(2, {
-                message: intl.formatMessage({ id: 'validate.roleName' }),
+                message: intl.formatMessage({ id: 'validate.groupName' }),
             })
         },
         {
-            name: "role",
-            label: "page.system.role.header.role",
+            name: "id",
+            label: "page.system.group.header.id",
             defaultValue: "",
-            validate: z.string().regex(/^[a-zA-Z]{2,}$/, {
-                message: intl.formatMessage({ id: 'validate.role' }),
+            validate: z.string().regex(/^[a-zA-Z0-9]{2,}$/, {
+                message: intl.formatMessage({ id: 'validate.groupId' }),
             })
         },
         {
-            name: "permissions",
-            label: "page.system.user.header.permissions",
+            name: "parentId",
+            label: "page.system.group.header.parentGroup",
             defaultValue: [],
             validate: z.array(z.string()),
-            type: "permissions"
+            type: "group"
         },
     ]
     const [values, setValues] = useState<Record<string, unknown>>({});
@@ -39,12 +39,7 @@ export default function Index(props: {setOpen: (open: boolean) => void, open: bo
         if(id === '') {
             return;
         }
-        axios.get("/system/roles/detail/" + id).then(res => {
-            if (res.data.code === 200) {
-                const user = res.data.data;
-                setValues (user);
-            } 
-        })
+        setValues ({parentId:[id]});
     }, [id])
 
     const schemaShape = fields.reduce((acc, field) => {
@@ -54,9 +49,9 @@ export default function Index(props: {setOpen: (open: boolean) => void, open: bo
     const formSchema = z.object(schemaShape);
     // 2. Define a submit handler. 
     function onSubmit(fieldValues: z.infer<typeof formSchema>) {
-        axios.post("/system/roles/edit", {
-            ...fieldValues,
-            id:id
+        fieldValues.parentId = fieldValues.parentId?.[0] || '';
+        axios.post("/system/groups/addChild", {
+            ...fieldValues
         }).then(res => {
             if(res.data.code === 200) {
                 setOpen(false);
@@ -71,7 +66,7 @@ export default function Index(props: {setOpen: (open: boolean) => void, open: bo
         open && Object.keys(values).length > 0 &&<DialogForm
             setOpen={setOpen}
             open={open}
-            title={intl.formatMessage({ id: 'button.edit' })}
+            title={intl.formatMessage({ id: 'button.addChild' })}
             fields={fields}
             values={values}
             onSubmit={onSubmit}>

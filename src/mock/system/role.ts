@@ -1,17 +1,17 @@
 import { http, HttpResponse } from "msw";
 
-const zh ={
-    'super':'超级管理员',
-    'admin':'管理员',
-    'user':'普通用户',
-     success: "操作成功",
-}
-const en ={
-    'super':'Super',
-    'admin':'Admin',
-    'user':'User',
-    success: "Success",
-}
+const zh = {
+  super: "超级管理员",
+  admin: "管理员",
+  user: "普通用户",
+  success: "操作成功",
+};
+const en = {
+  super: "Super",
+  admin: "Admin",
+  user: "User",
+  success: "Success",
+};
 const localeMap: Record<string, Record<string, string>> = {
   zh,
   en,
@@ -23,46 +23,114 @@ type Role = {
   status: "0" | "1";
   create: string;
   update: string;
+  permissions: string[];
 };
 function getRoleList(locale: string) {
   const role = localeMap[locale];
-  const list = [{
+  const list = [
+    {
       id: `0001`,
       name: `${role.super}`,
       role: `super`,
-      status: "1",    
+      status: "1",
       create: "2025-01-01 23:59:59",
       update: "2025-01-01 23:59:59",
-    },{
+      permissions: [
+        "0000",
+        "0001",
+        "000100",
+        "000101",
+        "000102",
+        "000103",
+        "0002",
+        "000200",
+        "000201",
+        "0003",
+        "000300",
+        "000301",
+        "000302",
+        "000303",
+        "000304",
+        "0004",
+        "000400",
+        "000401",
+        "000403",
+        "000404",
+        "00040000",
+        "00040001",
+        "00040002",
+        "00040101",
+        "00040102",
+        "00040103",
+        "00040300",
+        "00040301",
+        "00040302",
+        "00040400",
+        "00040401",
+        "00040402",
+      ],
+    },
+    {
       id: `0002`,
       name: `${role.admin}`,
       role: `admin`,
-      status: "1",    
+      status: "1",
       create: "2025-01-01 23:59:59",
       update: "2025-01-01 23:59:59",
-    },{
+      permissions: [
+        "0000",
+        "0004",
+        "000400",
+        "000401",
+        "000403",
+        "000404",
+        "00040000",
+        "00040001",
+        "00040002",
+        "00040101",
+        "00040102",
+        "00040103",
+        "00040300",
+        "00040301",
+        "00040302",
+        "00040400",
+        "00040401",
+        "00040402",
+      ],
+    },
+    {
       id: `0003`,
       name: `${role.user}`,
       role: `user`,
-      status: "1",    
+      status: "1",
       create: "2025-01-01 23:59:59",
       update: "2025-01-01 23:59:59",
-    }] as Role[];
+      permissions: [
+        "0000",
+        "0001",
+        "000100",
+        "000101",
+        "000102",
+        "000103",
+        "0002",
+        "000200",
+        "000201",
+        "0003",
+        "000300",
+        "000301",
+        "000302",
+        "000303",
+        "000304",
+      ],
+    },
+  ] as Role[];
   return list;
 }
 const handlers = [
   http.post<never, never>("/api/system/roles", async ({ request }) => {
     const locale = request.headers.get("locale") || "zh";
     const body = await request.clone().json();
-    const {
-      role,
-      name,
-      status,
-      page,
-      size,
-      orderField,
-      orderValue,
-    } = body;
+    const { role, name, status, page, size, orderField, orderValue } = body;
     const list = getRoleList(locale);
     let filterList = list;
     if (role) {
@@ -71,7 +139,7 @@ const handlers = [
     if (name) {
       filterList = filterList.filter((item) => item.name.startsWith(name));
     }
-    if (status&&status!=='all') {
+    if (status && status !== "all") {
       filterList = filterList.filter((item) => item.status === status);
     }
     if (orderField) {

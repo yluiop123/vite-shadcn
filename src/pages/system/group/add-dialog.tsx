@@ -23,6 +23,13 @@ export default function Index(props: {open: boolean,setOpen:(open:boolean)=>void
                 message: intl.formatMessage({ id: 'validate.groupId' }),
             })
         },
+        {
+            name: "parentId",
+            label: "page.system.group.header.parentGroup",
+            defaultValue: [],
+            validate: z.array(z.string()),
+            type: "group"
+        },
     ]
     const schemaShape = fields.reduce((acc, field) => {
         acc[field.name] = field.validate || z.string().optional();
@@ -31,6 +38,7 @@ export default function Index(props: {open: boolean,setOpen:(open:boolean)=>void
     const formSchema = z.object(schemaShape);
     // 2. Define a submit handler. 
     function onSubmit(values: z.infer<typeof formSchema>) {
+        values.parentId = values.parentId[0] || "";
         axios.post("/system/groups/add", {
             ...values
         }).then(res => {
