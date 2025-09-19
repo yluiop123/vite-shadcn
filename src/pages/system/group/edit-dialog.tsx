@@ -28,8 +28,8 @@ export default function Index(props: {setOpen: (open: boolean) => void, open: bo
         {
             name: "parentId",
             label: "page.system.group.header.parentGroup",
-            defaultValue: [],
-            validate: z.array(z.string()),
+            defaultValue: "",
+            validate: z.string(),
             type: "group"
         },
     ]

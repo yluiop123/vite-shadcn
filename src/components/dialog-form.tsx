@@ -82,7 +82,6 @@ export default function Index({open,setOpen,title,fields,values,onSubmit}:
                                             :
                                             f?.type === "group"?
                                             <GroupTreeSelect
-                                                groupId="00"
                                                 {...field}
                                             />
                                             :

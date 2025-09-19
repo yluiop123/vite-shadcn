@@ -9,6 +9,7 @@ type PermissionTreeSelectProps = {
 export type PermissionNode = TreeNode & {
   children?: PermissionNode[]
   parentId?: string
+  id: string
   order: number
   name: string
 }
@@ -18,13 +19,14 @@ function buildTree(data: PermissionNode[]): PermissionNode[] {
 
   // 初始化 map
   for (const item of data) {
-    item.label = item.name;
-    map.set(item.id, { ...item, children: [] });
+    item.title = item.name;
+    item.value = item.id;
+    map.set(item.value, { ...item, children: [] });
   }
 
   // 构建树结构
   for (const item of data) {
-    const node = map.get(item.id)!;
+    const node = map.get(item.value)!;
     if (item.parentId && map.has(item.parentId)) {
       const parent = map.get(item.parentId)!;
       parent.children!.push(node);
@@ -47,7 +49,7 @@ function buildTree(data: PermissionNode[]): PermissionNode[] {
   sortByOrder(roots);
   return roots;
 }
-export default function PermissionTreeSelect({...props}:PermissionTreeSelectProps) {
+export default function PermissionTreeSelect({onChange:onChangeHandle, ...props}:PermissionTreeSelectProps) {
   const [data, setData] = useState<TreeNode[]>([])
   const [loading, setLoading] = useState(false)
 
@@ -60,6 +62,11 @@ export default function PermissionTreeSelect({...props}:PermissionTreeSelectProp
   return (
     loading&&<TreeSelect
       data={data}
+      onChange={(value) => {
+        if (Array.isArray(value)) {
+          onChangeHandle?.(value)
+        }
+      }}
       multiple={true}
       {...props}
       filterable

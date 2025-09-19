@@ -30,7 +30,7 @@ const localeMap: Record<string, Record<string, string>> = {
   en,
 };
 const handlers = [
-  http.get<{ id: string }>('/api/common/groups/:id', async ({  request,params }) => {
+  http.get<{ id: string }>('/api/common/groups', async ({  request,params }) => {
     const locale = request.headers.get("locale") || "zh";
     const id = params.id;
     console.log(id);

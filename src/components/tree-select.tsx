@@ -9,25 +9,26 @@ import { useEffect, useState } from "react"
 import { useIntl } from "react-intl"
 
 export type TreeNode = {
-  id: string
-  label: string
+  value: string
+  title: string
   children?: TreeNode[]
 }
 
 export type TreeSelectProps = {
   data: TreeNode[]
   multiple?: boolean
-  value?: string[]
-  defaultValue?: string[]
-  onChange?: (ids: string[]) => void
+  value?: string[] | string
+  defaultValue?: string[] | string
+  onChange?: (ids: string[] | string) => void
   placeholder?: string
   filterable?: boolean
   showParent?: boolean  // 默认 true
   showChild?: boolean   // 默认 true
+  maxTagCount?: number //默认3
 }
 // 计算节点状态
 function getCheckStatus(node: TreeNode, selected: string[]): boolean | "indeterminate" {
-  if (!node.children?.length) return selected.includes(node.id)
+  if (!node.children?.length) return selected.includes(node.value)
   const childStatuses = node.children.map((c) => getCheckStatus(c, selected))
   const allChecked = childStatuses.every((s) => s === true)
   const noneChecked = childStatuses.every((s) => s === false)
@@ -38,7 +39,7 @@ function getCheckStatus(node: TreeNode, selected: string[]): boolean | "indeterm
 
 // 收集子节点 ID
 function collectChildIds(node: TreeNode): string[] {
-  const ids: string[] = [node.id]
+  const ids: string[] = [node.value]
   if (node.children) node.children.forEach((c) => ids.push(...collectChildIds(c)))
   return ids
 }
@@ -72,25 +73,25 @@ function Tree({
       else onChange(selected.filter((id) => !allIds.includes(id)))
     } else {
       // 单选模式
-      onChange([node.id])
+      onChange([node.value])
     }
   }
 
   return (
     <ul className="pl-2 space-y-1">
       {nodes
-        .filter((n) => n.label.toLowerCase().includes(filter.toLowerCase()))
+        .filter((n) => n.title.toLowerCase().includes(filter.toLowerCase()))
         .map((node) => {
-          const isExpanded = expanded.includes(node.id)
+          const isExpanded = expanded.includes(node.value)
           const hasChildren = !!node.children?.length
           const status = getCheckStatus(node, selected)
 
           return (
-            <li key={node.id}>
+            <li key={node.value}>
               <div className="flex items-center space-x-2">
                 <div className="w-4 h-4 flex items-center justify-center">
                   {hasChildren ? (
-                    <button onClick={() => toggleExpand(node.id)}>
+                    <button onClick={() => toggleExpand(node.value)}>
                       {isExpanded ? (
                         <ChevronDown className="h-4 w-4" />
                       ) : (
@@ -106,7 +107,7 @@ function Tree({
                   <Checkbox
                     className="h-4 w-4 cursor-pointer"
                     checked={status}
-                    onCheckedChange={(checked) => 
+                    onCheckedChange={(checked) =>
                       toggleSelect(node, checked === true)
                     }
                   />
@@ -114,11 +115,11 @@ function Tree({
                   <RadioGroup
                     value={selected[0] || ""}
                     onValueChange={(value) => {
-                      toggleSelect(node, value === node.id)
+                      toggleSelect(node, value === node.value)
                     }}
                   >
                     <RadioGroupItem
-                      value={node.id}
+                      value={node.value}
                       className="h-4 w-4 cursor-pointer"
                     />
                   </RadioGroup>
@@ -127,7 +128,7 @@ function Tree({
                   className="cursor-pointer"
                   onClick={() => toggleSelect(node, status !== true)}
                 >
-                  {node.label}
+                  {node.title}
                 </span>
               </div>
 
@@ -156,152 +157,120 @@ export default function TreeSelect(props: TreeSelectProps) {
     filterable = true,
     showParent = true,
     showChild = true,
+    maxTagCount = 3
   } = props
-
   const [open, setOpen] = useState(false)
-  const [selected, setSelected] = useState<string[]>(value || defaultValue)
+  const thisValue = value ?
+    Array.isArray(value) ? value : [value] : [];
+  const thisDefaultValue = defaultValue ?
+    Array.isArray(defaultValue) ? defaultValue : [defaultValue] : [];
+  const [selected, setSelected] = useState<string[]>(thisValue || thisDefaultValue)
   const [filter, setFilter] = useState("")
 
   // 同步受控值
   useEffect(() => {
-    if (value) setSelected(value)
+    if (value) setSelected(Array.isArray(value) ? value : [value])
   }, [value])
-// const getSelectedLabels = (nodes: TreeNode[], selectedIds: string[]): string[] => {
-//   if (!selectedIds || selectedIds.length === 0) return []
 
-//   if (!multiple) {
-//     // 单选模式，直接查找 label
-//     const findLabel = (nodes: TreeNode[], id: string): string | null => {
-//       for (const node of nodes) {
-//         if (node.id === id) return node.label
-//         if (node.children) {
-//           const res = findLabel(node.children, id)
-//           if (res) return res
-//         }
-//       }
-//       return null
-//     }
+  const getSelectedLabels = (
+    nodes: TreeNode[],
+    selectedIds: string[]
+  ): string[] => {
+    if (!selectedIds || selectedIds.length === 0) return []
 
-//     const label = findLabel(nodes, selectedIds[0])
-//     return label ? [label] : []
-//   }
-
-//   // 多选模式原有逻辑
-//   const result: string[] = []
-
-//   const traverse = (node: TreeNode): number => {
-//     if (!node.children?.length) {
-//       if (selectedIds.includes(node.id)) result.push(node.label)
-//       return selectedIds.includes(node.id) ? 1 : 0
-//     }
-
-//     let count = 0
-//     node.children.forEach((child) => (count += traverse(child)))
-//     if (count === node.children.length) {
-//       result.push(node.label)
-//       return 1
-//     }
-//     return count
-//   }
-
-//   nodes.forEach(traverse)
-//   return result
-// }
-
-const getSelectedLabels = (
-  nodes: TreeNode[],
-  selectedIds: string[]
-): string[] => {
-  if (!selectedIds || selectedIds.length === 0) return []
-
-  if (!multiple) {
-    // 单选模式
-    const findLabel = (nodes: TreeNode[], id: string): string | null => {
-      for (const node of nodes) {
-        if (node.id === id) return node.label
-        if (node.children) {
-          const res = findLabel(node.children, id)
-          if (res) return res
+    if (!multiple) {
+      // 单选模式
+      const findLabel = (nodes: TreeNode[], id: string): string | null => {
+        for (const node of nodes) {
+          if (node.value === id) return node.title
+          if (node.children) {
+            const res = findLabel(node.children, id)
+            if (res) return res
+          }
         }
+        return null
       }
-      return null
+      const label = findLabel(nodes, selectedIds[0])
+      return label ? [label] : []
     }
-    const label = findLabel(nodes, selectedIds[0])
-    return label ? [label] : []
-  }
 
-  const result: { id: string; label: string; depth: number }[] = []
+    const result: { value: string; title: string; depth: number }[] = []
 
-  const traverse = (node: TreeNode, depth: number): number => {
-    if (!node.children?.length) {
-      if (showChild && selectedIds.includes(node.id)) {
-        result.push({ id: node.id, label: node.label, depth })
+    const traverse = (node: TreeNode, depth: number): number => {
+      if (!node.children?.length) {
+        if (showChild && selectedIds.includes(node.value)) {
+          result.push({ value: node.value, title: node.title, depth })
+        }
+        return selectedIds.includes(node.value) ? 1 : 0
       }
-      return selectedIds.includes(node.id) ? 1 : 0
+
+      let count = 0
+      node.children.forEach((child) => (count += traverse(child, depth + 1)))
+
+      if (count === node.children.length) {
+        // ✅ 全选
+        if (showParent) result.push({ value: node.value, title: node.title, depth })
+      } else if (count > 0) {
+        // ✅ 半选
+        if (showParent) result.push({ value: node.value, title: node.title, depth })
+      }
+      return count
     }
 
-    let count = 0
-    node.children.forEach((child) => (count += traverse(child, depth + 1)))
+    nodes.forEach((n) => traverse(n, 0))
 
-    if (count === node.children.length) {
-      // ✅ 全选
-      if (showParent) result.push({ id: node.id, label: node.label, depth })
-    } else if (count > 0) {
-      // ✅ 半选
-      if (showParent) result.push({ id: node.id, label: node.label, depth })
-    }
-    return count
+    // 去重
+    const unique = Array.from(new Map(result.map((r) => [r.value, r])).values())
+
+    // 父节点优先排序
+    unique.sort((a, b) => a.depth - b.depth)
+
+    return unique.map((r) => r.title)
   }
-
-  nodes.forEach((n) => traverse(n, 0))
-
-  // 去重
-  const unique = Array.from(new Map(result.map((r) => [r.id, r])).values())
-
-  // 父节点优先排序
-  unique.sort((a, b) => a.depth - b.depth)
-
-  return unique.map((r) => r.label)
-}
   const selectedLabels = getSelectedLabels(data, selected)
 
   const handleChange = (ids: string[]) => {
-    if (!value) setSelected(ids)
-    onChange?.(ids)
+    // if (!value) 
+    setSelected(ids)
+    onChange?.(multiple ? ids : ids[0])
   }
 
   const handleSelectAll = () => handleChange(data.flatMap((n) => collectChildIds(n)))
   const handleClearAll = () => handleChange([])
-  const {formatMessage} = useIntl();
+  const { formatMessage } = useIntl();
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <div
           className="w-64 cursor-pointer flex flex-wrap items-center gap-1 border border-input rounded px-2 py-1 min-h-[2.5rem]"
-          // onClick={() => setOpen(!open)}
+        // onClick={() => setOpen(!open)}
         >
           {selectedLabels.length === 0 && <span className="text-muted-foreground">{placeholder}</span>}
-          {selectedLabels.slice(0, 3).map((label, i) => (
+          {selectedLabels.slice(0, maxTagCount).map((label, i) => (
             <Badge
               key={i}
               className="flex items-center gap-1 px-2 py-1 cursor-default relative"
             >
               {label}
-                <button
-                  type="button"
-                  aria-label="delete"
-                  onClick={() => {
+              <button
+                type="button"
+                aria-label="delete"
+                onClick={() => {
+                  if(multiple){
                     handleChange(selected.filter((id) => {
                       const lbl = getSelectedLabels(data, [id])[0]
                       return lbl !== label
                     }))
-                  }}
-                >
-                  <X className="h-3 w-3 cursor-pointer relative" />
-                </button>
+                  }else{
+                    handleChange([]);
+                  }
+                }}
+              >
+                <X className="h-3 w-3 cursor-pointer relative" />
+              </button>
             </Badge>
           ))}
-          {selectedLabels.length > 3 && (
+          {selectedLabels.length > maxTagCount && (
             <Badge
               className="flex items-center gap-1 px-2 py-1 cursor-default relative"
             >
@@ -311,8 +280,8 @@ const getSelectedLabels = (
         </div>
       </PopoverTrigger>
 
-      <PopoverContent 
-      className="w-64 p-2 relative z-50 pointer-events-auto">
+      <PopoverContent
+        className="w-64 p-2 relative z-50 pointer-events-auto">
         {filterable && (
           <Input
             value={filter}
@@ -326,15 +295,15 @@ const getSelectedLabels = (
         </div>
 
         {/* 全选/全清 */}
-        
-          {multiple && <div className="flex justify-end gap-2 mt-3 border-t pt-2">
-            <Button size="sm" variant="outline" onClick={handleClearAll}>
-              {formatMessage({id: 'button.clear'})}
-            </Button>
-            <Button size="sm" onClick={handleSelectAll} >
-              {formatMessage({id: 'button.selectAll'})}
-            </Button>
-          </div>}
+
+        {multiple && <div className="flex justify-end gap-2 mt-3 border-t pt-2">
+          <Button size="sm" variant="outline" onClick={handleClearAll}>
+            {formatMessage({ id: 'button.clear' })}
+          </Button>
+          <Button size="sm" onClick={handleSelectAll} >
+            {formatMessage({ id: 'button.selectAll' })}
+          </Button>
+        </div>}
       </PopoverContent>
     </Popover>
   )

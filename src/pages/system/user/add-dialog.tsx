@@ -47,8 +47,8 @@ export default function Index(props: {open: boolean,setOpen:(open:boolean)=>void
         {
             name: "group",
             label: "page.system.user.header.groupName",
-            defaultValue: [],
-            validate: z.array(z.string()),
+            defaultValue: "",
+            validate: z.string(),
             type: "group"
         },
         {
