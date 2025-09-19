@@ -1,12 +1,12 @@
 import axios from "@/lib/axios";
 import { useEffect, useState } from "react";
-import TreeSelect, { TreeNode } from "./tree-select";
+import TreeSelect from "./tree-select";
 type PermissionTreeSelectProps = {
   value: string[]
   onChange: (ids: string[]) => void
   placeholder?: string
 }
-export type PermissionNode = TreeNode & {
+export type PermissionNode = {
   children?: PermissionNode[]
   parentId?: string
   id: string
@@ -19,14 +19,14 @@ function buildTree(data: PermissionNode[]): PermissionNode[] {
 
   // 初始化 map
   for (const item of data) {
-    item.title = item.name;
-    item.value = item.id;
-    map.set(item.value, { ...item, children: [] });
+    // item.title = item.name;
+    // item.value = item.id;
+    map.set(item.id, { ...item, children: [] });
   }
 
   // 构建树结构
   for (const item of data) {
-    const node = map.get(item.value)!;
+    const node = map.get(item.id)!;
     if (item.parentId && map.has(item.parentId)) {
       const parent = map.get(item.parentId)!;
       parent.children!.push(node);
@@ -50,7 +50,7 @@ function buildTree(data: PermissionNode[]): PermissionNode[] {
   return roots;
 }
 export default function PermissionTreeSelect({onChange:onChangeHandle, ...props}:PermissionTreeSelectProps) {
-  const [data, setData] = useState<TreeNode[]>([])
+  const [data, setData] = useState<PermissionNode[]>([])
   const [loading, setLoading] = useState(false)
 
   useEffect(()=>{
@@ -67,6 +67,7 @@ export default function PermissionTreeSelect({onChange:onChangeHandle, ...props}
           onChangeHandle?.(value)
         }
       }}
+      fieldNames={{ value: "id", title: "name", children: "children" }}
       multiple={true}
       {...props}
       filterable

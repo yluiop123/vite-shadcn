@@ -1,6 +1,6 @@
 import axios from "@/lib/axios";
 import { useEffect, useState } from "react";
-import TreeSelect, { TreeNode, TreeSelectProps } from "./tree-select";
+import TreeSelect, { TreeSelectProps } from "./tree-select";
 type OmittedTreeSelectProps  = Omit<TreeSelectProps, 'value' | 'onChange'|'data'>;
 
 // 2. 重新定义 value 和 onChange 的类型
@@ -8,7 +8,7 @@ type GroupTreeSelectProps = OmittedTreeSelectProps & {
   value?: string;
   onChange?: (value: string) => void;
 };
-export type GroupNode = TreeNode & {
+export type GroupNode ={
   id: string
   children?: GroupNode[]
   parentId?: string
@@ -20,13 +20,11 @@ function buildTree(data: GroupNode[]): GroupNode[] {
   const roots: GroupNode[] = [];
   // 初始化 map
   for (const item of data) {
-    item.title = item.name;
-    item.value = item.id;
-    map.set(item.value, { ...item, children: [] });
+    map.set(item.id, { ...item, children: [] });
   }
   // 构建树结构
   for (const item of data) {
-    const node = map.get(item.value)!;
+    const node = map.get(item.id)!;
     if (item.parentId && map.has(item.parentId)) {
       const parent = map.get(item.parentId)!;
       parent.children!.push(node);
@@ -50,7 +48,7 @@ function buildTree(data: GroupNode[]): GroupNode[] {
   return roots;
 }
 export default function GroupTreeSelect({ onChange: onChangeHandle, value, ...props }: GroupTreeSelectProps) {
-  const [data, setData] = useState<TreeNode[]>([])
+  const [data, setData] = useState<GroupNode[]>([])
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
@@ -72,6 +70,11 @@ export default function GroupTreeSelect({ onChange: onChangeHandle, value, ...pr
           if (typeof value === "string") {
             onChangeHandle?.(value)
           }
+        }}
+        fieldNames={{
+          title: 'name',
+          value: 'id',
+          children: 'children',
         }}
         {...props}
         
