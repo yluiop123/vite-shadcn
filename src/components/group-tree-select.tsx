@@ -74,7 +74,7 @@ export default function GroupTreeSelect({ onChange: onChangeHandle, value, ...pr
           }
         }}
         {...props}
-        filterable
+        
       />
     )
   )

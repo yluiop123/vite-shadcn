@@ -14,19 +14,29 @@ export type TreeNode = {
   children?: TreeNode[]
 }
 
+export type FieldNames = {
+  value?: string
+  title?: string
+  children?: string
+}
+
 export type TreeSelectProps = {
-  data: TreeNode[]
+  data: any[]
   multiple?: boolean
   value?: string[] | string
   defaultValue?: string[] | string
   onChange?: (ids: string[] | string) => void
   placeholder?: string
   filterable?: boolean
-  showParent?: boolean  // 默认 true
-  showChild?: boolean   // 默认 true
-  maxTagCount?: number //默认3
+  showParent?: boolean
+  showChild?: boolean
+  maxTagCount?: number
+  fieldNames?: FieldNames
 }
-// 计算节点状态
+
+// ------------------- 工具函数 -------------------
+
+// 根据 selected 判断节点状态
 function getCheckStatus(node: TreeNode, selected: string[]): boolean | "indeterminate" {
   if (!node.children?.length) return selected.includes(node.value)
   const childStatuses = node.children.map((c) => getCheckStatus(c, selected))
@@ -44,7 +54,7 @@ function collectChildIds(node: TreeNode): string[] {
   return ids
 }
 
-// 渲染树
+// ------------------- 树组件 -------------------
 function Tree({
   nodes,
   selected,
@@ -72,7 +82,6 @@ function Tree({
       if (checked) onChange(Array.from(new Set([...selected, ...allIds])))
       else onChange(selected.filter((id) => !allIds.includes(id)))
     } else {
-      // 单选模式
       onChange([node.value])
     }
   }
@@ -144,8 +153,7 @@ function Tree({
   )
 }
 
-
-// TreeSelect 组件
+// ------------------- TreeSelect 组件 -------------------
 export default function TreeSelect(props: TreeSelectProps) {
   const {
     data,
@@ -157,29 +165,44 @@ export default function TreeSelect(props: TreeSelectProps) {
     filterable = true,
     showParent = true,
     showChild = true,
-    maxTagCount = 3
+    maxTagCount = 3,
+    fieldNames = { value: "value", title: "title", children: "children" },
   } = props
-  const [open, setOpen] = useState(false)
-  const thisValue = value ?
-    Array.isArray(value) ? value : [value] : [];
-  const thisDefaultValue = defaultValue ?
-    Array.isArray(defaultValue) ? defaultValue : [defaultValue] : [];
+
+  // ------------- 数据映射 -------------
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const transformData = (data: any[]): TreeNode[] =>
+    data.map((item) => ({
+      value: item[fieldNames.value!],
+      title: item[fieldNames.title!],
+      children: item[fieldNames.children!]
+        ? transformData(item[fieldNames.children!])
+        : undefined,
+    }))
+
+  const treeData = transformData(data)
+
+  // ------------- 受控/非受控 -------------
+  const thisValue = value ? (Array.isArray(value) ? value : [value]) : []
+  const thisDefaultValue = defaultValue
+    ? Array.isArray(defaultValue)
+      ? defaultValue
+      : [defaultValue]
+    : []
+
   const [selected, setSelected] = useState<string[]>(thisValue || thisDefaultValue)
   const [filter, setFilter] = useState("")
+  const [open, setOpen] = useState(false)
 
-  // 同步受控值
   useEffect(() => {
     if (value) setSelected(Array.isArray(value) ? value : [value])
   }, [value])
 
-  const getSelectedLabels = (
-    nodes: TreeNode[],
-    selectedIds: string[]
-  ): string[] => {
+  // ------------- 标签显示 -------------
+  const getSelectedLabels = (nodes: TreeNode[], selectedIds: string[]): string[] => {
     if (!selectedIds || selectedIds.length === 0) return []
 
     if (!multiple) {
-      // 单选模式
       const findLabel = (nodes: TreeNode[], id: string): string | null => {
         for (const node of nodes) {
           if (node.value === id) return node.title
@@ -208,10 +231,8 @@ export default function TreeSelect(props: TreeSelectProps) {
       node.children.forEach((child) => (count += traverse(child, depth + 1)))
 
       if (count === node.children.length) {
-        // ✅ 全选
         if (showParent) result.push({ value: node.value, title: node.title, depth })
       } else if (count > 0) {
-        // ✅ 半选
         if (showParent) result.push({ value: node.value, title: node.title, depth })
       }
       return count
@@ -219,31 +240,31 @@ export default function TreeSelect(props: TreeSelectProps) {
 
     nodes.forEach((n) => traverse(n, 0))
 
-    // 去重
     const unique = Array.from(new Map(result.map((r) => [r.value, r])).values())
-
-    // 父节点优先排序
     unique.sort((a, b) => a.depth - b.depth)
 
     return unique.map((r) => r.title)
   }
-  const selectedLabels = getSelectedLabels(data, selected)
 
+  const selectedLabels = getSelectedLabels(treeData, selected)
+
+  // ------------- 操作事件 -------------
   const handleChange = (ids: string[]) => {
-    // if (!value) 
     setSelected(ids)
-    onChange?.(multiple ? ids : ids[0])
+    onChange?.(multiple ? ids : ids.length > 0 ? ids[0] : "")
   }
 
-  const handleSelectAll = () => handleChange(data.flatMap((n) => collectChildIds(n)))
+  const handleSelectAll = () => handleChange(treeData.flatMap((n) => collectChildIds(n)))
   const handleClearAll = () => handleChange([])
-  const { formatMessage } = useIntl();
+
+  const { formatMessage } = useIntl()
+
+  // ------------- 渲染 -------------
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <div
           className="w-64 cursor-pointer flex flex-wrap items-center gap-1 border border-input rounded px-2 py-1 min-h-[2.5rem]"
-        // onClick={() => setOpen(!open)}
         >
           {selectedLabels.length === 0 && <span className="text-muted-foreground">{placeholder}</span>}
           {selectedLabels.slice(0, maxTagCount).map((label, i) => (
@@ -256,13 +277,13 @@ export default function TreeSelect(props: TreeSelectProps) {
                 type="button"
                 aria-label="delete"
                 onClick={() => {
-                  if(multiple){
+                  if (multiple) {
                     handleChange(selected.filter((id) => {
-                      const lbl = getSelectedLabels(data, [id])[0]
+                      const lbl = getSelectedLabels(treeData, [id])[0]
                       return lbl !== label
                     }))
-                  }else{
-                    handleChange([]);
+                  } else {
+                    handleChange([])
                   }
                 }}
               >
@@ -271,17 +292,14 @@ export default function TreeSelect(props: TreeSelectProps) {
             </Badge>
           ))}
           {selectedLabels.length > maxTagCount && (
-            <Badge
-              className="flex items-center gap-1 px-2 py-1 cursor-default relative"
-            >
-              3+
+            <Badge className="flex items-center gap-1 px-2 py-1 cursor-default relative">
+              {maxTagCount}+
             </Badge>
           )}
         </div>
       </PopoverTrigger>
 
-      <PopoverContent
-        className="w-64 p-2 relative z-50 pointer-events-auto">
+      <PopoverContent className="w-64 p-2 relative z-50 pointer-events-auto">
         {filterable && (
           <Input
             value={filter}
@@ -291,19 +309,19 @@ export default function TreeSelect(props: TreeSelectProps) {
           />
         )}
         <div className="max-h-64 overflow-y-auto pr-2">
-          <Tree nodes={data} selected={selected} onChange={handleChange} filter={filter} multiple={multiple} />
+          <Tree nodes={treeData} selected={selected} onChange={handleChange} filter={filter} multiple={multiple} />
         </div>
 
-        {/* 全选/全清 */}
-
-        {multiple && <div className="flex justify-end gap-2 mt-3 border-t pt-2">
-          <Button size="sm" variant="outline" onClick={handleClearAll}>
-            {formatMessage({ id: 'button.clear' })}
-          </Button>
-          <Button size="sm" onClick={handleSelectAll} >
-            {formatMessage({ id: 'button.selectAll' })}
-          </Button>
-        </div>}
+        {multiple && (
+          <div className="flex justify-end gap-2 mt-3 border-t pt-2">
+            <Button size="sm" variant="outline" onClick={handleClearAll}>
+              {formatMessage({ id: 'button.clear' })}
+            </Button>
+            <Button size="sm" onClick={handleSelectAll}>
+              {formatMessage({ id: 'button.selectAll' })}
+            </Button>
+          </div>
+        )}
       </PopoverContent>
     </Popover>
   )
