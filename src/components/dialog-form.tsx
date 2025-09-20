@@ -77,23 +77,23 @@ export default function Index({open,setOpen,title,fields,values,onSubmit}:
                                         <FormControl>
                                             {
                                             f?.type === "permissions"?
-                                            <PermissionTreeSelect {...field}/>
+                                            <PermissionTreeSelect {...field} className="p-3"/>
                                             :
                                             f?.type === "permission"?
-                                            <PermissionTreeSingleSelect {...field}/>
+                                            <PermissionTreeSingleSelect {...field} className="p-3"/>
                                             :
                                             f?.type === "roles"?
-                                            <RoleSelect {...field}/>
+                                            <RoleSelect {...field} className="p-3"/>
                                             :
                                             f?.type === "group"?
                                             <GroupTreeSelect
-                                                {...field}
+                                                {...field} className="p-3"
                                             />
                                             :
                                             f?.type === "permissionType"?
-                                            <PermissionType {...field}/>
+                                            <PermissionType {...field} className="p-3"/>
                                             :
-                                            <Input placeholder="" {...field} />
+                                            <Input placeholder="" {...field} className="p-3"/>
                                         }
                                         </FormControl>
                                         <FormMessage />

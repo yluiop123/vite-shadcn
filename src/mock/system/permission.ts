@@ -260,13 +260,20 @@ const handlers = [
       });
     }
   ),  
-  http.post<never, never>("/api/system/permissions/add", async ({ request }) => {
+  http.post<never, never>("/api/system/permissions/addChild", async ({ request }) => {
     const locale = request.headers.get("locale") || "zh";
     return HttpResponse.json({
       code: 200,
       message: localeMap[locale]["success"],
     });
   }),
+  http.post<never, never>("/api/system/permissions/addBrother", async ({ request }) => {
+    const locale = request.headers.get("locale") || "zh";
+    return HttpResponse.json({
+      code: 200,
+      message: localeMap[locale]["success"],
+    });
+  }),  
   http.post<never, never>("/api/system/permissions/edit", async ({ request }) => {
     const locale = request.headers.get("locale") || "zh";
     return HttpResponse.json({

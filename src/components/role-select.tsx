@@ -11,7 +11,6 @@ export default function RoleSelect({...props}) {
     })) || [];
 
   return (
-    <div className="w-[400px]">
       <MultipleSelector
         {...props}
         selectFirstItem={false}
@@ -23,7 +22,5 @@ export default function RoleSelect({...props}) {
         </p>
         }
       />
-
-    </div>
   );
 }

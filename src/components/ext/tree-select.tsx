@@ -4,10 +4,10 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { Input } from "@/components/ui/input"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
+import { cn } from "@/lib/utils"
 import { ChevronDown, ChevronRight, X } from "lucide-react"
 import { useEffect, useState } from "react"
 import { useIntl } from "react-intl"
-
 export type TreeNode = {
   value: string
   title: string
@@ -21,6 +21,7 @@ export type FieldNames = {
 }
 
 export type TreeSelectProps = {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   data: any[]
   multiple?: boolean
   value?: string[] | string
@@ -32,6 +33,7 @@ export type TreeSelectProps = {
   showChild?: boolean
   maxTagCount?: number
   fieldNames?: FieldNames
+  className?: string
 }
 
 // ------------------- 工具函数 -------------------
@@ -167,6 +169,7 @@ export default function TreeSelect(props: TreeSelectProps) {
     showChild = true,
     maxTagCount = 3,
     fieldNames = { value: "value", title: "title", children: "children" },
+    className,
   } = props
 
   // ------------- 数据映射 -------------
@@ -264,7 +267,7 @@ export default function TreeSelect(props: TreeSelectProps) {
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <div
-          className="w-64 cursor-pointer flex flex-wrap items-center gap-1 border border-input rounded px-2 py-1 min-h-[2.5rem]"
+          className={cn("p-3 cursor-pointer flex flex-wrap items-center gap-1 border border-input rounded px-2 py-1 min-h-[2.5rem]",className??"w-full")}
         >
           {selectedLabels.length === 0 && <span className="text-muted-foreground">{placeholder}</span>}
           {selectedLabels.slice(0, maxTagCount).map((label, i) => (
@@ -299,7 +302,7 @@ export default function TreeSelect(props: TreeSelectProps) {
         </div>
       </PopoverTrigger>
 
-      <PopoverContent className="w-64 p-2 relative z-50 pointer-events-auto">
+      <PopoverContent className={cn("p-3 relative z-50 pointer-events-auto",className??"w-full")}>
         {filterable && (
           <Input
             value={filter}
@@ -308,7 +311,7 @@ export default function TreeSelect(props: TreeSelectProps) {
             className="mb-2 flex-1 focus:ring-0 p-2"
           />
         )}
-        <div className="max-h-64 overflow-y-auto pr-2">
+        <div className="max-h-80 overflow-y-auto pr-2">
           <Tree nodes={treeData} selected={selected} onChange={handleChange} filter={filter} multiple={multiple} />
         </div>
 
