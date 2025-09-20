@@ -1,2 +1,4 @@
 const statusEnum = new Map([["all", "all"],["0", "disabled"], ["1", "enabled"]]);
-export { statusEnum };
+const permissionTypeEnum = new Map([["menu", "Menu"],["action", "Action"], ["function", "Function"],["api", "API"]]);
+export { permissionTypeEnum, statusEnum };
+

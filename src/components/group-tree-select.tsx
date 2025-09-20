@@ -1,6 +1,6 @@
 import axios from "@/lib/axios";
 import { useEffect, useState } from "react";
-import TreeSelect, { TreeSelectProps } from "./tree-select";
+import TreeSelect, { TreeSelectProps } from "./ext/tree-select";
 type OmittedTreeSelectProps  = Omit<TreeSelectProps, 'value' | 'onChange'|'data'>;
 
 // 2. 重新定义 value 和 onChange 的类型
@@ -53,7 +53,6 @@ export default function GroupTreeSelect({ onChange: onChangeHandle, value, ...pr
 
   useEffect(() => {
     axios.get('/common/groups').then(res => {
-      console.log(buildTree(res.data.data))
       setData(buildTree(res.data.data))
       setLoading(true)
     })

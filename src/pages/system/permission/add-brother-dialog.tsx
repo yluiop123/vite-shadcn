@@ -11,40 +11,47 @@ export default function Index(props: {setOpen: (open: boolean) => void, open: bo
     const fields:Field[] = [
         {
             name: "name",
-            label: "page.system.group.header.name",
+            label: "page.system.permission.header.name",
             defaultValue: "",
-            validate: z.string().min(2, {
-                message: intl.formatMessage({ id: 'validate.groupName' }),
-            })
+            validate: z.string().min(2)
         },
         {
             name: "id",
-            label: "page.system.group.header.id",
+            label: "page.system.permission.header.id",
             defaultValue: "",
-            validate: z.string().regex(/^[a-zA-Z0-9]{2,}$/, {
-                message: intl.formatMessage({ id: 'validate.groupId' }),
-            })
+            validate: z.string().regex(/^[a-zA-Z0-9]{2,}$/)
         },
         {
-            name: "parentId",
-            label: "page.system.group.header.parentGroup",
+            name: "path",
+            label: "page.system.permission.header.path",
             defaultValue: "",
+            validate: z.string().regex(/^[a-zA-Z0-9/]{2,}$/)
+        },
+        {
+            name: "type",
+            label: "page.system.permission.header.type",
+            defaultValue: "",
+            validate: z.string().optional(),
+            type: "permissionType"
+        },
+        {
+            name: "action",
+            label: "page.system.permission.header.action",
+            defaultValue: "",
+            validate: z.string()
+        },
+        {
+            name: "brotherId",
+            label: "page.system.permission.header.brotherPermission",
+            defaultValue: '',
             validate: z.string(),
-            type: "group"
+            type: "permission"
         },
     ]
     const [values, setValues] = useState<Record<string, unknown>>({});
 
     useEffect(() => {
-        if(id === '') {
-            return;
-        }
-        axios.get("/system/groups/detail/" + id).then(res => {
-            if (res.data.code === 200) {
-                const group = res.data.data;
-                setValues (group);     
-            } 
-        })
+        setValues ({brotherId:id});
     }, [id])
 
     const schemaShape = fields.reduce((acc, field) => {
@@ -54,9 +61,8 @@ export default function Index(props: {setOpen: (open: boolean) => void, open: bo
     const formSchema = z.object(schemaShape);
     // 2. Define a submit handler. 
     function onSubmit(fieldValues: z.infer<typeof formSchema>) {
-        axios.post("/system/groups/edit", {
-            ...fieldValues,
-            id:id
+        axios.post("/system/permissions/addBrother", {
+            ...fieldValues
         }).then(res => {
             if(res.data.code === 200) {
                 setOpen(false);
@@ -71,7 +77,7 @@ export default function Index(props: {setOpen: (open: boolean) => void, open: bo
         open && Object.keys(values).length > 0 &&<DialogForm
             setOpen={setOpen}
             open={open}
-            title={intl.formatMessage({ id: 'button.edit' })}
+            title={intl.formatMessage({ id: 'button.addChild' })}
             fields={fields}
             values={values}
             onSubmit={onSubmit}>

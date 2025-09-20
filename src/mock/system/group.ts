@@ -126,7 +126,7 @@ const handlers = [
       });
     }
   ),
-  http.post<never, never>("/api/system/groups/add", async ({ request }) => {
+  http.post<never, never>("/api/system/groups/move", async ({ request }) => {
     const locale = request.headers.get("locale") || "zh";
     return HttpResponse.json({
       code: 200,
@@ -166,6 +166,6 @@ const handlers = [
       code: 200,
       message: localeMap[locale]["success"],
     });
-  }),  
+  }),
 ];
 export default handlers;

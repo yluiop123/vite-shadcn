@@ -1,4 +1,4 @@
-import MultipleSelector, { Option } from "@/components/multiple-selector";
+import MultipleSelector, { Option } from "@/components/ext/multiple-selector";
 import { useUserStore } from "@/store";
 
 export default function RoleSelect({...props}) {

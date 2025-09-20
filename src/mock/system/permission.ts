@@ -247,6 +247,19 @@ const handlers = [
       });
     }
   ),
+  http.get<{ id: string }>(
+    "/api/system/permissions/detail/:id",
+    async ({ request, params }) => {
+      const locale = request.headers.get("locale") || "zh";
+      const id = params.id;
+      const list = getPermissionList(locale);
+      const role = list.find((item) => item.id === id);
+      return HttpResponse.json({
+        code: 200,
+        data: role,
+      });
+    }
+  ),  
   http.post<never, never>("/api/system/permissions/add", async ({ request }) => {
     const locale = request.headers.get("locale") || "zh";
     return HttpResponse.json({
@@ -261,5 +274,13 @@ const handlers = [
       message: localeMap[locale]["success"],
     });
   }),
+  http.post<never, never>("/api/system/permissions/move", async ({ request }) => {
+    const locale = request.headers.get("locale") || "zh";
+    return HttpResponse.json({
+      code: 200,
+      message: localeMap[locale]["success"],
+    });
+  }),
 ];
+
 export default handlers;

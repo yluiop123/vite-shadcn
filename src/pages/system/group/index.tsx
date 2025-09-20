@@ -49,7 +49,6 @@ import { useIntl } from "react-intl";
 import { toast } from "sonner";
 import AddBrotherDialog from "./add-brother-dialog";
 import AddChildDialog from "./add-child-dialog";
-import AddDialog from "./add-dialog";
 import EditDialog from "./edit-dialog";
 
 function StatusSwitch({ initial, onChange }: { initial: string; onChange: (val: string) => void }) {
@@ -241,6 +240,9 @@ export default function Group() {
                         <DropdownMenuItem onClick={() => handleDelete([role.id])}>{formatMessage({ id: 'button.delete' })}</DropdownMenuItem>
                         <DropdownMenuItem onClick={() => handleAddChild(role)}>{formatMessage({ id: 'button.addChild' })}</DropdownMenuItem>
                         <DropdownMenuItem onClick={() => handleAddBrother(role)}>{formatMessage({ id: 'button.addBrother' })}</DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => handleMove(role, 'top')}>{formatMessage({ id: 'button.moveTop' })}</DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => handleMove(role, 'up')}>{formatMessage({ id: 'button.moveUp' })}</DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => handleMove(role, 'down')}>{formatMessage({ id: 'button.moveDown' })}</DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
             )
@@ -286,11 +288,10 @@ export default function Group() {
   )}
     fetchData(params);
   }, [params])
-  const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
   const [id, setId] = useState('' as string);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
-  const[isAddBrotherDialogOpen, setIsAddBrotherDialogOpen] = useState(false);
-  const[isAddChildDialogOpen, setIsAddChildDialogOpen] = useState(false);
+  const [isAddBrotherDialogOpen, setIsAddBrotherDialogOpen] = useState(false);
+  const [isAddChildDialogOpen, setIsAddChildDialogOpen] = useState(false);
   function handleEdit(row: Group) {
       setId(row.id);
       setIsEditDialogOpen(true);
@@ -299,8 +300,8 @@ export default function Group() {
     setId(row.id);
     setIsAddBrotherDialogOpen(true);
   }
-  function handleAddChild(row: Group) {
-    setId(row.id);
+  function handleAddChild(row: Group | null) {
+    setId(row?.id || '');
     setIsAddChildDialogOpen(true);
   }
   function handleDelete(rows: string[]) {
@@ -311,6 +312,15 @@ export default function Group() {
           data: rows
       }).then(res => {
           setParams({ ...params, page: 1 });
+          toast.success(res.data.message);
+      })
+  }
+  function handleMove(row: Group, direction: 'up' | 'down'|'top') {
+      axios.post("/system/groups/move", {
+            id: row.id,
+            action: direction,
+      }).then(res => {
+          setParams({ ...params});
           toast.success(res.data.message);
       })
   }
@@ -379,8 +389,7 @@ export default function Group() {
               </Select>
           </div>
           <div className="ml-auto flex items-center gap-2">
-              <Button onClick={() => setIsAddDialogOpen(true)}>{formatMessage({ id: 'button.add' })}</Button>
-              <AddDialog open={isAddDialogOpen} setOpen={setIsAddDialogOpen} onSave={() => setParams({ ...params, page: 1 })}/>
+              <Button onClick={() => handleAddChild(null)}>{formatMessage({ id: 'button.add' })}</Button>
               <Button onClick={() => handleDelete(table.getSelectedRowModel().flatRows.map((row) => row.original.id))}>{formatMessage({ id: 'button.delete' })}</Button>
               <DropdownMenu>
                   <DropdownMenuTrigger asChild>
@@ -473,7 +482,7 @@ export default function Group() {
             onClick={() => table.previousPage()}
             disabled={!table.getCanPreviousPage()}
           >
-            Previous
+             {formatMessage({ id: 'table.previous' })}
           </Button>
           <Button
             variant="outline"
@@ -481,7 +490,7 @@ export default function Group() {
             onClick={() => table.nextPage()}
             disabled={!table.getCanNextPage()}
           >
-            Next
+             {formatMessage({ id: 'table.next' })}
           </Button>
         </div>
       </div>

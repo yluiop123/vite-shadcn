@@ -299,7 +299,6 @@ export default function User() {
                 <GroupTreeSelect
                     value={params.group}
                     onChange={(node) => {
-                        debugger;
                         setParams({ ...params, group: node })
                     }}
                 />

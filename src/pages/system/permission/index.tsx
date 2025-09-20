@@ -47,7 +47,8 @@ import { ChevronDown, ChevronRight, MoreHorizontal } from "lucide-react";
 import React, { useEffect, useState } from 'react';
 import { useIntl } from "react-intl";
 import { toast } from "sonner";
-import AddDialog from "./add-dialog";
+import AddBrotherDialog from "./add-brother-dialog";
+import AddChildDialog from "./add-child-dialog";
 import EditDialog from "./edit-dialog";
 function StatusSwitch({ initial, onChange }: { initial: string; onChange: (val: string) => void }) {
   const [checked, setChecked] = useState(initial === "1")
@@ -258,6 +259,11 @@ export default function Permission() {
                         <DropdownMenuSeparator />
                         <DropdownMenuItem onClick={() => handleEdit(permission)}>{formatMessage({ id: 'button.edit' })}</DropdownMenuItem>
                         <DropdownMenuItem onClick={() => handleDelete([permission.id])}>{formatMessage({ id: 'button.delete' })}</DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => handleAddChild(permission)}>{formatMessage({ id: 'button.addChild' })}</DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => handleAddBrother(permission)}>{formatMessage({ id: 'button.addBrother' })}</DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => handleMove(permission, 'top')}>{formatMessage({ id: 'button.moveTop' })}</DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => handleMove(permission, 'up')}>{formatMessage({ id: 'button.moveUp' })}</DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => handleMove(permission, 'down')}>{formatMessage({ id: 'button.moveDown' })}</DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
             )
@@ -304,9 +310,10 @@ export default function Permission() {
   )}
     fetchData(params);
   }, [params])
-  const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
   const [id, setId] = useState('' as string);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+  const [isAddBrotherDialogOpen, setIsAddBrotherDialogOpen] = useState(false);
+  const[isAddChildDialogOpen, setIsAddChildDialogOpen] = useState(false);
   function handleEdit(row: Permission) {
       setId(row.id);
       setIsEditDialogOpen(true);
@@ -321,11 +328,27 @@ export default function Permission() {
           setParams({ ...params, page: 1 });
           toast.success(res.data.message);
       })
-
   }
   function handleStatusChange(row: Permission) {
     axios.post("/system/permissions/edit",
         {...row}).then(res => {
+        toast.success(res.data.message);
+    })
+  }
+  function handleAddChild(row: Permission | null) {
+    setId(row?.id || '');
+    setIsAddChildDialogOpen(true);
+  }
+  function handleAddBrother(row: Permission) {
+    setId(row.id);
+    setIsAddBrotherDialogOpen(true);
+  }
+  function handleMove(row: Permission, direction: 'up' | 'down'|'top') {
+    axios.post("/system/permissions/move", {
+          id: row.id,
+          action: direction,
+    }).then(res => {
+        setParams({ ...params});
         toast.success(res.data.message);
     })
   }
@@ -354,6 +377,10 @@ export default function Permission() {
   return (
     <div className="w-full">
       <EditDialog id={id} setOpen={setIsEditDialogOpen} open={isEditDialogOpen} 
+      onSave={() => setParams({ ...params, page: 1 })} />
+      <AddBrotherDialog id={id} setOpen={setIsAddBrotherDialogOpen} open={isAddBrotherDialogOpen} 
+      onSave={() => setParams({ ...params, page: 1 })} />
+      <AddChildDialog id={id} setOpen={setIsAddChildDialogOpen} open={isAddChildDialogOpen} 
       onSave={() => setParams({ ...params, page: 1 })} />
       <div className="flex items-center py-3 gap-4">
           <div className="flex items-center gap-4">
@@ -387,8 +414,7 @@ export default function Permission() {
               </Select>
           </div>
           <div className="ml-auto flex items-center gap-2">
-              <Button onClick={() => setIsAddDialogOpen(true)}>{formatMessage({ id: 'button.add' })}</Button>
-              <AddDialog open={isAddDialogOpen} setOpen={setIsAddDialogOpen} onSave={() => setParams({ ...params, page: 1 })}/>
+              <Button onClick={() => handleAddChild(null)}>{formatMessage({ id: 'button.add' })}</Button>
               <Button onClick={() => handleDelete(table.getSelectedRowModel().flatRows.map((row) => row.original.id))}>{formatMessage({ id: 'button.delete' })}</Button>
               <DropdownMenu>
                   <DropdownMenuTrigger asChild>
@@ -481,7 +507,7 @@ export default function Permission() {
             onClick={() => table.previousPage()}
             disabled={!table.getCanPreviousPage()}
           >
-            Previous
+             {formatMessage({ id: 'table.previous' })}
           </Button>
           <Button
             variant="outline"
@@ -489,7 +515,7 @@ export default function Permission() {
             onClick={() => table.nextPage()}
             disabled={!table.getCanNextPage()}
           >
-            Next
+             {formatMessage({ id: 'table.next' })}
           </Button>
         </div>
       </div>

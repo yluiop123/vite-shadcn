@@ -28,18 +28,15 @@ export default function Index(props: {setOpen: (open: boolean) => void, open: bo
         {
             name: "parentId",
             label: "page.system.group.header.parentGroup",
-            defaultValue: [],
-            validate: z.array(z.string()),
+            defaultValue: id,
+            validate: z.string(),
             type: "group"
         },
     ]
     const [values, setValues] = useState<Record<string, unknown>>({});
 
     useEffect(() => {
-        if(id === '') {
-            return;
-        }
-        setValues ({parentId:[id]});
+        setValues ({parentId:id});
     }, [id])
 
     const schemaShape = fields.reduce((acc, field) => {
@@ -49,7 +46,6 @@ export default function Index(props: {setOpen: (open: boolean) => void, open: bo
     const formSchema = z.object(schemaShape);
     // 2. Define a submit handler. 
     function onSubmit(fieldValues: z.infer<typeof formSchema>) {
-        fieldValues.parentId = fieldValues.parentId?.[0] || '';
         axios.post("/system/groups/addChild", {
             ...fieldValues
         }).then(res => {

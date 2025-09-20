@@ -2,8 +2,8 @@ import axios from "@/lib/axios";
 import { useEffect, useState } from "react";
 import TreeSelect from "./ext/tree-select";
 type PermissionTreeSelectProps = {
-  value: string[]
-  onChange: (ids: string[]) => void
+  value: string
+  onChange: (ids: string) => void
   placeholder?: string
 }
 export type PermissionNode = {
@@ -19,8 +19,6 @@ function buildTree(data: PermissionNode[]): PermissionNode[] {
 
   // 初始化 map
   for (const item of data) {
-    // item.title = item.name;
-    // item.value = item.id;
     map.set(item.id, { ...item, children: [] });
   }
 
@@ -63,12 +61,12 @@ export default function PermissionTreeSelect({onChange:onChangeHandle, ...props}
     loading&&<TreeSelect
       data={data}
       onChange={(value) => {
-        if (Array.isArray(value)) {
+        if (typeof value === 'string') {
           onChangeHandle?.(value)
         }
       }}
       fieldNames={{ value: "id", title: "name", children: "children" }}
-      multiple={true}
+      multiple={false}
       {...props}
       filterable
     />

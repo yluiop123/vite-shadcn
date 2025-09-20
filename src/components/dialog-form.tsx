@@ -1,5 +1,6 @@
 import GroupTreeSelect from "@/components/group-tree-select";
 import PermissionTreeSelect from "@/components/permission-tree-select";
+import PermissionTreeSingleSelect from "@/components/permission-tree-single-select";
 import RoleSelect from "@/components/role-select";
 import { Button } from "@/components/ui/button";
 import {
@@ -24,6 +25,7 @@ import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useIntl } from "react-intl";
 import { z } from "zod";
+import PermissionType from "./permission-type";
 type Field = {
     name: string;
     label: string;
@@ -77,6 +79,9 @@ export default function Index({open,setOpen,title,fields,values,onSubmit}:
                                             f?.type === "permissions"?
                                             <PermissionTreeSelect {...field}/>
                                             :
+                                            f?.type === "permission"?
+                                            <PermissionTreeSingleSelect {...field}/>
+                                            :
                                             f?.type === "roles"?
                                             <RoleSelect {...field}/>
                                             :
@@ -84,6 +89,9 @@ export default function Index({open,setOpen,title,fields,values,onSubmit}:
                                             <GroupTreeSelect
                                                 {...field}
                                             />
+                                            :
+                                            f?.type === "permissionType"?
+                                            <PermissionType {...field}/>
                                             :
                                             <Input placeholder="" {...field} />
                                         }

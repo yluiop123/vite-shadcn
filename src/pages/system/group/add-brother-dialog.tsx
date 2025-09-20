@@ -28,18 +28,15 @@ export default function Index(props: {setOpen: (open: boolean) => void, open: bo
         {
             name: "brotherId",
             label: "page.system.group.header.brotherGroup",
-            defaultValue: [],
-            validate: z.array(z.string()),
+            defaultValue: id,
+            validate: z.string(),
             type: "group"
         },
     ]
     const [values, setValues] = useState<Record<string, unknown>>({});
 
     useEffect(() => {
-        if(id === '') {
-            return;
-        }
-        setValues ({brotherId:[id]});
+        setValues ({brotherId:id});
     }, [id])
 
     const schemaShape = fields.reduce((acc, field) => {
@@ -49,7 +46,6 @@ export default function Index(props: {setOpen: (open: boolean) => void, open: bo
     const formSchema = z.object(schemaShape);
     // 2. Define a submit handler. 
     function onSubmit(fieldValues: z.infer<typeof formSchema>) {
-        fieldValues.brotherId = fieldValues.brotherId?.[0] || '';
         axios.post("/system/groups/addBrother", {
             ...fieldValues
         }).then(res => {
@@ -66,7 +62,7 @@ export default function Index(props: {setOpen: (open: boolean) => void, open: bo
         open && Object.keys(values).length > 0 &&<DialogForm
             setOpen={setOpen}
             open={open}
-            title={intl.formatMessage({ id: 'button.addChild' })}
+            title={intl.formatMessage({ id: 'button.addBrother' })}
             fields={fields}
             values={values}
             onSubmit={onSubmit}>

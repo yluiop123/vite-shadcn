@@ -11,19 +11,41 @@ export default function Index(props: {setOpen: (open: boolean) => void, open: bo
     const fields:Field[] = [
         {
             name: "name",
-            label: "page.system.group.header.name",
+            label: "page.system.permission.header.name",
             defaultValue: "",
-            validate: z.string().min(2, {
-                message: intl.formatMessage({ id: 'validate.groupName' }),
-            })
+            validate: z.string().min(2)
         },
         {
             name: "id",
-            label: "page.system.group.header.id",
+            label: "page.system.permission.header.id",
             defaultValue: "",
-            validate: z.string().regex(/^[a-zA-Z0-9]{2,}$/, {
-                message: intl.formatMessage({ id: 'validate.groupId' }),
-            })
+            validate: z.string().regex(/^[a-zA-Z0-9]{2,}$/)
+        },
+        {
+            name: "path",
+            label: "page.system.permission.header.path",
+            defaultValue: "",
+            validate: z.string().regex(/^[a-zA-Z0-9/]{2,}$/)
+        },
+        {
+            name: "type",
+            label: "page.system.permission.header.type",
+            defaultValue: "",
+            validate: z.string().optional(),
+            type: "permissionType"
+        },
+        {
+            name: "action",
+            label: "page.system.permission.header.action",
+            defaultValue: "",
+            validate: z.string()
+        },
+        {
+            name: "parentId",
+            label: "page.system.permission.header.parentPermission",
+            defaultValue: '',
+            validate: z.string(),
+            type: "permission"
         },
     ]
     const [values, setValues] = useState<Record<string, unknown>>({});
@@ -32,10 +54,10 @@ export default function Index(props: {setOpen: (open: boolean) => void, open: bo
         if(id === '') {
             return;
         }
-        axios.get("/system/groups/detail/" + id).then(res => {
+        axios.get("/system/permissions/detail/" + id).then(res => {
             if (res.data.code === 200) {
-                const user = res.data.data;
-                setValues (user);     
+                const permission = res.data.data;
+                setValues (permission);
             } 
         })
     }, [id])
@@ -47,7 +69,7 @@ export default function Index(props: {setOpen: (open: boolean) => void, open: bo
     const formSchema = z.object(schemaShape);
     // 2. Define a submit handler. 
     function onSubmit(fieldValues: z.infer<typeof formSchema>) {
-        axios.post("/system/groups/edit", {
+        axios.post("/system/permissions/edit", {
             ...fieldValues,
             id:id
         }).then(res => {
