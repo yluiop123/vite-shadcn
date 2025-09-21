@@ -12,7 +12,7 @@ const Tooltips = lazy(() => import('./tooltips/tooltips-index'));
 export default function Index() {
     const intl = useIntl();
     return (
-        <Tabs defaultValue="area">
+        <Tabs defaultValue="area" className="p-3">
             <TabsList>
                 <TabsTrigger value="area">{intl.formatMessage({ id: 'page.chart.rechart.areaChart' })}</TabsTrigger>
                 <TabsTrigger value="bar">{intl.formatMessage({ id: 'page.chart.rechart.barChart' })}</TabsTrigger>

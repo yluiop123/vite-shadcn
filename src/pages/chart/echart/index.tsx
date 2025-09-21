@@ -518,7 +518,7 @@ export default function Index() {
     ]
   };
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-3">
       <EchartCard option={basicLineChartOption} title="基础折线图" description="Basic Line Chart" />
       <EchartCard option={smoothedLineChartOption} title="基础平滑折线图" description="Smoothed Line Chart" />
       <EchartCard option={basicAreaChartOption} title="基础面积图" description="Basic Area Chart" />

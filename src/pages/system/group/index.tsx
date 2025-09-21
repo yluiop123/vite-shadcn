@@ -353,7 +353,7 @@ export default function Group() {
     },
   })
   return (
-    <div className="w-full">
+    <div className="w-full p-3">
       <EditDialog id={id} setOpen={setIsEditDialogOpen} open={isEditDialogOpen} 
       onSave={() => setParams({ ...params, page: 1 })} />
       <AddBrotherDialog id={id} setOpen={setIsAddBrotherDialogOpen} open={isAddBrotherDialogOpen} 

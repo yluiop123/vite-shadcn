@@ -95,7 +95,7 @@ const treePlot = Plot.plot({
   ]
 })
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-3">
       <ObservablePlotCard plot={lineChartPlot} title="折线图" description="Line Chart" />
       <ObservablePlotCard plot={barChartPlot} title="柱状图" description="Bar Chart" />
       <ObservablePlotCard plot={hChartPlot} title="水平柱状图" description="Horizontal Bar Chart" />

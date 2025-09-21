@@ -259,7 +259,7 @@ export default function Role() {
         },
     })
     return (
-        <div className="w-full">
+        <div className="w-full p-3">
             <EditDialog id={id} setOpen={setIsEditDialogOpen} open={isEditDialogOpen} 
             onSave={() => setParams({ ...params, page: 1 })} />
 
