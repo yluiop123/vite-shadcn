@@ -37,14 +37,14 @@ export default function Index() {
             <AppSidebar variant="sidebar" />
             <SidebarInset>
                 <SiteHeader />
-                <div className="flex flex-1 flex-col">
-                    <div className="@container/main flex flex-1 flex-col gap-2">
-                        <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6 px-3">
-                            <Suspense fallback={<div>Loading...</div>}>
-                                <Outlet />
-                            </Suspense>
-                        </div>
+                <div className="flex flex-1 flex-col min-h-0">
+                <div className="@container/main flex flex-1 flex-col gap-2 min-h-0">
+                    <div className="flex flex-col gap-4 py-0 md:gap-6 md:py-0 px-3 flex-1 min-h-0">
+                    <Suspense fallback={<div>Loading...</div>}>
+                        <Outlet />
+                    </Suspense>
                     </div>
+                </div>
                 </div>
             </SidebarInset>
         </SidebarProvider>

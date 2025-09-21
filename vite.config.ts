@@ -3,6 +3,7 @@ import react from "@vitejs/plugin-react-swc";
 import path from "path";
 import { visualizer } from "rollup-plugin-visualizer";
 import { ConfigEnv, defineConfig, loadEnv } from "vite";
+import cesium from 'vite-plugin-cesium';
 const isAnalyze = process.env.ANALYZE === "true";
 export default defineConfig(({ mode }: ConfigEnv) => {
   const env = loadEnv(mode, process.cwd(), "");
@@ -17,6 +18,7 @@ export default defineConfig(({ mode }: ConfigEnv) => {
     },
     plugins: [
       react(),
+      cesium(),
       tailwindcss(),
       ...(isAnalyze
         ? [
