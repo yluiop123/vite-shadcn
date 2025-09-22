@@ -1,4 +1,5 @@
 
+import 'cesium/Build/Cesium/Widgets/widgets.css';
 import { Viewer } from "resium";
 export default function Index() {
     return (
