@@ -17,6 +17,17 @@ type RouteType = {
 const routeSetting: NavItem[] = [
   { key: "dashboard", title: "menu.dashboard", icon: ChartPie },
   {
+    key: "component",
+    title: "menu.component",
+    icon: Bot,
+    children: [
+      { key: "general", title: "menu.component.general", icon: Bot}, 
+      { key: "form", title: "menu.component.form", icon: Bot},
+      { key: "table", title: "menu.component.table", icon: Bot},
+      { key: "custom", title: "menu.component.custom", icon: Bot}
+    ],
+  },
+  {
     key: "chart",
     title: "menu.chart",
     icon: ChartSpline,

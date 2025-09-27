@@ -1,5 +1,10 @@
 export default {
     'menu.dashboard': 'Dashboard',
+    'menu.component': 'Component',
+    'menu.component.general': 'General',
+    'menu.component.form': 'Form',
+    'menu.component.table': 'Table',
+    'menu.component.custom': 'Custom',
     'menu.chart': 'Chart',
     'menu.chart.antv': 'Antv',
     'menu.chart.d3': 'D3',

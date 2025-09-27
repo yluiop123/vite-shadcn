@@ -1,5 +1,10 @@
 export default {
     'menu.dashboard': '仪表盘',
+    'menu.component': '组件',
+    'menu.component.general': '通用组件',
+    'menu.component.form': '表单组件',
+    'menu.component.table': '表格组件',
+    'menu.component.custom': '自定义组件',
     'menu.chart': '图表',
     'menu.chart.antv': 'Antv图表',
     'menu.chart.d3': 'D3图表',

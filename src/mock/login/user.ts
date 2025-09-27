@@ -41,6 +41,11 @@ const handlers = [
           rolePermissions: [
             //supper menu permissions
             { path: "/dashboard", role: "super", type: "menu" },
+            { path: "/component", role: "super", type: "menu" },
+            { path: "/component/general", role: "super", type: "menu" },
+            { path: "/component/form", role: "super", type: "menu" },
+            { path: "/component/table", role: "super", type: "menu" },
+            { path: "/component/custom", role: "super", type: "menu" },
             { path: "/chart", role: "super", type: "menu" },
             { path: "/chart/antv", role: "super", type: "menu" },
             { path: "/chart/d3", role: "super", type: "menu" },
@@ -308,6 +313,11 @@ const handlers = [
             },
             //admin action permissions
             { path: "/dashboard", role: "user", type: "menu" },
+            { path: "/component", role: "user", type: "menu" },
+            { path: "/component/general", role: "user", type: "menu" },
+            { path: "/component/form", role: "user", type: "menu" },
+            { path: "/component/table", role: "user", type: "menu" },
+            { path: "/component/custom", role: "user", type: "menu" },
             { path: "/chart", role: "user", type: "menu" },
             { path: "/chart/antv", role: "user", type: "menu" },
             { path: "/chart/d3", role: "user", type: "menu" },
