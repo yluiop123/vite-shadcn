@@ -22,8 +22,10 @@ interface FloatingButtonProps {
     icon: LucideIcon
     onClick: () => void
     badgeCount?: number
+    className?: string
   }[]
   onClick?: () => void
+  direction?: "up" | "down" | "left" | "right" // 👈 新增
 }
 
 export default function FloatingButton({
@@ -34,6 +36,7 @@ export default function FloatingButton({
   scrollToTop,
   group,
   onClick,
+  direction = "up", // 默认向上展开
 }: FloatingButtonProps) {
   const [visible, setVisible] = useState(!scrollToTop)
   const [open, setOpen] = useState(false)
@@ -49,69 +52,69 @@ export default function FloatingButton({
   const iconSize = size === "sm" ? 16 : size === "md" ? 24 : 28
   const padding = size === "sm" ? "p-2" : size === "md" ? "p-3" : "p-4"
 
-  // 位置 & 容器样式
-  let containerClass = "fixed flex flex-col gap-2 z-50"
+  // 位置样式
+  const containerClass = "fixed flex z-50"
   let presetStyle: React.CSSProperties = {}
 
   switch (preset) {
     case "top-left":
       presetStyle = { top: 24, left: 24 }
-      containerClass += " items-start"
       break
     case "top-center":
-      presetStyle = { top: 24, left: "50%", transform: "translateX(-50%)" } // ✅ 居中
-      containerClass += " items-center"
+      presetStyle = { top: 24, left: "50%", transform: "translateX(-50%)" }
       break
     case "top-right":
       presetStyle = { top: 24, right: 24 }
-      containerClass += " items-end"
       break
     case "bottom-left":
       presetStyle = { bottom: 24, left: 24 }
-      containerClass += " items-start"
       break
     case "bottom-center":
-      presetStyle = { bottom: 24, left: "50%", transform: "translateX(-50%)" } // ✅ 居中
-      containerClass += " items-center"
+      presetStyle = { bottom: 24, left: "50%", transform: "translateX(-50%)" }
       break
     case "bottom-right":
       presetStyle = { bottom: 24, right: 24 }
-      containerClass += " items-end"
       break
     case "left-center":
       presetStyle = { top: "50%", left: 24, transform: "translateY(-50%)" }
-      containerClass += " items-start"
       break
     case "right-center":
       presetStyle = { top: "50%", right: 24, transform: "translateY(-50%)" }
-      containerClass += " items-end"
       break
   }
+
+  // 根据 direction 控制布局
+  let groupClass = "flex gap-2"
+  if (direction === "up") groupClass += " flex-col items-center"
+  if (direction === "down") groupClass += " flex-col-reverse items-center"
+  if (direction === "left") groupClass += " flex-row items-center"
+  if (direction === "right") groupClass += " flex-row-reverse items-center"
 
   const IconComponent = icon
 
   return (
-    <div style={presetStyle} className={containerClass}>
+    <div style={presetStyle} className={`${containerClass} ${groupClass}`}>
       {/* 按钮组 */}
-      {open &&
-        group &&
-        group.map((item, i) => (
-          <div key={i} className="relative">
-            <Button
-              variant="default"
-              size="icon"
-              className={`rounded-full shadow-lg ${padding}`}
-              onClick={item.onClick}
-            >
-              <item.icon size={iconSize} />
-            </Button>
-            {item.badgeCount ? (
-              <Badge className="absolute -top-1 -right-1 px-1.5 py-0 text-xs rounded-full">
-                {item.badgeCount}
-              </Badge>
-            ) : null}
-          </div>
-        ))}
+    {open &&
+      group &&
+      group.map((item, i) => (
+        <div key={i} className="relative">
+          <Button
+            variant="default"
+            size="icon"
+            className={`rounded-full shadow-lg ${padding} ${item.className ?? ""}`}
+            onClick={item.onClick}
+          >
+            <item.icon size={iconSize} />
+          </Button>
+          {item.badgeCount ? (
+            <Badge className="absolute -top-1 -right-1 px-1.5 py-0 text-xs rounded-full">
+              {item.badgeCount}
+            </Badge>
+          ) : null}
+        </div>
+      ))}
+
 
       {/* 主按钮 */}
       {visible && (
