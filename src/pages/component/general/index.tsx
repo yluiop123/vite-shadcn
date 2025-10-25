@@ -8,6 +8,7 @@ const TypographyPage = lazy(() => import('./typography'));
 const FlexPage = lazy(() => import('./flex'));
 const GridPage = lazy(() => import('./grid'));
 const LayoutPage = lazy(() => import('./layout'));
+const SpacePage = lazy(() => import('./space'));
 export default function General() {
   return (
         <Tabs defaultValue="button" className="p-3">
@@ -20,6 +21,7 @@ export default function General() {
                 <TabsTrigger value="flex">Flex</TabsTrigger>
                 <TabsTrigger value="grid">Grid</TabsTrigger>
                 <TabsTrigger value="layout">Layout</TabsTrigger>
+                <TabsTrigger value="space">Space</TabsTrigger>
             </TabsList>
             <TabsContent value="button">
                 <ButtonPage />
@@ -44,6 +46,9 @@ export default function General() {
             </TabsContent>
              <TabsContent value="layout">
                 <LayoutPage />
+            </TabsContent>
+             <TabsContent value="space">
+                <SpacePage />
             </TabsContent>
         </Tabs>
   );
