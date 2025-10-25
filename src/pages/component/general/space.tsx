@@ -3,7 +3,7 @@ import { Card } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useState } from "react";
 
-export default function SpaceDemo() {
+export default function SpacePage() {
   const [gap, setGap] = useState("4");
 
   const gapOptions = [
@@ -17,7 +17,7 @@ export default function SpaceDemo() {
   return (
     <div className="p-6 space-y-8">
       {/* Page title / 页面标题 */}
-      <h1 className="text-2xl font-bold">Tailwind + ShadCN Space Demo / 空间布局示例</h1>
+      <h1 className="text-2xl font-bold">Space Demo / 间距示例</h1>
 
       {/* Horizontal layout / 横向排列 */}
       <h2 className="text-xl font-semibold">Horizontal layout / 横向排列</h2>
