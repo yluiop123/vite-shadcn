@@ -10,6 +10,9 @@ const GridPage = lazy(() => import('./grid'));
 const LayoutPage = lazy(() => import('./layout'));
 const SpacePage = lazy(() => import('./space'));
 const AnchorPage = lazy(() => import('./anchor'));
+const BreadcrumbPage = lazy(() => import('./breadcrumb'));
+const DropdownPage = lazy(() => import('./dropdown'));
+const ContextMenuPage = lazy(() => import('./context-menu'));
 export default function General() {
   return (
         <Tabs defaultValue="button" className="p-3">
@@ -24,6 +27,9 @@ export default function General() {
                 <TabsTrigger value="layout">Layout</TabsTrigger>
                 <TabsTrigger value="space">Space</TabsTrigger>
                 <TabsTrigger value="anchor">Anchor</TabsTrigger>
+                <TabsTrigger value="breadcrumb">Breadcrumb</TabsTrigger>
+                <TabsTrigger value="dropdown">Dropdown</TabsTrigger>
+                <TabsTrigger value="contextMenu">ContextMenu</TabsTrigger>
             </TabsList>
             <TabsContent value="button">
                 <ButtonPage />
@@ -54,6 +60,15 @@ export default function General() {
             </TabsContent>
              <TabsContent value="anchor">
                 <AnchorPage />
+            </TabsContent>
+             <TabsContent value="breadcrumb">
+                <BreadcrumbPage />
+            </TabsContent>
+             <TabsContent value="dropdown">
+                <DropdownPage />
+            </TabsContent>
+             <TabsContent value="contextMenu">
+                <ContextMenuPage />
             </TabsContent>
         </Tabs>
   );
