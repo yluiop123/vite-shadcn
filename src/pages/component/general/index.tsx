@@ -13,15 +13,18 @@ const AnchorPage = lazy(() => import('./anchor'));
 const BreadcrumbPage = lazy(() => import('./breadcrumb'));
 const DropdownPage = lazy(() => import('./dropdown'));
 const ContextMenuPage = lazy(() => import('./context-menu'));
+const SidebarPage = lazy(() => import('./sidebar'));
+const NavigationMenuPage = lazy(() => import('./navigation-menu'));
+const PaginationPage = lazy(() => import('./pagination'));
 export default function General() {
   return (
         <Tabs defaultValue="button" className="p-3">
-            <TabsList>
+            <TabsList >
                 <TabsTrigger value="button">Button</TabsTrigger>
                 <TabsTrigger value="floatButton">FloatButton</TabsTrigger>
                 <TabsTrigger value="typography">Typography</TabsTrigger>
                 <TabsTrigger value="divider">Divider</TabsTrigger>
-                <TabsTrigger value="resizable">Resizable</TabsTrigger>   
+                <TabsTrigger value="resizable">Resizable</TabsTrigger>
                 <TabsTrigger value="flex">Flex</TabsTrigger>
                 <TabsTrigger value="grid">Grid</TabsTrigger>
                 <TabsTrigger value="layout">Layout</TabsTrigger>
@@ -30,6 +33,9 @@ export default function General() {
                 <TabsTrigger value="breadcrumb">Breadcrumb</TabsTrigger>
                 <TabsTrigger value="dropdown">Dropdown</TabsTrigger>
                 <TabsTrigger value="contextMenu">ContextMenu</TabsTrigger>
+                <TabsTrigger value="sidebar">Sidebar</TabsTrigger>
+                <TabsTrigger value="navigationMenu">NavigationMenu</TabsTrigger>
+                <TabsTrigger value="pagination">Pagination</TabsTrigger>
             </TabsList>
             <TabsContent value="button">
                 <ButtonPage />
@@ -69,6 +75,15 @@ export default function General() {
             </TabsContent>
              <TabsContent value="contextMenu">
                 <ContextMenuPage />
+            </TabsContent>
+             <TabsContent value="sidebar">
+                <SidebarPage />
+            </TabsContent>
+             <TabsContent value="navigationMenu">
+                <NavigationMenuPage />
+            </TabsContent>
+             <TabsContent value="pagination">
+                <PaginationPage />
             </TabsContent>
         </Tabs>
   );
