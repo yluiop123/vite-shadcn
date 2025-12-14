@@ -1,14 +1,15 @@
 import type { LarkMapProps, PointLayerProps } from "@antv/larkmap";
 import {
-    CustomControl,
-    LarkMap,
-    LegendCategories,
-    PointLayer,
+  CustomControl,
+  LarkMap,
+  LegendCategories,
+  PointLayer,
 } from "@antv/larkmap";
 import { useEffect, useState } from "react";
+import data from "./data.json";
 
 const config: LarkMapProps = {
-  mapType: "Gaode",
+  mapType: "Map",
   mapOptions: {
     style: "dark",
     zoom: 1,
@@ -53,27 +54,21 @@ const pointLayerOptions: Omit<PointLayerProps, "source"> = {
 export default function Index() {
   const [pointData, SetPointData] = useState({});
   const fetchPointData = () => {
-    fetch(
-      "./data.json"
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        const datas = {
-          type: "FeatureCollection",
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          features: data.map((item: any) => {
-            return {
-              type: "Feature",
-              properties: { ...item },
-              geometry: {
-                type: "Point",
-                coordinates: [+item.longitude, +item.latitude],
-              },
-            };
-          }),
+    const datas = {
+      type: "FeatureCollection",
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      features: data.map((item: any) => {
+        return {
+          type: "Feature",
+          properties: { ...item },
+          geometry: {
+            type: "Point",
+            coordinates: [+item.longitude, +item.latitude],
+          },
         };
-        SetPointData(datas);
-      });
+      }),
+    };
+    SetPointData(datas);
   };
 
   useEffect(() => {
