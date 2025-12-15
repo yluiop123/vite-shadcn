@@ -32,21 +32,11 @@ export default async function initMSW() {
       url: `${import.meta.env.BASE_URL}mockServiceWorker.js`,
       options: { type: 'module', updateViaCache: 'none' },
     },
-  onUnhandledRequest(req) {
-    const url = new URL(req.url);
-
-    // Cesium / CDN / WS 全部放行
-    if (
-      url.protocol.startsWith('ws') ||
-      url.hostname.includes('cesium.com')
-    ) {
-      return;
-    }
-
-    if (url.pathname.startsWith('/api')) {
-      console.warn('[MSW] Missing handler:', req.url);
-    }
-  },
+    onUnhandledRequest: (req) => {
+      if (!req.url.startsWith('/api')) {
+        return // 直接跳过，不拦截
+      }
+    },
   });
   console.log('MSW worker started')
   return worker;
