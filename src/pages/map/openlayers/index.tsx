@@ -5,7 +5,9 @@ import 'react-openlayers/dist/index.css'; // for css
 
 export default function Index() {
     return (
-    <Map controls={[]} interactions={[]}>
+    <Map 
+    // controls={[]} interactions={[]}
+    style={{ width: '100%', height: '100%' }}>
       <TileLayer
         source={
           new XYZ({
