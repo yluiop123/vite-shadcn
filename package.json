@@ -49,6 +49,7 @@
     "clsx": "^2.1.1",
     "cmdk": "^1.1.1",
     "colorjs.io": "^0.5.2",
+    "deck.gl": "^9.2.5",
     "echarts-for-react": "^3.0.2",
     "leaflet": "^1.9.4",
     "lucide-react": "^0.488.0",

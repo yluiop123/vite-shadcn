@@ -1,8 +1,16 @@
 import App from '@/App';
 import initMSW from '@/mock';
+import L from 'leaflet';
+import icon2x from 'leaflet/dist/images/marker-icon-2x.png';
+import icon from 'leaflet/dist/images/marker-icon.png';
+import shadow from 'leaflet/dist/images/marker-shadow.png';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import './index.css';
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+delete (L.Icon.Default.prototype as any)._getIconUrl
+L.Icon.Default.mergeOptions({ iconUrl: icon, iconRetinaUrl: icon2x, shadowUrl: shadow })
 /**
  * 配置 Cesium 资源路径
  */
