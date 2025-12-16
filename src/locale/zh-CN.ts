@@ -17,7 +17,7 @@ export default {
     'menu.map.cesium': 'Cesium地图',
     'menu.map.deckgl': 'Deckgl地图',
     'menu.map.l7': 'L7地图',
-    'menu.map.mapbox': 'Mapbox地图',
+    'menu.map.leaflet': 'Leaflet地图',
     'menu.map.openlayers': 'Openlayers地图',
     'menu.system': '系统管理',
     'menu.system.user': '用户管理',

@@ -58,7 +58,7 @@ const handlers = [
             { path: "/map/cesium", role: "super", type: "menu" },
             { path: "/map/deckgl", role: "super", type: "menu" },
             { path: "/map/l7", role: "super", type: "menu" },
-            { path: "/map/mapbox", role: "super", type: "menu" },
+            { path: "/map/leaflet", role: "super", type: "menu" },
             { path: "/map/openlayers", role: "super", type: "menu" },
             { path: "/system", role: "super", type: "menu" },
             { path: "/system/user", role: "super", type: "menu" },
@@ -330,7 +330,7 @@ const handlers = [
             { path: "/map/cesium", role: "user", type: "menu" },
             { path: "/map/deckgl", role: "user", type: "menu" },
             { path: "/map/l7", role: "user", type: "menu" },
-            { path: "/map/mapbox", role: "user", type: "menu" },
+            { path: "/map/leaflet", role: "user", type: "menu" },
             { path: "/map/openlayers", role: "user", type: "menu" },
           ],
           userPermissions: [

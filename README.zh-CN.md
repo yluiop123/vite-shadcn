@@ -64,11 +64,11 @@ npm run dev
 <details>
 <summary>地图</summary>
 
-  - [ ] Cesium地图  
+  - [x] Cesium地图  
   - [ ] Deckgl地图
-  - [ ] L7地图  
-  - [ ] Mapbox地图
-  - [ ] Openlayers地图
+  - [x] L7地图  
+  - [x] Leaflet地图
+  - [x] Openlayers地图
 </details>
 <details>
 <summary>系统管理</summary>
@@ -101,6 +101,8 @@ npm run dev
 ## 📦 依赖
 
 - 主依赖:
+  - @antv/l7: ^2.23.1
+  - @antv/larkmap: ^1.5.1
   - @dnd-kit/core: ^6.3.1
   - @dnd-kit/modifiers: ^9.0.0
   - @dnd-kit/sortable: ^10.0.0
@@ -110,11 +112,14 @@ npm run dev
   - @radix-ui/react-avatar: ^1.1.9
   - @radix-ui/react-checkbox: ^1.3.1
   - @radix-ui/react-collapsible: ^1.1.11
+  - @radix-ui/react-context-menu: ^2.2.16
   - @radix-ui/react-dialog: ^1.1.15
   - @radix-ui/react-dropdown-menu: ^2.1.15
   - @radix-ui/react-label: ^2.1.6
+  - @radix-ui/react-navigation-menu: ^1.2.14
   - @radix-ui/react-popover: ^1.1.14
   - @radix-ui/react-radio-group: ^1.3.8
+  - @radix-ui/react-scroll-area: ^1.2.10
   - @radix-ui/react-select: ^2.2.4
   - @radix-ui/react-separator: ^1.1.6
   - @radix-ui/react-slot: ^1.2.3
@@ -127,21 +132,28 @@ npm run dev
   - @tailwindcss/vite: ^4.1.3
   - @tanstack/react-table: ^8.21.3
   - axios: ^1.9.0
+  - cesium: ^1.133.1
   - class-variance-authority: ^0.7.1
   - clsx: ^2.1.1
   - cmdk: ^1.1.1
   - colorjs.io: ^0.5.2
   - echarts-for-react: ^3.0.2
+  - leaflet: ^1.9.4
   - lucide-react: ^0.488.0
   - next-themes: ^0.4.6
+  - ol: ^10.7.0
   - react: ^19.1.0
   - react-arborist: ^3.4.3
   - react-dom: ^19.1.0
   - react-hook-form: ^7.56.3
   - react-icons: ^5.5.0
   - react-intl: ^7.1.11
+  - react-leaflet: ^5.0.0-rc.2
+  - react-openlayers: ^10.5.1
+  - react-resizable-panels: ^3.0.6
   - react-router: ^7.6.2
   - recharts: ^2.15.3
+  - resium: ^1.19.0-beta.1
   - sonner: ^2.0.5
   - tailwind-merge: ^3.2.0
   - tailwindcss: ^4.1.3
@@ -152,6 +164,7 @@ npm run dev
 
 - 开发依赖:
   - @eslint/js: ^9.24.0
+  - @types/leaflet: ^1.9.21
   - @types/loadable__component: ^5.13.9
   - @types/mockjs: ^1.0.10
   - @types/node: ^22.14.1
@@ -168,6 +181,7 @@ npm run dev
   - typescript: ~5.8.3
   - typescript-eslint: ^8.29.1
   - vite: ^6.2.6
+  - vite-plugin-cesium-build: ^0.7.1
 
 ## 🧾 License
 

@@ -17,7 +17,7 @@ export default {
     'menu.map.cesium': 'Cesium',
     'menu.map.deckgl': 'Deckgl',
     'menu.map.l7': 'L7',
-    'menu.map.mapbox': 'Mapbox',
+    'menu.map.leaflet': 'Leaflet',
     'menu.map.openlayers': 'Openlayers',
     'menu.system': 'System',
     'menu.system.user': 'User',

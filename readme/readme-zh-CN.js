@@ -75,11 +75,11 @@ npm run dev
 <details>
 <summary>地图</summary>
 
-  - [ ] Cesium地图  
+  - [x] Cesium地图  
   - [ ] Deckgl地图
-  - [ ] L7地图  
-  - [ ] Mapbox地图
-  - [ ] Openlayers地图
+  - [x] L7地图  
+  - [x] Leaflet地图
+  - [x] Openlayers地图
 </details>
 <details>
 <summary>系统管理</summary>

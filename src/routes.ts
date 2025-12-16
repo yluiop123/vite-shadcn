@@ -55,7 +55,7 @@ const routeSetting: NavItem[] = [
       { key: "cesium", title: "menu.map.cesium", icon: Bot},
       { key: "deckgl", title: "menu.map.deckgl", icon: Bot},
       { key: "l7", title: "menu.map.l7", icon: Bot},
-      { key: "mapbox", title: "menu.map.mapbox", icon: Bot},
+      { key: "leaflet", title: "menu.map.leaflet", icon: Bot},
       { key: "openlayers", title: "menu.map.openlayers", icon: Bot},
     ],
   },
