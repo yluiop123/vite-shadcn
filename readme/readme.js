@@ -86,7 +86,7 @@ npm run dev
 <summary>Map</summary>
 
   - [x] Cesium  
-  - [ ] Deck.gl  
+  - [x] Deck.gl  
   - [x] L7  
   - [x] Leaflet 
   - [x] OpenLayers

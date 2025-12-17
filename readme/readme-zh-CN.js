@@ -76,7 +76,7 @@ npm run dev
 <summary>地图</summary>
 
   - [x] Cesium地图  
-  - [ ] Deckgl地图
+  - [x] Deckgl地图
   - [x] L7地图  
   - [x] Leaflet地图
   - [x] Openlayers地图

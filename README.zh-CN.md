@@ -65,7 +65,7 @@ npm run dev
 <summary>地图</summary>
 
   - [x] Cesium地图  
-  - [ ] Deckgl地图
+  - [x] Deckgl地图
   - [x] L7地图  
   - [x] Leaflet地图
   - [x] Openlayers地图
@@ -137,6 +137,7 @@ npm run dev
   - clsx: ^2.1.1
   - cmdk: ^1.1.1
   - colorjs.io: ^0.5.2
+  - deck.gl: ^9.2.5
   - echarts-for-react: ^3.0.2
   - leaflet: ^1.9.4
   - lucide-react: ^0.488.0
@@ -149,6 +150,7 @@ npm run dev
   - react-icons: ^5.5.0
   - react-intl: ^7.1.11
   - react-leaflet: ^5.0.0-rc.2
+  - react-map-gl: ^8.1.0
   - react-openlayers: ^10.5.1
   - react-resizable-panels: ^3.0.6
   - react-router: ^7.6.2
