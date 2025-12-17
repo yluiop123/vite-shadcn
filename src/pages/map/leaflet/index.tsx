@@ -4,7 +4,6 @@ const center: [number, number] = [39.9042, 116.4074] // 北京
 
 export default function MapView() {
   return (
-    <div className="fixed inset-0 overflow-hidden">
     <MapContainer
       center={center}
       zoom={10}
@@ -21,6 +20,5 @@ export default function MapView() {
         </Popup>
       </Marker>
     </MapContainer>
-    </div>
   )
 }
