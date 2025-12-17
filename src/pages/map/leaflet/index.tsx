@@ -4,10 +4,11 @@ const center: [number, number] = [39.9042, 116.4074] // 北京
 
 export default function MapView() {
   return (
+    <div className="fixed inset-0 overflow-hidden">
     <MapContainer
       center={center}
       zoom={10}
-      style={{ height: '100vh', width: '100%' }}
+      className="w-full h-full"
     >
       <TileLayer
         attribution='&copy; OpenStreetMap contributors'
@@ -20,5 +21,6 @@ export default function MapView() {
         </Popup>
       </Marker>
     </MapContainer>
+    </div>
   )
 }
