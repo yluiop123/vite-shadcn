@@ -34,7 +34,9 @@ function Env() {
   const [preset, setPreset] = useState('sunset' as EnvironmentProps['preset'])
   // You can use the "inTransition" boolean to react to the loading in-between state,
   // For instance by showing a message
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [inTransition, startTransition] = useTransition()
+  console.log('inTransition', inTransition)
   const { blur } = useControls({
     blur: { value: 0.65, min: 0, max: 1 },
     preset: {

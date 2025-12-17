@@ -4,7 +4,8 @@ import React from 'react';
 type NavItem = {
   title: string;
   key: string;
-  icon?: React.ElementType;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  icon?:  React.JSXElementConstructor<any>; 
   children?: NavItem[];
   keys?: string[];
   titles?: string[]

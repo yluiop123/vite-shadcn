@@ -1,6 +1,6 @@
 /* eslint-disable */
 /* tslint:disable */
-// MSW fix for GitHub Pages
+
 /**
  * Mock Service Worker.
  * @see https://github.com/mswjs/msw
