@@ -1,18 +1,24 @@
-
-import 'leaflet/dist/leaflet.css'
 import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet'
-export default function Index() {
-    return (
-    <MapContainer center={[51.505, -0.09]} zoom={13} scrollWheelZoom={false}>
-    <TileLayer
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+
+const center: [number, number] = [39.9042, 116.4074] // 北京
+
+export default function MapView() {
+  return (
+    <MapContainer
+      center={center}
+      zoom={10}
+      style={{ height: '100vh', width: '100%' }}
+    >
+      <TileLayer
+        attribution='&copy; OpenStreetMap contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-    />
-    <Marker position={[51.505, -0.09]}>
+      />
+
+      <Marker position={center}>
         <Popup>
-        A pretty CSS3 popup. <br /> Easily customizable.
+          北京 <br /> 天安门
         </Popup>
-    </Marker>
+      </Marker>
     </MapContainer>
-    )
+  )
 }

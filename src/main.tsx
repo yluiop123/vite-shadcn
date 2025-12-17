@@ -3,6 +3,9 @@ import initMSW from '@/mock';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import './index.css';
+import 'leaflet/dist/leaflet.css'
+import './lib/fixLeafletIcon'
+
 /**
  * 配置 Cesium 资源路径
  */
