@@ -53,13 +53,13 @@ npm run dev
   - [x] Rechart 图表组件
   - [x] Echart 图表组件
   - [x] D3 图表组件
-  - [ ] Antv 图表组件
+  - [x] Antv 图表组件
 </details>
 <details>
 <summary>三维</summary>
 
-  - [ ] Babylon  
-  - [ ] Three
+  - [x] Babylon  
+  - [x] Three
 </details>
 <details>
 <summary>地图</summary>
@@ -101,8 +101,11 @@ npm run dev
 ## 📦 依赖
 
 - 主依赖:
+  - @ant-design/charts: ^2.6.6
   - @antv/l7: ^2.23.1
   - @antv/larkmap: ^1.5.1
+  - @babylonjs/core: ^8.42.0
+  - @babylonjs/loaders: ^8.42.0
   - @dnd-kit/core: ^6.3.1
   - @dnd-kit/modifiers: ^9.0.0
   - @dnd-kit/sortable: ^10.0.0
@@ -128,6 +131,8 @@ npm run dev
   - @radix-ui/react-toggle: ^1.1.8
   - @radix-ui/react-toggle-group: ^1.1.9
   - @radix-ui/react-tooltip: ^1.2.7
+  - @react-three/drei: ^10.7.7
+  - @react-three/fiber: ^9.4.2
   - @tabler/icons-react: ^3.31.0
   - @tailwindcss/vite: ^4.1.3
   - @tanstack/react-table: ^8.21.3
@@ -140,6 +145,7 @@ npm run dev
   - deck.gl: ^9.2.5
   - echarts-for-react: ^3.0.2
   - leaflet: ^1.9.4
+  - leva: ^0.10.1
   - lucide-react: ^0.488.0
   - next-themes: ^0.4.6
   - ol: ^10.7.0
@@ -160,6 +166,7 @@ npm run dev
   - tailwind-merge: ^3.2.0
   - tailwindcss: ^4.1.3
   - tailwindcss-animate: ^1.0.7
+  - three: ^0.182.0
   - vaul: ^1.1.2
   - zod: ^3.24.4
   - zustand: ^5.0.5

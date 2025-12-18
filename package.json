@@ -13,6 +13,7 @@
     "readme": "node ./readme/readme.js && node ./readme/readme-zh-CN.js"
   },
   "dependencies": {
+    "@ant-design/charts": "^2.6.6",
     "@antv/l7": "^2.23.1",
     "@antv/larkmap": "^1.5.1",
     "@babylonjs/core": "^8.42.0",

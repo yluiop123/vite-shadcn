@@ -70,15 +70,15 @@ npm run dev
   - [x] Recharts components
   - [x] ECharts components
   - [x] D3 components
-  - [ ] AntV components
+  - [x] AntV components
 
 </details>
 
 <details>
 <summary>3D</summary>
 
-  - [ ] Babylon  
-  - [ ] Three.js
+  - [x] Babylon  
+  - [x] Three.js
 
 </details>
 

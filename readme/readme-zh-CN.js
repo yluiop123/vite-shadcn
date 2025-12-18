@@ -64,13 +64,13 @@ npm run dev
   - [x] Rechart 图表组件
   - [x] Echart 图表组件
   - [x] D3 图表组件
-  - [ ] Antv 图表组件
+  - [x] Antv 图表组件
 </details>
 <details>
 <summary>三维</summary>
 
-  - [ ] Babylon  
-  - [ ] Three
+  - [x] Babylon  
+  - [x] Three
 </details>
 <details>
 <summary>地图</summary>
