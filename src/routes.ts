@@ -53,6 +53,10 @@ const routeSetting: NavItem[] = [
     icon: Puzzle,
     children: [
       { key: "general", title: "menu.component.general", icon: Layers },
+      { key: "layout", title: "menu.component.layout", icon: Layers },
+      { key: "navigation", title: "menu.component.navigation", icon: Layers },
+      { key: "display", title: "menu.component.display", icon: Layers },
+      { key: "feedback", title: "menu.component.feedback", icon: Layers },
       { key: "form", title: "menu.component.form", icon: FileText },
       { key: "table", title: "menu.component.table", icon: Table },
       { key: "custom", title: "menu.component.custom", icon: Wrench },
