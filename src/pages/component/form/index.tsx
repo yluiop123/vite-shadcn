@@ -1,7 +1,15 @@
-export default function Form() {
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { lazy } from "react";
+const AutoCompleteDemo = lazy(() => import('./autocomplete'));
+export default function FormDemoPage() {
   return (
-    <div>
-      <h1>Form</h1>
-    </div>
+        <Tabs defaultValue="autocomplete" className="p-3">
+            <TabsList >
+                <TabsTrigger value="autocomplete">AutoComplete</TabsTrigger>
+            </TabsList>
+            <TabsContent value="autocomplete">
+                <AutoCompleteDemo />
+            </TabsContent>
+        </Tabs>
   );
 }

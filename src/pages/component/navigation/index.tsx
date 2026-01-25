@@ -8,6 +8,7 @@ const SidebarPage = lazy(() => import('./sidebar'));
 const NavigationMenuPage = lazy(() => import('./navigation-menu'));
 const PaginationPage = lazy(() => import('./pagination'));
 const StepsPage = lazy(() => import('./steps'));
+const TabsDemoPage = lazy(() => import('./tabs'));
 export default function General() {
   return (
         <Tabs defaultValue="anchor" className="p-3">
@@ -20,6 +21,7 @@ export default function General() {
                 <TabsTrigger value="navigationMenu">NavigationMenu</TabsTrigger>
                 <TabsTrigger value="pagination">Pagination</TabsTrigger>
                 <TabsTrigger value="steps">Steps</TabsTrigger>
+                <TabsTrigger value="tabs">Tabs</TabsTrigger>
             </TabsList>
              <TabsContent value="anchor">
                 <AnchorPage />
@@ -44,6 +46,9 @@ export default function General() {
             </TabsContent>
              <TabsContent value="steps">
                 <StepsPage />
+            </TabsContent>
+             <TabsContent value="tabs">
+                <TabsDemoPage />
             </TabsContent>
         </Tabs>
   );
