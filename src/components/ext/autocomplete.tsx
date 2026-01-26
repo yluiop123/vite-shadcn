@@ -1,204 +1,182 @@
-import * as React from "react";
-import { Check, X } from "lucide-react";
-
 import {
   Command,
+  CommandEmpty,
   CommandGroup,
   CommandItem,
-  CommandEmpty,
 } from "@/components/ui/command";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
 import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
+import { Loader2, X } from "lucide-react";
+import * as React from "react";
 
-/* ===================== */
-/* 类型定义 */
-/* ===================== */
+/* =======================
+ * Types
+ * ======================= */
 
-export interface AutoCompleteOption {
-  label: string;
+export type AutoCompleteOption = {
   value: string;
-}
+  label?: React.ReactNode;
+  disabled?: boolean;
+};
 
-interface AutoCompleteProps {
-  value?: string | string[];
-  onChange?: (value: string | string[]) => void;
+export type AutoCompleteSize = "sm" | "md" | "lg";
+export type AutoCompleteStatus = "default" | "error" | "warning";
 
+export interface AutoCompleteProProps {
+  value?: string;
+  defaultValue?: string;
   options?: AutoCompleteOption[];
-  fetchOptions?: (keyword: string) => Promise<AutoCompleteOption[]>;
 
   placeholder?: string;
-  multiple?: boolean;
-  debounce?: number;
+  disabled?: boolean;
+  allowClear?: boolean;
+  loading?: boolean;
+
+  size?: AutoCompleteSize;
+  status?: AutoCompleteStatus;
+
+  popupMatchSelectWidth?: boolean;
+  notFoundContent?: React.ReactNode;
+
+  filterOption?: (input: string, option: AutoCompleteOption) => boolean;
+
+  onChange?: (value: string) => void;
+  onSelect?: (value: string, option: AutoCompleteOption) => void;
 }
 
-/* ===================== */
-/* 防抖 Hook */
-/* ===================== */
+/* =======================
+ * Style helpers
+ * ======================= */
 
-function useDebounce<T>(value: T, delay = 300) {
-  const [debounced, setDebounced] = React.useState(value);
-
-  React.useEffect(() => {
-    const timer = setTimeout(() => setDebounced(value), delay);
-    return () => clearTimeout(timer);
-  }, [value, delay]);
-
-  return debounced;
+function inputSize(size: AutoCompleteSize) {
+  return cn({
+    "h-8 text-sm": size === "sm",
+    "h-10": size === "md",
+    "h-12 text-base": size === "lg",
+  });
 }
 
-/* ===================== */
-/* 高亮文本 */
-/* ===================== */
-
-function Highlight({
-  text,
-  keyword,
-}: {
-  text: string;
-  keyword: string;
-}) {
-  if (!keyword) return <>{text}</>;
-
-  const parts = text.split(new RegExp(`(${keyword})`, "gi"));
-
-  return (
-    <>
-      {parts.map((part, i) =>
-        part.toLowerCase() === keyword.toLowerCase() ? (
-          <span key={i} className="text-primary font-medium">
-            {part}
-          </span>
-        ) : (
-          <span key={i}>{part}</span>
-        )
-      )}
-    </>
-  );
+function inputStatus(status: AutoCompleteStatus) {
+  return cn({
+    "border-border": status === "default",
+    "border-destructive focus-visible:ring-destructive": status === "error",
+    "border-yellow-500 focus-visible:ring-yellow-500": status === "warning",
+  });
 }
 
-/* ===================== */
-/* AutoComplete 主组件 */
-/* ===================== */
+/* =======================
+ * Component
+ * ======================= */
 
-export function AutoComplete({
+export function AutoCompletePro({
   value,
-  onChange,
+  defaultValue,
   options = [],
-  fetchOptions,
   placeholder,
-  multiple = false,
-  debounce = 300,
-}: AutoCompleteProps) {
+  disabled,
+  allowClear,
+  loading,
+
+  size = "md",
+  status = "default",
+
+  popupMatchSelectWidth = true,
+  notFoundContent = "暂无数据 / No Data",
+
+  filterOption,
+  onChange,
+  onSelect,
+}: AutoCompleteProProps) {
   const [open, setOpen] = React.useState(false);
-  const [input, setInput] = React.useState("");
-  const [loading, setLoading] = React.useState(false);
-  const [list, setList] = React.useState<AutoCompleteOption[]>(options);
+  const [innerValue, setInnerValue] = React.useState(defaultValue ?? "");
 
-  const debouncedInput = useDebounce(input, debounce);
+  const inputValue = value !== undefined ? value : innerValue;
 
-  const values = React.useMemo(
-    () => (Array.isArray(value) ? value : value ? [value] : []),
-    [value]
-  );
-
-  /* 异步加载 */
-  React.useEffect(() => {
-    if (!fetchOptions) {
-      setList(
-        options.filter((o) =>
-          o.label.toLowerCase().includes(debouncedInput.toLowerCase())
-        )
+  const filteredOptions = React.useMemo(() => {
+    if (!inputValue) return options;
+    if (!filterOption) {
+      return options.filter((opt) =>
+        opt.value.toLowerCase().includes(inputValue.toLowerCase())
       );
-      return;
     }
+    return options.filter((opt) => filterOption(inputValue, opt));
+  }, [inputValue, options, filterOption]);
 
-    setLoading(true);
-    fetchOptions(debouncedInput)
-      .then(setList)
-      .finally(() => setLoading(false));
-  }, [debouncedInput]);
-
-  const select = (v: string) => {
-    if (multiple) {
-      const next = values.includes(v)
-        ? values.filter((i) => i !== v)
-        : [...values, v];
-      onChange?.(next);
-    } else {
-      onChange?.(v);
-      setOpen(false);
-    }
+  const handleChange = (val: string) => {
+    setInnerValue(val);
+    onChange?.(val);
+    setOpen(true);
   };
 
-  return (
-    <Popover open={open} onOpenChange={setOpen}>
-      <PopoverTrigger asChild>
-        <div
-          className="min-h-10 w-full rounded-md border px-3 py-1 flex flex-wrap gap-1 cursor-text"
-          onClick={() => setOpen(true)}
-        >
-          {multiple &&
-            values.map((v) => {
-              const opt = options.find((o) => o.value === v);
-              return (
-                <Badge key={v} variant="secondary">
-                  {opt?.label}
-                  <X
-                    className="ml-1 h-3 w-3 cursor-pointer"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      select(v);
-                    }}
-                  />
-                </Badge>
-              );
-            })}
+  const handleSelect = (opt: AutoCompleteOption) => {
+    setInnerValue(opt.value);
+    onChange?.(opt.value);
+    onSelect?.(opt.value, opt);
+    // setOpen(false);
+  };
 
+  const showClear = allowClear && !!inputValue && !disabled;
+
+  return (
+    <Popover
+      open={open && filteredOptions.length > 0}
+      onOpenChange={setOpen}
+    >
+      <PopoverTrigger asChild>
+        <div className="relative w-full">
           <Input
-            className="border-0 shadow-none focus-visible:ring-0 p-0 h-7"
+            disabled={disabled}
+            value={inputValue}
             placeholder={placeholder}
-            value={input}
-            onChange={(e) => {
-              setInput(e.target.value);
-              setOpen(true);
-            }}
+            onChange={(e) => handleChange(e.target.value)}
+            // onFocus={() => setOpen(true)}
+            className={cn(
+              inputSize(size),
+              inputStatus(status),
+              showClear && "pr-8"
+            )}
           />
+
+          {/* suffix icons */}
+          <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-1">
+            {loading && (
+              <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
+            )}
+            {showClear && (
+              <X
+                className="h-4 w-4 cursor-pointer text-muted-foreground hover:text-foreground"
+                onClick={() => handleChange("")}
+              />
+            )}
+          </div>
         </div>
       </PopoverTrigger>
 
-      <PopoverContent className="p-0 w-[--radix-popover-trigger-width]">
+      <PopoverContent
+        align="start"
+        className={cn(
+          "p-0 pointer-events-auto",
+          popupMatchSelectWidth && "w-[--radix-popover-trigger-width]"
+        )}
+      >
         <Command>
-          <CommandEmpty>
-            {loading ? "加载中 (Loading)..." : "无结果 (No results)"}
-          </CommandEmpty>
-
           <CommandGroup>
-            {list.map((item) => (
+            {filteredOptions.map((opt) => (
               <CommandItem
-                key={item.value}
-                onSelect={() => select(item.value)}
+                key={opt.value}
+                value={opt.value}
+                disabled={opt.disabled}
+                onSelect={() => handleSelect(opt)}
               >
-                <Check
-                  className={cn(
-                    "mr-2 h-4 w-4",
-                    values.includes(item.value)
-                      ? "opacity-100"
-                      : "opacity-0"
-                  )}
-                />
-                <Highlight
-                  text={item.label}
-                  keyword={debouncedInput}
-                />
+                {opt.label ?? opt.value}
               </CommandItem>
             ))}
           </CommandGroup>
+
+          {filteredOptions.length === 0 && (
+            <CommandEmpty>{notFoundContent}</CommandEmpty>
+          )}
         </Command>
       </PopoverContent>
     </Popover>
