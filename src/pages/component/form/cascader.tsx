@@ -1,52 +1,38 @@
-"use client";
+import { Cascader, CascaderOption } from "@/components/ext/cascader";
+import { useState } from "react";
 
-import { Cascader, CascaderOption } from "@/components/ext/cascader"; // 导入封装好的组件
-import React from "react";
+const OPTIONS: CascaderOption[] = [
+  {
+    value: "clothes",
+    label: "服装",
+    children: [
+      { value: "mens", label: "男装", children: [{ value: "tshirt", label: "T恤" }, { value: "suit", label: "西装" }] },
+      { value: "womens", label: "女装", children: [{ value: "dress", label: "连衣裙" }] },
+    ],
+  },
+  {
+    value: "food",
+    label: "食物",
+    children: [
+      { value: "fruit", label: "水果", children: [{ value: "apple", label: "苹果" }] },
+    ],
+  },
+];
 
-export default function CascaderDemo() {
-  const options: CascaderOption[] = [
-    {
-      value: "fruits",
-      label: "水果",
-      children: [
-        { value: "apple", label: "苹果" },
-        { value: "banana", label: "香蕉" },
-      ],
-    },
-    {
-      value: "vegetables",
-      label: "蔬菜",
-      children: [
-        { value: "carrot", label: "胡萝卜" },
-        { value: "potato", label: "土豆" },
-      ],
-    },
-    {
-      value: "electronics",
-      label: "电子产品",
-      children: [
-        { value: "laptop", label: "笔记本" },
-        { value: "phone", label: "手机" },
-      ],
-    },
-  ];
-
-  const [selected, setSelected] = React.useState<string[]>([]);
+export default function App() {
+  const [single, setSingle] = useState<string[]>([]);
+  const [multi, setMulti] = useState<string[][]>([]);
 
   return (
-    <div className="p-4">
-      <h2 className="text-xl mb-4">级联选择器 (Cascader)</h2>
-      <Cascader
-        value={selected}
-        options={options}
-        onChange={setSelected}
-        placeholder="请选择"
-        searchPlaceholder="搜索"
-        allowClear={true}
-      />
-      <div className="mt-4">
-        <strong>当前选中项: </strong>
-        {selected.length > 0 ? selected.join(" > ") : "未选择"}
+    <div className="p-20 space-y-10 bg-gray-50 min-h-screen">
+      <div className="max-w-xs space-y-2">
+        <label className="text-sm font-bold">单选示例</label>
+        <Cascader options={OPTIONS} value={single} onChange={setSingle} multiple={false} />
+      </div>
+
+      <div className="max-w-sm space-y-2">
+        <label className="text-sm font-bold">多选示例</label>
+        <Cascader options={OPTIONS} value={multi} onChange={setMulti} multiple={true} />
       </div>
     </div>
   );

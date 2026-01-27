@@ -1,6 +1,6 @@
 "use client";
 
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utils"; // 拼接 className 的工具函数
 import * as Popover from "@radix-ui/react-popover";
 import * as React from "react";
 
@@ -11,39 +11,41 @@ export type CascaderOption = {
   disabled?: boolean;
 };
 
+// 使用函数重载或联合类型确保类型安全
 export interface CascaderProps {
-  value?: string[];
   options: CascaderOption[];
-  onChange: (value: string[]) => void;
+  value: string[] | string[][]; // 单选是路径，多选是路径数组
+  onChange: (value: any) => void;
+  multiple?: boolean;
   placeholder?: string;
   searchPlaceholder?: string;
   allowClear?: boolean;
 }
 
 export function Cascader({
-  value = [],
   options,
+  value = [],
   onChange,
+  multiple = false,
   placeholder = "请选择",
   searchPlaceholder = "搜索...",
   allowClear = true,
 }: CascaderProps) {
   const [open, setOpen] = React.useState(false);
   const [searchValue, setSearchValue] = React.useState("");
-  const [selectedValues, setSelectedValues] = React.useState<string[]>(value);
-  const [activePath, setActivePath] = React.useState<string[]>(value);
+  const [activePath, setActivePath] = React.useState<string[]>([]);
 
-  // 搜索逻辑：将树形结构打平为路径数组
+  // --- 1. 数据打平（用于搜索和回显） ---
   const flattenedOptions = React.useMemo(() => {
-    const result: { value: string[]; fullLabel: string }[] = [];
-    const traverse = (data: CascaderOption[], pPath: string[], pLabels: string[]) => {
-      data.forEach((item) => {
-        const cPath = [...pPath, item.value];
-        const cLabels = [...pLabels, item.label];
-        if (!item.children || item.children.length === 0) {
-          result.push({ value: cPath, fullLabel: cLabels.join(" / ") });
+    const result: { path: string[]; label: string; fullLabel: string }[] = [];
+    const traverse = (opts: CascaderOption[], pPath: string[], pLabels: string[]) => {
+      opts.forEach((o) => {
+        const cPath = [...pPath, o.value];
+        const cLabels = [...pLabels, o.label];
+        if (!o.children || o.children.length === 0) {
+          result.push({ path: cPath, label: o.label, fullLabel: cLabels.join(" / ") });
         } else {
-          traverse(item.children, cPath, cLabels);
+          traverse(o.children, cPath, cLabels);
         }
       });
     };
@@ -55,17 +57,43 @@ export function Cascader({
     opt.fullLabel.toLowerCase().includes(searchValue.toLowerCase())
   );
 
+  // --- 2. 选中状态判断逻辑 ---
+  const isPathSelected = (path: string[]) => {
+    const pathStr = path.join(",");
+    if (multiple) {
+      return (value as string[][]).some((v) => v.join(",") === pathStr);
+    }
+    return (value as string[]).join(",") === pathStr;
+  };
+
+  // --- 3. 选择逻辑 ---
   const handleSelect = (path: string[], isLeaf: boolean) => {
-    setActivePath(path);
-    if (isLeaf) {
-      setSelectedValues(path);
+    if (!isLeaf) {
+      setActivePath(path);
+      return;
+    }
+
+    if (multiple) {
+      const currentVal = value as string[][];
+      const alreadySelected = currentVal.some((v) => v.join(",") === path.join(","));
+      const newVal = alreadySelected
+        ? currentVal.filter((v) => v.join(",") !== path.join(","))
+        : [...currentVal, path];
+      onChange(newVal);
+    } else {
       onChange(path);
       setOpen(false);
       setSearchValue("");
     }
   };
 
-  // 渲染多列级联视图
+  const handleClear = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    onChange(multiple ? [] : []);
+    setActivePath([]);
+  };
+
+  // --- 4. 级联列渲染 ---
   const renderColumns = () => {
     const columns = [];
     let currentOptions = options;
@@ -74,89 +102,108 @@ export function Cascader({
       if (!currentOptions || currentOptions.length === 0) break;
       const level = i;
       columns.push(
-        <div key={level} className="min-w-[140px] max-h-72 overflow-y-auto border-r last:border-r-0 p-1 bg-white">
-          {currentOptions.map((opt) => (
-            <div
-              key={opt.value}
-              className={cn(
-                "px-2 py-1.5 text-sm rounded cursor-pointer flex justify-between items-center transition-colors",
-                activePath[level] === opt.value ? "bg-blue-50 text-blue-600 font-medium" : "hover:bg-gray-100",
-                opt.disabled && "opacity-50 cursor-not-allowed pointer-events-none"
-              )}
-              onClick={() => handleSelect([...activePath.slice(0, level), opt.value], !opt.children)}
-              onMouseEnter={() => opt.children && setActivePath([...activePath.slice(0, level), opt.value])}
-            >
-              <span className="truncate">{opt.label}</span>
-              {opt.children && <span className="ml-2 text-[10px] text-gray-400">▶</span>}
-            </div>
-          ))}
+        <div key={level} className="min-w-[160px] max-h-72 overflow-y-auto border-r last:border-r-0 p-1">
+          {currentOptions.map((opt) => {
+            const currentPath = [...activePath.slice(0, level), opt.value];
+            const isLeaf = !opt.children;
+            const active = activePath[level] === opt.value;
+            const checked = isPathSelected(currentPath);
+
+            return (
+              <div
+                key={opt.value}
+                className={cn(
+                  "flex items-center px-2 py-1.5 text-sm rounded cursor-pointer mb-0.5 transition-colors",
+                  active ? "bg-blue-50 text-blue-600 font-medium" : "hover:bg-gray-100",
+                  opt.disabled && "opacity-40 cursor-not-allowed pointer-events-none"
+                )}
+                onMouseEnter={() => !isLeaf && setActivePath(currentPath)}
+                onClick={() => handleSelect(currentPath, isLeaf)}
+              >
+                {multiple && isLeaf && (
+                  <div className={cn(
+                    "w-4 h-4 border rounded mr-2 flex items-center justify-center text-[10px]",
+                    checked ? "bg-blue-500 border-blue-500 text-white" : "border-gray-300"
+                  )}>{checked && "✓"}</div>
+                )}
+                <span className="flex-1 truncate">{opt.label}</span>
+                {!isLeaf && <span className="ml-2 text-gray-400 text-[10px]">▶</span>}
+                {!multiple && isLeaf && checked && <span className="ml-2 text-blue-500">✓</span>}
+              </div>
+            );
+          })}
         </div>
       );
-      const next = currentOptions.find((o) => o.value === activePath[level]);
-      currentOptions = next?.children || [];
+      currentOptions = currentOptions.find(o => o.value === activePath[level])?.children || [];
     }
     return <div className="flex bg-white">{columns}</div>;
   };
 
   return (
-    <div className="w-64">
-      <Popover.Root open={open} onOpenChange={(o) => { setOpen(o); if(!o) setSearchValue(""); }}>
-        {/* 1. 触发器：确保点击的是整个样式区域 */}
+    <div className="w-full">
+      <Popover.Root open={open} onOpenChange={(val) => { setOpen(val); if(!val) setSearchValue(""); }}>
         <Popover.Trigger asChild>
-          <div className="flex items-center justify-between w-full px-3 py-2 border rounded-md cursor-pointer hover:border-blue-500 bg-white transition-all text-sm shadow-sm">
-            <span className={cn("truncate", selectedValues.length === 0 && "text-gray-400")}>
-              {selectedValues.length > 0 ? selectedValues.join(" / ") : placeholder}
-            </span>
-            <div className="flex items-center gap-1 ml-2">
-              {allowClear && selectedValues.length > 0 && (
-                <span 
-                  onClick={(e) => { e.stopPropagation(); setSelectedValues([]); setActivePath([]); onChange([]); }} 
-                  className="text-gray-400 hover:text-gray-600 text-base"
-                >
-                  ×
-                </span>
-              )}
-              <span className="text-[10px] text-gray-400">▼</span>
+          <div className="flex flex-wrap gap-1.5 items-center w-full p-2 border rounded-md bg-white cursor-pointer hover:border-blue-400 shadow-sm min-h-[40px] transition-all">
+            {multiple ? (
+              (value as string[][]).length > 0 ? (
+                (value as string[][]).map(p => (
+                  <span key={p.join(',')} className="px-2 py-0.5 bg-blue-50 text-blue-700 border border-blue-100 rounded text-xs flex items-center gap-1">
+                    {p[p.length - 1]}
+                    <span onClick={(e) => { e.stopPropagation(); handleSelect(p, true); }} className="hover:text-blue-900 font-bold">×</span>
+                  </span>
+                ))
+              ) : <span className="text-gray-400 text-sm ml-1">{placeholder}</span>
+            ) : (
+              <span className={cn("text-sm ml-1", (value as string[]).length === 0 && "text-gray-400")}>
+                {(value as string[]).length > 0 ? (value as string[]).join(" / ") : placeholder}
+              </span>
+            )}
+            <div className="ml-auto flex items-center gap-2">
+               {allowClear && (multiple ? (value as string[][]).length > 0 : (value as string[]).length > 0) && (
+                 <span onClick={handleClear} className="text-gray-400 hover:text-gray-600">×</span>
+               )}
+               <span className="text-[10px] text-gray-300">▼</span>
             </div>
           </div>
         </Popover.Trigger>
 
-        {/* 2. 传送门：解决位置偏移和遮挡的关键 */}
         <Popover.Portal>
-          <Popover.Content 
-            align="start" 
-            sideOffset={5} 
-            className="z-[999] bg-white border border-gray-200 rounded-md shadow-xl overflow-hidden"
-          >
-            {/* 搜索区域 */}
-            <div 
-              className="p-2 border-b bg-gray-50" 
-              style={{ width: 'var(--radix-popover-trigger-width)' }}
-            >
+          <Popover.Content align="start" sideOffset={5} className="z-[999] bg-white border border-gray-200 rounded-lg shadow-2xl flex flex-col overflow-hidden animate-in fade-in slide-in-from-top-1">
+            {/* 搜索框 */}
+            <div className="p-2 border-b bg-gray-50/50" style={{ width: 'var(--radix-popover-trigger-width)' }}>
               <input
                 autoFocus
-                className="w-full px-2 py-1 text-sm border rounded outline-none focus:border-blue-500"
+                className="w-full px-3 py-1.5 text-sm border rounded-md outline-none focus:border-blue-500 transition-all"
                 placeholder={searchPlaceholder}
                 value={searchValue}
                 onChange={(e) => setSearchValue(e.target.value)}
               />
             </div>
 
-            {/* 内容区域：搜索结果 vs 级联列表 */}
+            {/* 内容区 */}
             {searchValue ? (
               <div className="max-h-72 overflow-y-auto p-1" style={{ width: 'var(--radix-popover-trigger-width)' }}>
                 {filteredOptions.length > 0 ? (
                   filteredOptions.map((opt) => (
                     <div
-                      key={opt.value.join("-")}
-                      className="px-2 py-2 text-sm hover:bg-blue-50 cursor-pointer rounded"
-                      onClick={() => handleSelect(opt.value, true)}
+                      key={opt.path.join(",")}
+                      className={cn(
+                        "flex items-center px-3 py-2 text-sm hover:bg-blue-50 cursor-pointer rounded-md",
+                        isPathSelected(opt.path) && "text-blue-600 font-medium"
+                      )}
+                      onClick={() => handleSelect(opt.path, true)}
                     >
+                      {multiple && (
+                        <div className={cn(
+                          "w-4 h-4 border rounded mr-3 flex items-center justify-center text-[10px]",
+                          isPathSelected(opt.path) ? "bg-blue-500 border-blue-500 text-white" : "border-gray-300"
+                        )}>{isPathSelected(opt.path) && "✓"}</div>
+                      )}
                       {opt.fullLabel}
                     </div>
                   ))
                 ) : (
-                  <div className="p-4 text-center text-sm text-gray-400">无匹配结果</div>
+                  <div className="p-8 text-center text-gray-400 text-sm">无匹配结果</div>
                 )}
               </div>
             ) : (
