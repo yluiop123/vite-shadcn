@@ -2,87 +2,112 @@
 
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Separator } from "@/components/ui/separator"
+import { cn } from "@/lib/utils"
+import { useMemo } from "react"
 import { HexColorPicker } from "react-colorful"
 
-// 1. 定义丰富的内置色盘 (Tailwind-inspired color groups)
-const COLOR_GROUPS = [
-  { name: "Neutral", colors: ["#000000", "#334155", "#64748b", "#94a3b8", "#f8fafc", "#ffffff"] },
-  { name: "Red", colors: ["#ef4444", "#dc2626", "#b91c1c", "#991b1b", "#7f1d1d"] },
-  { name: "Blue", colors: ["#3b82f6", "#2563eb", "#1d4ed8", "#1e40af", "#1e3a8a"] },
-  { name: "Green", colors: ["#22c55e", "#16a34a", "#15803d", "#166534", "#064e3b"] },
-  { name: "Yellow", colors: ["#eab308", "#ca8a04", "#a16207", "#854d0e", "#713f12"] },
-  { name: "Purple", colors: ["#a855f7", "#9333ea", "#7e22ce", "#6b21a8", "#581c87"] },
+// 丰富的内置色盘数据 (Tailwind Palette)
+const PRESET_COLORS = [
+  { group: "Neutral", colors: ["#000000", "#64748b", "#cbd5e1", "#ffffff"] },
+  { group: "Status", colors: ["#ef4444", "#f97316", "#eab308", "#22c55e", "#3b82f6", "#6366f1"] },
+  { group: "Pastel", colors: ["#fecaca", "#fed7aa", "#fef08a", "#bbf7d0", "#bfdbfe", "#ddd6fe"] },
 ]
 
 export function ColorPicker({ color, onChange }: { color: string, onChange: (c: string) => void }) {
+  // HEX 转 RGB 逻辑
+  const rgb = useMemo(() => {
+    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(color)
+    return result ? { r: parseInt(result[1], 16), g: parseInt(result[2], 16), b: parseInt(result[3], 16) } 
+                  : { r: 0, g: 0, b: 0 }
+  }, [color])
+
+  const handleRgbChange = (channel: 'r' | 'g' | 'b', value: string) => {
+    const num = Math.max(0, Math.min(255, parseInt(value) || 0))
+    const newRgb = { ...rgb, [channel]: num }
+    onChange(`#${newRgb.r.toString(16).padStart(2, "0")}${newRgb.g.toString(16).padStart(2, "0")}${newRgb.b.toString(16).padStart(2, "0")}`)
+  }
+
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button variant="outline" className="w-[280px] justify-start gap-3">
-          <div className="h-5 w-5 rounded-full border shadow-sm" style={{ backgroundColor: color }} />
-          <span className="font-mono">{color.toUpperCase()}</span>
+        <Button variant="outline" className="w-[280px] justify-between shadow-sm hover:bg-slate-50 transition-all">
+          <div className="flex items-center gap-2">
+            <div className="h-4 w-4 rounded-full border shadow-inner" style={{ backgroundColor: color }} />
+            <span className="font-mono text-xs font-bold uppercase">{color}</span>
+          </div>
+          <div className="flex gap-1">
+            <div className="h-2 w-2 rounded-full bg-red-400/80" />
+            <div className="h-2 w-2 rounded-full bg-green-400/80" />
+            <div className="h-2 w-2 rounded-full bg-blue-400/80" />
+          </div>
         </Button>
       </PopoverTrigger>
 
-      <PopoverContent className="w-80 p-0 overflow-hidden shadow-2xl border-none">
-        <Tabs defaultValue="picker">
-          <TabsList className="w-full rounded-none h-12 bg-muted/50">
-            <TabsTrigger value="picker" className="flex-1">拾色器 (Picker)</TabsTrigger>
-            <TabsTrigger value="presets" className="flex-1">调色盘 (Palette)</TabsTrigger>
-          </TabsList>
+      <PopoverContent className="w-72 p-4 space-y-4 shadow-2xl border-slate-200">
+        {/* 1. 拾色器 (Color Picker) */}
+        <HexColorPicker color={color} onChange={onChange} className="!w-full !h-36" />
 
-          {/* 自由拾色页 (Free Pick) */}
-          <TabsContent value="picker" className="p-4 space-y-4 mt-0">
-            <HexColorPicker color={color} onChange={onChange} className="!w-full !h-40" />
-            <div className="flex gap-2 items-center">
-              <span className="text-xs font-bold text-muted-foreground uppercase">Hex</span>
-              <Input 
-                value={color} 
-                onChange={(e) => onChange(e.target.value)} 
-                className="h-8 font-mono"
-              />
-            </div>
-          </TabsContent>
-
-          {/* 丰富预设页 (Rich Presets) */}
-          <TabsContent value="presets" className="mt-0">
-            <ScrollArea className="h-[240px] p-4">
-              <div className="space-y-4">
-                {COLOR_GROUPS.map((group) => (
-                  <div key={group.name} className="space-y-2">
-                    <p className="text-[10px] uppercase font-bold text-muted-foreground tracking-wider">
-                      {group.name}
-                    </p>
-                    <div className="grid grid-cols-6 gap-2">
-                      {group.colors.map((c) => (
-                        <button
-                          key={c}
-                          className="h-8 w-8 rounded-md border border-black/5 hover:scale-110 transition-transform active:scale-95"
-                          style={{ backgroundColor: c }}
-                          onClick={() => onChange(c)}
-                          title={c}
-                        />
-                      ))}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </ScrollArea>
-          </TabsContent>
-        </Tabs>
-        
-        {/* 底部当前预览 (Footer Preview) */}
-        <div className="bg-muted/30 p-3 border-t flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <div className="h-4 w-4 rounded border" style={{ backgroundColor: color }} />
-            <span className="text-xs font-mono uppercase font-medium">{color}</span>
+        {/* 2. 数值输入区 (HEX & RGB Inputs) */}
+        <div className="flex flex-col gap-3">
+          {/* 第一行：HEX 独占一行 (First Row: HEX only) */}
+          <div className="space-y-1">
+            <Label className="text-[10px] uppercase text-muted-foreground font-bold">Hex Code</Label>
+            <Input 
+              value={color.toUpperCase()} 
+              onChange={(e) => onChange(e.target.value)} 
+              className="h-8 font-mono text-[11px]"
+            />
           </div>
-          <span className="text-[10px] text-muted-foreground italic underline decoration-dotted">
-            Selected Color
-          </span>
+
+          {/* 第二行：RGB 平分一行 (Second Row: RGB split) */}
+          <div className="grid grid-cols-3 gap-2">
+            {(['r', 'g', 'b'] as const).map((ch) => (
+              <div key={ch} className="space-y-1">
+                <Label className="text-[10px] uppercase text-muted-foreground font-bold text-center block">
+                  {ch}
+                </Label>
+                <Input 
+                  type="number"
+                  value={rgb[ch]}
+                  onChange={(e) => handleRgbChange(ch, e.target.value)}
+                  className="h-8 px-1 text-center font-mono text-[11px]"
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <Separator className="opacity-50" />
+
+        {/* 3. 内置丰富色盘 (Preset Palette) */}
+        <div className="space-y-3">
+          <Label className="text-[10px] uppercase text-muted-foreground font-bold flex justify-between">
+            <span>常用预设 (Presets)</span>
+            <span className="opacity-50 tracking-tighter">TAILWIND COLORS</span>
+          </Label>
+          <ScrollArea className="h-24 pr-2">
+            <div className="space-y-3">
+              {PRESET_COLORS.map((group) => (
+                <div key={group.group} className="flex flex-wrap gap-2">
+                  {group.colors.map((c) => (
+                    <button
+                      key={c}
+                      className={cn(
+                        "h-6 w-6 rounded-md border border-slate-200 transition-all hover:scale-125 active:scale-90 shadow-sm",
+                        color.toLowerCase() === c.toLowerCase() && "ring-2 ring-offset-1 ring-slate-400"
+                      )}
+                      style={{ backgroundColor: c }}
+                      onClick={() => onChange(c)}
+                    />
+                  ))}
+                </div>
+              ))}
+            </div>
+          </ScrollArea>
         </div>
       </PopoverContent>
     </Popover>
