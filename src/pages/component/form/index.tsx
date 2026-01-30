@@ -6,6 +6,8 @@ const CheckboxDemo = lazy(() => import('./checkbox'));
 const ColorPickerDemo = lazy(() => import('./colorpicker'));
 const DatePickerDemo = lazy(() => import('./datepicker'));
 const FormDemo = lazy(() => import('./form'));
+const InputDemo = lazy(() => import('./input'));
+const InputNumberDemo = lazy(() => import('./input-number'));
 
 export default function FormDemoPage() {
   return (
@@ -17,6 +19,8 @@ export default function FormDemoPage() {
                 <TabsTrigger value="colorpicker">ColorPicker</TabsTrigger>
                 <TabsTrigger value="datepicker">DatePicker</TabsTrigger>
                 <TabsTrigger value="form">Form</TabsTrigger>
+                <TabsTrigger value="input">Input</TabsTrigger>
+                <TabsTrigger value="input-number">InputNumber</TabsTrigger>
             </TabsList>
             <TabsContent value="autocomplete">
                 <AutoCompleteDemo />
@@ -35,6 +39,12 @@ export default function FormDemoPage() {
             </TabsContent>
             <TabsContent value="form">
                 <FormDemo />
+            </TabsContent>
+            <TabsContent value="input">
+                <InputDemo />
+            </TabsContent>
+            <TabsContent value="input-number">
+                <InputNumberDemo />
             </TabsContent>
         </Tabs>
   );
