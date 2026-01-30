@@ -10,6 +10,7 @@ const InputDemo = lazy(() => import('./input'));
 const InputNumberDemo = lazy(() => import('./input-number'));
 const MentionsDemo = lazy(() => import('./mentions'));
 const RadioDemo = lazy(() => import('./radio'));
+const RateDemo = lazy(() => import('./rate'));
 
 export default function FormDemoPage() {
   return (
@@ -25,6 +26,7 @@ export default function FormDemoPage() {
                 <TabsTrigger value="input-number">InputNumber</TabsTrigger>
                 <TabsTrigger value="mentions">Mentions</TabsTrigger>
                 <TabsTrigger value="radio">Radio</TabsTrigger>
+                <TabsTrigger value="rate">Rate</TabsTrigger>
             </TabsList>
             <TabsContent value="autocomplete">
                 <AutoCompleteDemo />
@@ -55,6 +57,9 @@ export default function FormDemoPage() {
             </TabsContent>
             <TabsContent value="radio">
                 <RadioDemo />
+            </TabsContent>
+            <TabsContent value="rate">
+                <RateDemo />
             </TabsContent>
         </Tabs>
   );
