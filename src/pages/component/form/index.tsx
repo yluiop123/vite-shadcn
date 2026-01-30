@@ -20,8 +20,8 @@ const TreeSelectDemo = lazy(() => import('./treeselect'));
 const UploadDemo = lazy(() => import('./upload'));
 export default function FormDemoPage() {
   return (
-        <Tabs defaultValue="autocomplete" className="flex-wrap h-auto justify-start gap-2 p-1">
-            <TabsList >
+        <Tabs defaultValue="autocomplete" className="p-3">
+            <TabsList className="flex-wrap h-auto justify-start gap-2 p-1">
                 <TabsTrigger value="autocomplete">AutoComplete</TabsTrigger>
                 <TabsTrigger value="cascader">Cascader</TabsTrigger>
                 <TabsTrigger value="checkbox">Checkbox</TabsTrigger>
