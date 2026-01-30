@@ -1,7 +1,21 @@
-export default function Form() {
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { lazy } from "react";
+const AvatarPage = lazy(() => import('./avatar'));
+const BadgePage = lazy(() => import('./badge'));
+
+export default function Display() {
   return (
-    <div>
-      <h1>Form</h1>
-    </div>
+    <Tabs defaultValue="avatar" className="p-3">
+      <TabsList>
+        <TabsTrigger value="avatar">Avatar</TabsTrigger>
+        <TabsTrigger value="badge">Badge</TabsTrigger>
+      </TabsList>
+      <TabsContent value="avatar">
+        <AvatarPage />
+      </TabsContent>
+      <TabsContent value="badge">
+        <BadgePage />
+      </TabsContent>
+    </Tabs>
   );
 }
