@@ -1,100 +1,64 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { lazy } from "react";
-const AutoCompleteDemo = lazy(() => import('./autocomplete'));
-const CascaderDemo = lazy(() => import('./cascader'));
-const CheckboxDemo = lazy(() => import('./checkbox'));
-const ColorPickerDemo = lazy(() => import('./colorpicker'));
-const DatePickerDemo = lazy(() => import('./datepicker'));
-const FormDemo = lazy(() => import('./form'));
-const InputDemo = lazy(() => import('./input'));
-const InputNumberDemo = lazy(() => import('./input-number'));
-const MentionsDemo = lazy(() => import('./mentions'));
-const RadioDemo = lazy(() => import('./radio'));
-const RateDemo = lazy(() => import('./rate'));
-const SelectDemo = lazy(() => import('./select'));
-const SliderDemo = lazy(() => import('./slider'));
-const SwitchDemo = lazy(() => import('./switch'));
-const TimePickerDemo = lazy(() => import('./timepicker'));
-const TransferDemo = lazy(() => import('./transfer'));
-const TreeSelectDemo = lazy(() => import('./treeselect'));
-const UploadDemo = lazy(() => import('./upload'));
+import { lazy, Suspense } from "react";
+
+const components = [
+  { id: "autocomplete", label: "AutoComplete", component: lazy(() => import('./autocomplete')) },
+  { id: "cascader", label: "Cascader", component: lazy(() => import('./cascader')) },
+  { id: "checkbox", label: "Checkbox", component: lazy(() => import('./checkbox')) },
+  { id: "colorpicker", label: "ColorPicker", component: lazy(() => import('./colorpicker')) },
+  { id: "datepicker", label: "DatePicker", component: lazy(() => import('./datepicker')) },
+  { id: "form", label: "Form", component: lazy(() => import('./form')) },
+  { id: "input", label: "Input", component: lazy(() => import('./input')) },
+  { id: "input-number", label: "InputNumber", component: lazy(() => import('./input-number')) },
+  { id: "mentions", label: "Mentions", component: lazy(() => import('./mentions')) },
+  { id: "radio", label: "Radio", component: lazy(() => import('./radio')) },
+  { id: "rate", label: "Rate", component: lazy(() => import('./rate')) },
+  { id: "select", label: "Select", component: lazy(() => import('./select')) },
+  { id: "slider", label: "Slider", component: lazy(() => import('./slider')) },
+  { id: "switch", label: "Switch", component: lazy(() => import('./switch')) },
+  { id: "timepicker", label: "TimePicker", component: lazy(() => import('./timepicker')) },
+  { id: "transfer", label: "Transfer", component: lazy(() => import('./transfer')) },
+  { id: "treeselect", label: "TreeSelect", component: lazy(() => import('./treeselect')) },
+  { id: "upload", label: "Upload", component: lazy(() => import('./upload')) },
+];
+
 export default function FormDemoPage() {
   return (
-        <Tabs defaultValue="autocomplete" className="p-3">
-            <TabsList className="flex-wrap h-auto justify-start gap-2 p-1">
-                <TabsTrigger value="autocomplete">AutoComplete</TabsTrigger>
-                <TabsTrigger value="cascader">Cascader</TabsTrigger>
-                <TabsTrigger value="checkbox">Checkbox</TabsTrigger>
-                <TabsTrigger value="colorpicker">ColorPicker</TabsTrigger>
-                <TabsTrigger value="datepicker">DatePicker</TabsTrigger>
-                <TabsTrigger value="form">Form</TabsTrigger>
-                <TabsTrigger value="input">Input</TabsTrigger>
-                <TabsTrigger value="input-number">InputNumber</TabsTrigger>
-                <TabsTrigger value="mentions">Mentions</TabsTrigger>
-                <TabsTrigger value="radio">Radio</TabsTrigger>
-                <TabsTrigger value="rate">Rate</TabsTrigger>
-                <TabsTrigger value="select">Select</TabsTrigger>
-                <TabsTrigger value="slider">Slider</TabsTrigger>
-                <TabsTrigger value="switch">Switch</TabsTrigger>
-                <TabsTrigger value="timepicker">TimePicker</TabsTrigger>
-                <TabsTrigger value="transfer">Transfer</TabsTrigger>
-                <TabsTrigger value="treeselect">TreeSelect</TabsTrigger>
-                <TabsTrigger value="upload">Upload</TabsTrigger>
-            </TabsList>
-            <TabsContent value="autocomplete">
-                <AutoCompleteDemo />
+    // 使用 flex-row 将布局分为左右两列，h-[calc(100vh-100px)] 确保容器高度固定可滚动
+    <Tabs defaultValue="autocomplete" className="flex flex-row gap-4 p-4 h-full min-h-[600px]">
+      
+      {/* 左侧栏：固定宽度，支持垂直滚动 */}
+      <TabsList className="flex flex-col h-fit w-52 min-w-[200px] justify-start items-stretch bg-slate-100/50 p-2 rounded-lg border">
+        <div className="px-3 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+          表单组件列表
+        </div>
+        <div className="flex flex-col gap-1">
+          {components.map((item) => (
+            <TabsTrigger 
+              key={item.id} 
+              value={item.id}
+              className="justify-start px-4 py-2.5 text-sm transition-all data-[state=active]:bg-white data-[state=active]:shadow-sm"
+            >
+              {item.label}
+            </TabsTrigger>
+          ))}
+        </div>
+      </TabsList>
+
+      {/* 右侧内容区：占据剩余空间，且内容过多时可独立滚动 */}
+      <div className="flex-1 overflow-y-auto bg-white rounded-lg border p-6 shadow-sm">
+        <Suspense fallback={
+          <div className="flex items-center justify-center h-full text-muted-foreground">
+            正在加载组件...
+          </div>
+        }>
+          {components.map((item) => (
+            <TabsContent key={item.id} value={item.id} className="mt-0 focus-visible:outline-none">
+              <item.component />
             </TabsContent>
-            <TabsContent value="cascader">
-                <CascaderDemo />
-            </TabsContent>
-            <TabsContent value="checkbox">
-                <CheckboxDemo />
-            </TabsContent>
-            <TabsContent value="colorpicker">
-                <ColorPickerDemo />
-            </TabsContent>
-            <TabsContent value="datepicker">
-                <DatePickerDemo />
-            </TabsContent>
-            <TabsContent value="form">
-                <FormDemo />
-            </TabsContent>
-            <TabsContent value="input">
-                <InputDemo />
-            </TabsContent>
-            <TabsContent value="input-number">
-                <InputNumberDemo />
-            </TabsContent>
-            <TabsContent value="mentions">
-                <MentionsDemo />
-            </TabsContent>
-            <TabsContent value="radio">
-                <RadioDemo />
-            </TabsContent>
-            <TabsContent value="rate">
-                <RateDemo />
-            </TabsContent>
-            <TabsContent value="select">
-                <SelectDemo />
-            </TabsContent>
-            <TabsContent value="slider">
-                <SliderDemo />
-            </TabsContent>
-            <TabsContent value="switch">
-                <SwitchDemo />
-            </TabsContent>
-            <TabsContent value="timepicker">
-                <TimePickerDemo />
-            </TabsContent>
-            <TabsContent value="transfer">
-                <TransferDemo />
-            </TabsContent>
-            <TabsContent value="treeselect">
-                <TreeSelectDemo />
-            </TabsContent>
-            <TabsContent value="upload">
-                <UploadDemo />
-            </TabsContent>
-        </Tabs>
+          ))}
+        </Suspense>
+      </div>
+    </Tabs>
   );
 }
