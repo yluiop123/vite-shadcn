@@ -15,6 +15,7 @@ const SelectDemo = lazy(() => import('./select'));
 const SliderDemo = lazy(() => import('./slider'));
 const SwitchDemo = lazy(() => import('./switch'));
 const TimePickerDemo = lazy(() => import('./timepicker'));
+const TransferDemo = lazy(() => import('./transfer'));
 
 export default function FormDemoPage() {
   return (
@@ -35,6 +36,7 @@ export default function FormDemoPage() {
                 <TabsTrigger value="slider">Slider</TabsTrigger>
                 <TabsTrigger value="switch">Switch</TabsTrigger>
                 <TabsTrigger value="timepicker">TimePicker</TabsTrigger>
+                <TabsTrigger value="transfer">Transfer</TabsTrigger>
             </TabsList>
             <TabsContent value="autocomplete">
                 <AutoCompleteDemo />
@@ -80,6 +82,9 @@ export default function FormDemoPage() {
             </TabsContent>
             <TabsContent value="timepicker">
                 <TimePickerDemo />
+            </TabsContent>
+            <TabsContent value="transfer">
+                <TransferDemo />
             </TabsContent>
         </Tabs>
   );
