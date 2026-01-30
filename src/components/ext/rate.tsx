@@ -180,5 +180,4 @@ const RateComponent = React.forwardRef<HTMLDivElement, RateProps>(
 RateComponent.displayName = "Rate"
 
 export { RateComponent as Rate }
-export type { RateProps }
 

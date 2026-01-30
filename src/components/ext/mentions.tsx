@@ -95,7 +95,7 @@ const Mentions = React.forwardRef<HTMLTextAreaElement, MentionsProps>(
     }
 
     // Handle blur
-    const handleBlur = (e: React.FocusEvent<HTMLTextAreaElement>) => {
+    const handleBlur = () => {
       setIsOpen(false)
       onBlur?.(textValue)
     }
@@ -213,5 +213,4 @@ const Mentions = React.forwardRef<HTMLTextAreaElement, MentionsProps>(
 Mentions.displayName = "Mentions"
 
 export { Mentions }
-export type { MentionOption }
 

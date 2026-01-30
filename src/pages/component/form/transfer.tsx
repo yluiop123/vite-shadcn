@@ -8,13 +8,13 @@ import * as z from "zod"
 
 import { Button } from "@/components/ui/button"
 import {
-    Form,
-    FormControl,
-    FormDescription,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
 } from "@/components/ui/form"
 
 import Transfer, { TransferItem } from "@/components/ext/transfer"
@@ -42,8 +42,10 @@ export default function TransferExample() {
   })
 
   React.useEffect(() => {
-    form.setValue("selected", target)
-  }, [target])
+    if (target.length > 0) {
+      form.setValue("selected", target as [string, ...string[]])
+    }
+  }, [target, form])
 
   async function onSubmit(data: FormValues) {
     setLoading(true)

@@ -17,10 +17,10 @@ const SwitchDemo = lazy(() => import('./switch'));
 const TimePickerDemo = lazy(() => import('./timepicker'));
 const TransferDemo = lazy(() => import('./transfer'));
 const TreeSelectDemo = lazy(() => import('./treeselect'));
-
+const UploadDemo = lazy(() => import('./upload'));
 export default function FormDemoPage() {
   return (
-        <Tabs defaultValue="autocomplete" className="p-3">
+        <Tabs defaultValue="autocomplete" className="flex-wrap h-auto justify-start gap-2 p-1">
             <TabsList >
                 <TabsTrigger value="autocomplete">AutoComplete</TabsTrigger>
                 <TabsTrigger value="cascader">Cascader</TabsTrigger>
@@ -39,6 +39,7 @@ export default function FormDemoPage() {
                 <TabsTrigger value="timepicker">TimePicker</TabsTrigger>
                 <TabsTrigger value="transfer">Transfer</TabsTrigger>
                 <TabsTrigger value="treeselect">TreeSelect</TabsTrigger>
+                <TabsTrigger value="upload">Upload</TabsTrigger>
             </TabsList>
             <TabsContent value="autocomplete">
                 <AutoCompleteDemo />
@@ -90,6 +91,9 @@ export default function FormDemoPage() {
             </TabsContent>
             <TabsContent value="treeselect">
                 <TreeSelectDemo />
+            </TabsContent>
+            <TabsContent value="upload">
+                <UploadDemo />
             </TabsContent>
         </Tabs>
   );
