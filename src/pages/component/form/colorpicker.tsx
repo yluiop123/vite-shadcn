@@ -3,7 +3,7 @@
 import { ColorPicker } from "@/components/ext/colorpicker"
 import { useState } from "react"
 
-export default function Demo() {
+export default function ColorPickerDemo() {
   const [color, setColor] = useState("#3b82f6")
 
   return (

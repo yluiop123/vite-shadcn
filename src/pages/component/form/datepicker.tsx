@@ -2,8 +2,8 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
-import { enUS, zhCN } from "date-fns/locale"; // Multi-language support
-import { CalendarIcon } from "lucide-react";
+import { enUS, zhCN } from "date-fns/locale";
+import { CalendarIcon, Clock } from "lucide-react"; // 增加图标
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
@@ -24,19 +24,13 @@ import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 
 /**
- * 1. Zod Schema (Bilingual/双语)
+ * 1. Zod Schema
  */
 const eventSchema = z.object({
-  // Scene A: Basic Date / 场景 A: 基础日期
   birthday: z.date({
     required_error: "Please select a date / 请选择日期",
   }),
-
-  // Scene B: Date + Time / 场景 B: 日期 + 时间
-  // Note: HTML5 time input returns a string "HH:mm"
   eventTime: z.string().min(1, "Please set a time / 请设置时间"),
-
-  // Scene C: Date Range / 场景 C: 日期区间
   duration: z.object({
     from: z.date(),
     to: z.date(),
@@ -51,7 +45,7 @@ const eventSchema = z.object({
 type EventFormValues = z.infer<typeof eventSchema>
 
 export default function GlobalDateForm() {
-  const locale = "zh" // Can be toggled dynamically / 可动态切换
+  const locale = "zh"
 
   const form = useForm<EventFormValues>({
     resolver: zodResolver(eventSchema),
@@ -66,37 +60,52 @@ export default function GlobalDateForm() {
   }
 
   return (
-    <div className="mx-auto max-w-2xl p-6 border rounded-xl shadow-md bg-white">
-      <h2 className="text-xl font-bold mb-6">
-        {locale === "zh" ? "活动计划表单" : "Event Planning Form"}
-      </h2>
+    // 修复点：bg-white -> bg-card，border -> border-border
+    <div className="mx-auto max-w-2xl p-6 border border-border rounded-xl shadow-lg bg-card text-card-foreground transition-colors">
+      <div className="flex items-center justify-between mb-8">
+        <h2 className="text-2xl font-semibold tracking-tight">
+          {locale === "zh" ? "活动计划表单" : "Event Planning Form"}
+        </h2>
+      </div>
 
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
           
-          {/* 1. Basic Date Picker / 基础日期 */}
+          {/* 1. Basic Date Picker */}
           <FormField
             control={form.control}
             name="birthday"
             render={({ field }) => (
               <FormItem className="flex flex-col">
-                <FormLabel>Birthday / 出生日期</FormLabel>
+                <FormLabel className="text-sm font-medium">Birthday / 出生日期</FormLabel>
                 <Popover>
                   <PopoverTrigger asChild>
                     <FormControl>
-                      <Button variant="outline" className={cn("pl-3 text-left font-normal", !field.value && "text-muted-foreground")}>
-                        {field.value ? format(field.value, "PPP", { locale: locale === "zh" ? zhCN : enUS }) : "Pick a date"}
-                        <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                      <Button 
+                        variant="outline" 
+                        // 修复点：优化交互背景色
+                        className={cn(
+                          "w-full pl-3 text-left font-normal bg-background hover:bg-accent transition-colors",
+                          !field.value && "text-muted-foreground"
+                        )}
+                      >
+                        {field.value ? (
+                          format(field.value, "PPP", { locale: locale === "zh" ? zhCN : enUS })
+                        ) : (
+                          <span>Pick a date</span>
+                        )}
+                        <CalendarIcon className="ml-auto h-4 w-4 opacity-70" />
                       </Button>
                     </FormControl>
                   </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0" align="start">
+                  <PopoverContent className="w-auto p-0 border-border shadow-xl" align="start">
                     <Calendar
                       mode="single"
                       selected={field.value}
                       onSelect={field.onChange}
                       locale={locale === "zh" ? zhCN : enUS}
                       initialFocus
+                      className="rounded-md border border-border bg-popover"
                     />
                   </PopoverContent>
                 </Popover>
@@ -105,41 +114,56 @@ export default function GlobalDateForm() {
             )}
           />
 
-          {/* 2. Date + Time Selection / 日期 + 时间 */}
-          <div className="flex gap-4 items-end">
-            <div className="flex-1">
-              <FormLabel>Event Time / 活动具体时间</FormLabel>
-              <div className="flex gap-2 mt-2">
-                {/* Time string input integrated with react-hook-form */}
-                <FormField
-                  control={form.control}
-                  name="eventTime"
-                  render={({ field }) => (
+          {/* 2. Date + Time Selection */}
+          <div className="space-y-2">
+            <FormLabel className="text-sm font-medium">Event Time / 活动具体时间</FormLabel>
+            <div className="flex flex-wrap gap-4">
+              <FormField
+                control={form.control}
+                name="eventTime"
+                render={({ field }) => (
+                  <FormItem className="flex-1 min-w-[140px]">
                     <FormControl>
-                      <Input type="time" {...field} className="w-[150px]" />
+                      <div className="relative group">
+                        <Input 
+                          type="time" 
+                          {...field} 
+                          // 修复点：适配深色模式的时间输入框，美化原生图标
+                          className="pl-9 bg-background border-border focus:ring-primary transition-all [color-scheme:light] dark:[color-scheme:dark]" 
+                        />
+                        <Clock className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground group-focus-within:text-primary transition-colors" />
+                      </div>
                     </FormControl>
-                  )}
-                />
-                <span className="text-sm text-muted-foreground self-center">
-                  (Combine with the date above in logic)
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <div className="flex flex-1 items-center px-4 py-2 rounded-md bg-muted/50 border border-dashed border-border">
+                <span className="text-xs text-muted-foreground">
+                   {locale === "zh" ? "此时间将与上述日期合并处理" : "Will be combined with date in logic"}
                 </span>
               </div>
-              <FormMessage />
             </div>
           </div>
 
-          {/* 3. Date Range Picker / 日期区间 */}
+          {/* 3. Date Range Picker */}
           <FormField
             control={form.control}
             name="duration"
             render={({ field }) => (
               <FormItem className="flex flex-col">
-                <FormLabel>Project Duration / 项目周期</FormLabel>
+                <FormLabel className="text-sm font-medium">Project Duration / 项目周期</FormLabel>
                 <Popover>
                   <PopoverTrigger asChild>
                     <FormControl>
-                      <Button variant="outline" className={cn("pl-3 text-left font-normal", !field.value && "text-muted-foreground")}>
-                        <CalendarIcon className="mr-2 h-4 w-4" />
+                      <Button 
+                        variant="outline" 
+                        className={cn(
+                          "w-full pl-3 text-left font-normal bg-background hover:bg-accent",
+                          !field.value && "text-muted-foreground"
+                        )}
+                      >
+                        <CalendarIcon className="mr-2 h-4 w-4 opacity-70" />
                         {field.value?.from ? (
                           field.value.to ? (
                             <>
@@ -154,7 +178,7 @@ export default function GlobalDateForm() {
                       </Button>
                     </FormControl>
                   </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0" align="start">
+                  <PopoverContent className="w-auto p-0 border-border" align="start">
                     <Calendar
                       initialFocus
                       mode="range"
@@ -162,18 +186,28 @@ export default function GlobalDateForm() {
                       onSelect={field.onChange}
                       numberOfMonths={2}
                       locale={locale === "zh" ? zhCN : enUS}
+                      className="bg-popover"
                     />
                   </PopoverContent>
                 </Popover>
-                <FormDescription>Select start and end dates / 选择起止日期</FormDescription>
+                <FormDescription className="text-[12px]">Select start and end dates / 选择起止日期</FormDescription>
                 <FormMessage />
               </FormItem>
             )}
           />
 
-          <Button type="submit" className="w-full">Submit / 提交</Button>
+          <Separator className="my-6 opacity-50" />
+
+          <Button type="submit" className="w-full shadow-lg hover:shadow-primary/20 transition-all font-semibold">
+            Submit / 提交
+          </Button>
         </form>
       </Form>
     </div>
   )
+}
+
+// 辅助组件：简单的分隔线
+function Separator({ className }: { className?: string }) {
+  return <div className={cn("h-[1px] w-full bg-border", className)} />
 }
