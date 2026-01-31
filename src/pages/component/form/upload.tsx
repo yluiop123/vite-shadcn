@@ -1,13 +1,13 @@
-import React, { useState, useCallback } from 'react'
-import { useDropzone } from 'react-dropzone'
 import Uppy from '@uppy/core'
-import Tus from '@uppy/tus'
 import { useUppyState } from '@uppy/react'
-import { Upload, HardDrive, FileIcon, X, CheckCircle2, Loader2 } from "lucide-react"
+import Tus from '@uppy/tus'
+import { HardDrive, Loader2, Upload } from "lucide-react"
+import { useCallback, useState } from 'react'
+import { useDropzone } from 'react-dropzone'
 
-import { Progress } from "@/components/ui/progress"
 import { Button } from "@/components/ui/button"
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Progress } from "@/components/ui/progress"
 
 // --- 方式 A: React-Dropzone (标准上传 | Standard Upload) ---
 function DropzoneStandard() {
@@ -54,7 +54,7 @@ const uppyInstance = new Uppy().use(Tus, {
 })
 
 function UppyTus() {
-  const { files, totalProgress, isUploadStarted } = useUppyState(uppyInstance, (s) => ({
+  const { files, isUploadStarted } = useUppyState(uppyInstance, (s) => ({
     files: s.files,
     totalProgress: s.totalProgress,
     isUploadStarted: s.totalProgress > 0 && s.totalProgress < 100
