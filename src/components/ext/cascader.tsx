@@ -11,10 +11,11 @@ export type CascaderOption = {
   disabled?: boolean;
 };
 
-export interface CascaderProps extends React.HTMLAttributes<HTMLDivElement> {
+// 使用 Omit 排除掉原生的 onChange
+export interface CascaderProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'> {
   options: CascaderOption[];
   value: string[] | string[][];
-  onChange: (value: string[] | string[][]) => void;
+  onChange: (value: string[] | string[][]) => void; // 现在这里可以自定义了
   multiple?: boolean;
   placeholder?: string;
   searchPlaceholder?: string;
