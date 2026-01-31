@@ -1,13 +1,13 @@
 import axios from "@/lib/axios";
 import { useEffect, useState } from "react";
-import TreeSelect from "./ext/tree-select";
+import TreeSelect, { TreeNode } from "./ext/tree-select";
 type PermissionTreeSelectProps = {
   value: string
   onChange: (ids: string) => void
   placeholder?: string
   className?: string
 }
-export type PermissionNode = {
+export type PermissionNode = TreeNode & {
   children?: PermissionNode[]
   parentId?: string
   id: string

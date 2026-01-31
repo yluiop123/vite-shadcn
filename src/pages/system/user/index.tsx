@@ -297,7 +297,7 @@ export default function User() {
 
             <div className="flex items-center py-3 gap-4">
                 <GroupTreeSelect 
-                    className="w-[200px]"
+                    className="w-[300px]"
                     value={params.group}
                     onChange={(node) => {
                         setParams({ ...params, group: node })
