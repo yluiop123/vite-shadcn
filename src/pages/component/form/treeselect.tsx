@@ -19,16 +19,8 @@ import {
 } from "@/components/ui/form"
 import { Label } from "@/components/ui/label"
 
-import TreeSelect from "@/components/ext/tree-select"
+import TreeSelect, { TreeNode } from "@/components/ext/tree-select"
 
-// 示例树形数据
-interface TreeNode {
-  id?: string
-  name?: string
-  value: string
-  title: string
-  children?: TreeNode[]
-}
 
 const treeData: TreeNode[] = [
   {

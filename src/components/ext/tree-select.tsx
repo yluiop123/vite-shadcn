@@ -10,10 +10,15 @@ import React, { useEffect, useMemo, useState } from "react";
 // ------------------- 类型定义 -------------------
 
 export type TreeNode = {
-  value: string;
-  title: string;
-  children?: TreeNode[];
-};
+  id?: string
+  name?: string
+  value: string
+  title: string
+  children?: TreeNode[]
+  // 添加这一行来解决索引签名缺失的问题
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  [key: string]: any 
+}
 
 export type FieldNames = {
   value?: string;
@@ -22,7 +27,7 @@ export type FieldNames = {
 };
 
 export type TreeSelectProps = {
-  data: Record<string, unknown>[];
+  data: TreeNode[];
   multiple?: boolean;
   value?: string[] | string;
   defaultValue?: string[] | string;
