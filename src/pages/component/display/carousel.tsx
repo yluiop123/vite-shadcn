@@ -6,8 +6,15 @@ import {
     CarouselNext,
     CarouselPrevious,
 } from "@/components/ui/carousel";
+import Autoplay from "embla-carousel-autoplay";
+import * as React from "react";
 
 export default function CarouselDemo() {
+  // Autoplay plugin initialization
+  const plugin = React.useRef(
+    Autoplay({ delay: 2000, stopOnInteraction: true })
+  );
+
   return (
     <div className="space-y-6 p-6">
       <h2 className="text-xl font-bold">Basic Carousel 基本轮播图</h2>
@@ -57,7 +64,12 @@ export default function CarouselDemo() {
 
       <h2 className="text-xl font-bold">Autoplay Carousel 自动播放轮播图</h2>
       <div className="max-w-lg mx-auto">
-        <Carousel className="w-full">
+        <Carousel 
+          className="w-full" 
+          plugins={[plugin.current]}
+          onMouseEnter={plugin.current.stop}
+          onMouseLeave={plugin.current.reset}
+        >
           <CarouselContent>
             {[
               { title: "Beautiful Landscape", desc: "Enjoy the view of mountains and valleys" },
@@ -108,6 +120,96 @@ export default function CarouselDemo() {
                           <h3 className="text-white font-bold">{image.title}</h3>
                         </div>
                       </div>
+                    </CardContent>
+                  </Card>
+                </div>
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+          <CarouselPrevious />
+          <CarouselNext />
+        </Carousel>
+      </div>
+
+      <h2 className="text-xl font-bold">Size Carousel 不同尺寸轮播</h2>
+      <div className="space-y-4">
+        <div className="max-w-sm mx-auto">
+          <h3 className="text-lg font-semibold mb-2">Small Size</h3>
+          <Carousel className="w-full">
+            <CarouselContent className="-ml-2 md:-ml-4">
+              {Array.from({ length: 4 }).map((_, index) => (
+                <CarouselItem key={index} className="pl-2 md:pl-4 basis-1/2 md:basis-1/3">
+                  <div className="p-1">
+                    <Card>
+                      <CardContent className="flex aspect-square items-center justify-center p-2">
+                        <span className="text-lg font-semibold">Small {index + 1}</span>
+                      </CardContent>
+                    </Card>
+                  </div>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious />
+            <CarouselNext />
+          </Carousel>
+        </div>
+        
+        <div className="max-w-lg mx-auto">
+          <h3 className="text-lg font-semibold mb-2">Medium Size</h3>
+          <Carousel className="w-full">
+            <CarouselContent className="-ml-2 md:-ml-4">
+              {Array.from({ length: 4 }).map((_, index) => (
+                <CarouselItem key={index} className="pl-2 md:pl-4 basis-1/2">
+                  <div className="p-1">
+                    <Card>
+                      <CardContent className="flex aspect-video items-center justify-center p-4">
+                        <span className="text-xl font-semibold">Medium {index + 1}</span>
+                      </CardContent>
+                    </Card>
+                  </div>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious />
+            <CarouselNext />
+          </Carousel>
+        </div>
+      </div>
+
+      <h2 className="text-xl font-bold">Vertical Carousel 纵向轮播</h2>
+      <div className="max-w-xs mx-auto">
+        <Carousel
+          orientation="vertical"
+          className="w-full max-w-xs h-[400px]"
+        >
+          <CarouselContent className="-mt-1 h-[400px]">
+            {Array.from({ length: 5 }).map((_, index) => (
+              <CarouselItem key={index} className="pt-1 h-full">
+                <div className="p-1 h-full">
+                  <Card className="h-full flex items-center justify-center">
+                    <CardContent className="flex items-center justify-center p-6">
+                      <span className="text-3xl font-semibold">Vertical {index + 1}</span>
+                    </CardContent>
+                  </Card>
+                </div>
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+          <CarouselPrevious className="!top-4 !translate-y-0 !-left-8" />
+          <CarouselNext className="!top-16 !translate-y-0 !-left-8" />
+        </Carousel>
+      </div>
+
+      <h2 className="text-xl font-bold">Multiple Items Carousel 多项轮播</h2>
+      <div className="max-w-4xl mx-auto">
+        <Carousel className="w-full">
+          <CarouselContent className="-ml-2 md:-ml-4">
+            {Array.from({ length: 8 }).map((_, index) => (
+              <CarouselItem key={index} className="pl-2 md:pl-4 md:basis-1/3 lg:basis-1/4">
+                <div className="p-1">
+                  <Card>
+                    <CardContent className="flex aspect-video items-center justify-center p-6">
+                      <span className="text-2xl font-semibold">Item {index + 1}</span>
                     </CardContent>
                   </Card>
                 </div>
