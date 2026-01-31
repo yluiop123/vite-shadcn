@@ -263,23 +263,29 @@ export default function TreeSelect(props: TreeSelectProps) {
   const { formatMessage } = useIntl()
 
   // ------------- 渲染 -------------
-  return (
+return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
+        {/* 1. 确保触发器有明确的宽度定义 */}
         <div
-          className={cn("p-3 cursor-pointer flex flex-wrap items-center gap-1 border border-input rounded px-2 py-1 min-h-[2.5rem]",className??"w-full")}
+          className={cn(
+            "p-3 cursor-pointer flex flex-wrap items-center gap-1 border border-input rounded px-2 py-1 min-h-[2.5rem] bg-background",
+            className ? className : "w-full"
+          )}
         >
-          {selectedLabels.length === 0 && <span className="text-muted-foreground">{placeholder}</span>}
+          {selectedLabels.length === 0 && (
+            <span className="text-muted-foreground">{placeholder}</span>
+          )}
           {selectedLabels.slice(0, maxTagCount).map((label, i) => (
             <Badge
               key={i}
-              className="flex items-center gap-1 px-2 py-1 cursor-default relative"
+              className="flex items-center gap-1 px-2 py-1 cursor-default"
             >
               {label}
               <button
                 type="button"
-                aria-label="delete"
-                onClick={() => {
+                onClick={(e) => {
+                  e.stopPropagation(); // 防止触发 popover
                   if (multiple) {
                     handleChange(selected.filter((id) => {
                       const lbl = getSelectedLabels(treeData, [id])[0]
@@ -290,37 +296,50 @@ export default function TreeSelect(props: TreeSelectProps) {
                   }
                 }}
               >
-                <X className="h-3 w-3 cursor-pointer relative" />
+                <X className="h-3 w-3 hover:text-destructive transition-colors" />
               </button>
             </Badge>
           ))}
           {selectedLabels.length > maxTagCount && (
-            <Badge className="flex items-center gap-1 px-2 py-1 cursor-default relative">
-              {maxTagCount}+
+            <Badge variant="secondary">
+              +{selectedLabels.length - maxTagCount}
             </Badge>
           )}
         </div>
       </PopoverTrigger>
 
-      <PopoverContent className={cn("p-3 relative z-50 pointer-events-auto",className??"w-full")}>
+      {/* 2. 核心优化：使用 CSS 变量匹配宽度 */}
+      <PopoverContent 
+        align="start"
+        className="p-3 w-[var(--radix-popover-trigger-width)] min-w-[200px]"
+      >
         {filterable && (
-          <Input
-            value={filter}
-            onChange={(e) => setFilter(e.target.value)}
-            placeholder="搜索..."
-            className="mb-2 flex-1 focus:ring-0 p-2"
-          />
+          <div className="mb-2 px-1">
+            <Input
+              value={filter}
+              onChange={(e) => setFilter(e.target.value)}
+              placeholder="搜索..."
+              className="h-8 focus-visible:ring-1"
+            />
+          </div>
         )}
-        <div className="max-h-80 overflow-y-auto pr-2">
-          <Tree nodes={treeData} selected={selected} onChange={handleChange} filter={filter} multiple={multiple} />
+        
+        <div className="max-h-64 overflow-y-auto custom-scrollbar px-1">
+          <Tree 
+            nodes={treeData} 
+            selected={selected} 
+            onChange={handleChange} 
+            filter={filter} 
+            multiple={multiple} 
+          />
         </div>
 
         {multiple && (
-          <div className="flex justify-end gap-2 mt-3 border-t pt-2">
-            <Button size="sm" variant="outline" onClick={handleClearAll}>
+          <div className="flex justify-between gap-2 mt-3 border-t pt-2 px-1">
+            <Button size="sm" variant="ghost" onClick={handleClearAll} className="h-8 px-2 text-xs">
               {formatMessage({ id: 'button.clear' })}
             </Button>
-            <Button size="sm" onClick={handleSelectAll}>
+            <Button size="sm" variant="secondary" onClick={handleSelectAll} className="h-8 px-2 text-xs">
               {formatMessage({ id: 'button.selectAll' })}
             </Button>
           </div>
