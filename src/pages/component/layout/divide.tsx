@@ -18,17 +18,9 @@ export default function DividerPage() {
       <Card>
         <CardHeader>
           <CardTitle>基础分割线 / Basic Divider</CardTitle>
-          <CardDescription>
-            最简单的分割线，用于分隔内容区域
-            <span className="block mt-1">Simplest divider for separating content areas</span>
-          </CardDescription>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
-            <p className="text-sm text-muted-foreground">
-              最简单的分割线，用于分隔内容区域。
-              <span className="block mt-1">Simplest divider for separating content areas.</span>
-            </p>
             <Divider />
           </div>
         </CardContent>
@@ -37,17 +29,9 @@ export default function DividerPage() {
       <Card>
         <CardHeader>
           <CardTitle>虚线分割线 / Dashed Divider</CardTitle>
-          <CardDescription>
-            使用虚线样式的分割线
-            <span className="block mt-1">Divider with dashed line style</span>
-          </CardDescription>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
-            <p className="text-sm text-muted-foreground">
-              使用虚线样式的分割线。
-              <span className="block mt-1">Divider with dashed line style.</span>
-            </p>
             <Divider dashed />
           </div>
         </CardContent>
@@ -56,10 +40,6 @@ export default function DividerPage() {
       <Card>
         <CardHeader>
           <CardTitle>带文字的分割线 / Divider with Text</CardTitle>
-          <CardDescription>
-            在分割线上显示文字说明
-            <span className="block mt-1">Display text description on the divider</span>
-          </CardDescription>
         </CardHeader>
         <CardContent>
           <div className="space-y-6">
@@ -70,12 +50,12 @@ export default function DividerPage() {
             
             <div>
               <h3 className="font-medium mb-2">左对齐文字 / Left Text</h3>
-              <Divider orientation="left">左边标题 / Left Title</Divider>
+              <Divider orientation="left">Left</Divider>
             </div>
             
             <div>
               <h3 className="font-medium mb-2">右对齐文字 / Right Text</h3>
-              <Divider orientation="right">右边标题 / Right Title</Divider>
+              <Divider orientation="right">Right</Divider>
             </div>
           </div>
         </CardContent>
@@ -91,10 +71,6 @@ export default function DividerPage() {
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
-            <p className="text-sm text-muted-foreground">
-              用于行内元素之间的垂直分隔。
-              <span className="block mt-1">Used for vertical separation between inline elements.</span>
-            </p>
             <div className="flex items-center gap-4">
               <span className="text-sm">内容A / Item A</span>
               <Divider type="vertical" />
@@ -236,10 +212,6 @@ export default function DividerPage() {
       <Card>
         <CardHeader>
           <CardTitle>实际应用场景 / Practical Use Cases</CardTitle>
-          <CardDescription>
-            Divider 组件在实际应用中的典型场景
-            <span className="block mt-1">Typical scenarios for Divider component in practical applications</span>
-          </CardDescription>
         </CardHeader>
         <CardContent>
           <div className="space-y-8">

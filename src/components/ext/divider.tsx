@@ -83,40 +83,46 @@ const sizeClass =
 }
 
 
-  return (
+return (
     <div 
-      className={cn("relative flex items-center", className)} 
+      className={cn("relative flex items-center w-full my-4", className)} 
       style={lengthStyle}
       {...props}
     >
-      <div
-        className={cn(
-          "flex-1 border-t",
-          sizeClass,
-          dashed && "border-dashed",
-          color || "border-border"
-        )}
-      />
+      {/* Left Line: Don't show if orientation is left and we want the text at the very start */}
+      {orientation !== "left" && (
+        <div
+          className={cn(
+            "flex-grow border-t",
+            sizeClass,
+            dashed && "border-dashed",
+            color || "border-border"
+          )}
+        />
+      )}
+
       {children && (
         <span
           className={cn(
-            "px-3 text-sm text-foreground",
-            orientation === "left" && "absolute left-0 -translate-x-1/2",
-            orientation === "right" && "absolute right-0 translate-x-1/2",
+            "px-3 text-sm text-foreground whitespace-nowrap",
             textClassName
           )}
         >
           {children}
         </span>
       )}
-      <div
-        className={cn(
-          "flex-1 border-t",
-          sizeClass,
-          dashed && "border-dashed",
-          color || "border-border"
-        )}
-      />
+
+      {/* Right Line: Don't show if orientation is right and we want the text at the very end */}
+      {orientation !== "right" && (
+        <div
+          className={cn(
+            "flex-grow border-t",
+            sizeClass,
+            dashed && "border-dashed",
+            color || "border-border"
+          )}
+        />
+      )}
     </div>
   )
 }
