@@ -61,7 +61,7 @@ export default function AnchorPage() {
                             "block px-3 py-2 rounded-md transition-all duration-200 ease-in-out cursor-pointer text-sm",
                             active === `#${section}` 
                                 ? "bg-primary/10 dark:bg-primary/20 text-primary dark:text-primary-foreground font-medium border-l-2 border-primary dark:border-primary-400 pl-2" 
-                                : "text-gray-600 dark:text-gray-300 hover:bg-accent dark:hover:bg-accent hover:text-primary-foreground dark:hover:text-primary-foreground"
+                                : "text-gray-600 dark:text-gray-300 hover:bg-accent dark:hover:bg-accent hover:text-gray-900 dark:hover:text-primary-foreground"
                         )}
                     >
                         {section.charAt(0).toUpperCase() + section.slice(1)}
