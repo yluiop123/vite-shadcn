@@ -40,18 +40,33 @@ export type TreeSelectProps = {
 
 // ------------------- 工具函数 -------------------
 
-function getCheckStatus(node: TreeNode, selected: string[]): boolean | "indeterminate" {
-  if (!node.children?.length) return selected.includes(node.value);
-  
-  const childStatuses = node.children.map((c) => getCheckStatus(c, selected));
+/**
+ * 计算节点的选中状态
+ * 多选模式：需要判断全选/半选
+ * 单选模式：只看自身 ID
+ */
+function getCheckStatus(node: TreeNode, selected: string[], multiple: boolean): boolean | "indeterminate" {
+  if (!multiple) {
+    return selected.includes(node.value);
+  }
+
+  // 多选联动逻辑
+  if (!node.children?.length) {
+    return selected.includes(node.value);
+  }
+
+  const childStatuses = node.children.map((c) => getCheckStatus(c, selected, true));
   const allChecked = childStatuses.every((s) => s === true);
   const noneChecked = childStatuses.every((s) => s === false);
-  
+
   if (allChecked) return true;
   if (noneChecked) return false;
   return "indeterminate";
 }
 
+/**
+ * 递归收集所有子节点 ID（用于多选全选）
+ */
 function collectAllChildIds(node: TreeNode): string[] {
   const ids: string[] = [node.value];
   if (node.children) {
@@ -60,6 +75,9 @@ function collectAllChildIds(node: TreeNode): string[] {
   return ids;
 }
 
+/**
+ * 多选模式专用的展示优化：如果子节点全选，则只显示父节点 Tag
+ */
 function getConsolidatedNodes(nodes: TreeNode[], selectedIds: string[]): TreeNode[] {
   const result: TreeNode[] = [];
 
@@ -74,6 +92,7 @@ function getConsolidatedNodes(nodes: TreeNode[], selectedIds: string[]): TreeNod
     const isAllChildrenSelected = childrenSelectedCount === node.children.length;
 
     if (isAllChildrenSelected) {
+      // 如果全选了，把已经加进去的子节点过滤掉，只留父节点
       const childIds = collectAllChildIds(node).filter((id) => id !== node.value);
       for (let i = result.length - 1; i >= 0; i--) {
         if (childIds.includes(result[i].value)) {
@@ -98,7 +117,7 @@ function Tree({
   onToggle,
   filter,
   multiple = true,
-  level = 0, // 新增层级追踪
+  level = 0,
 }: {
   nodes: TreeNode[];
   selected: string[];
@@ -109,14 +128,16 @@ function Tree({
 }) {
   const [expanded, setExpanded] = useState<string[]>([]);
 
-  const toggleExpand = (id: string, e: React.MouseEvent) => {
-    e.stopPropagation();
+  const toggleExpand = (id: string, e?: React.MouseEvent) => {
+    e?.stopPropagation();
     setExpanded((prev) => (prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]));
   };
 
   const filteredNodes = nodes.filter((n) => {
     const matchSelf = n.title.toLowerCase().includes(filter.toLowerCase());
-    const matchChildren = n.children?.some(c => c.title.toLowerCase().includes(filter.toLowerCase()));
+    const matchChildren = n.children?.some((c) =>
+      c.title.toLowerCase().includes(filter.toLowerCase())
+    );
     return matchSelf || matchChildren;
   });
 
@@ -125,23 +146,34 @@ function Tree({
       {filteredNodes.map((node) => {
         const isExpanded = expanded.includes(node.value) || filter !== "";
         const hasChildren = !!node.children?.length;
-        const status = getCheckStatus(node, selected);
+        const status = getCheckStatus(node, selected, multiple);
 
         return (
           <li key={node.value} className="relative">
-            <div className="flex items-center space-x-2 py-1 hover:bg-accent/50 rounded-sm px-1 transition-colors group/item">
+            <div
+              className={cn(
+                "flex items-center space-x-2 py-1 rounded-sm px-1 transition-colors group/item hover:bg-accent/50"
+              )}
+            >
+              {/* 展开箭头 */}
               <div className="w-4 h-4 flex items-center justify-center shrink-0">
                 {hasChildren && (
-                  <button 
-                    type="button" 
+                  <button
+                    type="button"
                     onClick={(e) => toggleExpand(node.value, e)}
                     className="hover:bg-accent rounded p-0.5 transition-colors"
                   >
-                    <ChevronRight className={cn("h-3 w-3 text-muted-foreground transition-transform duration-200", isExpanded && "rotate-90")} />
+                    <ChevronRight
+                      className={cn(
+                        "h-3 w-3 text-muted-foreground transition-transform duration-200",
+                        isExpanded && "rotate-90"
+                      )}
+                    />
                   </button>
                 )}
               </div>
 
+              {/* 选择控制（多选用复选框，单选用单选框） */}
               {multiple ? (
                 <Checkbox
                   className="h-4 w-4 shrink-0"
@@ -149,14 +181,18 @@ function Tree({
                   onCheckedChange={(checked) => onToggle(node, checked === true)}
                 />
               ) : (
-                <RadioGroup value={selected[0] || ""} onValueChange={() => onToggle(node, true)}>
+                <RadioGroup 
+                  value={selected[0] || ""} 
+                  onValueChange={() => onToggle(node, true)}
+                >
                   <RadioGroupItem value={node.value} className="h-4 w-4 shrink-0" />
                 </RadioGroup>
               )}
-              
+
+              {/* 标题文字 */}
               <span
                 className={cn(
-                  "cursor-pointer text-sm select-none truncate flex-1 leading-none py-1",
+                  "text-sm select-none truncate flex-1 leading-none py-1 cursor-pointer",
                   status === true && "text-primary font-medium"
                 )}
                 onClick={() => onToggle(node, status !== true)}
@@ -165,6 +201,7 @@ function Tree({
               </span>
             </div>
 
+            {/* 子树递归 */}
             {hasChildren && isExpanded && (
               <Tree
                 nodes={node.children!}
@@ -201,6 +238,7 @@ export default function TreeSelect(props: TreeSelectProps) {
   const [open, setOpen] = useState(false);
   const [filter, setFilter] = useState("");
 
+  // 数据格式化（支持自定义字段名）
   const treeData = useMemo(() => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const transform = (nodes: any[]): TreeNode[] =>
@@ -232,26 +270,52 @@ export default function TreeSelect(props: TreeSelectProps) {
 
   const handleToggle = (node: TreeNode, checked: boolean) => {
     let newSelected: string[];
-    const allChildIds = collectAllChildIds(node);
 
     if (multiple) {
+      // 多选：联动逻辑
+      const allChildIds = collectAllChildIds(node);
       if (checked) {
         newSelected = Array.from(new Set([...selected, ...allChildIds]));
       } else {
         newSelected = selected.filter((id) => !allChildIds.includes(id));
       }
     } else {
+      // 单选：完全独立，选中即关闭
       newSelected = [node.value];
       setOpen(false);
     }
 
     setSelected(newSelected);
-    const consolidated = getConsolidatedNodes(treeData, newSelected);
-    const finalIds = consolidated.map((n) => n.value);
-    onChange?.(multiple ? finalIds : finalIds[0] || "");
+
+    // 回调逻辑
+    if (multiple) {
+      // 多选返回合并后的 ID 列表（可选）
+      const consolidated = getConsolidatedNodes(treeData, newSelected);
+      onChange?.(consolidated.map(n => n.value));
+    } else {
+      onChange?.(newSelected[0] || "");
+    }
   };
 
-  const displayNodes = useMemo(() => getConsolidatedNodes(treeData, selected), [treeData, selected]);
+  // 顶部 Tag 展示逻辑
+  const displayNodes = useMemo(() => {
+    if (multiple) {
+      return getConsolidatedNodes(treeData, selected);
+    }
+    // 单选模式展示选中的那个节点
+    const findNode = (nodes: TreeNode[], val: string): TreeNode | null => {
+      for (const n of nodes) {
+        if (n.value === val) return n;
+        if (n.children) {
+          const found = findNode(n.children, val);
+          if (found) return found;
+        }
+      }
+      return null;
+    };
+    const node = selected[0] ? findNode(treeData, selected[0]) : null;
+    return node ? [node] : [];
+  }, [treeData, selected, multiple]);
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -269,9 +333,9 @@ export default function TreeSelect(props: TreeSelectProps) {
           )}
 
           {displayNodes.slice(0, maxTagCount).map((node) => (
-            <Badge 
-              key={node.value} 
-              variant="secondary" 
+            <Badge
+              key={node.value}
+              variant="secondary"
               className="flex items-center gap-1 px-2 py-0.5 font-normal border-primary/20 text-primary bg-primary/5"
             >
               {node.title}
@@ -310,8 +374,8 @@ export default function TreeSelect(props: TreeSelectProps) {
         </div>
       </PopoverTrigger>
 
-      <PopoverContent 
-        align="start" 
+      <PopoverContent
+        align="start"
         className="p-0 w-[var(--radix-popover-trigger-width)] min-w-[240px] shadow-lg border-muted"
       >
         {filterable && (
