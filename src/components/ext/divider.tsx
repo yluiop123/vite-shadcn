@@ -37,14 +37,14 @@ const sizeClass =
     : "border"
 
   // Tailwind 长度类映射
-  const lengthClass =
+  const lengthStyle =
     typeof length === "number"
-      ? `[${length}px]`
+      ? { width: `${length}px` }
       : typeof length === "string"
-      ? `[${length}]`
-      : undefined
+      ? { width: length }
+      : {}
 
-if (type === "vertical") {
+  if (type === "vertical") {
   const verticalSizeClass =
     size === "sm"
       ? "border-r"
@@ -56,6 +56,17 @@ if (type === "vertical") {
       ? "border-r-8"
       : "border-r"
 
+  const verticalStyle = {
+    ...{
+      height: "1.5rem" // 默认高度
+    },
+    ...(typeof length === "number"
+      ? { height: `${length}px` }
+      : typeof length === "string"
+      ? { height: length }
+      : {})
+  }
+
   return (
     <div
       className={cn(
@@ -63,13 +74,9 @@ if (type === "vertical") {
         verticalSizeClass,
         dashed && "border-dashed",
         color || "border-border",
-        length
-          ? typeof length === "number"
-            ? `h-[${length}px]`
-            : `h-[${length}]`
-          : "h-6", // 默认高度
         className
       )}
+      style={verticalStyle}
       {...props}
     />
   )
@@ -77,20 +84,23 @@ if (type === "vertical") {
 
 
   return (
-    <div className={cn("relative flex items-center", className)} {...props}>
+    <div 
+      className={cn("relative flex items-center", className)} 
+      style={lengthStyle}
+      {...props}
+    >
       <div
         className={cn(
           "flex-1 border-t",
           sizeClass,
           dashed && "border-dashed",
-          color,
-          lengthClass && `w-${lengthClass}`
+          color || "border-border"
         )}
       />
       {children && (
         <span
           className={cn(
-            "px-3 text-sm text-muted-foreground bg-background",
+            "px-3 text-sm text-foreground",
             orientation === "left" && "absolute left-0 -translate-x-1/2",
             orientation === "right" && "absolute right-0 translate-x-1/2",
             textClassName
@@ -104,8 +114,7 @@ if (type === "vertical") {
           "flex-1 border-t",
           sizeClass,
           dashed && "border-dashed",
-          color,
-          lengthClass && `w-${lengthClass}`
+          color || "border-border"
         )}
       />
     </div>
