@@ -29,7 +29,18 @@ export default function Index() {
     if (loading) return <div>Loading...</div>;
 
     // 没有登录或没有权限
-    if (!token || !userInfo?.currentMenuPermission?.includes(location.pathname)) {
+    // 1. 获取当前路径
+    const currentPath = location.pathname;
+
+    // 2. 判定逻辑
+    const hasMenuPermission = userInfo?.currentMenuPermission?.includes(currentPath);
+    const hasDirectionPermission = userInfo?.currentDirectionPermission?.some(dir => 
+        // 确保 dir 以 / 开头或结尾逻辑一致，判定当前路径是否在目录下
+        currentPath.startsWith(dir)
+    );
+
+    // 3. 组合判断
+    if (!token || (!hasMenuPermission && !hasDirectionPermission)) {
         navigate('/login');
     }
     return (

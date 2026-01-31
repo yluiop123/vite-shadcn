@@ -21,6 +21,7 @@ type UserInfo = {
   currentPermission?: Permission[];
   currentRole?: string;
   currentMenuPermission?: string[];
+  currentDirectionPermission?: string[];
 };
 
 type GlobalInfo = {
@@ -59,11 +60,15 @@ const useUserStore = create<GlobalInfo>()((set, get) => ({
       const currentMenuPermission = currentPermission
         .filter((item) => item.type == "menu")
         .map((item) => item.path);
+      const currentDirectionPermission = currentPermission
+        .filter((item) => item.type == "directory")
+        .map((item) => item.path);
       set((state) => ({
         userInfo: {
           ...state.userInfo,
           ...userInfo,
           currentPermission,
+          currentDirectionPermission,
           currentMenuPermission,
         },
       }));

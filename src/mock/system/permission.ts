@@ -90,7 +90,7 @@ type Permission = {
 function getPermissionList(locale: string) {
     const dataArray: Permission[] = [
             //supper menu permissions
-            {id: '0000', parentId:'',order: 0, path: "/dashboard",type: "menu",name:localeMap[locale]['menu.dashboard'] },
+            {id: '0000', parentId:'',order: 0, path: "/dashboard",type: "directory",name:localeMap[locale]['menu.dashboard'] },
             {id: '0001', parentId:'',order: 1, path: "/component", type: "menu",name:localeMap[locale]['menu.component'] },
             {id: '000100', parentId:'0001',order: 0, path: "/component/general", type: "menu",name:localeMap[locale]['menu.component.general'] },
             {id: '000101', parentId:'0001',order: 1, path: "/component/layout", type: "menu",name:localeMap[locale]['menu.component.layout'] },

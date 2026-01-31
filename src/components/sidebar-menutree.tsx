@@ -23,8 +23,18 @@ export function SidebarMenuTree({ item }: { item: NavItem }) {
   function checkIsActive(href: string) {
     return location.pathname.startsWith('/'+href);
   }
+  const itemPath = '/' + item.keys?.join("/");
+
+  const hasPermission = 
+  // 1. 原有的精确菜单权限匹配
+  (userInfo?.currentMenuPermission || []).includes(itemPath) || 
+  // 2. 新增的目录权限匹配：只要 itemPath 是任一权限目录的子路径
+  (userInfo?.currentDirectionPermission || []).some(dir => {
+    const normalizedDir = dir.endsWith('/') ? dir : `${dir}/`;
+    return itemPath.startsWith(normalizedDir) || itemPath === dir;
+  });
   return (
-    (userInfo?.currentMenuPermission||[]).includes('/'+item.keys?.join("/"))&&
+    hasPermission&&
     <Collapsible
       key={item.title}
       asChild

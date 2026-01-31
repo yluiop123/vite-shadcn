@@ -112,6 +112,7 @@ export default {
     'dict.status.enabled': 'Enabled',
     'dict.permissionType.action': 'Action',
     'dict.permissionType.menu': 'Menu',
+    'dict.permissionType.directory': 'Directory',
     'dict.permissionType.function': 'Function',
     'dict.permissionType.api': 'API',
 };

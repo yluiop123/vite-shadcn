@@ -112,6 +112,7 @@ export default {
     'dict.status.enabled': '启用',
     'dict.permissionType.action': '操作',
     'dict.permissionType.menu': '菜单',
+    'dict.permissionType.directory': '目录',
     'dict.permissionType.function': '功能',
     'dict.permissionType.api': 'API',
 };
