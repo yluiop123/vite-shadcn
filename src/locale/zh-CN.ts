@@ -1,5 +1,8 @@
 export default {
     'menu.dashboard': '仪表盘',
+    'menu.dashboard.normal': '普通仪表盘',
+    'menu.dashboard.network-security': '网络安全仪表盘',
+    'menu.dashboard.military-situational-awareness': '军事态势感知',
     'menu.component': '组件',
     'menu.component.general': '通用组件',
     'menu.component.layout': '布局组件',

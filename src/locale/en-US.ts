@@ -1,5 +1,8 @@
 export default {
     'menu.dashboard': 'Dashboard',
+    'menu.dashboard.normal': 'Normal',
+    'menu.dashboard.network-security': 'Network Security',
+    'menu.dashboard.military-situational-awareness': 'Military Situational Awareness',
     'menu.component': 'Component',
     'menu.component.general': 'General',
     'menu.component.layout': 'Layout',

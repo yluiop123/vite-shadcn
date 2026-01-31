@@ -5,6 +5,7 @@ import {
   Boxes,
   Columns,
   FileText,
+  Gauge,
   Globe,
   Grid,
   KeyRound,
@@ -21,6 +22,7 @@ import {
   Settings,
   Share2,
   Shield,
+  ShieldCheck,
   Square,
   Table,
   TrendingUp,
@@ -50,6 +52,11 @@ const routeSetting: NavItem[] = [
     key: "dashboard",
     title: "menu.dashboard",
     icon: LayoutDashboard,
+    children: [
+      { key: "normal", title: "menu.dashboard.normal", icon: Gauge },
+      { key: "network-security", title: "menu.dashboard.network-security", icon: ShieldCheck },
+      { key: "military-situational-awareness", title: "menu.dashboard.military-situational-awareness", icon: Shield },
+    ],
   },
   {
     key: "component",
