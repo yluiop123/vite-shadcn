@@ -40,7 +40,7 @@
   --sidebar-active-foreground: oklch(0.795 0.184 86.047);
 }
 
-:root.theme-yellow-dark {
+:root.dark.theme-yellow {
   --background: oklch(0.141 0.005 285.823);
   --foreground: oklch(0.985 0 0);
   --card: oklch(0.21 0.006 285.885);

@@ -35,14 +35,14 @@ export default function MissionControl() {
   const [data] = React.useState(() => Array.from({ length: 20 }, () => ({ val: 30 + Math.random() * 40 })));
 
   // 同步 mode 到 HTML 根节点，驱动 Tailwind dark: 类
-  useEffect(() => {
-    const root = window.document.documentElement;
-    if (mode === 'dark') {
-      root.classList.add('dark');
-    } else {
-      root.classList.remove('dark');
-    }
-  }, [mode]);
+  // useEffect(() => {
+  //   const root = window.document.documentElement;
+  //   if (mode === 'dark') {
+  //     root.classList.add('dark');
+  //   } else {
+  //     root.classList.remove('dark');
+  //   }
+  // }, [mode]);
 
   return (
     <div className="h-screen w-full overflow-hidden flex flex-col p-2 gap-2 box-border transition-colors duration-500 bg-[#f6f8fa] text-slate-900 dark:bg-[#010409] dark:text-white">
