@@ -1,7 +1,13 @@
 @import "tailwindcss";
 
 @plugin "tailwindcss-animate";
-
+@plugin "tailwind-scrollbar";
+/* 如果你还想进一步自定义滚动条的全局粗细或圆角，可以接着写： */
+@layer utilities {
+  .custom-tabs-scrollbar {
+    scrollbar-width: thin; /* 兼容 Firefox */
+  }
+}
 @custom-variant dark (&:is(.dark *));
 
 @import "@/themes/blue.css";
@@ -11,6 +17,8 @@
 @import "@/themes/rose.css";
 @import "@/themes/violet.css";
 @import "@/themes/yellow.css";
+
+
 :root {
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);

@@ -1,62 +1,89 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { lazy, Suspense } from "react";
 
-const components = [
-  { id: "autocomplete", label: "AutoComplete", component: lazy(() => import('./autocomplete')) },
-  { id: "cascader", label: "Cascader", component: lazy(() => import('./cascader')) },
-  { id: "checkbox", label: "Checkbox", component: lazy(() => import('./checkbox')) },
-  { id: "colorpicker", label: "ColorPicker", component: lazy(() => import('./colorpicker')) },
-  { id: "datepicker", label: "DatePicker", component: lazy(() => import('./datepicker')) },
-  { id: "form", label: "Form", component: lazy(() => import('./form')) },
-  { id: "input", label: "Input", component: lazy(() => import('./input')) },
-  { id: "input-number", label: "InputNumber", component: lazy(() => import('./input-number')) },
-  { id: "mentions", label: "Mentions", component: lazy(() => import('./mentions')) },
-  { id: "radio", label: "Radio", component: lazy(() => import('./radio')) },
-  { id: "rate", label: "Rate", component: lazy(() => import('./rate')) },
-  { id: "select", label: "Select", component: lazy(() => import('./select')) },
-  { id: "slider", label: "Slider", component: lazy(() => import('./slider')) },
-  { id: "switch", label: "Switch", component: lazy(() => import('./switch')) },
-  { id: "timepicker", label: "TimePicker", component: lazy(() => import('./timepicker')) },
-  { id: "transfer", label: "Transfer", component: lazy(() => import('./transfer')) },
-  { id: "treeselect", label: "TreeSelect", component: lazy(() => import('./treeselect')) },
-  { id: "upload", label: "Upload", component: lazy(() => import('./upload')) },
-];
+const AutoCompleteDemo = lazy(() => import('./autocomplete'));
+const CascaderDemo = lazy(() => import('./cascader'));
+const CheckboxDemo = lazy(() => import('./checkbox'));
+const ColorPickerDemo = lazy(() => import('./colorpicker'));
+const DatePickerDemo = lazy(() => import('./datepicker'));
+const FormDemo = lazy(() => import('./form'));
+const InputDemo = lazy(() => import('./input'));
+const InputNumberDemo = lazy(() => import('./input-number'));
+const MentionsDemo = lazy(() => import('./mentions'));
+const RadioDemo = lazy(() => import('./radio'));
+const RateDemo = lazy(() => import('./rate'));
+const SelectDemo = lazy(() => import('./select'));
+const SliderDemo = lazy(() => import('./slider'));
+const SwitchDemo = lazy(() => import('./switch'));
+const TimePickerDemo = lazy(() => import('./timepicker'));
+const TransferDemo = lazy(() => import('./transfer'));
+const TreeSelectDemo = lazy(() => import('./treeselect'));
+const UploadDemo = lazy(() => import('./upload'));
 
 export default function FormDemoPage() {
   return (
-    // 使用 flex-row 将布局分为左右两列，h-[calc(100vh-100px)] 确保容器高度固定可滚动
-    <Tabs defaultValue="autocomplete" className="flex flex-row gap-4 p-4 h-full min-h-[600px]">
-      
-      {/* 左侧栏：固定宽度，支持垂直滚动 */}
-      <TabsList className="flex flex-col h-fit w-52 min-w-[200px] justify-start items-stretch bg-slate-100/50 p-2 rounded-lg border">
-        <div className="px-3 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-          表单组件列表
-        </div>
-        <div className="flex flex-col gap-1">
-          {components.map((item) => (
-            <TabsTrigger 
-              key={item.id} 
-              value={item.id}
-              className="justify-start px-4 py-2.5 text-sm transition-all data-[state=active]:bg-white data-[state=active]:shadow-sm"
-            >
-              {item.label}
-            </TabsTrigger>
-          ))}
-        </div>
+    <Tabs defaultValue="autocomplete" className="p-3 w-full">
+      {/* 关键样式说明：
+          1. flex-nowrap: 强制标签不换行，保持在一行内
+          2. overflow-x-auto: 开启横向滚动
+          3. no-scrollbar: 隐藏默认滚动条（需配合下方 CSS）
+          4. shrink-0: 确保每个 Trigger 不会被压缩宽度
+      */}
+      <TabsList 
+          className="
+            flex w-full h-11 items-center justify-start 
+            overflow-x-auto overflow-y-hidden flex-nowrap 
+            bg-muted p-1 border rounded-lg
+            /* tailwind-scrollbar 提供的类名 */
+            scrollbar-thin 
+            scrollbar-thumb-muted-foreground/20 
+            scrollbar-track-transparent 
+            scrollbar-thumb-rounded-full
+            hover:scrollbar-thumb-muted-foreground/40
+            active:scrollbar-thumb-primary/50
+          "
+        >
+        <TabsTrigger value="autocomplete" className="shrink-0">AutoComplete</TabsTrigger>
+        <TabsTrigger value="cascader" className="shrink-0">Cascader</TabsTrigger>
+        <TabsTrigger value="checkbox" className="shrink-0">Checkbox</TabsTrigger>
+        <TabsTrigger value="colorpicker" className="shrink-0">ColorPicker</TabsTrigger>
+        <TabsTrigger value="datepicker" className="shrink-0">DatePicker</TabsTrigger>
+        <TabsTrigger value="form" className="shrink-0">Form</TabsTrigger>
+        <TabsTrigger value="input" className="shrink-0">Input</TabsTrigger>
+        <TabsTrigger value="input-number" className="shrink-0">InputNumber</TabsTrigger>
+        <TabsTrigger value="mentions" className="shrink-0">Mentions</TabsTrigger>
+        <TabsTrigger value="radio" className="shrink-0">Radio</TabsTrigger>
+        <TabsTrigger value="rate" className="shrink-0">Rate</TabsTrigger>
+        <TabsTrigger value="select" className="shrink-0">Select</TabsTrigger>
+        <TabsTrigger value="slider" className="shrink-0">Slider</TabsTrigger>
+        <TabsTrigger value="switch" className="shrink-0">Switch</TabsTrigger>
+        <TabsTrigger value="timepicker" className="shrink-0">TimePicker</TabsTrigger>
+        <TabsTrigger value="transfer" className="shrink-0">Transfer</TabsTrigger>
+        <TabsTrigger value="treeselect" className="shrink-0">TreeSelect</TabsTrigger>
+        <TabsTrigger value="upload" className="shrink-0">Upload</TabsTrigger>
       </TabsList>
 
-      {/* 右侧内容区：占据剩余空间，且内容过多时可独立滚动 */}
-      <div className="flex-1 overflow-y-auto bg-white rounded-lg border p-6 shadow-sm">
-        <Suspense fallback={
-          <div className="flex items-center justify-center h-full text-muted-foreground">
-            正在加载组件...
-          </div>
-        }>
-          {components.map((item) => (
-            <TabsContent key={item.id} value={item.id} className="mt-0 focus-visible:outline-none">
-              <item.component />
-            </TabsContent>
-          ))}
+      {/* 下方内容区域，正常垂直滚动，不随头部横向滚动 */}
+      <div className="mt-4">
+        <Suspense fallback={<div className="p-8 text-center text-sm text-muted-foreground">加载中...</div>}>
+          <TabsContent value="autocomplete"><AutoCompleteDemo /></TabsContent>
+          <TabsContent value="cascader"><CascaderDemo /></TabsContent>
+          <TabsContent value="checkbox"><CheckboxDemo /></TabsContent>
+          <TabsContent value="colorpicker"><ColorPickerDemo /></TabsContent>
+          <TabsContent value="datepicker"><DatePickerDemo /></TabsContent>
+          <TabsContent value="form"><FormDemo /></TabsContent>
+          <TabsContent value="input"><InputDemo /></TabsContent>
+          <TabsContent value="input-number"><InputNumberDemo /></TabsContent>
+          <TabsContent value="mentions"><MentionsDemo /></TabsContent>
+          <TabsContent value="radio"><RadioDemo /></TabsContent>
+          <TabsContent value="rate"><RateDemo /></TabsContent>
+          <TabsContent value="select"><SelectDemo /></TabsContent>
+          <TabsContent value="slider"><SliderDemo /></TabsContent>
+          <TabsContent value="switch"><SwitchDemo /></TabsContent>
+          <TabsContent value="timepicker"><TimePickerDemo /></TabsContent>
+          <TabsContent value="transfer"><TransferDemo /></TabsContent>
+          <TabsContent value="treeselect"><TreeSelectDemo /></TabsContent>
+          <TabsContent value="upload"><UploadDemo /></TabsContent>
         </Suspense>
       </div>
     </Tabs>
