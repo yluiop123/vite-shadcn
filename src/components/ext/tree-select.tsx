@@ -268,13 +268,16 @@ export default function TreeSelect(props: TreeSelectProps) {
           {displayNodes.slice(0, maxTagCount).map((node) => (
             <Badge key={node.value} variant="secondary" className="flex items-center gap-1 px-1 py-0 font-normal">
               {node.title}
-              <X
-                className="h-3 w-3 cursor-pointer hover:text-destructive"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleToggle(node, false); // 移除该节点及其所有子节点
-                }}
-              />
+              {/* 仅在多选模式下显示删除叉号 */}
+              {multiple && (
+                <X
+                  className="h-3 w-3 cursor-pointer hover:text-destructive"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleToggle(node, false); 
+                  }}
+                />
+              )}
             </Badge>
           ))}
 
