@@ -135,6 +135,7 @@ export default function Upload({
         disabled={disabled}
         onChange={handleChange}
         className="hidden"
+        aria-label="Upload file input"
       />
 
       {drag ? (

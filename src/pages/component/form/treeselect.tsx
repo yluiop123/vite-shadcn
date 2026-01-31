@@ -9,13 +9,13 @@ import * as z from "zod"
 
 import { Button } from "@/components/ui/button"
 import {
-    Form,
-    FormControl,
-    FormDescription,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
 } from "@/components/ui/form"
 import { Label } from "@/components/ui/label"
 
@@ -78,6 +78,18 @@ export default function TreeSelectExample() {
   const [maxTagCount, setMaxTagCount] = React.useState(3)
   const [loadingRemote, setLoadingRemote] = React.useState(false)
   const [remoteError, setRemoteError] = React.useState<string | null>(null)
+  const [selectedInfo, setSelectedInfo] = React.useState<{value: string, title: string, path: string}[]>([])
+  const [formSelectedInfo, setFormSelectedInfo] = React.useState<{value: string, title: string, path: string}[]>([])
+  const [regionInfo, setRegionInfo] = React.useState<{value: string, title: string, path: string} | null>(null)
+  
+  // 基础用法选中信息
+  const [basicSelectedInfo, setBasicSelectedInfo] = React.useState<{value: string, title: string, path: string}[]>([])
+  
+  // 单选模式选中信息
+  const [singleSelectedInfo, setSingleSelectedInfo] = React.useState<{value: string, title: string, path: string} | null>(null)
+  
+  // 搜索选中信息
+  const [searchSelectedInfo, setSearchSelectedInfo] = React.useState<{value: string, title: string, path: string}[]>([])
 
   const form = useForm<FormValues>({
     resolver: zodResolver(schema),
@@ -86,7 +98,88 @@ export default function TreeSelectExample() {
 
   React.useEffect(() => {
     form.setValue("countries", controlledValue)
+    
+    // 更新选中信息
+    const info: {value: string, title: string, path: string}[] = []
+    const findPath = (nodes: TreeNode[], targetValue: string, currentPath: string[] = []): string[] | null => {
+      for (const node of nodes) {
+        const newPath = [...currentPath, node.title]
+        if (node.value === targetValue) {
+          return newPath
+        }
+        if (node.children) {
+          const result = findPath(node.children, targetValue, newPath)
+          if (result) return result
+        }
+      }
+      return null
+    }
+    
+    controlledValue.forEach(value => {
+      const path = findPath(treeData, value)
+      if (path) {
+        const title = path[path.length - 1]
+        info.push({ value, title, path: path.join(' > ') })
+      }
+    })
+    
+    setSelectedInfo(info)
   }, [controlledValue, form])
+  
+  // 监听表单选中值变化
+  React.useEffect(() => {
+    const watchSubscription = form.watch((value, { name }) => {
+      if (name === 'countries' && value.countries) {
+        const info: {value: string, title: string, path: string}[] = []
+        const findPath = (nodes: TreeNode[], targetValue: string, currentPath: string[] = []): string[] | null => {
+          for (const node of nodes) {
+            const newPath = [...currentPath, node.title]
+            if (node.value === targetValue) {
+              return newPath
+            }
+            if (node.children) {
+              const result = findPath(node.children, targetValue, newPath)
+              if (result) return result
+            }
+          }
+          return null
+        }
+        
+        value.countries.forEach((v: string | undefined) => {
+          if (!v) return
+          const path = findPath(treeData, v)
+          if (path) {
+            const title = path[path.length - 1]
+            info.push({ value: v, title, path: path.join(' > ') })
+          }
+        })
+        
+        setFormSelectedInfo(info)
+      } else if (name === 'region' && value.region) {
+        const findPath = (nodes: TreeNode[], targetValue: string, currentPath: string[] = []): string[] | null => {
+          for (const node of nodes) {
+            const newPath = [...currentPath, node.title]
+            if (node.value === targetValue) {
+              return newPath
+            }
+            if (node.children) {
+              const result = findPath(node.children, targetValue, newPath)
+              if (result) return result
+            }
+          }
+          return null
+        }
+        
+        const path = findPath(treeData, value.region)
+        if (path) {
+          const title = path[path.length - 1]
+          setRegionInfo({ value: value.region, title, path: path.join(' > ') })
+        }
+      }
+    })
+    
+    return () => watchSubscription.unsubscribe()
+  }, [form])
 
   // 模拟异步加载树数据
   const [remoteData, setRemoteData] = React.useState<TreeNode[] | null>(null)
@@ -106,6 +199,37 @@ export default function TreeSelectExample() {
     }
   }
 
+  // 工具函数：根据值查找路径信息
+  const findPathInfo = (nodes: TreeNode[], targetValues: string[] | string): {value: string, title: string, path: string}[] => {
+    const values = Array.isArray(targetValues) ? targetValues : [targetValues].filter(Boolean)
+    const info: {value: string, title: string, path: string}[] = []
+    
+    const findPath = (nodes: TreeNode[], targetValue: string, currentPath: string[] = []): string[] | null => {
+      for (const node of nodes) {
+        const newPath = [...currentPath, node.title]
+        if (node.value === targetValue) {
+          return newPath
+        }
+        if (node.children) {
+          const result = findPath(node.children, targetValue, newPath)
+          if (result) return result
+        }
+      }
+      return null
+    }
+    
+    values.forEach(value => {
+      if (!value) return
+      const path = findPath(nodes, value)
+      if (path) {
+        const title = path[path.length - 1]
+        info.push({ value, title, path: path.join(' > ') })
+      }
+    })
+    
+    return info
+  }
+  
   React.useEffect(() => {
     loadRemote()
   }, [])
@@ -133,7 +257,23 @@ export default function TreeSelectExample() {
           <TreeSelect
             data={treeData}
             placeholder="请选择国家 / Choose country"
+            onChange={(values) => {
+              const info = findPathInfo(treeData, values)
+              setBasicSelectedInfo(info)
+            }}
           />
+          {basicSelectedInfo.length > 0 && (
+            <div className="mt-3 p-3 bg-muted/50 rounded-md">
+              <h4 className="text-sm font-medium mb-2">选中信息 / Selected Info:</h4>
+              {basicSelectedInfo.map((item, index) => (
+                <div key={item.value} className="text-xs mb-2 last:mb-0">
+                  <span className="font-medium">{index + 1}. {item.title}</span>
+                  <span className="text-muted-foreground ml-2">({item.value})</span>
+                  <div className="text-muted-foreground mt-1 ml-4">路径: {item.path}</div>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </section>
 
@@ -146,7 +286,21 @@ export default function TreeSelectExample() {
             data={treeData}
             multiple={false}
             placeholder="请选择地区 / Select region"
+            onChange={(value) => {
+              const info = findPathInfo(treeData, value)
+              setSingleSelectedInfo(info.length > 0 ? info[0] : null)
+            }}
           />
+          {singleSelectedInfo && (
+            <div className="mt-3 p-3 bg-muted/50 rounded-md">
+              <h4 className="text-sm font-medium mb-2">选中信息 / Selected Info:</h4>
+              <div className="text-xs">
+                <span className="font-medium">{singleSelectedInfo.title}</span>
+                <span className="text-muted-foreground ml-2">({singleSelectedInfo.value})</span>
+                <div className="text-muted-foreground mt-1 ml-4">路径: {singleSelectedInfo.path}</div>
+              </div>
+            </div>
+          )}
         </div>
       </section>
 
@@ -192,9 +346,24 @@ export default function TreeSelectExample() {
           </div>
 
           <div className="pt-3 border-t">
-            <p className="text-sm text-muted-foreground">
+            <p className="text-sm text-muted-foreground mb-3">
               当前选中值: <code className="bg-muted px-2 py-1 rounded text-xs">{JSON.stringify(controlledValue)}</code>
             </p>
+            
+            {selectedInfo.length > 0 && (
+              <div className="space-y-2">
+                <h4 className="text-sm font-medium">选中信息 / Selected Info:</h4>
+                <div className="bg-muted/50 p-3 rounded-md">
+                  {selectedInfo.map((item, index) => (
+                    <div key={item.value} className="text-xs mb-2 last:mb-0">
+                      <span className="font-medium">{index + 1}. {item.title}</span>
+                      <span className="text-muted-foreground ml-2">({item.value})</span>
+                      <div className="text-muted-foreground mt-1 ml-4">路径: {item.path}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </section>
@@ -207,9 +376,25 @@ export default function TreeSelectExample() {
           <TreeSelect
             data={treeData}
             placeholder="输入搜索 / Type to search..."
+            onChange={(values) => {
+              const info = findPathInfo(treeData, values)
+              setSearchSelectedInfo(info)
+            }}
           />
+          {searchSelectedInfo.length > 0 && (
+            <div className="mt-3 p-3 bg-muted/50 rounded-md">
+              <h4 className="text-sm font-medium mb-2">选中信息 / Selected Info:</h4>
+              {searchSelectedInfo.map((item, index) => (
+                <div key={item.value} className="text-xs mb-2 last:mb-0">
+                  <span className="font-medium">{index + 1}. {item.title}</span>
+                  <span className="text-muted-foreground ml-2">({item.value})</span>
+                  <div className="text-muted-foreground mt-1 ml-4">路径: {item.path}</div>
+                </div>
+              ))}
+            </div>
+          )}
           <p className="text-xs text-muted-foreground mt-3">
-            输入任意关键字（如 "China" 或 "中国"）可快速查找
+            输入任意关键字（如 "China" 或 "中国"）可快速查找 / Type any keyword (e.g., "China" or "中国") to search quickly
           </p>
         </div>
       </section>
@@ -267,6 +452,18 @@ export default function TreeSelectExample() {
                       选择一个或多个国家 / Select one or more countries
                     </FormDescription>
                     <FormMessage />
+                    {formSelectedInfo.length > 0 && (
+                      <div className="mt-3 p-3 bg-muted/50 rounded-md">
+                        <h4 className="text-sm font-medium mb-2">选中信息 / Selected Info:</h4>
+                        {formSelectedInfo.map((item, index) => (
+                          <div key={item.value} className="text-xs mb-2 last:mb-0">
+                            <span className="font-medium">{index + 1}. {item.title}</span>
+                            <span className="text-muted-foreground ml-2">({item.value})</span>
+                            <div className="text-muted-foreground mt-1 ml-4">路径: {item.path}</div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
                   </FormItem>
                 )}
               />
@@ -289,6 +486,16 @@ export default function TreeSelectExample() {
                       仅支持单选 / Single selection only
                     </FormDescription>
                     <FormMessage />
+                    {regionInfo && regionInfo.value === field.value && (
+                      <div className="mt-3 p-3 bg-muted/50 rounded-md">
+                        <h4 className="text-sm font-medium mb-2">选中信息 / Selected Info:</h4>
+                        <div className="text-xs">
+                          <span className="font-medium">{regionInfo.title}</span>
+                          <span className="text-muted-foreground ml-2">({regionInfo.value})</span>
+                          <div className="text-muted-foreground mt-1 ml-4">路径: {regionInfo.path}</div>
+                        </div>
+                      </div>
+                    )}
                   </FormItem>
                 )}
               />
