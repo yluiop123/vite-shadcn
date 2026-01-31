@@ -1,62 +1,61 @@
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { Checkbox } from "@/components/ui/checkbox"
-import { Input } from "@/components/ui/input"
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
-import { cn } from "@/lib/utils"
-import { ChevronDown, ChevronRight, X } from "lucide-react"
-import { useEffect, useState } from "react"
-import { useIntl } from "react-intl"
+import { Badge } from "@/components/ui/badge";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Input } from "@/components/ui/input";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { cn } from "@/lib/utils";
+import { ChevronDown, ChevronRight, X } from "lucide-react";
+import React, { useEffect, useState } from "react";
+
+// ------------------- 类型定义 -------------------
+
 export type TreeNode = {
-  value: string
-  title: string
-  children?: TreeNode[]
-}
+  value: string;
+  title: string;
+  children?: TreeNode[];
+};
 
 export type FieldNames = {
-  value?: string
-  title?: string
-  children?: string
-}
+  value?: string;
+  title?: string;
+  children?: string;
+};
 
 export type TreeSelectProps = {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  data: any[]
-  multiple?: boolean
-  value?: string[] | string
-  defaultValue?: string[] | string
-  onChange?: (ids: string[] | string) => void
-  placeholder?: string
-  filterable?: boolean
-  showParent?: boolean
-  showChild?: boolean
-  maxTagCount?: number
-  fieldNames?: FieldNames
-  className?: string
-}
+  data: Record<string, unknown>[]; // 修复 any 报错，使用更安全的 Record
+  multiple?: boolean;
+  value?: string[] | string;
+  defaultValue?: string[] | string;
+  onChange?: (ids: string[] | string) => void;
+  placeholder?: string;
+  filterable?: boolean;
+  showParent?: boolean;
+  showChild?: boolean;
+  maxTagCount?: number;
+  fieldNames?: FieldNames;
+  className?: string;
+};
 
 // ------------------- 工具函数 -------------------
 
-// 根据 selected 判断节点状态
 function getCheckStatus(node: TreeNode, selected: string[]): boolean | "indeterminate" {
-  if (!node.children?.length) return selected.includes(node.value)
-  const childStatuses = node.children.map((c) => getCheckStatus(c, selected))
-  const allChecked = childStatuses.every((s) => s === true)
-  const noneChecked = childStatuses.every((s) => s === false)
-  if (allChecked) return true
-  if (noneChecked) return false
-  return "indeterminate"
+  if (!node.children?.length) return selected.includes(node.value);
+  const childStatuses = node.children.map((c) => getCheckStatus(c, selected));
+  const allChecked = childStatuses.every((s) => s === true);
+  const noneChecked = childStatuses.every((s) => s === false);
+  if (allChecked) return true;
+  if (noneChecked) return false;
+  return "indeterminate";
 }
 
-// 收集子节点 ID
 function collectChildIds(node: TreeNode): string[] {
-  const ids: string[] = [node.value]
-  if (node.children) node.children.forEach((c) => ids.push(...collectChildIds(c)))
-  return ids
+  const ids: string[] = [node.value];
+  if (node.children) node.children.forEach((c) => ids.push(...collectChildIds(c)));
+  return ids;
 }
 
-// ------------------- 树组件 -------------------
+// ------------------- 子组件: Tree -------------------
+
 function Tree({
   nodes,
   selected,
@@ -64,98 +63,99 @@ function Tree({
   filter,
   multiple = true,
 }: {
-  nodes: TreeNode[]
-  selected: string[]
-  onChange: (ids: string[]) => void
-  filter: string
-  multiple?: boolean
+  nodes: TreeNode[];
+  selected: string[];
+  onChange: (ids: string[]) => void;
+  filter: string;
+  multiple?: boolean;
 }) {
-  const [expanded, setExpanded] = useState<string[]>([])
+  const [expanded, setExpanded] = useState<string[]>([]);
 
-  const toggleExpand = (id: string) => {
+  const toggleExpand = (id: string, e: React.MouseEvent) => {
+    e.stopPropagation();
     setExpanded((prev) =>
       prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
-    )
-  }
+    );
+  };
 
   const toggleSelect = (node: TreeNode, checked: boolean) => {
-    const allIds = collectChildIds(node)
+    const allIds = collectChildIds(node);
     if (multiple) {
-      if (checked) onChange(Array.from(new Set([...selected, ...allIds])))
-      else onChange(selected.filter((id) => !allIds.includes(id)))
+      if (checked) onChange(Array.from(new Set([...selected, ...allIds])));
+      else onChange(selected.filter((id) => !allIds.includes(id)));
     } else {
-      onChange([node.value])
+      onChange([node.value]);
     }
-  }
+  };
+
+  const filteredNodes = nodes.filter((n) =>
+    n.title.toLowerCase().includes(filter.toLowerCase())
+  );
 
   return (
     <ul className="pl-2 space-y-1">
-      {nodes
-        .filter((n) => n.title.toLowerCase().includes(filter.toLowerCase()))
-        .map((node) => {
-          const isExpanded = expanded.includes(node.value)
-          const hasChildren = !!node.children?.length
-          const status = getCheckStatus(node, selected)
+      {filteredNodes.map((node) => {
+        const isExpanded = expanded.includes(node.value);
+        const hasChildren = !!node.children?.length;
+        const status = getCheckStatus(node, selected);
 
-          return (
-            <li key={node.value}>
-              <div className="flex items-center space-x-2">
-                <div className="w-4 h-4 flex items-center justify-center">
-                  {hasChildren ? (
-                    <button onClick={() => toggleExpand(node.value)}>
-                      {isExpanded ? (
-                        <ChevronDown className="h-4 w-4" />
-                      ) : (
-                        <ChevronRight className="h-4 w-4" />
-                      )}
-                    </button>
-                  ) : (
-                    <span className="w-4" />
-                  )}
-                </div>
-
-                {multiple ? (
-                  <Checkbox
-                    className="h-4 w-4 cursor-pointer"
-                    checked={status}
-                    onCheckedChange={(checked) =>
-                      toggleSelect(node, checked === true)
-                    }
-                  />
-                ) : (
-                  <RadioGroup
-                    value={selected[0] || ""}
-                    onValueChange={(value) => {
-                      toggleSelect(node, value === node.value)
-                    }}
-                  >
-                    <RadioGroupItem
-                      value={node.value}
-                      className="h-4 w-4 cursor-pointer"
-                    />
-                  </RadioGroup>
+        return (
+          <li key={node.value}>
+            <div className="flex items-center space-x-2 py-0.5">
+              <div className="w-4 h-4 flex items-center justify-center">
+                {hasChildren && (
+                  <button type="button" onClick={(e) => toggleExpand(node.value, e)}>
+                    {isExpanded ? (
+                      <ChevronDown className="h-3 w-3 text-muted-foreground" />
+                    ) : (
+                      <ChevronRight className="h-3 w-3 text-muted-foreground" />
+                    )}
+                  </button>
                 )}
-                <span
-                  className="cursor-pointer"
-                  onClick={() => toggleSelect(node, status !== true)}
-                >
-                  {node.title}
-                </span>
               </div>
 
-              {hasChildren && isExpanded && (
-                <div className="pl-4">
-                  <Tree nodes={node.children!} selected={selected} onChange={onChange} filter={filter} multiple={multiple} />
-                </div>
+              {multiple ? (
+                <Checkbox
+                  className="h-4 w-4"
+                  checked={status}
+                  onCheckedChange={(checked) => toggleSelect(node, checked === true)}
+                />
+              ) : (
+                <RadioGroup
+                  value={selected[0] || ""}
+                  onValueChange={() => toggleSelect(node, true)}
+                >
+                  <RadioGroupItem value={node.value} className="h-4 w-4" />
+                </RadioGroup>
               )}
-            </li>
-          )
-        })}
+              <span
+                className="cursor-pointer text-sm select-none truncate"
+                onClick={() => toggleSelect(node, status !== true)}
+              >
+                {node.title}
+              </span>
+            </div>
+
+            {hasChildren && isExpanded && (
+              <div className="pl-4">
+                <Tree
+                  nodes={node.children!}
+                  selected={selected}
+                  onChange={onChange}
+                  filter={filter}
+                  multiple={multiple}
+                />
+              </div>
+            )}
+          </li>
+        );
+      })}
     </ul>
-  )
+  );
 }
 
-// ------------------- TreeSelect 组件 -------------------
+// ------------------- 主组件: TreeSelect -------------------
+
 export default function TreeSelect(props: TreeSelectProps) {
   const {
     data,
@@ -163,188 +163,183 @@ export default function TreeSelect(props: TreeSelectProps) {
     value,
     defaultValue = [],
     onChange,
-    placeholder = "",
+    placeholder = "请选择...",
     filterable = true,
     showParent = true,
     showChild = true,
     maxTagCount = 3,
     fieldNames = { value: "value", title: "title", children: "children" },
     className,
-  } = props
+  } = props;
 
-  // ------------- 数据映射 -------------
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const transformData = (data: any[]): TreeNode[] =>
-    data.map((item) => ({
-      value: item[fieldNames.value!],
-      title: item[fieldNames.title!],
-      children: item[fieldNames.children!]
-        ? transformData(item[fieldNames.children!])
-        : undefined,
-    }))
+  const [open, setOpen] = useState(false);
+  const [filter, setFilter] = useState("");
 
-  const treeData = transformData(data)
+  // ------------- 数据转换 (修复 any 报错) -------------
+  const transformData = (nodes: Record<string, unknown>[]): TreeNode[] =>
+    nodes.map((item) => {
+      const vKey = fieldNames.value || "value";
+      const tKey = fieldNames.title || "title";
+      const cKey = fieldNames.children || "children";
+      
+      const childrenData = item[cKey];
+      
+      return {
+        value: String(item[vKey]),
+        title: String(item[tKey]),
+        children: Array.isArray(childrenData)
+          ? transformData(childrenData as Record<string, unknown>[])
+          : undefined,
+      };
+    });
 
-  // ------------- 受控/非受控 -------------
-  const thisValue = value ? (Array.isArray(value) ? value : [value]) : []
-  const thisDefaultValue = defaultValue
-    ? Array.isArray(defaultValue)
-      ? defaultValue
-      : [defaultValue]
-    : []
+  const treeData = transformData(data);
 
-  const [selected, setSelected] = useState<string[]>(thisValue || thisDefaultValue)
-  const [filter, setFilter] = useState("")
-  const [open, setOpen] = useState(false)
+  // ------------- 状态管理 -------------
+  const getInitialValue = () => {
+    const val = value !== undefined ? value : defaultValue;
+    return Array.isArray(val) ? val : val ? [val] : [];
+  };
+
+  const [selected, setSelected] = useState<string[]>(getInitialValue());
 
   useEffect(() => {
-    if (value) setSelected(Array.isArray(value) ? value : [value])
-  }, [value])
-
-  // ------------- 标签显示 -------------
-  const getSelectedLabels = (nodes: TreeNode[], selectedIds: string[]): string[] => {
-    if (!selectedIds || selectedIds.length === 0) return []
-
-    if (!multiple) {
-      const findLabel = (nodes: TreeNode[], id: string): string | null => {
-        for (const node of nodes) {
-          if (node.value === id) return node.title
-          if (node.children) {
-            const res = findLabel(node.children, id)
-            if (res) return res
-          }
-        }
-        return null
-      }
-      const label = findLabel(nodes, selectedIds[0])
-      return label ? [label] : []
+    if (value !== undefined) {
+      setSelected(Array.isArray(value) ? value : [value]);
     }
+  }, [value]);
 
-    const result: { value: string; title: string; depth: number }[] = []
+  const handleChange = (ids: string[]) => {
+    setSelected(ids);
+    onChange?.(multiple ? ids : ids[0] || "");
+  };
+
+  const handleClearAll = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    handleChange([]);
+  };
+
+  // ------------- 标签回显逻辑 -------------
+  const getSelectedLabels = (nodes: TreeNode[], selectedIds: string[]): string[] => {
+    if (selectedIds.length === 0) return [];
+
+    const result: { value: string; title: string; depth: number }[] = [];
 
     const traverse = (node: TreeNode, depth: number): number => {
       if (!node.children?.length) {
-        if (showChild && selectedIds.includes(node.value)) {
-          result.push({ value: node.value, title: node.title, depth })
+        const isSel = selectedIds.includes(node.value);
+        if (showChild && isSel) {
+          result.push({ value: node.value, title: node.title, depth });
         }
-        return selectedIds.includes(node.value) ? 1 : 0
+        return isSel ? 1 : 0;
       }
 
-      let count = 0
-      node.children.forEach((child) => (count += traverse(child, depth + 1)))
+      let count = 0;
+      node.children.forEach((child) => (count += traverse(child, depth + 1)));
 
-      if (count === node.children.length) {
-        if (showParent) result.push({ value: node.value, title: node.title, depth })
-      } else if (count > 0) {
-        if (showParent) result.push({ value: node.value, title: node.title, depth })
+      const isAllChecked = count === node.children.length;
+      const isSomeChecked = count > 0;
+
+      if ((isAllChecked || isSomeChecked) && showParent) {
+        result.push({ value: node.value, title: node.title, depth });
       }
-      return count
-    }
+      return isAllChecked ? 1 : 0;
+    };
 
-    nodes.forEach((n) => traverse(n, 0))
+    nodes.forEach((n) => traverse(n, 0));
+    const unique = Array.from(new Map(result.map((r) => [r.value, r])).values());
+    return unique.sort((a, b) => a.depth - b.depth).map((r) => r.title);
+  };
 
-    const unique = Array.from(new Map(result.map((r) => [r.value, r])).values())
-    unique.sort((a, b) => a.depth - b.depth)
+  const selectedLabels = getSelectedLabels(treeData, selected);
 
-    return unique.map((r) => r.title)
-  }
-
-  const selectedLabels = getSelectedLabels(treeData, selected)
-
-  // ------------- 操作事件 -------------
-  const handleChange = (ids: string[]) => {
-    setSelected(ids)
-    onChange?.(multiple ? ids : ids.length > 0 ? ids[0] : "")
-  }
-
-  const handleSelectAll = () => handleChange(treeData.flatMap((n) => collectChildIds(n)))
-  const handleClearAll = () => handleChange([])
-
-  const { formatMessage } = useIntl()
-
-  // ------------- 渲染 -------------
-return (
+  return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
-        {/* 1. 确保触发器有明确的宽度定义 */}
         <div
           className={cn(
-            "p-3 cursor-pointer flex flex-wrap items-center gap-1 border border-input rounded px-2 py-1 min-h-[2.5rem] bg-background",
-            className ? className : "w-full"
+            "group relative flex min-h-[2.5rem] w-full cursor-pointer flex-wrap items-center gap-1 rounded-md border border-input bg-background py-1.5 pl-2 pr-9 text-sm transition-all hover:border-accent-foreground/30 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2",
+            className
           )}
         >
           {selectedLabels.length === 0 && (
-            <span className="text-muted-foreground">{placeholder}</span>
+            <span className="text-muted-foreground select-none">{placeholder}</span>
           )}
+
           {selectedLabels.slice(0, maxTagCount).map((label, i) => (
-            <Badge
-              key={i}
-              className="flex items-center gap-1 px-2 py-1 cursor-default"
-            >
+            <Badge key={i} variant="secondary" className="flex items-center gap-1 px-1 py-0 font-normal">
               {label}
-              <button
-                type="button"
+              <X
+                className="h-3 w-3 cursor-pointer hover:text-destructive transition-colors"
                 onClick={(e) => {
-                  e.stopPropagation(); // 防止触发 popover
-                  if (multiple) {
-                    handleChange(selected.filter((id) => {
-                      const lbl = getSelectedLabels(treeData, [id])[0]
-                      return lbl !== label
-                    }))
-                  } else {
-                    handleChange([])
-                  }
+                  e.stopPropagation();
+                  // 移除对应的 ID
+                  const newSelected = selected.filter(id => 
+                    getSelectedLabels(treeData, [id])[0] !== label
+                  );
+                  handleChange(newSelected);
                 }}
-              >
-                <X className="h-3 w-3 hover:text-destructive transition-colors" />
-              </button>
+              />
             </Badge>
           ))}
+
           {selectedLabels.length > maxTagCount && (
-            <Badge variant="secondary">
+            <Badge variant="secondary" className="px-1 py-0 font-normal">
               +{selectedLabels.length - maxTagCount}
             </Badge>
           )}
+
+          {/* 右侧功能图标 */}
+          <div className="absolute right-2 top-1/2 flex -translate-y-1/2 items-center gap-1 text-muted-foreground/50">
+            {selected.length > 0 && (
+              <X 
+                className="h-4 w-4 hover:text-foreground transition-colors" 
+                onClick={handleClearAll} 
+              />
+            )}
+            <Separator orientation="vertical" className="h-4 mx-0.5" />
+            <ChevronDown className={cn("h-4 w-4 transition-transform duration-200", open && "rotate-180")} />
+          </div>
         </div>
       </PopoverTrigger>
 
-      {/* 2. 核心优化：使用 CSS 变量匹配宽度 */}
-      <PopoverContent 
+      {/* 下拉列表 - 使用 CSS 变量实现同宽 */}
+      <PopoverContent
         align="start"
-        className="p-3 w-[var(--radix-popover-trigger-width)] min-w-[200px]"
+        className="p-0 w-[var(--radix-popover-trigger-width)] min-w-[200px]"
       >
         {filterable && (
-          <div className="mb-2 px-1">
+          <div className="p-2 border-b">
             <Input
               value={filter}
               onChange={(e) => setFilter(e.target.value)}
               placeholder="搜索..."
-              className="h-8 focus-visible:ring-1"
+              className="h-8 text-xs focus-visible:ring-0 focus-visible:ring-offset-0 border-none bg-muted/50"
             />
           </div>
         )}
-        
-        <div className="max-h-64 overflow-y-auto custom-scrollbar px-1">
-          <Tree 
-            nodes={treeData} 
-            selected={selected} 
-            onChange={handleChange} 
-            filter={filter} 
-            multiple={multiple} 
-          />
-        </div>
 
-        {multiple && (
-          <div className="flex justify-between gap-2 mt-3 border-t pt-2 px-1">
-            <Button size="sm" variant="ghost" onClick={handleClearAll} className="h-8 px-2 text-xs">
-              {formatMessage({ id: 'button.clear' })}
-            </Button>
-            <Button size="sm" variant="secondary" onClick={handleSelectAll} className="h-8 px-2 text-xs">
-              {formatMessage({ id: 'button.selectAll' })}
-            </Button>
-          </div>
-        )}
+        <div className="max-h-64 overflow-y-auto p-2">
+          {treeData.length > 0 ? (
+            <Tree
+              nodes={treeData}
+              selected={selected}
+              onChange={handleChange}
+              filter={filter}
+              multiple={multiple}
+            />
+          ) : (
+            <div className="py-10 text-center text-xs text-muted-foreground italic">
+              无匹配结果 / No results found
+            </div>
+          )}
+        </div>
       </PopoverContent>
     </Popover>
-  )
+  );
+}
+
+// 辅助组件：竖线分隔符 (可选，需确保项目中已有该组件)
+function Separator({ orientation, className }: { orientation: string, className: string }) {
+  return <div className={cn("bg-border", orientation === "vertical" ? "w-[1px]" : "h-[1px]", className)} />;
 }
