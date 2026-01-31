@@ -44,8 +44,8 @@ npm run dev
 <summary>仪表盘</summary>
 
   - [x] 基本仪表盘
-  - [ ] 态势感知-网络安全
-  - [ ] 态势感知-军事
+  - [x] 态势感知-网络安全
+  - [x] 态势感知-军事
   - [ ] 灾情指挥
   - [ ] 农林业管理
   - [ ] 工业管理
@@ -53,8 +53,12 @@ npm run dev
 <details>
 <summary>组件库</summary>
 
-  - [ ] 普通组件
-  - [ ] react-hook-form 表单组件
+  - [x] 普通组件
+  - [x] 布局组件
+  - [x] 导航组件
+  - [x] 数据展示组件
+  - [x] 反馈组件
+  - [x] react-hook-form 表单组件
   - [ ] tanstack/react-table 表格组件
   - [ ] 自定义组件
 </details>

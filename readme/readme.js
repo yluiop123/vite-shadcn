@@ -46,8 +46,8 @@ npm run dev
 <summary>Dashboard</summary>
 
   - [x] Basic dashboard
-  - [ ] Situational Awareness - Cybersecurity
-  - [ ] Situational Awareness - Military
+  - [x] Situational Awareness - Cybersecurity
+  - [x] Situational Awareness - Military
   - [ ] Disaster Command
   - [ ] Agriculture and Forestry Management
   - [ ] Industrial Management
@@ -57,9 +57,14 @@ npm run dev
 <details>
 <summary>Component Library</summary>
 
-  - [ ] General components
-  - [ ] Form components (react-hook-form)
+  - [x] General components
+  - [x] Layout components
+  - [x] Navigation components
+  - [x] Data display components
+  - [x] Feedback components
+  - [x] Form components (react-hook-form)
   - [ ] Table components (tanstack/react-table)
+  - [ ] AI components
   - [ ] Custom components
 
 </details>
