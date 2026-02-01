@@ -16,7 +16,8 @@ ${pkg.description || 'VITE-SHADCN is a Shadcn Admin UI built with `Shadcn` , `Vi
 English | [简体中文](./README.zh-CN.md)
 
 <img height="500" src="./readme/images/dashboard.png">
-
+<img height="500" src="./readme/images/disaster-command.png">
+<img height="500" src="./readme/images/form.png">
 <img height="500" src="./readme/images/rechart.png">
 
 ## 🚀 Quick Start
