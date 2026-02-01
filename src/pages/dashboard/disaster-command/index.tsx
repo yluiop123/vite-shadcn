@@ -14,16 +14,15 @@ import {
 } from 'lucide-react';
 import React, { useEffect, useMemo, useState } from 'react';
 import * as THREE from 'three';
+import mapData from './data.json';
 // 引入你的 store
 import { useThemeStore } from "@/store/index";
-
 // --- 1. 模拟数据 ---
 const DISASTER_DATA = [
   { id: 1, name: "四川地震预警 (7.2级)", lon: 104.06, lat: 30.67, level: '核心' },
   { id: 2, name: "广东超强台风登陆", lon: 113.23, lat: 23.16, level: '预警' },
   { id: 3, name: "甘肃地质灾害风险", lon: 103.82, lat: 36.06, level: '提示' }
 ];
-
 // --- 2. 3D 地图组件 ---
 const ChinaMapScene: React.FC<{ mode: string }> = ({ mode }) => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -31,11 +30,17 @@ const ChinaMapScene: React.FC<{ mode: string }> = ({ mode }) => {
   const isDark = mode === 'dark';
   
   useEffect(() => {
-    fetch('https://geo.datav.aliyun.com/areas_v3/bound/100000_full.json')
-      .then(res => res.json())
-      .then(data => setGeoData(data))
-      .catch(err => console.error("地图数据加载失败:", err));
-  }, []);
+      // 核心修改：改为读取本地 public 目录下的 data.json
+      // 这种方式不依赖阿里云接口，海外部署也能秒开
+      setGeoData(mapData)
+      // fetch('/data.json')
+      //   .then(res => {
+      //     if (!res.ok) throw new Error('地图文件加载失败，请确认文件是否存在于 public 目录');
+      //     return res.json();
+      //   })
+      //   .then(data => setGeoData(data))
+      //   .catch(err => console.error("数据加载错误:", err));
+    }, []);
 
   const projection = useMemo(() => {
     return d3.geoMercator().center([104.1954, 35.8617]).scale(4.5).translate([0, 0]);
