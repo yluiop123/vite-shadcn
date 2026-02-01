@@ -11,9 +11,9 @@ import {
 } from 'lucide-react';
 import React, { ReactNode, useEffect } from 'react';
 import { MapContainer, TileLayer, useMap } from 'react-leaflet';
-import { Area, AreaChart, ResponsiveContainer } from 'recharts';
+import { Area, AreaChart, CartesianGrid, ResponsiveContainer } from 'recharts';
 
-// 解决地图尺寸不刷新导致的溢出问题
+// 1. 解决地图尺寸不刷新导致的溢出问题
 function MapResizer() {
   const map = useMap();
   useEffect(() => {
@@ -25,15 +25,20 @@ function MapResizer() {
   return null;
 }
 
-const EcoPanel = ({ title, children, className = "", icon: Icon }: { title: string, children: ReactNode, className?: string, icon?: any }) => (
-  <section className={`flex flex-col min-h-0 min-w-0 border bg-white dark:bg-[#080d0a] border-green-100 dark:border-emerald-900/40 rounded-lg overflow-hidden shadow-sm ${className}`}>
+// 2. 增强型 EcoPanel：核心在于 flex-1 relative min-h-0，为图表提供可靠的定位上下文
+const EcoPanel = ({ title, children, className = "", icon: Icon, flex = "none" }: { title: string, children: ReactNode, className?: string, icon?: any, flex?: string }) => (
+  <section 
+    style={{ flex: flex }}
+    className={`flex flex-col min-h-0 min-w-0 border bg-white dark:bg-[#080d0a] border-green-100 dark:border-emerald-900/40 rounded-lg overflow-hidden shadow-sm ${className}`}
+  >
     <div className="px-3 py-2 shrink-0 border-b bg-green-50/50 dark:bg-emerald-950/20 dark:border-emerald-900/40 flex items-center gap-2">
       {Icon && <Icon size={14} className="text-green-600 dark:text-emerald-500 shrink-0" />}
       <h2 className="text-[11px] font-bold tracking-wider text-green-800 dark:text-emerald-400 uppercase truncate">
         {title}
       </h2>
     </div>
-    <div className="flex-1 relative overflow-hidden">
+    {/* 关键层：relative 配合 flex-1，确保子元素 ResponsiveContainer 能填满 */}
+    <div className="flex-1 relative min-h-0 w-full overflow-hidden">
       {children}
     </div>
   </section>
@@ -44,16 +49,13 @@ export default function EcoManagement() {
   
   const [ecoData] = React.useState(() => Array.from({ length: 24 }, (_, i) => ({ 
     hour: `${i}:00`, 
-    temp: 20 + Math.random() * 10,
-    humidity: 40 + Math.random() * 30,
-    ndvi: 0.4 + Math.random() * 0.4
+    ndvi: 0.3 + Math.random() * 0.5
   })));
 
   return (
-    // 外层容器：使用 w-full 适配父级 content 区域，overflow-hidden 严防死守
     <div className="h-full w-full flex flex-col p-3 gap-3 box-border overflow-hidden bg-[#f8faf9] dark:bg-[#020503]">
       
-      {/* 1. 顶栏：自适应宽度 */}
+      {/* 顶栏 */}
       <header className="h-14 shrink-0 flex items-center justify-between px-4 border bg-white dark:bg-[#0a0f0d] dark:border-emerald-900/60 shadow-sm rounded-lg box-border">
         <div className="flex items-center gap-3 min-w-0">
           <div className="p-1.5 bg-green-600 rounded shrink-0">
@@ -74,10 +76,10 @@ export default function EcoManagement() {
         </div>
       </header>
 
-      {/* 2. 主体区域：使用 Flex 布局并严格控制 min-w-0 */}
+      {/* 主体区域 */}
       <main className="flex-1 flex gap-3 min-h-0 min-w-0 w-full box-border overflow-hidden">
         
-        {/* 左侧栏：固定宽度 260px */}
+        {/* 左侧栏 */}
         <aside className="w-[260px] flex flex-col gap-3 shrink-0 min-w-0 h-full">
           <EcoPanel title="环境指标" icon={CloudRain} className="h-44 shrink-0">
             <div className="grid grid-cols-2 p-3 gap-2 h-full">
@@ -99,17 +101,26 @@ export default function EcoManagement() {
             </div>
           </EcoPanel>
           
-          <EcoPanel title="NDVI 健康度趋势">
-            <div className="w-full h-full p-1">
+          <EcoPanel title="NDVI 健康度趋势" flex="1">
+            {/* 使用绝对定位容器承载图表，解决 ResponsiveContainer 宽度为0的问题 */}
+            <div className="absolute inset-0 p-2">
               <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={ecoData} margin={{ left: -35, right: 0, top: 10 }}>
+                <AreaChart data={ecoData} margin={{ left: -30, right: 10, top: 10, bottom: 0 }}>
+                  <defs>
+                    <linearGradient id="colorNdvi" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor="#10b981" stopOpacity={0.3}/>
+                      <stop offset="95%" stopColor="#10b981" stopOpacity={0}/>
+                    </linearGradient>
+                  </defs>
+                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke={mode === 'dark' ? '#064e3b' : '#f0fdf4'} />
                   <Area 
                     type="monotone" 
                     dataKey="ndvi" 
                     stroke="#10b981" 
-                    fill="#10b981" 
-                    fillOpacity={0.1} 
+                    fillOpacity={1} 
+                    fill="url(#colorNdvi)" 
                     strokeWidth={2}
+                    isAnimationActive={false} 
                   />
                 </AreaChart>
               </ResponsiveContainer>
@@ -117,7 +128,7 @@ export default function EcoManagement() {
           </EcoPanel>
         </aside>
 
-        {/* 中间地图列：利用 absolute 锁死宽度，防止挤压右侧 */}
+        {/* 中间地图 */}
         <div className="flex-1 min-w-0 h-full border rounded-lg overflow-hidden bg-white border-green-100 dark:border-emerald-900/60 relative shadow-inner">
           <div className="absolute inset-0">
             <MapContainer 
@@ -132,9 +143,9 @@ export default function EcoManagement() {
           </div>
         </div>
 
-        {/* 右侧栏：固定宽度 240px，确保在任何屏幕下都可见 */}
+        {/* 右侧栏 */}
         <aside className="w-[240px] flex flex-col gap-3 shrink-0 min-w-0 h-full">
-          <EcoPanel title="资产概览" icon={MapIcon} className="flex-1">
+          <EcoPanel title="资产概览" icon={MapIcon} flex="1">
             <div className="p-4 flex flex-col gap-5">
               <div className="text-center p-3 rounded-lg bg-green-50/50 dark:bg-emerald-900/10 border border-green-100 dark:border-emerald-900/20">
                 <div className="text-2xl font-black text-green-700 dark:text-emerald-400">1,240</div>
@@ -154,7 +165,7 @@ export default function EcoManagement() {
           <EcoPanel title="快捷指令" icon={Activity} className="h-24 shrink-0">
             <div className="p-3 h-full flex items-center">
               <button className="w-full py-2.5 px-3 bg-green-600 hover:bg-green-700 text-white rounded shadow-md transition-all active:scale-95 flex items-center justify-between">
-                <span className="text-[10px] font-black truncate">一键全域无人机巡检</span>
+                <span className="text-[10px] font-black truncate text-left">一键全域无人机巡检</span>
                 <ChevronRight size={14} className="shrink-0" />
               </button>
             </div>
@@ -162,7 +173,7 @@ export default function EcoManagement() {
         </aside>
       </main>
 
-      {/* 3. 底部状态栏 */}
+      {/* 底部状态栏 */}
       <footer className="h-6 shrink-0 flex items-center px-3 justify-between text-[9px] font-mono font-bold bg-white dark:bg-[#0a0f0d] border rounded-md dark:border-emerald-900/60">
         <div className="flex gap-4 text-green-800 dark:text-emerald-500 truncate">
           <span className="flex items-center gap-1.5">
@@ -170,11 +181,10 @@ export default function EcoManagement() {
             DATA_LINK: STABLE
           </span>
         </div>
-        <div className="opacity-40 uppercase truncate ml-2">Agri-OS Engine v4.2</div>
+        <div className="opacity-40 uppercase truncate ml-2 text-right">Agri-OS Engine v4.2</div>
       </footer>
 
       <style>{`
-        /* 全局样式覆盖 */
         .leaflet-container { 
           width: 100% !important; 
           height: 100% !important; 
@@ -182,17 +192,19 @@ export default function EcoManagement() {
           background: #f0f0f0 !important;
         }
         
-        /* 针对 Recharts 的宽度保护 */
+        /* 关键：强制 Recharts 包裹器占据全部空间 */
         .recharts-responsive-container {
           min-width: 0 !important;
           min-height: 0 !important;
+          position: absolute !important;
+          top: 0;
+          left: 0;
         }
 
         .dark .leaflet-tile {
           filter: grayscale(1) invert(0.95) brightness(0.2) contrast(1.4) sepia(0.5) hue-rotate(120deg) !important;
         }
 
-        /* 隐藏滚动条 */
         ::-webkit-scrollbar { display: none; }
       `}</style>
     </div>
