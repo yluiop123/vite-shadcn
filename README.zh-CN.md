@@ -35,9 +35,9 @@ npm run dev
   - [x] 基本仪表盘
   - [x] 态势感知-网络安全
   - [x] 态势感知-军事
-  - [ ] 灾情指挥
-  - [ ] 农林业管理
-  - [ ] 工业管理
+  - [x] 灾情指挥
+  - [x] 农林业管理
+  - [x] 工业管理
 </details>
 <details>
 <summary>组件库</summary>
@@ -145,7 +145,8 @@ npm run dev
   - @radix-ui/react-toggle-group: ^1.1.11
   - @radix-ui/react-tooltip: ^1.2.8
   - @react-three/drei: ^10.7.7
-  - @react-three/fiber: ^9.4.2
+  - @react-three/fiber: ^9.5.0
+  - @react-three/postprocessing: ^3.0.4
   - @tabler/icons-react: ^3.31.0
   - @tailwindcss/vite: ^4.1.3
   - @tanstack/react-table: ^8.21.3
@@ -158,6 +159,7 @@ npm run dev
   - clsx: ^2.1.1
   - cmdk: ^1.1.1
   - colorjs.io: ^0.5.2
+  - d3-geo: ^3.1.1
   - date-fns: ^4.1.0
   - deck.gl: ^9.2.5
   - echarts-for-react: ^3.0.2

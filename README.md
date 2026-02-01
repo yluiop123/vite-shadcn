@@ -37,9 +37,9 @@ npm run dev
   - [x] Basic dashboard
   - [x] Situational Awareness - Cybersecurity
   - [x] Situational Awareness - Military
-  - [ ] Disaster Command
-  - [ ] Agriculture and Forestry Management
-  - [ ] Industrial Management
+  - [x] Disaster Command
+  - [x] Agriculture and Forestry Management
+  - [x] Industrial Management
 
 </details>
 
@@ -162,7 +162,8 @@ npm run dev
   - @radix-ui/react-toggle-group: ^1.1.11
   - @radix-ui/react-tooltip: ^1.2.8
   - @react-three/drei: ^10.7.7
-  - @react-three/fiber: ^9.4.2
+  - @react-three/fiber: ^9.5.0
+  - @react-three/postprocessing: ^3.0.4
   - @tabler/icons-react: ^3.31.0
   - @tailwindcss/vite: ^4.1.3
   - @tanstack/react-table: ^8.21.3
@@ -175,6 +176,7 @@ npm run dev
   - clsx: ^2.1.1
   - cmdk: ^1.1.1
   - colorjs.io: ^0.5.2
+  - d3-geo: ^3.1.1
   - date-fns: ^4.1.0
   - deck.gl: ^9.2.5
   - echarts-for-react: ^3.0.2
