@@ -5,6 +5,13 @@ const BadgePage = lazy(() => import('./badge'));
 const CalendarPage = lazy(() => import('./calendar'));
 const CardPage = lazy(() => import('./card'));
 const CarouselPage = lazy(() => import('./carousel'));
+const AccordionPage = lazy(() => import('./accordion'));
+const DescriptionsPage = lazy(() => import('./descriptions'));
+const EmptyPage = lazy(() => import('./empty'));
+const ImagePage = lazy(() => import('./image'));
+const TagPage = lazy(() => import('./tag'));
+const PopoverPage = lazy(() => import('./popover'));
+const QRCodePage = lazy(() => import('./qrcode'));
 
 export default function Display() {
   return (
@@ -15,6 +22,13 @@ export default function Display() {
         <TabsTrigger value="calendar">Calendar</TabsTrigger>
         <TabsTrigger value="card">Card</TabsTrigger>
         <TabsTrigger value="carousel">Carousel</TabsTrigger>
+        <TabsTrigger value="accordion">Accordion</TabsTrigger>
+        <TabsTrigger value="descriptions">Descriptions</TabsTrigger>
+        <TabsTrigger value="empty">Empty</TabsTrigger>
+        <TabsTrigger value="image">Image</TabsTrigger>
+        <TabsTrigger value="tag">Tag</TabsTrigger>
+        <TabsTrigger value="popover">Popover</TabsTrigger>
+        <TabsTrigger value="qrcode">QRCode</TabsTrigger>
       </TabsList>
       <TabsContent value="avatar">
         <AvatarPage />
@@ -30,6 +44,27 @@ export default function Display() {
       </TabsContent>
       <TabsContent value="carousel">
         <CarouselPage />
+      </TabsContent>
+      <TabsContent value="accordion">
+        <AccordionPage />
+      </TabsContent>
+      <TabsContent value="descriptions">
+        <DescriptionsPage />
+      </TabsContent>
+      <TabsContent value="empty">
+        <EmptyPage />
+      </TabsContent>
+      <TabsContent value="image">
+        <ImagePage />
+      </TabsContent>
+      <TabsContent value="tag">
+        <TagPage />
+      </TabsContent>
+      <TabsContent value="popover">
+        <PopoverPage />
+      </TabsContent>
+      <TabsContent value="qrcode">
+        <QRCodePage />
       </TabsContent>
     </Tabs>
   );
