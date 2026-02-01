@@ -56,6 +56,9 @@ const routeSetting: NavItem[] = [
       { key: "normal", title: "menu.dashboard.normal", icon: Gauge },
       { key: "network-security", title: "menu.dashboard.network-security", icon: ShieldCheck },
       { key: "military-situational-awareness", title: "menu.dashboard.military-situational-awareness", icon: Shield },
+      { key: "disaster-command", title: "menu.dashboard.disaster-command", icon: Gauge },
+      { key: "agriculture-forestry", title: "menu.dashboard.agriculture-forestry", icon: Gauge },
+      { key: "industrial", title: "menu.dashboard.industrial", icon: Gauge },
     ],
   },
   {

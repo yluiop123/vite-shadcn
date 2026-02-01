@@ -48,9 +48,9 @@ npm run dev
   - [x] Basic dashboard
   - [x] Situational Awareness - Cybersecurity
   - [x] Situational Awareness - Military
-  - [ ] Disaster Command
-  - [ ] Agriculture and Forestry Management
-  - [ ] Industrial Management
+  - [x] Disaster Command
+  - [x] Agriculture and Forestry Management
+  - [x] Industrial Management
 
 </details>
 
