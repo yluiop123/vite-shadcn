@@ -1,54 +1,136 @@
-import { Float, OrbitControls, Stars } from '@react-three/drei';
-import { Canvas, useFrame } from '@react-three/fiber';
+import { Float, Html, OrbitControls, Stars } from '@react-three/drei';
+import { Canvas } from '@react-three/fiber';
 import { Bloom, EffectComposer } from '@react-three/postprocessing';
+import * as d3 from 'd3-geo';
 import { Package, PhoneCall, Radio, ShieldAlert, SignalLow, Users, Video, X, Zap } from 'lucide-react';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import * as THREE from 'three';
+// --- 1. 类型定义 ---
+interface GeoFeature {
+  type: string;
+  geometry: {
+    type: "Polygon" | "MultiPolygon";
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    coordinates: any[];
+  };
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  properties: Record<string, any>;
+}
 
-// --- 1. 灾情全球观测点 (3D 粒子球) ---
-const DisasterGlobe = ({ isDark }: { isDark: boolean }) => {
-  const pointsRef = useRef<THREE.Points>(null!);
-  const [particles] = useMemo(() => {
-    const coords = [];
-    const num = 12000;
-    for (let i = 0; i < num; i++) {
-      const phi = Math.acos(-1 + (2 * i) / num);
-      const theta = Math.sqrt(num * Math.PI) * phi;
-      coords.push(Math.cos(theta) * Math.sin(phi) * 2, Math.sin(theta) * Math.sin(phi) * 2, Math.cos(phi) * 2);
-    }
-    return [new Float32Array(coords), num];
+interface GeoData {
+  type: string;
+  features: GeoFeature[];
+}
+
+interface DisasterPoint {
+  id: number;
+  name: string;
+  lon: number;
+  lat: number;
+  severity: number;
+  type: string;
+}
+
+interface PanelProps {
+  type: 'rescue' | 'supplies';
+  onClose: () => void;
+}
+
+interface MapSceneProps {
+  isDark: boolean;
+  activePanel: 'rescue' | 'supplies' | null;
+}
+
+const DISASTER_DATA: DisasterPoint[] = [
+  { id: 1, name: "四川地震预警", lon: 104.06, lat: 30.67, severity: 1.2, type: "earthquake" },
+  { id: 2, name: "广东台风登陆", lon: 113.23, lat: 23.16, severity: 1.2, type: "weather" },
+  { id: 3, name: "甘肃地质灾害", lon: 103.82, lat: 36.06, severity: 0.8, type: "landslide" }
+];
+const ChinaMapScene: React.FC<MapSceneProps> = ({ isDark, activePanel }) => {
+  const [geoData, setGeoData] = useState<GeoData | null>(null);
+  
+  useEffect(() => {
+    fetch('https://geo.datav.aliyun.com/areas_v3/bound/100000_full.json')
+      .then(res => res.json())
+      .then(data => setGeoData(data as GeoData))
+      .catch(err => console.error("Map Load Error:", err));
   }, []);
 
-  useFrame((state) => {
-    if (pointsRef.current) pointsRef.current.rotation.y = state.clock.getElapsedTime() * 0.03;
-  });
+  const projection = useMemo(() => {
+    return d3.geoMercator()
+      .center([104.1954, 35.8617])
+      .scale(4.5)
+      .translate([0, 0]);
+  }, []);
+
+  const mapShapes = useMemo(() => {
+    if (!geoData) return [];
+    const shapes: THREE.Shape[] = [];
+
+    geoData.features.forEach((feature) => {
+      const { coordinates, type } = feature.geometry;
+      const processCoords = (coords: [number, number][]) => {
+        const points = coords.map(coord => {
+          const projected = projection(coord);
+          return new THREE.Vector2(projected![0], -projected![1]);
+        });
+        shapes.push(new THREE.Shape(points));
+      };
+      if (type === "Polygon") {
+        processCoords(coordinates[0]);
+      } else if (type === "MultiPolygon") {
+        coordinates.forEach((poly: [number, number][][]) => processCoords(poly[0]));
+      }
+    });
+    return shapes;
+  }, [geoData, projection]);
+
+  const groupPos: [number, number, number] = activePanel ? [-1.5, -0.5, 0] : [0, -0.5, 0];
 
   return (
-    <points ref={pointsRef}>
-        <bufferGeometry>
-        <bufferAttribute
-            args={[particles, 3]}
-            attach="attributes-position" // 明确指定挂载点
-            count={particles.length / 3}
-            array={particles}
-            itemSize={3}
-        />
-        </bufferGeometry>
-      <pointsMaterial 
-        size={isDark ? 0.012 : 0.018} 
-        color={isDark ? "#38bdf8" : "#0284c7"} 
-        transparent 
-        opacity={isDark ? 0.5 : 0.8} 
-        blending={isDark ? THREE.AdditiveBlending : THREE.NormalBlending} 
-      />
-    </points>
+    <group rotation={[-Math.PI / 2, 0, 0]} position={groupPos}>
+      {mapShapes.map((shape, i) => (
+        <mesh key={i} receiveShadow>
+          <extrudeGeometry args={[shape, { depth: 0.05, bevelEnabled: false }]} />
+          <meshStandardMaterial 
+            color={isDark ? "#1e293b" : "#cbd5e1"} 
+            emissive={isDark ? "#0ea5e9" : "#475569"}
+            emissiveIntensity={isDark ? 0.3 : 0.1}
+          />
+        </mesh>
+      ))}
+
+      {DISASTER_DATA.map((point) => {
+        const projected = projection([point.lon, point.lat]);
+        if (!projected) return null;
+        const [x, y] = projected;
+        return (
+          <group key={point.id} position={[x, -y, 0.1]}>
+            <mesh>
+              <ringGeometry args={[0.06, 0.1, 32]} />
+              <meshBasicMaterial color="#ef4444" transparent opacity={0.6} />
+            </mesh>
+            <mesh>
+              <sphereGeometry args={[0.04, 16, 16]} />
+              <meshBasicMaterial color="#ff0000" />
+            </mesh>
+            <Html distanceFactor={6} position={[0, 0, 0.2]}>
+              <div className="bg-red-600/90 text-white text-[10px] px-2 py-1 rounded whitespace-nowrap shadow-xl border border-white/20 backdrop-blur-sm pointer-events-none">
+                {point.name}
+              </div>
+            </Html>
+          </group>
+        );
+      })}
+    </group>
   );
 };
+
 
 // --- 2. 核心指挥系统组件 ---
 const DisasterCommandCenter = () => {
   const [isDark, setIsDark] = useState(true);
-  const [activePanel, setActivePanel] = useState<string | null>(null);
+  const [activePanel, setActivePanel] = useState<"rescue" | "supplies" | null>(null);
   const [isCalling, setIsCalling] = useState(false); // 电话弹窗状态
 
   // 监听主题变化
@@ -60,27 +142,33 @@ const DisasterCommandCenter = () => {
     return () => observer.disconnect();
   }, []);
 
-  const togglePanel = (panel: string) => setActivePanel(activePanel === panel ? null : panel);
+  const togglePanel = (panel: "rescue" | "supplies" | null) => setActivePanel(activePanel === panel ? null : panel);
 
   return (
     <div className="absolute inset-0 bg-slate-50 dark:bg-[#020617] transition-colors duration-500 overflow-hidden font-sans text-slate-900 dark:text-white">
       
       {/* 3D 渲染层 */}
       <div className="w-full h-full relative z-0">
-        <Canvas camera={{ position: [activePanel ? -1.2 : 0, 0, 6], fov: 45 }}>
+<Canvas camera={{ position: [0, 6, 8], fov: 40 }} shadows gl={{ antialias: true }}>
           <color attach="background" args={[isDark ? '#020617' : '#f1f5f9']} />
-          <ambientLight intensity={isDark ? 0.6 : 2.0} />
-          <pointLight position={[10, 10, 10]} intensity={isDark ? 1.5 : 2.5} />
-
-          <Float speed={1.5} rotationIntensity={0.3} floatIntensity={0.3}>
-            <DisasterGlobe isDark={isDark} />
+          <ambientLight intensity={isDark ? 0.5 : 1.2} />
+          <pointLight position={[10, 10, 10]} intensity={2.5} castShadow />
+          
+          <Stars radius={100} depth={50} count={isDark ? 5000 : 500} factor={4} fade />
+          
+          <Float speed={1.5} rotationIntensity={0.2} floatIntensity={0.3}>
+            <ChinaMapScene isDark={isDark} activePanel={activePanel} />
           </Float>
 
-          {isDark && <Stars radius={80} count={3000} factor={4} fade />}
-          <OrbitControls enablePan={false} minDistance={4} maxDistance={10} autoRotate={!activePanel && !isCalling} autoRotateSpeed={0.5} />
+          <OrbitControls 
+            enablePan={false} 
+            maxPolarAngle={Math.PI / 2.2} 
+            minDistance={4} 
+            maxDistance={12} 
+          />
 
           <EffectComposer>
-            <Bloom luminanceThreshold={isDark ? 0.3 : 0.9} intensity={isDark ? 1.0 : 0.2} />
+            <Bloom luminanceThreshold={isDark ? 0.2 : 0.9} intensity={1.5} />
           </EffectComposer>
         </Canvas>
       </div>
