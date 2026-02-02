@@ -1,5 +1,6 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { lazy } from "react";
+import SegmentedPage from './segmented';
 const AvatarPage = lazy(() => import('./avatar'));
 const BadgePage = lazy(() => import('./badge'));
 const CalendarPage = lazy(() => import('./calendar'));
@@ -9,9 +10,10 @@ const AccordionPage = lazy(() => import('./accordion'));
 const DescriptionsPage = lazy(() => import('./descriptions'));
 const EmptyPage = lazy(() => import('./empty'));
 const ImagePage = lazy(() => import('./image'));
-const TagPage = lazy(() => import('./tag'));
 const PopoverPage = lazy(() => import('./popover'));
 const QRCodePage = lazy(() => import('./qrcode'));
+const TagPage = lazy(() => import('./tag'));
+const TimelinePage = lazy(() => import('./timeline'));
 
 export default function Display() {
   return (
@@ -26,9 +28,11 @@ export default function Display() {
         <TabsTrigger value="descriptions">Descriptions</TabsTrigger>
         <TabsTrigger value="empty">Empty</TabsTrigger>
         <TabsTrigger value="image">Image</TabsTrigger>
-        <TabsTrigger value="tag">Tag</TabsTrigger>
         <TabsTrigger value="popover">Popover</TabsTrigger>
         <TabsTrigger value="qrcode">QRCode</TabsTrigger>
+        <TabsTrigger value="segmented">Segmented</TabsTrigger>
+        <TabsTrigger value="tag">Tag</TabsTrigger>
+        <TabsTrigger value="timeline">Timeline</TabsTrigger>
       </TabsList>
       <TabsContent value="avatar">
         <AvatarPage />
@@ -57,14 +61,20 @@ export default function Display() {
       <TabsContent value="image">
         <ImagePage />
       </TabsContent>
-      <TabsContent value="tag">
-        <TagPage />
-      </TabsContent>
       <TabsContent value="popover">
         <PopoverPage />
       </TabsContent>
       <TabsContent value="qrcode">
         <QRCodePage />
+      </TabsContent>
+      <TabsContent value="segmented">
+        <SegmentedPage />
+      </TabsContent>
+      <TabsContent value="tag">
+        <TagPage />
+      </TabsContent>
+      <TabsContent value="timeline">
+        <TimelinePage />
       </TabsContent>
     </Tabs>
   );
