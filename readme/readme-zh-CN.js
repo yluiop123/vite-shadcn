@@ -23,8 +23,8 @@ ${pkg.description || 'VITE-SHADCN 是一个基于 `Shadcn` , `Vite` , `React`,`Z
 ## 🚀 快速开始
 
 \`\`\`bash
-npm install
-npm run dev
+pnpm install
+pnpm run dev
 \`\`\`
 
 ## ✅ 任务清单

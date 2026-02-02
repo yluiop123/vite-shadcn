@@ -23,8 +23,8 @@ English | [简体中文](./README.zh-CN.md)
 ## 🚀 Quick Start
 
 \`\`\`bash
-npm install
-npm run dev
+pnpm install
+pnpm run dev
 \`\`\`
 
 ## ✅ Task List

@@ -12,8 +12,8 @@ VITE-SHADCN 是一个基于 `Shadcn` , `Vite` , `React`,`Zustand`,`React-Router`
 ## 🚀 快速开始
 
 ```bash
-npm install
-npm run dev
+pnpm install
+pnpm run dev
 ```
 
 ## ✅ 任务清单
@@ -107,10 +107,13 @@ npm run dev
 
 - 主依赖:
   - @ant-design/charts: ^2.6.6
+  - @ant-design/plots: ^2.6.8
   - @antv/l7: ^2.23.1
   - @antv/larkmap: ^1.5.1
   - @babylonjs/core: ^8.42.0
   - @babylonjs/loaders: ^8.42.0
+  - @deck.gl/layers: ^9.2.6
+  - @deck.gl/react: ^9.2.6
   - @dnd-kit/core: ^6.3.1
   - @dnd-kit/modifiers: ^9.0.0
   - @dnd-kit/sortable: ^10.0.0
@@ -171,15 +174,13 @@ npm run dev
   - lucide-react: ^0.488.0
   - next-themes: ^0.4.6
   - ol: ^10.7.0
-  - radix-ui: ^1.4.3
+  - qrcode.react: ^4.2.0
   - react: ^19.1.0
-  - react-arborist: ^3.4.3
   - react-colorful: ^5.6.1
   - react-day-picker: ^9.13.0
   - react-dom: ^19.1.0
   - react-dropzone: ^14.4.0
   - react-hook-form: ^7.56.3
-  - react-icons: ^5.5.0
   - react-intl: ^7.1.11
   - react-leaflet: ^5.0.0-rc.2
   - react-map-gl: ^8.1.0
@@ -200,7 +201,6 @@ npm run dev
 - 开发依赖:
   - @eslint/js: ^9.24.0
   - @types/leaflet: ^1.9.21
-  - @types/loadable__component: ^5.13.9
   - @types/mockjs: ^1.0.10
   - @types/node: ^22.14.1
   - @types/react: ^19.1.1
