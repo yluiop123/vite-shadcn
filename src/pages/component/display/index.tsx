@@ -14,7 +14,9 @@ const PopoverPage = lazy(() => import('./popover'));
 const QRCodePage = lazy(() => import('./qrcode'));
 const TagPage = lazy(() => import('./tag'));
 const TimelinePage = lazy(() => import('./timeline'));
-
+const TooltipPage = lazy(() => import('./tooltip'));
+const TourPage = lazy(() => import('./tour'));
+const TreePage = lazy(() => import('./tree'));
 export default function Display() {
   return (
     <Tabs defaultValue="avatar" className="p-3">
@@ -33,6 +35,9 @@ export default function Display() {
         <TabsTrigger value="segmented">Segmented</TabsTrigger>
         <TabsTrigger value="tag">Tag</TabsTrigger>
         <TabsTrigger value="timeline">Timeline</TabsTrigger>
+        <TabsTrigger value="tooltip">Tooltip</TabsTrigger>
+        <TabsTrigger value="tour">Tour</TabsTrigger>
+        <TabsTrigger value="tree">Tree</TabsTrigger>
       </TabsList>
       <TabsContent value="avatar">
         <AvatarPage />
@@ -75,6 +80,15 @@ export default function Display() {
       </TabsContent>
       <TabsContent value="timeline">
         <TimelinePage />
+      </TabsContent>
+      <TabsContent value="tooltip">
+        <TooltipPage />
+      </TabsContent>
+      <TabsContent value="tour">
+        <TourPage />
+      </TabsContent>
+      <TabsContent value="tree">
+        <TreePage />
       </TabsContent>
     </Tabs>
   );
