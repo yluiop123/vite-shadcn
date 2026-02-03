@@ -2,7 +2,7 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import type { LucideIcon } from "lucide-react"
 import { ArrowUp } from "lucide-react"
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 
 interface FloatingButtonProps {
   icon?: LucideIcon
@@ -40,6 +40,7 @@ export default function FloatingButton({
 }: FloatingButtonProps) {
   const [visible, setVisible] = useState(!scrollToTop)
   const [open, setOpen] = useState(false)
+  const containerRef = useRef<HTMLDivElement | null>(null)
 
   // 回到顶部逻辑
   useEffect(() => {
@@ -48,6 +49,25 @@ export default function FloatingButton({
     window.addEventListener("scroll", handler)
     return () => window.removeEventListener("scroll", handler)
   }, [scrollToTop])
+
+  // 点击外部关闭
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (!open) return
+      const el = containerRef.current
+      if (!el) return
+      if (!el.contains(e.target as Node)) setOpen(false)
+    }
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpen(false)
+    }
+    document.addEventListener("mousedown", handler)
+    document.addEventListener("keydown", onKey)
+    return () => {
+      document.removeEventListener("mousedown", handler)
+      document.removeEventListener("keydown", onKey)
+    }
+  }, [open])
 
   const iconSize = size === "sm" ? 16 : size === "md" ? 24 : 28
   const padding = size === "sm" ? "p-2" : size === "md" ? "p-3" : "p-4"
@@ -93,7 +113,7 @@ export default function FloatingButton({
   const IconComponent = icon
 
   return (
-    <div style={presetStyle} className={`${containerClass} ${groupClass}`}>
+    <div ref={containerRef} style={presetStyle} className={`${containerClass} ${groupClass}`}>
       {/* 按钮组 */}
     {open &&
       group &&
@@ -120,6 +140,8 @@ export default function FloatingButton({
       {visible && (
         <div className="relative">
           <Button
+            aria-expanded={open}
+            aria-haspopup={!!group}
             variant="default"
             size="icon"
             className={`rounded-full shadow-lg ${padding}`}
@@ -130,6 +152,12 @@ export default function FloatingButton({
                 setOpen(!open)
               } else {
                 onClick?.()
+              }
+            }}
+            onKeyDown={(e) => {
+              if ((e.key === "Enter" || e.key === " ") && group) {
+                e.preventDefault()
+                setOpen(o => !o)
               }
             }}
           >

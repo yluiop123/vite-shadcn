@@ -51,7 +51,8 @@ export interface EllipsisProps {
   collapseText?: string
 }
 
-export interface TextProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface TextProps extends React.HTMLAttributes<HTMLElement> {
+  as?: React.ElementType
   strong?: boolean
   underline?: boolean
   delete?: boolean
@@ -62,13 +63,14 @@ export interface TextProps extends React.HTMLAttributes<HTMLDivElement> {
   copiedIcon?: React.ReactNode
   editable?: boolean
   ellipsis?: boolean | EllipsisProps
-  children: string
+  children?: React.ReactNode
   copyTip?: string
   copiedTip?: string
   editTip?: string
 }
 
 export function Text({
+  as: As = "span",
   strong,
   underline,
   delete: del,
@@ -86,18 +88,19 @@ export function Text({
   editTip,
   ...props
 }: TextProps) {
-  const [value, setValue] = React.useState(children)
+  const isChildString = typeof children === "string"
+  const initialValue = isChildString ? (children as string) : ""
+  const [value, setValue] = React.useState(initialValue)
+  const originalValueRef = React.useRef(initialValue)
   const [editing, setEditing] = React.useState(false)
   const [internalExpanded, setInternalExpanded] = React.useState(false)
   const [copied, setCopied] = React.useState(false)
   const spanRef = React.useRef<HTMLSpanElement>(null)
   const [maxHeight, setMaxHeight] = React.useState<string | undefined>()
 
-  const ellipsisObj: EllipsisProps | undefined =
-    typeof ellipsis === "object" ? ellipsis : undefined
+  const ellipsisObj: EllipsisProps | undefined = typeof ellipsis === "object" ? ellipsis : undefined
 
-  const isExpanded =
-    ellipsisObj?.expanded !== undefined ? ellipsisObj.expanded : internalExpanded
+  const isExpanded = ellipsisObj?.expanded !== undefined ? ellipsisObj.expanded : internalExpanded
 
   // ----------------- 行高折叠逻辑 -----------------
   React.useEffect(() => {
@@ -116,42 +119,41 @@ export function Text({
     else setInternalExpanded(!isExpanded)
   }
 
-  const handleCopy = () => {
-    navigator.clipboard.writeText(value)
-    setCopied(true)
-    setTimeout(() => setCopied(false), 1500)
+  const handleCopy = async () => {
+    if (!isChildString) return
+    try {
+      await navigator.clipboard.writeText(value)
+      setCopied(true)
+      setTimeout(() => setCopied(false), 1500)
+    } catch (e) {
+      // ignore
+    }
   }
 
   const renderEllipsisContent = () => {
-    if (!ellipsisObj) return value
-    if (isExpanded) return value
+    const text = isChildString ? (children as string) : String(children ?? "")
+    if (!ellipsisObj) return text
+    if (isExpanded) return text
     const { type = "end" } = ellipsisObj
     switch (type) {
       case "middle": {
-        const head = value.slice(0, 15)
-        const tail = value.slice(-15)
+        const head = text.slice(0, 15)
+        const tail = text.slice(-15)
         return `${head}...${tail}`
       }
       case "start": {
-        const tail = value.slice(-30)
+        const tail = text.slice(-30)
         return `...${tail}`
       }
       case "end":
       default:
-        return value
+        return text
     }
   }
 
   const renderExpandBtn = () => {
     if (!ellipsisObj?.expandable) return null
-    const content =
-      isExpanded
-        ? ellipsisObj.collapseNode ?? (
-            <span className="text-primary font-medium">{ellipsisObj.collapseText ?? "收起"}</span>
-          )
-        : ellipsisObj.expandNode ?? (
-            <span className="text-primary font-medium">{ellipsisObj.expandText ?? "展开"}</span>
-          )
+    const content = isExpanded ? ellipsisObj.collapseNode ?? <span className="text-primary font-medium">{ellipsisObj.collapseText ?? "收起"}</span> : ellipsisObj.expandNode ?? <span className="text-primary font-medium">{ellipsisObj.expandText ?? "展开"}</span>
     return (
       <div className="mt-1">
         <TooltipProvider>
@@ -175,6 +177,8 @@ export function Text({
   if (italic) base += " italic"
   if (code) base += " px-1 py-0.5 rounded bg-muted font-mono text-sm"
 
+  const singleLineEllipsis = ellipsisObj?.rows === 1 && !isExpanded
+
   return (
     <div className={cn("flex flex-col gap-1", className)} {...props}>
       {/* 文本 + 功能按钮同一行 */}
@@ -184,11 +188,18 @@ export function Text({
           value={value}
           onChange={(e) => setValue(e.target.value)}
           onBlur={() => setEditing(false)}
-          aria-label="编辑文本"
+          onKeyDown={(e) => {
+            if (e.key === "Enter") (e.target as HTMLInputElement).blur()
+            if (e.key === "Escape") {
+              setValue(originalValueRef.current)
+              setEditing(false)
+            }
+          }}
+          aria-label={editTip ?? "编辑文本"}
           className={cn(base, "border px-1 py-0.5 rounded text-sm")}
         />
       ) : (
-        <span className={base}>
+        <As className={base}>
           <span
             ref={spanRef}
             style={{
@@ -197,16 +208,17 @@ export function Text({
               display: "inline-block",
               transition: "max-height 0.3s ease",
               verticalAlign: "middle",
+              ...(singleLineEllipsis ? { whiteSpace: "nowrap", textOverflow: "ellipsis" } : {}),
             }}
           >
             {renderEllipsisContent()}
           </span>
 
-          {copyable && (
+          {copyable && isChildString && (
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <button onClick={handleCopy} className="text-muted-foreground hover:text-primary">
+                  <button aria-label={copyTip ?? "复制"} onClick={handleCopy} className="text-muted-foreground hover:text-primary">
                     {copied ? copiedIcon ?? <Check size={14} className="text-green-500" /> : copyIcon ?? <Copy size={14} />}
                   </button>
                 </TooltipTrigger>
@@ -215,11 +227,14 @@ export function Text({
             </TooltipProvider>
           )}
 
-          {editable && !editing && (
+          {editable && !editing && isChildString && (
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <button title="edit" onClick={() => setEditing(true)} className="text-muted-foreground hover:text-primary">
+                  <button aria-label={editTip ?? "编辑"} title="edit" onClick={() => {
+                    originalValueRef.current = value
+                    setEditing(true)
+                  }} className="text-muted-foreground hover:text-primary">
                     <Edit size={14} />
                   </button>
                 </TooltipTrigger>
@@ -227,8 +242,13 @@ export function Text({
               </Tooltip>
             </TooltipProvider>
           )}
-        </span>
+        </As>
       )}
+
+      {/* 无障碍提示：复制状态 */}
+      <div aria-live="polite" className="sr-only">
+        {copied ? copiedTip ?? "已复制" : ""}
+      </div>
 
       {/* 折叠/展开按钮独占一行 */}
       {renderExpandBtn()}
