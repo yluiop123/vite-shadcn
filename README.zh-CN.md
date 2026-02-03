@@ -118,6 +118,8 @@ pnpm run dev
   - @dnd-kit/modifiers: ^9.0.0
   - @dnd-kit/sortable: ^10.0.0
   - @dnd-kit/utilities: ^3.2.2
+  - @headless-tree/core: ^1.6.3
+  - @headless-tree/react: ^1.6.3
   - @hookform/resolvers: ^5.0.1
   - @observablehq/plot: ^0.6.17
   - @radix-ui/react-accordion: ^1.2.12
@@ -169,6 +171,7 @@ pnpm run dev
   - echarts-for-react: ^3.0.2
   - embla-carousel-autoplay: ^8.6.0
   - embla-carousel-react: ^8.6.0
+  - framer-motion: ^12.30.0
   - leaflet: ^1.9.4
   - leva: ^0.10.1
   - lucide-react: ^0.488.0

@@ -16,7 +16,7 @@ const TagPage = lazy(() => import('./tag'));
 const TimelinePage = lazy(() => import('./timeline'));
 const TooltipPage = lazy(() => import('./tooltip'));
 const TourPage = lazy(() => import('./tour'));
-const TreePage = lazy(() => import('./tree'));
+// const TreePage = lazy(() => import('./tree'));
 export default function Display() {
   return (
     <Tabs defaultValue="avatar" className="p-3">
@@ -37,7 +37,7 @@ export default function Display() {
         <TabsTrigger value="timeline">Timeline</TabsTrigger>
         <TabsTrigger value="tooltip">Tooltip</TabsTrigger>
         <TabsTrigger value="tour">Tour</TabsTrigger>
-        <TabsTrigger value="tree">Tree</TabsTrigger>
+        {/* <TabsTrigger value="tree">Tree</TabsTrigger> */}
       </TabsList>
       <TabsContent value="avatar">
         <AvatarPage />
@@ -87,9 +87,9 @@ export default function Display() {
       <TabsContent value="tour">
         <TourPage />
       </TabsContent>
-      <TabsContent value="tree">
+      {/* <TabsContent value="tree">
         <TreePage />
-      </TabsContent>
+      </TabsContent> */}
     </Tabs>
   );
 }
