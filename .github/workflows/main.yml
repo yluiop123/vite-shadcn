@@ -29,6 +29,7 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -42,9 +43,11 @@ jobs:
           node-version: lts/*
           cache: 'pnpm'
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run:
+          pnpm config set network-timeout 300000
+          pnpm install --frozen-lockfile --prefer-offline
       - name: Build
-        run: pnpm run build:github
+        run: npx vite build --mode github
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Upload artifact
