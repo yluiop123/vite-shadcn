@@ -268,30 +268,3 @@ function DirectionExample({
   );
 }
 
-function RightSizeExample({ sizeClass, label }: { sizeClass?: string; label: string }) {
-  const [open, setOpen] = useState(false);
-  return (
-    <div className="p-2">
-      <Drawer open={open} onOpenChange={setOpen}>
-        <DrawerTrigger asChild>
-          <Button>{label}</Button>
-        </DrawerTrigger>
-
-        <DrawerContent className={sizeClass}>
-          <DrawerHeader>
-            <DrawerTitle>{label} Right Drawer</DrawerTitle>
-            <DrawerDescription>Custom width using className.</DrawerDescription>
-          </DrawerHeader>
-          <div className="p-4">Resizable right drawer content.</div>
-          <DrawerFooter>
-            <div className="flex w-full justify-end">
-              <DrawerClose asChild>
-                <Button variant="outline">Close</Button>
-              </DrawerClose>
-            </div>
-          </DrawerFooter>
-        </DrawerContent>
-      </Drawer>
-    </div>
-  );
-}

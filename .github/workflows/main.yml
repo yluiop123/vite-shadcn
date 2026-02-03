@@ -36,7 +36,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: lts/*
-          cache: 'npm'
+          cache: 'pnpm'
       - name: Install dependencies
         run: pnpm install
       - name: Build
