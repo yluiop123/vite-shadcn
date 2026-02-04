@@ -68,9 +68,12 @@ function getCheckStatus(node: TreeNode, selected: string[], multiple: boolean): 
  * 递归收集所有子节点 ID（用于多选全选）
  */
 function collectAllChildIds(node: TreeNode): string[] {
-  const ids: string[] = [node.value];
+  let ids: string[] = [node.value];
   if (node.children) {
-    node.children.forEach((c) => ids.push(...collectAllChildIds(c)));
+    node.children.forEach((c) => {
+      // 必须把递归结果重新赋值给 ids 或 push 进去
+      ids = ids.concat(collectAllChildIds(c));
+    });
   }
   return ids;
 }
@@ -177,24 +180,21 @@ function Tree({
               {multiple ? (
                 <Checkbox
                   className="h-4 w-4 shrink-0"
-                  checked={status}
+                  checked={status===true}
+                  indeterminate={status === "indeterminate"}
                   onCheckedChange={(checked) => onToggle(node, checked === true)}
                 />
               ) : (
-                <RadioGroup 
+                <RadioGroup  className="h-4 w-4 shrink-0"
                   value={selected[0] || ""} 
                   onValueChange={() => onToggle(node, true)}
                 >
-                  <RadioGroupItem value={node.value} className="h-4 w-4 shrink-0" />
+                  <RadioGroupItem value={node.value}  />
                 </RadioGroup>
               )}
 
               {/* 标题文字 */}
               <span
-                className={cn(
-                  "text-sm select-none truncate flex-1 leading-none py-1 cursor-pointer",
-                  status === true && "text-primary font-medium"
-                )}
                 onClick={() => onToggle(node, status !== true)}
               >
                 {node.title}
@@ -319,7 +319,7 @@ export default function TreeSelect(props: TreeSelectProps) {
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
-      <PopoverTrigger asChild>
+      <PopoverTrigger>
         <div
           className={cn(
             "group relative flex min-h-[2.5rem] w-full cursor-pointer flex-wrap items-center gap-1.5 rounded-md border border-input bg-background py-1.5 pl-2 pr-9 text-sm transition-all duration-200",
