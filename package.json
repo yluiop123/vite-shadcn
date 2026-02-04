@@ -19,6 +19,7 @@
     "@antv/larkmap": "^1.5.1",
     "@babylonjs/core": "^8.42.0",
     "@babylonjs/loaders": "^8.42.0",
+    "@base-ui/react": "^1.1.0",
     "@deck.gl/core": "^9.2.6",
     "@deck.gl/layers": "^9.2.6",
     "@deck.gl/react": "^9.2.6",
