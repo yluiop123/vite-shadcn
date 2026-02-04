@@ -79,7 +79,7 @@ export function SidebarMenuTree({ item }: { item: NavItem }) {
           className={cn(
             "px-4 py-2 flex items-center",
             defaultOpen
-              ? "bg-sidebar-active hover:bg-sidebar hover:text-sidebar-active-foreground text-sidebar-active-foreground" // 激活状态：背景 bg-sidebar，文字 text-sidebar-active-foreground
+              ? "bg-sidebar-active hover:bg-sidebar hover:text-sidebar-active-foreground" // 激活状态：背景 bg-sidebar，文字 text-sidebar-active-foreground
               : "hover:bg-sidebar hover:text-sidebar-active-foreground"
           )}
         >

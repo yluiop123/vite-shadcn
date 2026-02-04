@@ -1,4 +1,3 @@
-// src/pages/component/form/cascader.tsx
 import { Cascader, CascaderOption } from "@/components/ext/cascader";
 import { useState } from "react";
 
@@ -19,28 +18,6 @@ const OPTIONS: CascaderOption[] = [
       { value: "vegetables", label: "蔬菜", children: [{ value: "carrot", label: "胡萝卜" }, { value: "broccoli", label: "西兰花" }] },
     ],
   },
-  {
-    value: "electronics",
-    label: "电子产品",
-    children: [
-      { 
-        value: "mobile", 
-        label: "手机", 
-        children: [
-          { value: "iphone", label: "iPhone" }, 
-          { value: "android", label: "Android" }
-        ] 
-      },
-      { 
-        value: "computers", 
-        label: "电脑", 
-        children: [
-          { value: "laptop", label: "笔记本" }, 
-          { value: "desktop", label: "台式机" }
-        ] 
-      },
-    ],
-  },
 ];
 
 export default function CascaderDemo() {
@@ -48,57 +25,48 @@ export default function CascaderDemo() {
   const [multiValue, setMultiValue] = useState<string[][]>([]);
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h3 className="text-lg font-semibold mb-4">单选级联选择器</h3>
+    <div className="p-10 space-y-8 max-w-2xl mx-auto">
+      <section>
+        <h3 className="text-sm font-medium text-gray-400 mb-3 uppercase tracking-wider">单选模式</h3>
         <Cascader
           options={OPTIONS}
           value={singleValue}
           onChange={(val) => setSingleValue(val as string[])}
           placeholder="请选择分类..."
+          className="w-80"
         />
-        <p className="mt-2 text-sm text-gray-500">
-          当前选中值: {singleValue.length > 0 ? singleValue.join(' / ') : '未选择'}
-        </p>
-      </div>
+      </section>
 
-      <div>
-        <h3 className="text-lg font-semibold mb-4">多选级联选择器</h3>
+      <section>
+        <h3 className="text-sm font-medium text-gray-400 mb-3 uppercase tracking-wider">多选模式</h3>
         <Cascader
           options={OPTIONS}
           value={multiValue}
           onChange={(val) => setMultiValue(val as string[][])}
           multiple={true}
-          placeholder="请选择多个分类..."
+          placeholder="支持多选节点..."
+          className="w-80"
         />
-        <p className="mt-2 text-sm text-gray-500">
-          当前选中值: {multiValue.length > 0 
-            ? multiValue.map(v => v[v.length - 1]).join(', ') 
-            : '未选择'}
-        </p>
-      </div>
+      </section>
 
-      <div>
-        <h3 className="text-lg font-semibold mb-4">禁用状态级联选择器</h3>
-        <Cascader
-          options={OPTIONS}
-          value={singleValue}
-          onChange={() => {}}
-          placeholder="此为禁用状态"
-          disabled={true}
-        />
-      </div>
-
-      <div>
-        <h3 className="text-lg font-semibold mb-4">带自定义类名的级联选择器</h3>
+      <section>
+        <h3 className="text-sm font-medium text-gray-400 mb-3 uppercase tracking-wider">自定义边框样式 (修复后)</h3>
         <Cascader
           options={OPTIONS}
           value={singleValue}
           onChange={(val) => setSingleValue(val as string[])}
-          placeholder="自定义样式..."
-          className="border-2 border-purple-500 rounded-lg"
+          placeholder="紫色 border-2 效果"
+          // 现在这里传入 border-2 会完美覆盖默认边框，不会出现双重边框
+          className="w-80 border-2 border-purple-500 hover:border-purple-600 focus-within:border-purple-600 focus-within:ring-purple-100"
         />
-      </div>
+      </section>
+
+      <section className="pt-4 border-t">
+        <div className="bg-muted/50 p-4 rounded-lg text-xs font-mono">
+          <p>Single: {JSON.stringify(singleValue)}</p>
+          <p className="mt-2">Multiple Count: {multiValue.length}</p>
+        </div>
+      </section>
     </div>
   );
 }
