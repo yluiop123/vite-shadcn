@@ -70,7 +70,7 @@ const chartConfig = {
 
 export function ChartPieInteractive() {
   const id = "pie-interactive"
-  const [activeMonth, setActiveMonth] = React.useState(desktopData[0].month)
+  const [activeMonth, setActiveMonth] = React.useState<string|null>(desktopData[0].month)
 
   const activeIndex = React.useMemo(
     () => desktopData.findIndex((item) => item.month === activeMonth),

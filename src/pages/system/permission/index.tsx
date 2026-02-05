@@ -167,6 +167,7 @@ export default function Permission() {
       ),
       cell: ({ row, getValue }) => (
         <div
+          
           style={{
             paddingLeft: `${row.depth * 2}rem`,
           }}

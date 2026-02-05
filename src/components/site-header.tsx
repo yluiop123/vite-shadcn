@@ -74,7 +74,7 @@ export function SiteHeader() {
             // className="bg-white dark:bg-white data-[state=checked]:bg-black"
             onCheckedChange={(checked) => setMode(checked ? 'dark' : 'light')} />
           <ColorSwitcher />
-          <Button variant="ghost" asChild size="sm" className="hidden sm:flex" title="code">
+          <Button variant="ghost" size="sm" className="hidden sm:flex" title="code">
             <a
               href="https://github.com/yluiop123/vite-shadcn"
               rel="noopener noreferrer"
