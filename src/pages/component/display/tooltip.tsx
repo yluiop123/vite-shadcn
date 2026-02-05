@@ -2,21 +2,21 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
-    Tooltip,
-    TooltipContent,
-    TooltipProvider,
-    TooltipTrigger
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger
 } from "@/components/ui/tooltip";
 import { AlertCircle, Command, ShieldCheck, Sparkles } from "lucide-react";
 
 export default function TooltipEnhancedDemo() {
   return (
-    <TooltipProvider delayDuration={100}>
+    <TooltipProvider delay={100}>
       <div className="p-20 bg-slate-50 min-h-[400px] flex flex-wrap gap-8 items-center justify-center">
         
         {/* 示例 1: 个人资料/状态提示 (富文本卡片) */}
         <Tooltip>
-          <TooltipTrigger asChild>
+          <TooltipTrigger>
             <div className="relative cursor-pointer">
               <div className="w-12 h-12 rounded-full bg-gradient-to-tr from-indigo-500 to-purple-500 p-0.5">
                 <div className="w-full h-full rounded-full bg-white flex items-center justify-center">
@@ -45,7 +45,7 @@ export default function TooltipEnhancedDemo() {
 
         {/* 示例 2: 危险操作警告 (颜色语义化) */}
         <Tooltip>
-          <TooltipTrigger asChild>
+          <TooltipTrigger>
             <Button variant="outline" className="border-red-200 text-red-600 hover:bg-red-50 hover:text-red-700">
               <AlertCircle className="w-4 h-4 mr-2" />
               删除项目
@@ -58,7 +58,7 @@ export default function TooltipEnhancedDemo() {
 
         {/* 示例 3: 带有快捷键提示的黑色简约风格 */}
         <Tooltip>
-          <TooltipTrigger asChild>
+          <TooltipTrigger>
             <Button variant="ghost" size="icon" className="rounded-xl bg-white border shadow-sm">
               <Command className="w-5 h-5" />
             </Button>
@@ -74,7 +74,7 @@ export default function TooltipEnhancedDemo() {
 
         {/* 示例 4: 带有安全图标的验证提示 */}
         <Tooltip>
-          <TooltipTrigger asChild>
+          <TooltipTrigger>
             <div className="flex items-center gap-2 px-4 py-2 bg-emerald-50 text-emerald-700 rounded-full cursor-help border border-emerald-100">
               <ShieldCheck className="w-4 h-4" />
               <span className="text-sm font-semibold">端到端加密</span>

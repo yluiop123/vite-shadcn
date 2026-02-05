@@ -22,7 +22,7 @@ export default function ButtonDemoFull() {
         <Button className="bg-gray-200 text-gray-900 hover:bg-gray-300">Secondary 次要</Button>
         <Button className="bg-red-600 text-white hover:bg-red-700">Destructive 危险</Button>
         <Button className="bg-green-600 text-white hover:bg-green-700">Success 成功</Button>
-        <Button asChild>
+        <Button>
           <a href="https://example.com" target="_blank" rel="noopener noreferrer">
             Link 链接
           </a>

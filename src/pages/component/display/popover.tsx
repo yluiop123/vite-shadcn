@@ -3,9 +3,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
-    Popover,
-    PopoverContent,
-    PopoverTrigger,
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
 } from "@/components/ui/popover";
 import { ArrowDown, ArrowLeft, ArrowRight, ArrowUp, Bell, CalendarDays, HelpCircle, Info, Settings, User } from "lucide-react";
 
@@ -15,7 +15,7 @@ export default function PopoverDemo() {
       <h2 className="text-xl font-bold">Basic Popover 基础弹出框</h2>
       <div className="flex gap-4 flex-wrap">
         <Popover>
-          <PopoverTrigger asChild>
+          <PopoverTrigger>
             <Button variant="outline">Open popover</Button>
           </PopoverTrigger>
           <PopoverContent className="w-80">
@@ -69,7 +69,7 @@ export default function PopoverDemo() {
       <div className="flex gap-4 flex-wrap items-center justify-center p-6 bg-gray-50 rounded-lg">
         <div className="flex flex-col items-center gap-2">
           <Popover>
-            <PopoverTrigger asChild>
+            <PopoverTrigger>
               <Button variant="outline" size="icon" className="h-9 w-9">
                 <ArrowUp className="h-4 w-4" />
               </Button>
@@ -83,7 +83,7 @@ export default function PopoverDemo() {
 
         <div className="flex flex-col items-center gap-2">
           <Popover>
-            <PopoverTrigger asChild>
+            <PopoverTrigger>
               <Button variant="outline" size="icon" className="h-9 w-9">
                 <ArrowRight className="h-4 w-4" />
               </Button>
@@ -97,7 +97,7 @@ export default function PopoverDemo() {
 
         <div className="flex flex-col items-center gap-2">
           <Popover>
-            <PopoverTrigger asChild>
+            <PopoverTrigger>
               <Button variant="outline" size="icon" className="h-9 w-9">
                 <ArrowDown className="h-4 w-4" />
               </Button>
@@ -111,7 +111,7 @@ export default function PopoverDemo() {
 
         <div className="flex flex-col items-center gap-2">
           <Popover>
-            <PopoverTrigger asChild>
+            <PopoverTrigger>
               <Button variant="outline" size="icon" className="h-9 w-9">
                 <ArrowLeft className="h-4 w-4" />
               </Button>
@@ -127,7 +127,7 @@ export default function PopoverDemo() {
       <h2 className="text-xl font-bold">With Icon 带图标的弹出框</h2>
       <div className="flex gap-4 flex-wrap items-center">
         <Popover>
-          <PopoverTrigger asChild>
+          <PopoverTrigger>
             <Button variant="outline" size="icon" className="h-9 w-9">
               <Info className="h-4 w-4" />
             </Button>
@@ -140,7 +140,7 @@ export default function PopoverDemo() {
         </Popover>
 
         <Popover>
-          <PopoverTrigger asChild>
+          <PopoverTrigger>
             <Button variant="outline" size="icon" className="h-9 w-9">
               <HelpCircle className="h-4 w-4" />
             </Button>
@@ -153,7 +153,7 @@ export default function PopoverDemo() {
         </Popover>
 
         <Popover>
-          <PopoverTrigger asChild>
+          <PopoverTrigger>
             <Button variant="outline" size="icon" className="h-9 w-9">
               <Bell className="h-4 w-4" />
             </Button>
@@ -184,7 +184,7 @@ export default function PopoverDemo() {
       <h2 className="text-xl font-bold">Form Inside Popover 弹出框内表单</h2>
       <div className="flex gap-4 flex-wrap">
         <Popover>
-          <PopoverTrigger asChild>
+          <PopoverTrigger>
             <Button variant="outline">
               <User className="mr-2 h-4 w-4" />
               Edit Profile
@@ -224,7 +224,7 @@ export default function PopoverDemo() {
       <h2 className="text-xl font-bold">Settings Popover 设置弹出框</h2>
       <div className="flex gap-4 flex-wrap">
         <Popover>
-          <PopoverTrigger asChild>
+          <PopoverTrigger>
             <Button variant="outline">
               <Settings className="mr-2 h-4 w-4" />
               Settings
@@ -264,7 +264,7 @@ export default function PopoverDemo() {
       <h2 className="text-xl font-bold">Action Popover 操作弹出框</h2>
       <div className="flex gap-4 flex-wrap">
         <Popover>
-          <PopoverTrigger asChild>
+          <PopoverTrigger>
             <Button variant="outline">
               <CalendarDays className="mr-2 h-4 w-4" />
               Schedule Post
@@ -303,7 +303,7 @@ export default function PopoverDemo() {
       <h2 className="text-xl font-bold">Long Content Popover 长内容弹出框</h2>
       <div className="flex gap-4 flex-wrap">
         <Popover>
-          <PopoverTrigger asChild>
+          <PopoverTrigger>
             <Button variant="outline">Terms of Service</Button>
           </PopoverTrigger>
           <PopoverContent className="w-96 max-h-64 overflow-y-auto">

@@ -24,7 +24,7 @@ export default function AlertDialogDemo() {
         <div className="flex flex-col sm:flex-row gap-4">
           <div>
             <AlertDialog>
-              <AlertDialogTrigger asChild>
+              <AlertDialogTrigger>
                 <Button variant="destructive">Delete Item</Button>
               </AlertDialogTrigger>
 
@@ -35,10 +35,10 @@ export default function AlertDialogDemo() {
                 </AlertDialogHeader>
 
                 <AlertDialogFooter>
-                  <AlertDialogCancel asChild>
+                  <AlertDialogCancel>
                     <Button variant="outline">Cancel</Button>
                   </AlertDialogCancel>
-                  <AlertDialogAction asChild>
+                  <AlertDialogAction >
                     <Button variant="destructive">Confirm</Button>
                   </AlertDialogAction>
                 </AlertDialogFooter>
@@ -48,7 +48,7 @@ export default function AlertDialogDemo() {
 
           <div>
             <AlertDialog>
-              <AlertDialogTrigger asChild>
+              <AlertDialogTrigger>
                 <Button>Sign Out</Button>
               </AlertDialogTrigger>
 
@@ -58,10 +58,10 @@ export default function AlertDialogDemo() {
                   <AlertDialogDescription>You'll need to sign in again to continue.</AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
-                  <AlertDialogCancel asChild>
+                  <AlertDialogCancel>
                     <Button variant="outline">Stay</Button>
                   </AlertDialogCancel>
-                  <AlertDialogAction asChild>
+                  <AlertDialogAction >
                     <Button>Sign out</Button>
                   </AlertDialogAction>
                 </AlertDialogFooter>

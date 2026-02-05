@@ -18,7 +18,7 @@ export function ColorSwitcher() {
     const { color, setColor } = useThemeStore()
     return (
         <Popover>
-            <PopoverTrigger asChild>
+            <PopoverTrigger>
                 <Badge className={cn('w-6 h-6 text-sm px-2 py-1 flex items-center justify-center')}                        >
                     <BadgeCheckIcon className="w-8 h-8 text-white" />
                 </Badge >

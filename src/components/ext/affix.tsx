@@ -66,7 +66,7 @@ export default function Affix({
 
   return (
     <>
-      <div ref={placeholderRef} style={{ height: 0 }} />
+      <div ref={placeholderRef} className="h-0"/>
       <div ref={ref} className={className} style={fixedStyle}>
         {children}
       </div>

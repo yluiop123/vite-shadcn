@@ -11,7 +11,7 @@ export default function AccordionDemo() {
     <div className="space-y-6 p-6">
       <h2 className="text-xl font-bold">Basic Accordion 基础手风琴</h2>
       <div className="w-full max-w-md">
-        <Accordion type="single" collapsible className="w-full">
+        <Accordion className="w-full">
           <AccordionItem value="item-1">
             <AccordionTrigger>Is it accessible?</AccordionTrigger>
             <AccordionContent>
@@ -35,7 +35,7 @@ export default function AccordionDemo() {
 
       <h2 className="text-xl font-bold">Multiple Expandable Accordion 可多选展开手风琴</h2>
       <div className="w-full max-w-md">
-        <Accordion type="multiple" className="w-full">
+        <Accordion multiple className="w-full">
           <AccordionItem value="item-1">
             <AccordionTrigger>What is a good API?</AccordionTrigger>
             <AccordionContent>
@@ -65,7 +65,7 @@ export default function AccordionDemo() {
 
       <h2 className="text-xl font-bold">Custom Styling 自定义样式</h2>
       <div className="w-full max-w-md">
-        <Accordion type="single" collapsible className="w-full">
+        <Accordion className="w-full">
           <AccordionItem value="item-1" className="border rounded-lg mb-2">
             <AccordionTrigger className="px-4 py-3 text-left font-semibold hover:no-underline">
               Custom Trigger Style
@@ -87,7 +87,7 @@ export default function AccordionDemo() {
 
       <h2 className="text-xl font-bold">Long Content 长内容</h2>
       <div className="w-full max-w-md">
-        <Accordion type="single" collapsible className="w-full">
+        <Accordion className="w-full">
           <AccordionItem value="long-content">
             <AccordionTrigger>Click to expand long content</AccordionTrigger>
             <AccordionContent>

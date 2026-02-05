@@ -131,7 +131,7 @@ export function IndeterminateCheckbox({
   return (
     <Checkbox
       className={className + " cursor-pointer"}
-      checked={mergedChecked}
+      checked={mergedChecked? true : false}
       onCheckedChange={onCheckedChange}
       {...rest}
     />
@@ -248,7 +248,7 @@ export default function Permission() {
             const permission = row.original as Permission;
             return (
                 <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
+                    <DropdownMenuTrigger>
                         <Button variant="ghost" className="h-8 w-8 p-0">
                             <span className="sr-only">Open menu</span>
                             <MoreHorizontal />
@@ -399,7 +399,7 @@ export default function Permission() {
               <Label className="whitespace-nowrap">{formatMessage({ id: 'page.system.permission.header.status' })}</Label>
               <Select 
                   onValueChange={(value) =>
-                      setParams({ ...params, status: value })
+                      setParams({ ...params, status: value||'' })
                   } defaultValue={params.status}>
                   <SelectTrigger className="flex items-center">
                       <SelectValue placeholder="Status" />
@@ -417,7 +417,7 @@ export default function Permission() {
               <Button onClick={() => handleAddChild(null)}>{formatMessage({ id: 'button.add' })}</Button>
               <Button onClick={() => handleDelete(table.getSelectedRowModel().flatRows.map((row) => row.original.id))}>{formatMessage({ id: 'button.delete' })}</Button>
               <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
+                  <DropdownMenuTrigger>
                       <Button variant="outline" className="ml-auto">
                           {formatMessage({ id: 'table.columns' })} <ChevronDown />
                       </Button>

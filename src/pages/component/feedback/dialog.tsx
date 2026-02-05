@@ -16,7 +16,7 @@ export default function DialogDemo() {
         <div className="flex flex-col gap-4">
           <div>
             <Dialog open={open} onOpenChange={setOpen}>
-              <DialogTrigger asChild>
+              <DialogTrigger>
                 <Button>Open Dialog (center)</Button>
               </DialogTrigger>
 
@@ -36,7 +36,7 @@ export default function DialogDemo() {
 
           <div>
             <Dialog>
-              <DialogTrigger asChild>
+              <DialogTrigger>
                 <Button>Open Large Dialog</Button>
               </DialogTrigger>
               <DialogContent className="max-w-3xl">

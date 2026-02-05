@@ -61,19 +61,19 @@ export default function BreadcrumbPage() {
 
   const docsMenu = (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild>
+      <DropdownMenuTrigger>
         <Button variant="ghost" size="sm" className="px-1 py-0">
           Docs <ChevronDown className="w-4 h-4 ml-1" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="start">
-        <DropdownMenuItem asChild>
+        <DropdownMenuItem>
           <a href="/docs/getting-started">Getting started</a>
         </DropdownMenuItem>
-        <DropdownMenuItem asChild>
+        <DropdownMenuItem>
           <a href="/docs/components">Components</a>
         </DropdownMenuItem>
-        <DropdownMenuItem asChild>
+        <DropdownMenuItem>
           <a href="/docs/primitives">Primitives</a>
         </DropdownMenuItem>
       </DropdownMenuContent>

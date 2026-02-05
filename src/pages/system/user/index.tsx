@@ -146,9 +146,9 @@ export default function User() {
             header: ({ table }) => (
                 <Checkbox
                     checked={
-                        table.getIsAllPageRowsSelected() ||
-                        (table.getIsSomePageRowsSelected() && "indeterminate")
+                        table.getIsAllPageRowsSelected() || table.getIsSomePageRowsSelected() 
                     }
+                    indeterminate={table.getIsSomePageRowsSelected()}
                     onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
                     aria-label="Select all"
                 />
@@ -241,7 +241,7 @@ export default function User() {
                 const user = row.original as User;
                 return (
                     <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
+                        <DropdownMenuTrigger>
                             <Button variant="ghost" className="h-8 w-8 p-0">
                                 <span className="sr-only">Open menu</span>
                                 <MoreHorizontal />
@@ -297,7 +297,7 @@ export default function User() {
 
             <div className="flex items-center py-3 gap-4">
                 <GroupTreeSelect 
-                    className="w-[300px]"
+                    className="w-300px"
                     value={params.group}
                     onChange={(node) => {
                         setParams({ ...params, group: node })
@@ -305,7 +305,7 @@ export default function User() {
                 />
                 <Select
                     onValueChange={(value) =>
-                        setParams({ ...params, filterField: value })
+                        setParams({ ...params, filterField: value?value : "" })
                     } defaultValue={params.filterField}>
                     <SelectTrigger className="flex items-center">
                         <SelectValue placeholder="FilterField" />
@@ -338,7 +338,7 @@ export default function User() {
                     <Button onClick={() => handleDelete(table.getSelectedRowModel().rows.map(row => row.original))}>{intl.formatMessage({ id: 'button.delete' })}</Button>
                 </div>
                 <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
+                    <DropdownMenuTrigger>
                         <Button variant="outline" className="ml-auto">
                             {intl.formatMessage({ id: 'table.columns' })} <ChevronDown />
                         </Button>

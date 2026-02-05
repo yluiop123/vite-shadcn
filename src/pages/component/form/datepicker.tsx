@@ -79,7 +79,7 @@ export default function GlobalDateForm() {
               <FormItem className="flex flex-col">
                 <FormLabel className="text-sm font-medium">Birthday / 出生日期</FormLabel>
                 <Popover>
-                  <PopoverTrigger asChild>
+                  <PopoverTrigger>
                     <FormControl>
                       <Button 
                         variant="outline" 
@@ -154,7 +154,7 @@ export default function GlobalDateForm() {
               <FormItem className="flex flex-col">
                 <FormLabel className="text-sm font-medium">Project Duration / 项目周期</FormLabel>
                 <Popover>
-                  <PopoverTrigger asChild>
+                  <PopoverTrigger>
                     <FormControl>
                       <Button 
                         variant="outline" 

@@ -36,13 +36,13 @@ export default function BadgeDemo() {
       <div className="flex gap-4 items-center">
         <a href="#" className="inline-flex items-center gap-2">
           <span>Link with badge</span>
-          <Badge asChild>
+          <Badge>
             <span>New</span>
           </Badge>
         </a>
         <button className="inline-flex items-center gap-2 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">
           <span>Button</span>
-          <Badge asChild>
+          <Badge>
             <span>5</span>
           </Badge>
         </button>

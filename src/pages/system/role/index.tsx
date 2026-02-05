@@ -136,9 +136,9 @@ export default function Role() {
             header: ({ table }) => (
                 <Checkbox
                     checked={
-                        table.getIsAllPageRowsSelected() ||
-                        (table.getIsSomePageRowsSelected() && "indeterminate")
+                        table.getIsAllPageRowsSelected() ||table.getIsSomePageRowsSelected()
                     }
+                    indeterminate={table.getIsSomePageRowsSelected()}
                     onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
                     aria-label="Select all"
                 />
@@ -210,7 +210,7 @@ export default function Role() {
                 const role = row.original as Role;
                 return (
                     <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
+                        <DropdownMenuTrigger>
                             <Button variant="ghost" className="h-8 w-8 p-0">
                                 <span className="sr-only">Open menu</span>
                                 <MoreHorizontal />
@@ -277,7 +277,7 @@ export default function Role() {
                     <Label className="whitespace-nowrap">{intl.formatMessage({ id: 'page.system.role.header.status' })}</Label>
                     <Select 
                         onValueChange={(value) =>
-                            setParams({ ...params, status: value })
+                            setParams({ ...params, status: value?value:'' })
                         } defaultValue={params.status}>
                         <SelectTrigger className="flex items-center">
                             <SelectValue placeholder="Status" />
@@ -296,7 +296,7 @@ export default function Role() {
                     <AddDialog open={isAddDialogOpen} setOpen={setIsAddDialogOpen} onSave={() => setParams({ ...params, page: 1 })}/>
                     <Button onClick={() => handleDelete(table.getSelectedRowModel().rows.map(row => row.original))}>{intl.formatMessage({ id: 'button.delete' })}</Button>
                     <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
+                        <DropdownMenuTrigger>
                             <Button variant="outline" className="ml-auto">
                                 {intl.formatMessage({ id: 'table.columns' })} <ChevronDown />
                             </Button>

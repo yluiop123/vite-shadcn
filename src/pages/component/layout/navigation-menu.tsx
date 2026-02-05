@@ -5,15 +5,14 @@ import * as React from "react";
 import { Link } from 'react-router';
 
 import {
-    NavigationMenu,
-    NavigationMenuContent,
-    NavigationMenuItem,
-    NavigationMenuLink,
-    NavigationMenuList,
-    NavigationMenuTrigger,
-    navigationMenuTriggerStyle,
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+  navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
-import { useIsMobile } from "@/hooks/use-mobile";
 
 const components: { title: string; href: string; description: string }[] = [
   {
@@ -54,19 +53,18 @@ const components: { title: string; href: string; description: string }[] = [
 ]
 
 export default function NavigationMenuPage() {
-  const isMobile = useIsMobile()
 
   return (
     <>  
     <h2 className="text-xl font-semibold">🔽 NavigationMenu / 横向导航菜单</h2>
-    <NavigationMenu viewport={isMobile}>
+    <NavigationMenu>
       <NavigationMenuList className="flex-wrap">
         <NavigationMenuItem>
           <NavigationMenuTrigger>Home</NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="grid gap-2 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
               <li className="row-span-3">
-                <NavigationMenuLink asChild>
+                <NavigationMenuLink>
                   <a
                     className="from-muted/50 to-muted flex h-full w-full flex-col justify-end rounded-md bg-linear-to-b p-4 no-underline outline-hidden transition-all duration-200 select-none focus:shadow-md md:p-6"
                     href="/"
@@ -109,7 +107,7 @@ export default function NavigationMenuPage() {
           </NavigationMenuContent>
         </NavigationMenuItem>
         <NavigationMenuItem>
-          <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
+          <NavigationMenuLink className={navigationMenuTriggerStyle()}>
             <Link to="/docs">Docs</Link>
           </NavigationMenuLink>
         </NavigationMenuItem>
@@ -118,7 +116,7 @@ export default function NavigationMenuPage() {
           <NavigationMenuContent>
             <ul className="grid w-[300px] gap-4">
               <li>
-                <NavigationMenuLink asChild>
+                <NavigationMenuLink>
                   <Link to="#">
                     <div className="font-medium">Components</div>
                     <div className="text-muted-foreground">
@@ -126,7 +124,7 @@ export default function NavigationMenuPage() {
                     </div>
                   </Link>
                 </NavigationMenuLink>
-                <NavigationMenuLink asChild>
+                <NavigationMenuLink>
                   <Link to="#">
                     <div className="font-medium">Documentation</div>
                     <div className="text-muted-foreground">
@@ -134,7 +132,7 @@ export default function NavigationMenuPage() {
                     </div>
                   </Link>
                 </NavigationMenuLink>
-                <NavigationMenuLink asChild>
+                <NavigationMenuLink>
                   <Link to="#">
                     <div className="font-medium">Blog</div>
                     <div className="text-muted-foreground">
@@ -151,13 +149,13 @@ export default function NavigationMenuPage() {
           <NavigationMenuContent>
             <ul className="grid w-[200px] gap-4">
               <li>
-                <NavigationMenuLink asChild>
+                <NavigationMenuLink>
                   <Link to="#">Components</Link>
                 </NavigationMenuLink>
-                <NavigationMenuLink asChild>
+                <NavigationMenuLink>
                   <Link to="#">Documentation</Link>
                 </NavigationMenuLink>
-                <NavigationMenuLink asChild>
+                <NavigationMenuLink>
                   <Link to="#">Blocks</Link>
                 </NavigationMenuLink>
               </li>
@@ -169,19 +167,19 @@ export default function NavigationMenuPage() {
           <NavigationMenuContent>
             <ul className="grid w-[200px] gap-4">
               <li>
-                <NavigationMenuLink asChild>
+                <NavigationMenuLink>
                   <Link to="#" className="flex-row items-center gap-2">
                     <CircleHelpIcon />
                     Backlog
                   </Link>
                 </NavigationMenuLink>
-                <NavigationMenuLink asChild>
+                <NavigationMenuLink>
                   <Link to="#" className="flex-row items-center gap-2">
                     <CircleIcon />
                     To Do
                   </Link>
                 </NavigationMenuLink>
-                <NavigationMenuLink asChild>
+                <NavigationMenuLink>
                   <Link to="#" className="flex-row items-center gap-2">
                     <CircleCheckIcon />
                     Done
@@ -205,7 +203,7 @@ function ListItem({
 }: React.ComponentPropsWithoutRef<"li"> & { href: string }) {
   return (
     <li {...props}>
-      <NavigationMenuLink asChild>
+      <NavigationMenuLink>
         <Link to={href}>
           <div className="text-sm leading-none font-medium">{title}</div>
           <p className="text-muted-foreground line-clamp-2 text-sm leading-snug">

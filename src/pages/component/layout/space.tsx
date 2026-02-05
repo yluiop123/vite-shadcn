@@ -81,7 +81,7 @@ export default function SpacePage() {
               <h3 className="font-medium mb-2">动态间距控制 / Dynamic Spacing Control</h3>
               <div className="flex items-center gap-4 mb-4">
                 <span>选择间距: / Select Gap:</span>
-                <Select value={gap} onValueChange={setGap}>
+                <Select value={gap} onValueChange={(value) => setGap(value?value:'')}>
                   <SelectTrigger className="w-48">
                     <SelectValue placeholder="选择间距 / Select Gap" />
                   </SelectTrigger>

@@ -148,7 +148,7 @@ const Mentions = React.forwardRef<HTMLTextAreaElement, MentionsProps>(
 
     return (
       <Popover open={isOpen} onOpenChange={setIsOpen}>
-        <PopoverTrigger asChild>
+        <PopoverTrigger>
           <textarea
             ref={textareaRef}
             value={textValue}

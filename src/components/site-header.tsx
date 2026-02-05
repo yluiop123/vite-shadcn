@@ -58,7 +58,7 @@ export function SiteHeader() {
         </Breadcrumb>
         <div className="ml-auto flex items-center gap-2">
           <DropdownMenu>
-            <DropdownMenuTrigger asChild>
+            <DropdownMenuTrigger>
               <Button variant="outline" className="w-15 h-7">
                 {intl.formatMessage({id:'header.language'})}
               </Button>

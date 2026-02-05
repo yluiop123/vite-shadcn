@@ -1,26 +1,26 @@
 import { Button } from "@/components/ui/button";
 import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuGroup,
-    DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuPortal,
-    DropdownMenuSeparator,
-    DropdownMenuSub,
-    DropdownMenuSubContent,
-    DropdownMenuSubTrigger,
-    DropdownMenuTrigger,
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuPortal,
+  DropdownMenuSeparator,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
+  DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import {
-    ChevronDown,
-    ChevronRight,
-    Edit,
-    FilePlus2,
-    LogOut,
-    Settings,
-    Trash2,
-    User,
+  ChevronDown,
+  ChevronRight,
+  Edit,
+  FilePlus2,
+  LogOut,
+  Settings,
+  Trash2,
+  User,
 } from "lucide-react";
 export default function DropdownPage() {
   const handleSelect = (label: string) => {
@@ -35,7 +35,7 @@ export default function DropdownPage() {
       <div>
         <h3 className="font-medium mb-2">1️⃣ 按钮触发 / Button Trigger</h3>
         <DropdownMenu>
-          <DropdownMenuTrigger asChild>
+          <DropdownMenuTrigger>
             <Button variant="outline">
               操作 / Actions <ChevronDown className="ml-2 w-4 h-4" />
             </Button>
@@ -59,7 +59,7 @@ export default function DropdownPage() {
       <div>
         <h3 className="font-medium mb-2">2️⃣ 分组与禁用 / Group & Disabled</h3>
         <DropdownMenu>
-          <DropdownMenuTrigger asChild>
+          <DropdownMenuTrigger>
             <Button variant="outline">用户管理 / User Menu</Button>
           </DropdownMenuTrigger>
 
@@ -87,7 +87,7 @@ export default function DropdownPage() {
       <div>
         <h3 className="font-medium mb-2">3️⃣ 子菜单 / Submenu</h3>
         <DropdownMenu>
-          <DropdownMenuTrigger asChild>
+          <DropdownMenuTrigger>
             <Button variant="outline">更多选项 / More Options</Button>
           </DropdownMenuTrigger>
 
@@ -116,11 +116,11 @@ export default function DropdownPage() {
       <div>
         <h3 className="font-medium mb-2">4️⃣ 带箭头指向 / With Arrow</h3>
         <DropdownMenu>
-          <DropdownMenuTrigger asChild>
+          <DropdownMenuTrigger>
             <Button variant="outline">箭头菜单 / Menu with Arrow</Button>
           </DropdownMenuTrigger>
 
-          <DropdownMenuContent align="center" sideOffset={6} side="bottom" arrowPadding={8}>
+          <DropdownMenuContent align="center" sideOffset={6} side="bottom">
             <DropdownMenuItem>菜单项 A / Menu A</DropdownMenuItem>
             <DropdownMenuItem>菜单项 B / Menu B</DropdownMenuItem>
           </DropdownMenuContent>

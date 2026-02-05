@@ -123,7 +123,7 @@ export function AutoCompletePro({
       open={open && filteredOptions.length > 0}
       onOpenChange={setOpen}
     >
-      <PopoverTrigger asChild>
+      <PopoverTrigger>
         <div className="relative w-full">
           <Input
             disabled={disabled}

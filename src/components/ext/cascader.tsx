@@ -97,7 +97,7 @@ export function Cascader({
       if (!currentOptions || currentOptions.length === 0) break;
       const level = i;
       columns.push(
-        <div key={level} className="min-w-[160px] max-h-[300px] overflow-y-auto border-r border-border/50 last:border-r-0 p-1">
+        <div key={level} className="min-w-160px max-h-300px overflow-y-auto border-r border-border/50 last:border-r-0 p-1">
           {currentOptions.map((opt) => {
             const currentPath = [...activePath.slice(0, level), opt.value];
             const isLeaf = !opt.children || opt.children.length === 0;
@@ -133,12 +133,12 @@ export function Cascader({
       if (val && triggerRef.current) setTriggerWidth(triggerRef.current.getBoundingClientRect().width);
     }}>
       {/* 核心修复：PopoverTrigger 现在包裹了整个带边框的容器 */}
-      <PopoverTrigger asChild>
+      <PopoverTrigger>
         <div
           ref={triggerRef}
           {...props}
           className={cn(
-            "group relative flex items-center justify-between w-full min-h-[40px] px-3 py-1 rounded-md border border-input bg-background transition-all shadow-sm cursor-pointer",
+            "group relative flex items-center justify-between w-full min-h-40px px-3 py-1 rounded-md border border-input bg-background transition-all shadow-sm cursor-pointer",
             !disabled && "hover:border-primary/50",
             open && "ring-2 ring-primary/20 border-primary",
             disabled && "opacity-50 cursor-not-allowed bg-muted",
@@ -176,7 +176,7 @@ export function Cascader({
       <PopoverContent
         align="start"
         sideOffset={4}
-        className="p-0 z-[1000] bg-popover border border-border shadow-xl rounded-lg overflow-hidden animate-in fade-in zoom-in-95 duration-200"
+        className="p-0 z-1000 bg-popover border border-border shadow-xl rounded-lg overflow-hidden animate-in fade-in zoom-in-95 duration-200"
         style={{ width: searchValue ? triggerWidth : 'auto' }}
       >
         <div className="p-2 border-b bg-muted/30 relative">
@@ -191,7 +191,7 @@ export function Cascader({
         </div>
         <div>
           {searchValue ? (
-             <div className="max-h-[300px] overflow-y-auto p-1">
+             <div className="max-h-300px overflow-y-auto p-1">
              {filteredOptions.length > 0 ? (
                filteredOptions.map((opt) => (
                  <div

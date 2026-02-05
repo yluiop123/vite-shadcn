@@ -33,7 +33,7 @@ export function ColorPicker({ color, onChange }: { color: string, onChange: (c: 
 
   return (
     <Popover>
-      <PopoverTrigger asChild>
+      <PopoverTrigger>
         <Button 
           variant="outline" 
           className="w-[280px] justify-between shadow-sm hover:bg-accent hover:text-accent-foreground transition-all border-input bg-background"

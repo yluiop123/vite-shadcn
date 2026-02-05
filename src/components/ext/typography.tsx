@@ -156,7 +156,7 @@ export function Text({
       <div className="mt-1">
         <TooltipProvider>
           <Tooltip>
-            <TooltipTrigger asChild>
+            <TooltipTrigger>
               <button onClick={handleExpand} className="hover:underline">
                 {content}
               </button>
@@ -205,7 +205,7 @@ export function Text({
           {copyable && (
             <TooltipProvider>
               <Tooltip>
-                <TooltipTrigger asChild>
+                <TooltipTrigger>
                   <button onClick={handleCopy} className="text-muted-foreground hover:text-primary">
                     {copied ? copiedIcon ?? <Check size={14} className="text-green-500" /> : copyIcon ?? <Copy size={14} />}
                   </button>
@@ -218,7 +218,7 @@ export function Text({
           {editable && !editing && (
             <TooltipProvider>
               <Tooltip>
-                <TooltipTrigger asChild>
+                <TooltipTrigger>
                   <button title="edit" onClick={() => setEditing(true)} className="text-muted-foreground hover:text-primary">
                     <Edit size={14} />
                   </button>

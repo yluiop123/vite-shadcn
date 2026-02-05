@@ -31,7 +31,7 @@ export default function DrawerDemo() {
         <h2 className="text-2xl font-semibold">Basic Usage / 基础用法</h2>
         <div className="bg-card p-6 rounded-lg border">
           <Drawer>
-            <DrawerTrigger asChild>
+            <DrawerTrigger>
               <Button>Open Drawer</Button>
             </DrawerTrigger>
 
@@ -51,7 +51,7 @@ export default function DrawerDemo() {
 
               <DrawerFooter>
                 <div className="flex w-full justify-end gap-2">
-                  <DrawerClose asChild>
+                  <DrawerClose>
                     <Button variant="outline">Cancel / 取消</Button>
                   </DrawerClose>
                   <Button>Confirm / 确认</Button>
@@ -81,7 +81,7 @@ export default function DrawerDemo() {
                     <DrawerTitle>UserName/用户名</DrawerTitle>
                     <DrawerDescription>Controlled example / 受控示例</DrawerDescription>
                   </div>
-                  <DrawerClose asChild>
+                  <DrawerClose>
                     <Button variant="ghost">
                       <X />
                     </Button>
@@ -135,7 +135,7 @@ export default function DrawerDemo() {
 
               <DrawerFooter>
                 <div className="flex w-full justify-end gap-2">
-                  <DrawerClose asChild>
+                  <DrawerClose>
                     <Button variant="outline" disabled={loading}>
                       Cancel
                     </Button>
@@ -203,7 +203,7 @@ export default function DrawerDemo() {
 
               <DrawerFooter>
                 <div className="flex w-full justify-end gap-2">
-                  <DrawerClose asChild>
+                  <DrawerClose>
                     <Button variant="outline">Close</Button>
                   </DrawerClose>
                   <Button disabled={hasError ? true : false} className="">
@@ -245,7 +245,7 @@ function DirectionExample({
   return (
     <div className="p-2">
       <Drawer direction={direction} open={open} onOpenChange={setOpen}>
-        <DrawerTrigger asChild>
+        <DrawerTrigger>
           <Button>{label}</Button>
         </DrawerTrigger>
 
@@ -257,7 +257,7 @@ function DirectionExample({
           <div className="p-4">Content from {direction}.</div>
           <DrawerFooter>
             <div className="flex w-full justify-end">
-              <DrawerClose asChild>
+              <DrawerClose>
                 <Button variant="outline">Close</Button>
               </DrawerClose>
             </div>

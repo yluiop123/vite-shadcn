@@ -85,7 +85,7 @@ function UppyTus() {
                 <span className="truncate font-medium">{f.name}</span>
                 <span>{(f.size ?? 0) > 0 ? ((f.size ?? 0) / 1024 / 1024).toFixed(2) : "0"} MB</span>
               </div>
-              <Progress value={f.progress?.percentage} className="h-1" />
+              <Progress value={f.progress?.percentage ?? 0} className="h-1" />
             </div>
           ))}
         </div>

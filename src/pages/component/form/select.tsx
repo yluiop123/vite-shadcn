@@ -9,23 +9,23 @@ import * as z from "zod"
 
 import { Button } from "@/components/ui/button"
 import {
-    Form,
-    FormControl,
-    FormDescription,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
 } from "@/components/ui/form"
 import { Label } from "@/components/ui/label"
 import {
-    Select,
-    SelectContent,
-    SelectGroup,
-    SelectItem,
-    SelectLabel,
-    SelectTrigger,
-    SelectValue,
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
 } from "@/components/ui/select"
 
 // Validation Schema / 验证规则
@@ -99,7 +99,7 @@ const categories = [
 ]
 
 export default function SelectExample() {
-  const [selectedValue, setSelectedValue] = React.useState("")
+  const [selectedValue, setSelectedValue] = React.useState<string | null>("")
   const [isLoading, setIsLoading] = React.useState(false)
 
   const form = useForm<SelectFormValues>({
