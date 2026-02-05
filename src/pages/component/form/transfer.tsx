@@ -2,20 +2,17 @@
 
 import { zodResolver } from "@hookform/resolvers/zod"
 import * as React from "react"
-import { useForm } from "react-hook-form"
+import { Controller, useForm } from "react-hook-form"
 import { toast } from "sonner"
 import * as z from "zod"
 
 import { Button } from "@/components/ui/button"
 import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form"
+  Field,
+  FieldDescription,
+  FieldGroup,
+  FieldLabel
+} from "@/components/ui/field"
 
 import Transfer, { TransferItem } from "@/components/ext/transfer"
 
@@ -82,22 +79,27 @@ export default function TransferExample() {
       <section className="space-y-4">
         <h2 className="text-2xl font-semibold">表单集成 / Form Integration</h2>
         <div className="bg-card p-6 rounded-lg border">
-          <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-              <FormField control={form.control} name="selected" render={({ field }) => (
-                <FormItem>
-                  <FormLabel>已选项 / Selected Items</FormLabel>
-                  <FormControl>
-                    <Transfer dataSource={mockData} targetKeys={field.value} onChange={(keys) => { field.onChange(keys); setTarget(keys); }} showSearch />
-                  </FormControl>
-                  <FormDescription>将条目从左侧移动到右侧以选择</FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )} />
+              <FieldGroup>
+                <Controller
+                  name="selected"
+                  control={form.control}
+                  render={({ field, fieldState }) => (
+                    <Field data-invalid={fieldState.invalid}>
+                      <FieldLabel htmlFor="selected-label">
+                        已选项 / Selected Items
+                      </FieldLabel>
+                      <Transfer dataSource={mockData} targetKeys={field.value} onChange={(keys) => { field.onChange(keys); setTarget(keys); }} showSearch />
+                      <FieldDescription>
+                        将条目从左侧移动到右侧以选择
+                      </FieldDescription>
+                    </Field>
+                  )}
+                />
+              </FieldGroup>
 
               <Button type="submit" className="w-full" disabled={loading}>{loading ? "保存中..." : "保存 / Save"}</Button>
             </form>
-          </Form>
         </div>
       </section>
     </div>

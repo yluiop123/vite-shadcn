@@ -3,19 +3,16 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Thermometer, Volume2, Wind, Zap } from "lucide-react"
 import * as React from "react"
-import { useForm } from "react-hook-form"
+import { Controller, useForm } from "react-hook-form"
 import { toast } from "sonner"
 import * as z from "zod"
 
 import { Button } from "@/components/ui/button"
 import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage
-} from "@/components/ui/form"
+  Field,
+  FieldError,
+  FieldLabel
+} from "@/components/ui/field"
 import { Slider } from "@/components/ui/slider"
 
 // 1. 更加严谨的验证规则
@@ -59,7 +56,6 @@ export default function SliderExample() {
         <p className="text-muted-foreground">通过滑块精密调节您的系统参数</p>
       </header>
 
-      <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-8">
           
           {/* 交互反馈区 */}
@@ -70,44 +66,36 @@ export default function SliderExample() {
               <h3 className="font-medium flex items-center gap-2 mb-4">
                 <Zap className="h-4 w-4 text-yellow-500" /> 基础调节
               </h3>
-
-              <FormField
-                control={form.control}
+              <Controller
                 name="volume"
-                render={({ field }) => (
-                  <FormItem className="space-y-4">
-                    <div className="flex justify-between">
-                      <FormLabel className="flex items-center gap-2">
-                        <Volume2 className={field.value > 70 ? "text-destructive" : ""} size={18} />
-                        音量 ({field.value}%)
-                      </FormLabel>
-                    </div>
-                    <FormControl>
-                      <Slider
-                        // 确保传入的是数组
-                        value={[field.value]} 
-                        // 解决方法：先接收原始参数 v，在内部进行断言并解构
-                        onValueChange={(v) => {
-                          const [val] = v as number[]; 
-                          field.onChange(val);
-                        }}
-                        max={100}
-                        step={1}
-                      />
-                    </FormControl>
-                  </FormItem>
+                control={form.control}
+                render={({ field, fieldState }) => (
+                  <Field data-invalid={fieldState.invalid}>
+                    <FieldLabel htmlFor={field.name}> 
+                      <Volume2 className={field.value > 70 ? "text-destructive" : ""} size={18} />
+                        音量 ({field.value}%)</FieldLabel>
+                    <Slider
+                      // 确保传入的是数组
+                      value={[field.value]} 
+                      // 解决方法：先接收原始参数 v，在内部进行断言并解构
+                      onValueChange={(v) => {
+                        const [val] = v as number[]; 
+                        field.onChange(val);
+                      }}
+                      max={100}
+                      step={1}
+                    />
+                    {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+                  </Field>
                 )}
               />
-
-              {/* 亮度 */}
-              <FormField
-                control={form.control}
+              <Controller
                 name="brightness"
-                render={({ field }) => (
-                  <FormItem className="space-y-4">
-                    <FormLabel>亮度调节</FormLabel>
-                    <FormControl>
-                      <Slider
+                control={form.control}
+                render={({ field, fieldState }) => (
+                  <Field data-invalid={fieldState.invalid}>
+                    <FieldLabel htmlFor={field.name}>亮度调节</FieldLabel>
+                    <Slider
                         value={[field.value]}
                         onValueChange={(v) => {
                           const [val] = v as number[]; 
@@ -115,16 +103,14 @@ export default function SliderExample() {
                         }}
                         max={100}
                       />
-                    </FormControl>
-                    <div 
+                      <div 
                       className="h-2 w-full rounded-full transition-all duration-300" 
                       style={{ backgroundColor: `rgba(255, 255, 255, ${field.value / 100})`, filter: 'invert(1)' }}
                     />
-                  </FormItem>
+                  </Field>
                 )}
               />
             </div>
-
             {/* 范围与高级设置 (多滑块示例) */}
             <div className="space-y-6 p-6 rounded-xl border bg-card">
               <h3 className="font-medium flex items-center gap-2 mb-4">
@@ -132,56 +118,50 @@ export default function SliderExample() {
               </h3>
 
               {/* 价格范围 */}
-              <FormField
-                control={form.control}
-                name="priceRange"
-                render={({ field }) => (
-                  <FormItem className="space-y-4">
+            <Controller
+              name="priceRange"
+              control={form.control}
+              render={({ field, fieldState }) => (
+                <Field data-invalid={fieldState.invalid}>
                     <div className="flex justify-between">
-                      <FormLabel>预算区间</FormLabel>
+                      <FieldLabel htmlFor={field.name}>预算区间</FieldLabel>
                       <span className="text-xs font-mono bg-secondary px-2 py-1 rounded">
                         ${field.value[0]} - ${field.value[1]}
                       </span>
                     </div>
-                    <FormControl>
-                      <Slider
-                        value={field.value}
-                        onValueChange={field.onChange} // 数组对数组，无需解构
-                        min={0}
-                        max={500}
-                        step={5}
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-
+                    <Slider
+                      value={field.value}
+                      onValueChange={field.onChange} // 数组对数组，无需解构
+                      min={0}
+                      max={500}
+                      step={5}
+                    />
+                </Field>
+              )}
+            />
               {/* 温度 */}
-              <FormField
-                control={form.control}
-                name="temperature"
-                render={({ field }) => (
-                  <FormItem className="space-y-4">
-                    <FormLabel className="flex items-center gap-2">
+            <Controller
+              name="temperature"
+              control={form.control}
+              render={({ field, fieldState }) => (
+                <Field data-invalid={fieldState.invalid}>
+                  <FieldLabel htmlFor={field.name}>
                       <Thermometer className={field.value > 30 ? "text-orange-500" : "text-blue-400"} size={18} />
                       环境温度 ({field.value}°C)
-                    </FormLabel>
-                    <FormControl>
-                      <Slider
-                        value={[field.value]}
-                        onValueChange={(v) => {
-                          const [val] = v as number[]; 
-                          field.onChange(val);
-                        }}
-                        min={-10}
-                        max={50}
-                        step={1}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+                  </FieldLabel>
+                  <Slider
+                    value={[field.value]}
+                    onValueChange={(v) => {
+                      const [val] = v as number[]; 
+                      field.onChange(val);
+                    }}
+                    min={-10}
+                    max={50}
+                    step={1}
+                  />
+                </Field>
+              )}
+            />              
             </div>
           </div>
 
@@ -189,7 +169,6 @@ export default function SliderExample() {
             {isLoading ? "正在应用配置..." : "保存当前设置"}
           </Button>
         </form>
-      </Form>
 
       {/* 底部摘要预览 */}
       <footer className="bg-muted/50 p-4 rounded-lg border border-dashed text-sm">

@@ -7,13 +7,10 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage
-} from "@/components/ui/form"
+  Field,
+  FieldError,
+  FieldLabel
+} from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
 import axios from "@/lib/axios"
 import { cn } from "@/lib/utils"
@@ -21,7 +18,7 @@ import { useUserStore } from '@/store'
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Loader2Icon } from "lucide-react"
 import React, { useState } from 'react'
-import { useForm } from "react-hook-form"
+import { Controller, useForm } from "react-hook-form"
 import { useIntl } from "react-intl"
 import { useNavigate } from 'react-router'
 import { z } from "zod"
@@ -82,32 +79,27 @@ export default function Login({
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-                  <FormField
-                    control={form.control}
+                  <Controller
                     name="username"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>{intl.formatMessage({ id: 'page.login.username' })}</FormLabel>
-                        <FormControl>
-                          <Input placeholder="super" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
+                    control={form.control}
+                    render={({ field, fieldState }) => (
+                      <Field data-invalid={fieldState.invalid}>
+                        <FieldLabel htmlFor={field.name}>{intl.formatMessage({ id: 'page.login.username' })}</FieldLabel>
+                        <Input placeholder="super" {...field} id={field.name} aria-invalid={fieldState.invalid} />
+                        {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+                      </Field>
                     )}
                   />
-                  <FormField
-                    control={form.control}
+                  <Controller
                     name="password"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>{intl.formatMessage({ id: 'page.login.password' })}</FormLabel>
-                        <FormControl>
-                          <Input placeholder="super" type="password" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
+                    control={form.control}
+                    render={({ field, fieldState }) => (
+                      <Field data-invalid={fieldState.invalid}>
+                        <FieldLabel htmlFor={field.name}>{intl.formatMessage({ id: 'page.login.password' })}</FieldLabel>
+                        <Input placeholder="super" {...field} id={field.name} aria-invalid={fieldState.invalid} />
+                        {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+                      </Field>
                     )}
                   />
                   <Button type="submit" >
@@ -115,7 +107,6 @@ export default function Login({
                     {intl.formatMessage({ id: 'page.login.login' })}
                   </Button>
                 </form>
-              </Form>
             </CardContent>
           </Card>
         </div>

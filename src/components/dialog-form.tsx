@@ -12,17 +12,15 @@ import {
     DialogTitle
 } from "@/components/ui/dialog";
 import {
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage
-} from "@/components/ui/form";
+    Field,
+    FieldError,
+    FieldGroup,
+    FieldLabel
+} from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { useIntl } from "react-intl";
 import { z } from "zod";
 import PermissionType from "./permission-type";
@@ -60,52 +58,86 @@ export default function Index({open,setOpen,title,fields,values,onSubmit}:
         <Dialog open={open} 
         onOpenChange={setOpen}> 
             <DialogContent className="sm:max-w-[425px]">
-                <Form {...form}>
-                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-                        <DialogHeader>
-                            <DialogTitle>{title}</DialogTitle>
-                            <DialogDescription></DialogDescription>
-                        </DialogHeader>
-                        {fields.map((f) => (
-                            <FormField
-                                key={f.name}
-                                control={form.control}
-                                name={f.name}
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>{intl.formatMessage({ id: f.label })}</FormLabel>
-                                        <FormControl>
-                                            {
-                                            f?.type === "permissions"?
-                                            <PermissionTreeSelect {...field} className="p-3"/>
-                                            :
-                                            f?.type === "permission"?
-                                            <PermissionTreeSingleSelect {...field} className="p-3"/>
-                                            :
-                                            f?.type === "roles"?
-                                            <RoleSelect {...field} className="p-3"/>
-                                            :
-                                            f?.type === "group"?
-                                            <GroupTreeSelect
-                                                {...field} className="p-3"
-                                            />
-                                            :
-                                            f?.type === "permissionType"?
-                                            <PermissionType {...field} className="p-3"/>
-                                            :
-                                            <Input placeholder="" {...field} className="p-3"/>
-                                        }
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+                    <DialogHeader>
+                        <DialogTitle>{title}</DialogTitle>
+                        <DialogDescription></DialogDescription>
+                    </DialogHeader>
+                    {fields.map((f) => (
+                        <FieldGroup>
+                            <Controller
+                            name={f.name}
+                            control={form.control}
+                            render={({ field, fieldState }) => (
+                                <Field data-invalid={fieldState.invalid}>
+                                <FieldLabel htmlFor={f.name}>
+                                    {intl.formatMessage({ id: f.label })}
+                                </FieldLabel>
+{
+                                        f?.type === "permissions"?
+                                        <PermissionTreeSelect {...field} className="p-3"/>
+                                        :
+                                        f?.type === "permission"?
+                                        <PermissionTreeSingleSelect {...field} className="p-3"/>
+                                        :
+                                        f?.type === "roles"?
+                                        <RoleSelect {...field} className="p-3"/>
+                                        :
+                                        f?.type === "group"?
+                                        <GroupTreeSelect
+                                            {...field} className="p-3"
+                                        />
+                                        :
+                                        f?.type === "permissionType"?
+                                        <PermissionType {...field} className="p-3"/>
+                                        :
+                                        <Input placeholder="" {...field} className="p-3"/>
+                                    }
+                                {fieldState.invalid && (
+                                    <FieldError errors={[fieldState.error]} />
                                 )}
-                            />
-                        ))}
-                        <DialogFooter>
-                            <Button type="submit">{intl.formatMessage({ id: 'button.save' })}</Button>
-                        </DialogFooter>
-                    </form>
-                </Form>
+                                </Field>
+                            )}
+                            />                            
+                        </FieldGroup>
+                        // <Field 
+                        //     key={f.name}
+                        //     control={form.control}
+                        //     name={f.name}
+                        //     render={({ field }) => (
+                        //         <FormItem>
+                        //             <FormLabel>{intl.formatMessage({ id: f.label })}</FormLabel>
+                        //             <FormControl>
+                        //                 {
+                        //                 f?.type === "permissions"?
+                        //                 <PermissionTreeSelect {...field} className="p-3"/>
+                        //                 :
+                        //                 f?.type === "permission"?
+                        //                 <PermissionTreeSingleSelect {...field} className="p-3"/>
+                        //                 :
+                        //                 f?.type === "roles"?
+                        //                 <RoleSelect {...field} className="p-3"/>
+                        //                 :
+                        //                 f?.type === "group"?
+                        //                 <GroupTreeSelect
+                        //                     {...field} className="p-3"
+                        //                 />
+                        //                 :
+                        //                 f?.type === "permissionType"?
+                        //                 <PermissionType {...field} className="p-3"/>
+                        //                 :
+                        //                 <Input placeholder="" {...field} className="p-3"/>
+                        //             }
+                        //             </FormControl>
+                        //             <FormMessage />
+                        //         </FormItem>
+                        //     )}
+                        // />
+                    ))}
+                    <DialogFooter>
+                        <Button type="submit">{intl.formatMessage({ id: 'button.save' })}</Button>
+                    </DialogFooter>
+                </form>
             </DialogContent>
         </Dialog >
     )

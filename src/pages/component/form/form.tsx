@@ -8,19 +8,17 @@ import { toast } from "sonner"
 import * as z from "zod"
 
 import { Button } from "@/components/ui/button"
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
+// 引入新的 Field 组件系列
+import {
+  Field,
+  FieldError,
+  FieldGroup,
+  FieldLabel,
+} from "@/components/ui/field"
 
 /**
- * 1. Zod Schema - 错误信息直接写成双语
- * Schema Error Messages in both languages
+ * 1. Zod Schema (保持不变)
  */
 const profileSchema = z.object({
   username: z.string()
@@ -46,7 +44,13 @@ type ProfileFormValues = z.infer<typeof profileSchema>
 export default function DualLanguageForm() {
   const [isLoading, setIsLoading] = React.useState(false)
 
-  const form = useForm<ProfileFormValues>({
+  // 2. 解构 RHF
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm<ProfileFormValues>({
     resolver: zodResolver(profileSchema),
     defaultValues: {
       username: "",
@@ -62,102 +66,68 @@ export default function DualLanguageForm() {
     console.log("Submitted:", data)
     setIsLoading(false)
     toast.success("注册成功 / Registration Successful")
-    form.reset()
+    reset()
   }
 
   return (
-    <div className="max-w-xl mx-auto p-8 border rounded-xl shadow-md bg-card">
-      <div className="mb-8 border-b pb-4">
-        <h2 className="text-2xl font-bold">创建账户 / Create Account</h2>
+    <div className="max-w-xl mx-auto p-8 border border-border rounded-xl shadow-md bg-card">
+      <div className="mb-8 border-b border-border pb-4">
+        <h2 className="text-2xl font-bold tracking-tight">创建账户 / Create Account</h2>
         <p className="text-sm text-muted-foreground mt-1">
           请填写以下信息完成注册 / Please fill in the details to register
         </p>
       </div>
 
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-          
-          {/* 用户名 Username */}
-          <FormField
-            control={form.control}
-            name="username"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="flex justify-between">
-                  用户名 / Username
-                </FormLabel>
-                <FormControl>
-                  <Input placeholder="Nickname..." {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+        
+        {/* 用户名 Username */}
+        <Field>
+          <FieldLabel>用户名 / Username</FieldLabel>
+          <FieldGroup>
+            <Input placeholder="Nickname..." {...register("username")} />
+          </FieldGroup>
+          <FieldError>{errors.username?.message}</FieldError>
+        </Field>
 
-          {/* 邮箱 Email */}
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="flex justify-between">
-                  电子邮箱/Email Address
-                </FormLabel>
-                <FormControl>
-                  <Input type="email" placeholder="example@domain.com" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+        {/* 邮箱 Email */}
+        <Field>
+          <FieldLabel>电子邮箱 / Email Address</FieldLabel>
+          <FieldGroup>
+            <Input type="email" placeholder="example@domain.com" {...register("email")} />
+          </FieldGroup>
+          <FieldError>{errors.email?.message}</FieldError>
+        </Field>
 
-          {/* 密码组 Password Group */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <FormField
-              control={form.control}
-              name="password"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="flex flex-col">
-                    密码/Password
-                  </FormLabel>
-                  <FormControl>
-                    <Input type="password" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+        {/* 密码组 Password Group */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <Field>
+            <FieldLabel>密码 / Password</FieldLabel>
+            <FieldGroup>
+              <Input type="password" {...register("password")} />
+            </FieldGroup>
+            <FieldError>{errors.password?.message}</FieldError>
+          </Field>
 
-            <FormField
-              control={form.control}
-              name="confirmPassword"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="flex flex-col">
-                  确认密码/Confirm Password
-                  </FormLabel>
-                  <FormControl>
-                    <Input type="password" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
+          <Field>
+            <FieldLabel>确认密码 / Confirm Password</FieldLabel>
+            <FieldGroup>
+              <Input type="password" {...register("confirmPassword")} />
+            </FieldGroup>
+            <FieldError>{errors.confirmPassword?.message}</FieldError>
+          </Field>
+        </div>
 
-          <Button type="submit" className="w-full h-12 text-base" disabled={isLoading}>
-            {isLoading ? (
-              <>
-                <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-                提交中 / Submitting...
-              </>
-            ) : (
-              "提交注册 / Submit Registration"
-            )}
-          </Button>
-        </form>
-      </Form>
+        <Button type="submit" className="w-full h-12 text-base shadow-lg" disabled={isLoading}>
+          {isLoading ? (
+            <>
+              <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+              提交中 / Submitting...
+            </>
+          ) : (
+            "提交注册 / Submit Registration"
+          )}
+        </Button>
+      </form>
     </div>
   )
 }

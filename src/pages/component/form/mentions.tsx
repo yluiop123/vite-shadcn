@@ -2,22 +2,20 @@
 
 import { zodResolver } from "@hookform/resolvers/zod"
 import * as React from "react"
-import { useForm } from "react-hook-form"
+import { Controller, useForm } from "react-hook-form"
 import { toast } from "sonner"
 import * as z from "zod"
 
 import { Mentions, type MentionOption } from "@/components/ext/mentions"
 import { Button } from "@/components/ui/button"
+// 替换为新的 Field 组件库
 import {
-    Form,
-    FormControl,
-    FormDescription,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
-} from "@/components/ui/form"
-import { Label } from "@/components/ui/label"
+  Field,
+  FieldDescription,
+  FieldError,
+  FieldGroup,
+  FieldLabel,
+} from "@/components/ui/field"
 
 // Mock user data / 模拟用户数据
 const mockUsers: MentionOption[] = [
@@ -102,18 +100,18 @@ export default function MentionsExample() {
       <section className="space-y-4">
         <h2 className="text-2xl font-semibold">基础用法 / Basic Usage</h2>
         <div className="space-y-4 bg-card p-6 rounded-lg border">
-          <div className="space-y-2">
-            <Label>输入评论并 @ 提及用户 / Enter comment and mention users</Label>
-            <Mentions
-              value={basicValue}
-              onChange={setBasicValue}
-              options={mockUsers}
-              placeholder="输入 @ 来提及用户... / Type @ to mention users..."
-            />
-            <p className="text-sm text-muted-foreground">
-              提示: 输入 @ 符号开始搜索用户
-            </p>
-          </div>
+          <Field>
+            <FieldLabel>输入评论并 @ 提及用户 / Enter comment and mention users</FieldLabel>
+            <FieldGroup>
+              <Mentions
+                value={basicValue}
+                onChange={setBasicValue}
+                options={mockUsers}
+                placeholder="输入 @ 来提及用户... / Type @ to mention users..."
+              />
+            </FieldGroup>
+            <FieldDescription>提示: 输入 @ 符号开始搜索用户</FieldDescription>
+          </Field>
 
           {basicValue && (
             <div className="p-3 bg-muted rounded-md">
@@ -128,32 +126,26 @@ export default function MentionsExample() {
       <section className="space-y-4">
         <h2 className="text-2xl font-semibold">不同尺寸 / Size Variants</h2>
         <div className="space-y-6 bg-card p-6 rounded-lg border">
-          <div className="space-y-2">
-            <Label>小号 / Small</Label>
-            <Mentions
-              size="sm"
-              options={mockUsers}
-              placeholder="小号输入框..."
-            />
-          </div>
+          <Field>
+            <FieldLabel>小号 / Small</FieldLabel>
+            <FieldGroup>
+              <Mentions size="sm" options={mockUsers} placeholder="小号输入框..." />
+            </FieldGroup>
+          </Field>
 
-          <div className="space-y-2">
-            <Label>标准号 / Default</Label>
-            <Mentions
-              size="default"
-              options={mockUsers}
-              placeholder="标准输入框..."
-            />
-          </div>
+          <Field>
+            <FieldLabel>标准号 / Default</FieldLabel>
+            <FieldGroup>
+              <Mentions size="default" options={mockUsers} placeholder="标准输入框..." />
+            </FieldGroup>
+          </Field>
 
-          <div className="space-y-2">
-            <Label>大号 / Large</Label>
-            <Mentions
-              size="lg"
-              options={mockUsers}
-              placeholder="大号输入框..."
-            />
-          </div>
+          <Field>
+            <FieldLabel>大号 / Large</FieldLabel>
+            <FieldGroup>
+              <Mentions size="lg" options={mockUsers} placeholder="大号输入框..." />
+            </FieldGroup>
+          </Field>
         </div>
       </section>
 
@@ -161,26 +153,20 @@ export default function MentionsExample() {
       <section className="space-y-4">
         <h2 className="text-2xl font-semibold">自定义触发符 / Custom Trigger</h2>
         <div className="space-y-4 bg-card p-6 rounded-lg border">
-          <div className="space-y-2">
-            <Label>使用 # 触发 / Using # trigger</Label>
-            <Mentions
-              trigger="#"
-              options={mockUsers}
-              placeholder="输入 # 来提及用户... / Type # to mention users..."
-            />
-            <p className="text-sm text-muted-foreground">
-              可以自定义任何字符作为触发符
-            </p>
-          </div>
+          <Field>
+            <FieldLabel>使用 # 触发 / Using # trigger</FieldLabel>
+            <FieldGroup>
+              <Mentions trigger="#" options={mockUsers} placeholder="输入 # 来提及用户..." />
+            </FieldGroup>
+            <FieldDescription>可以自定义任何字符作为触发符</FieldDescription>
+          </Field>
 
-          <div className="space-y-2">
-            <Label>使用 ! 触发 / Using ! trigger</Label>
-            <Mentions
-              trigger="!"
-              options={mockUsers}
-              placeholder="输入 ! 来提及用户... / Type ! to mention users..."
-            />
-          </div>
+          <Field>
+            <FieldLabel>使用 ! 触发 / Using ! trigger</FieldLabel>
+            <FieldGroup>
+              <Mentions trigger="!" options={mockUsers} placeholder="输入 ! 来提及用户..." />
+            </FieldGroup>
+          </Field>
         </div>
       </section>
 
@@ -188,29 +174,27 @@ export default function MentionsExample() {
       <section className="space-y-4">
         <h2 className="text-2xl font-semibold">受控模式 / Controlled Mode</h2>
         <div className="space-y-4 bg-card p-6 rounded-lg border">
-          <div className="space-y-2">
-            <Label>实时监听值变化 / Real-time value tracking</Label>
-            <Mentions
-              value={basicValue}
-              onChange={setBasicValue}
-              onMention={(option) => {
-                setSelectedMention(option)
-                setMentionedUsers((prev) => [...new Set([...prev, option])])
-              }}
-              options={mockUsers}
-              placeholder="输入 @ 来提及用户..."
-            />
-          </div>
+          <Field>
+            <FieldLabel>实时监听值变化 / Real-time value tracking</FieldLabel>
+            <FieldGroup>
+              <Mentions
+                value={basicValue}
+                onChange={setBasicValue}
+                onMention={(option) => {
+                  setSelectedMention(option)
+                  setMentionedUsers((prev) => [...new Set([...prev, option])])
+                }}
+                options={mockUsers}
+                placeholder="输入 @ 来提及用户..."
+              />
+            </FieldGroup>
+          </Field>
 
           {selectedMention && (
             <div className="p-3 bg-muted rounded-md">
               <p className="text-sm font-semibold mb-2">最近提及的用户 / Last mentioned user:</p>
               <div className="flex items-center gap-2">
-                <img
-                  src={selectedMention.avatar}
-                  alt={selectedMention.label}
-                  className="h-8 w-8 rounded-full"
-                />
+                <img src={selectedMention.avatar} alt={selectedMention.label} className="h-8 w-8 rounded-full" />
                 <div>
                   <p className="text-sm font-semibold">{selectedMention.label}</p>
                   <p className="text-xs text-muted-foreground">{selectedMention.description}</p>
@@ -224,15 +208,8 @@ export default function MentionsExample() {
               <p className="text-sm font-semibold mb-2">所有提及的用户 / All mentioned users:</p>
               <div className="flex flex-wrap gap-2">
                 {mentionedUsers.map((user) => (
-                  <div
-                    key={user.value}
-                    className="flex items-center gap-1 px-2 py-1 bg-primary/10 rounded-full text-sm"
-                  >
-                    <img
-                      src={user.avatar}
-                      alt={user.label}
-                      className="h-5 w-5 rounded-full"
-                    />
+                  <div key={user.value} className="flex items-center gap-1 px-2 py-1 bg-primary/10 rounded-full text-sm">
+                    <img src={user.avatar} alt={user.label} className="h-5 w-5 rounded-full" />
                     <span>{user.label}</span>
                   </div>
                 ))}
@@ -246,26 +223,24 @@ export default function MentionsExample() {
       <section className="space-y-4">
         <h2 className="text-2xl font-semibold">Loading 状态 / Loading State</h2>
         <div className="space-y-4 bg-card p-6 rounded-lg border">
-          <div className="space-y-2">
-            <Label>模拟加载用户列表 / Simulate loading users</Label>
-            <Mentions
-              loading={isLoading}
-              options={isLoading ? [] : mockUsers}
-              placeholder="输入 @ 加载用户列表..."
-            />
-            <Button
-              onClick={() => {
-                setIsLoading(true)
-                setTimeout(() => {
-                  setIsLoading(false)
-                  toast.success("用户加载完成 / Users loaded successfully")
-                }, 2000)
-              }}
-              disabled={isLoading}
-            >
-              {isLoading ? "加载中... / Loading..." : "加载用户列表 / Load users"}
-            </Button>
-          </div>
+          <Field>
+            <FieldLabel>模拟加载用户列表 / Simulate loading users</FieldLabel>
+            <FieldGroup>
+              <Mentions loading={isLoading} options={isLoading ? [] : mockUsers} placeholder="输入 @ 加载用户列表..." />
+            </FieldGroup>
+          </Field>
+          <Button
+            onClick={() => {
+              setIsLoading(true)
+              setTimeout(() => {
+                setIsLoading(false)
+                toast.success("用户加载完成 / Users loaded successfully")
+              }, 2000)
+            }}
+            disabled={isLoading}
+          >
+            {isLoading ? "加载中... / Loading..." : "加载用户列表 / Load users"}
+          </Button>
         </div>
       </section>
 
@@ -273,18 +248,13 @@ export default function MentionsExample() {
       <section className="space-y-4">
         <h2 className="text-2xl font-semibold">禁用状态 / Disabled State</h2>
         <div className="space-y-4 bg-card p-6 rounded-lg border">
-          <div className="space-y-2">
-            <Label>禁用输入 / Disabled input</Label>
-            <Mentions
-              disabled
-              options={mockUsers}
-              placeholder="禁用的输入框..."
-              defaultValue="这是一个禁用的输入框"
-            />
-            <p className="text-sm text-muted-foreground">
-              禁用状态下无法输入和提及用户
-            </p>
-          </div>
+          <Field >
+            <FieldLabel>禁用输入 / Disabled input</FieldLabel>
+            <FieldGroup>
+              <Mentions disabled options={mockUsers} placeholder="禁用的输入框..." defaultValue="这是一个禁用的输入框" />
+            </FieldGroup>
+            <FieldDescription>禁用状态下无法输入和提及用户</FieldDescription>
+          </Field>
         </div>
       </section>
 
@@ -292,30 +262,26 @@ export default function MentionsExample() {
       <section className="space-y-4">
         <h2 className="text-2xl font-semibold">自定义过滤 / Custom Filter</h2>
         <div className="space-y-4 bg-card p-6 rounded-lg border">
-          <div className="space-y-2">
-            <Label>精确匹配 / Exact match</Label>
-            <Mentions
-              options={mockUsers}
-              placeholder="输入 @ 进行精确匹配搜索..."
-              filterOption={(input, option) => {
-                return option.label.toLowerCase() === input.toLowerCase()
-              }}
-            />
-            <p className="text-sm text-muted-foreground">
-              只显示完全匹配的用户
-            </p>
-          </div>
+          <Field>
+            <FieldLabel>精确匹配 / Exact match</FieldLabel>
+            <FieldGroup>
+              <Mentions
+                options={mockUsers}
+                placeholder="输入 @ 进行精确匹配搜索..."
+                filterOption={(input, option) => option.label.toLowerCase() === input.toLowerCase()}
+              />
+            </FieldGroup>
+          </Field>
 
-          <div className="space-y-2">
-            <Label>按角色过滤 / Filter by role</Label>
-            <Mentions
-              options={mockUsers.filter((u) => u.description?.includes("Engineer") || u.description?.includes("工程师"))}
-              placeholder="输入 @ 搜索工程师..."
-            />
-            <p className="text-sm text-muted-foreground">
-              只显示工程师相关的用户
-            </p>
-          </div>
+          <Field>
+            <FieldLabel>按角色过滤 / Filter by role</FieldLabel>
+            <FieldGroup>
+              <Mentions
+                options={mockUsers.filter((u) => u.description?.includes("Engineer") || u.description?.includes("工程师"))}
+                placeholder="输入 @ 搜索工程师..."
+              />
+            </FieldGroup>
+          </Field>
         </div>
       </section>
 
@@ -323,67 +289,54 @@ export default function MentionsExample() {
       <section className="space-y-4">
         <h2 className="text-2xl font-semibold">表单验证示例 / Form Validation</h2>
         <div className="bg-card p-6 rounded-lg border">
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-              {/* 评论 Comment */}
-              <FormField
-                control={form.control}
-                name="comment"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>评论内容 / Comment</FormLabel>
-                    <FormControl>
-                      <Mentions
-                        options={mockUsers}
-                        placeholder="输入评论，使用 @ 提及用户... / Enter comment, use @ to mention users..."
-                        value={field.value}
-                        onChange={(val) => field.onChange(val)}
-                        onBlur={() => field.onBlur()}
-                      />
-                    </FormControl>
-                    <FormDescription>
-                      评论内容最多 500 字 / Comment up to 500 characters
-                    </FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+            <Controller
+              control={form.control}
+              name="comment"
+              render={({ field, fieldState }) => (
+                <Field>
+                  <FieldLabel>评论内容 / Comment</FieldLabel>
+                  <FieldGroup>
+                    <Mentions
+                      {...field}
+                      options={mockUsers}
+                      placeholder="输入评论，使用 @ 提及用户..."
+                    />
+                  </FieldGroup>
+                  <FieldDescription>评论内容最多 500 字 / Comment up to 500 characters</FieldDescription>
+                  {fieldState.invalid && (
+                    <FieldError errors={[fieldState.error]} />
+                  )}
+                </Field>
+              )}
+            />
 
-              {/* 反馈 Feedback */}
-              <FormField
-                control={form.control}
-                name="feedback"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>反馈内容 / Feedback</FormLabel>
-                    <FormControl>
-                      <Mentions
-                        size="sm"
-                        options={mockUsers}
-                        placeholder="输入反馈... / Enter feedback..."
-                        value={field.value}
-                        onChange={(val) => field.onChange(val)}
-                        onBlur={() => field.onBlur()}
-                      />
-                    </FormControl>
-                    <FormDescription>
-                      反馈内容最多 200 字 / Feedback up to 200 characters
-                    </FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+            <Controller
+              control={form.control}
+              name="feedback"
+              render={({ field, fieldState }) => (
+                <Field>
+                  <FieldLabel>反馈内容 / Feedback</FieldLabel>
+                  <FieldGroup>
+                    <Mentions
+                      {...field}
+                      size="sm"
+                      options={mockUsers}
+                      placeholder="输入反馈... / Enter feedback..."
+                    />
+                  </FieldGroup>
+                  <FieldDescription>反馈内容最多 200 字 / Feedback up to 200 characters</FieldDescription>
+                  {fieldState.invalid && (
+                    <FieldError errors={[fieldState.error]} />
+                  )}
+                </Field>
+              )}
+            />
 
-              {/* 提交按钮 Submit Button */}
-              <Button
-                type="submit"
-                className="w-full"
-                disabled={isLoading}
-              >
-                {isLoading ? "提交中... / Submitting..." : "提交表单 / Submit Form"}
-              </Button>
-            </form>
-          </Form>
+            <Button type="submit" className="w-full" disabled={isLoading}>
+              {isLoading ? "提交中... / Submitting..." : "提交表单 / Submit Form"}
+            </Button>
+          </form>
         </div>
       </section>
 
@@ -391,41 +344,26 @@ export default function MentionsExample() {
       <section className="space-y-4">
         <h2 className="text-2xl font-semibold">多行输入场景 / Multi-line Input Scenarios</h2>
         <div className="space-y-6 bg-card p-6 rounded-lg border">
-          <div className="space-y-2">
-            <Label>聊天消息 / Chat Message</Label>
-            <Mentions
-              size="default"
-              options={mockUsers}
-              placeholder="输入消息，@ 他人讨论... / Type message, @ others to discuss..."
-            />
-            <p className="text-sm text-muted-foreground">
-              模拟聊天应用的消息输入框，可以 @ 多个用户
-            </p>
-          </div>
+          <Field>
+            <FieldLabel>聊天消息 / Chat Message</FieldLabel>
+            <FieldGroup>
+              <Mentions options={mockUsers} placeholder="输入消息，@ 他人讨论..." />
+            </FieldGroup>
+          </Field>
 
-          <div className="space-y-2">
-            <Label>任务分配 / Task Assignment</Label>
-            <Mentions
-              size="lg"
-              options={mockUsers}
-              placeholder="描述任务并 @ 分配给相关人员... / Describe task and @ assign to relevant people..."
-            />
-            <p className="text-sm text-muted-foreground">
-              用于分配任务并提及相关负责人
-            </p>
-          </div>
+          <Field>
+            <FieldLabel>任务分配 / Task Assignment</FieldLabel>
+            <FieldGroup>
+              <Mentions size="lg" options={mockUsers} placeholder="描述任务并 @ 分配给相关人员..." />
+            </FieldGroup>
+          </Field>
 
-          <div className="space-y-2">
-            <Label>问题反馈 / Issue Feedback</Label>
-            <Mentions
-              size="default"
-              options={mockUsers}
-              placeholder="描述问题，@ 相关部门... / Describe issue, @ relevant departments..."
-            />
-            <p className="text-sm text-muted-foreground">
-              反馈问题并通知相关团队成员
-            </p>
-          </div>
+          <Field>
+            <FieldLabel>问题反馈 / Issue Feedback</FieldLabel>
+            <FieldGroup>
+              <Mentions options={mockUsers} placeholder="描述问题，@ 相关部门..." />
+            </FieldGroup>
+          </Field>
         </div>
       </section>
     </div>

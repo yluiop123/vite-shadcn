@@ -3,20 +3,18 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Loader2 } from "lucide-react"
 import * as React from "react"
-import { useForm } from "react-hook-form"
+import { Controller, useForm } from "react-hook-form"
 import { toast } from "sonner"
 import * as z from "zod"
 
 import { Button } from "@/components/ui/button"
 import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form"
+  Field,
+  FieldDescription,
+  FieldError,
+  FieldGroup,
+  FieldLabel,
+} from "@/components/ui/field"
 import { Label } from "@/components/ui/label"
 
 import TreeSelect, { TreeNode } from "@/components/ext/tree-select"
@@ -424,27 +422,27 @@ export default function TreeSelectExample() {
       <section className="space-y-4">
         <h2 className="text-2xl font-semibold">表单集成 / Form Integration</h2>
         <div className="bg-card p-6 rounded-lg border">
-          <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-              <FormField
-                control={form.control}
-                name="countries"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>已选国家 / Selected Countries</FormLabel>
-                    <FormControl>
+              <FieldGroup>
+                <Controller
+                  name="countries"
+                  control={form.control}
+                  render={({ field, fieldState }) => (
+                    <Field data-invalid={fieldState.invalid}>
+                      <FieldLabel htmlFor="countries-title">
+                        已选国家 / Selected Countries
+                      </FieldLabel>
                       <TreeSelect
                         data={treeData}
                         value={field.value}
                         onChange={field.onChange}
                         maxTagCount={4}
                       />
-                    </FormControl>
-                    <FormDescription>
-                      选择一个或多个国家 / Select one or more countries
-                    </FormDescription>
-                    <FormMessage />
-                    {formSelectedInfo.length > 0 && (
+                      {fieldState.invalid && (
+                        <FieldError errors={[fieldState.error]} />
+                      )}
+                      <FieldDescription>
+                      {formSelectedInfo.length > 0 && (
                       <div className="mt-3 p-3 bg-muted/50 rounded-md">
                         <h4 className="text-sm font-medium mb-2">选中信息 / Selected Info:</h4>
                         {formSelectedInfo.map((item, index) => (
@@ -456,47 +454,47 @@ export default function TreeSelectExample() {
                         ))}
                       </div>
                     )}
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="region"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>选择区域 / Choose Region</FormLabel>
-                    <FormControl>
+                      </FieldDescription>
+                    </Field>
+                  )}
+                />
+                <Controller
+                  name="region"
+                  control={form.control}
+                  render={({ field, fieldState }) => (
+                    <Field data-invalid={fieldState.invalid}>
+                      <FieldLabel htmlFor="region-title">
+                        选择区域 / Choose Region
+                      </FieldLabel>
                       <TreeSelect
                         data={treeData}
                         multiple={false}
                         value={field.value}
                         onChange={field.onChange}
                       />
-                    </FormControl>
-                    <FormDescription>
-                      仅支持单选 / Single selection only
-                    </FormDescription>
-                    <FormMessage />
-                    {regionInfo && regionInfo.value === field.value && (
-                      <div className="mt-3 p-3 bg-muted/50 rounded-md">
-                        <h4 className="text-sm font-medium mb-2">选中信息 / Selected Info:</h4>
-                        <div className="text-xs">
-                          <span className="font-medium">{regionInfo.title}</span>
-                          <span className="text-muted-foreground ml-2">({regionInfo.value})</span>
-                          <div className="text-muted-foreground mt-1 ml-4">路径: {regionInfo.path}</div>
-                        </div>
-                      </div>
-                    )}
-                  </FormItem>
-                )}
-              />
-
+                      {fieldState.invalid && (
+                        <FieldError errors={[fieldState.error]} />
+                      )}
+                      <FieldDescription>
+                        {regionInfo && regionInfo.value === field.value && (
+                          <div className="mt-3 p-3 bg-muted/50 rounded-md">
+                            <h4 className="text-sm font-medium mb-2">选中信息 / Selected Info:</h4>
+                            <div className="text-xs">
+                              <span className="font-medium">{regionInfo.title}</span>
+                              <span className="text-muted-foreground ml-2">({regionInfo.value})</span>
+                              <div className="text-muted-foreground mt-1 ml-4">路径: {regionInfo.path}</div>
+                            </div>
+                          </div>
+                        )}
+                      </FieldDescription>
+                    </Field>
+                  )}
+                />
+              </FieldGroup>
               <Button type="submit" className="w-full">
                 提交 / Submit
               </Button>
             </form>
-          </Form>
         </div>
       </section>
 

@@ -3,21 +3,17 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Heart, Smile, ThumbsUp } from "lucide-react"
 import * as React from "react"
-import { useForm } from "react-hook-form"
+import { Controller, useForm } from "react-hook-form"
 import { toast } from "sonner"
 import * as z from "zod"
 
 import { Rate } from "@/components/ext/rate"
 import { Button } from "@/components/ui/button"
 import {
-    Form,
-    FormControl,
-    FormDescription,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
-} from "@/components/ui/form"
+  Field,
+  FieldDescription,
+  FieldLabel
+} from "@/components/ui/field"
 import { Label } from "@/components/ui/label"
 
 // Validation Schema / 验证规则
@@ -320,42 +316,37 @@ export default function RateExample() {
       <section className="space-y-4">
         <h2 className="text-2xl font-semibold">表单验证示例 / Form Validation</h2>
         <div className="bg-card p-6 rounded-lg border">
-          <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
               {/* 满意度 Satisfaction */}
-              <FormField
-                control={form.control}
+              <Controller
                 name="satisfaction"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>您对服务的满意度 / Service Satisfaction</FormLabel>
-                    <FormControl>
-                      <Rate
-                        value={field.value}
-                        onChange={(val) => field.onChange(val)}
-                        onBlur={() => field.onBlur()}
-                        count={5}
-                        allowClear
-                        tooltips={["非常不满意", "不满意", "一般", "满意", "非常满意"]}
-                      />
-                    </FormControl>
-                    <FormDescription>
+                control={form.control}
+                render={({ field, fieldState }) => (
+                  <Field data-invalid={fieldState.invalid}>
+                    <FieldLabel htmlFor={field.name}>您对服务的满意度 / Service Satisfaction</FieldLabel>
+                    <Rate
+                      value={field.value}
+                      onChange={(val) => field.onChange(val)}
+                      onBlur={() => field.onBlur()}
+                      count={5}
+                      allowClear
+                      tooltips={["非常不满意", "不满意", "一般", "满意", "非常满意"]}
+                    />
+                    <FieldDescription>
                       请评价您对我们服务的满意度 / Please rate your satisfaction with our service
-                    </FormDescription>
-                    <FormMessage />
-                  </FormItem>
+                    </FieldDescription>
+                  </Field>
                 )}
               />
 
               {/* 质量 Quality */}
-              <FormField
-                control={form.control}
+              <Controller
                 name="quality"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>商品质量 / Product Quality</FormLabel>
-                    <FormControl>
-                      <Rate
+                control={form.control}
+                render={({ field, fieldState }) => (
+                  <Field data-invalid={fieldState.invalid}>
+                    <FieldLabel htmlFor={field.name}>商品质量 / Product Quality</FieldLabel>
+                     <Rate
                         value={field.value}
                         onChange={(val) => field.onChange(val)}
                         onBlur={() => field.onBlur()}
@@ -364,24 +355,21 @@ export default function RateExample() {
                         allowClear
                         tooltips={["极差", "较差", "一般", "良好", "优秀"]}
                       />
-                    </FormControl>
-                    <FormDescription>
+                    <FieldDescription>
                       评价商品的质量 / Rate the quality of the product
-                    </FormDescription>
-                    <FormMessage />
-                  </FormItem>
+                    </FieldDescription>
+                  </Field>
                 )}
-              />
+              />              
 
               {/* 服务 Service */}
-              <FormField
-                control={form.control}
+              <Controller
                 name="service"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>客户服务 / Customer Service (0-10)</FormLabel>
-                    <FormControl>
-                      <Rate
+                control={form.control}
+                render={({ field, fieldState }) => (
+                  <Field data-invalid={fieldState.invalid}>
+                    <FieldLabel htmlFor={field.name}>客户服务 / Customer Service (0-10)</FieldLabel>
+                     <Rate
                         value={field.value}
                         onChange={(val) => field.onChange(val)}
                         onBlur={() => field.onBlur()}
@@ -389,14 +377,12 @@ export default function RateExample() {
                         allowClear
                         color="text-blue-500"
                       />
-                    </FormControl>
-                    <FormDescription>
+                    <FieldDescription>
                       给客户服务评分，0-10 分 / Rate customer service from 0-10
-                    </FormDescription>
-                    <FormMessage />
-                  </FormItem>
+                    </FieldDescription>
+                  </Field>
                 )}
-              />
+              />              
 
               {/* 评分摘要 Rating Summary */}
               {(form.watch("satisfaction") > 0 || form.watch("quality") > 0 || form.watch("service") > 0) && (
@@ -419,7 +405,6 @@ export default function RateExample() {
                 {isLoading ? "提交中... / Submitting..." : "提交评分 / Submit Rating"}
               </Button>
             </form>
-          </Form>
         </div>
       </section>
 

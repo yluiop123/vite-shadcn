@@ -3,20 +3,16 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { CheckCircle2, Package, Shield, Zap } from "lucide-react"
 import * as React from "react"
-import { useForm } from "react-hook-form"
+import { Controller, useForm } from "react-hook-form"
 import { toast } from "sonner"
 import * as z from "zod"
 
 import { Button } from "@/components/ui/button"
 import {
-    Form,
-    FormControl,
-    FormDescription,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
-} from "@/components/ui/form"
+  Field,
+  FieldGroup,
+  FieldLabel
+} from "@/components/ui/field"
 import { Label } from "@/components/ui/label"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 
@@ -344,19 +340,21 @@ export default function RadioExample() {
       <section className="space-y-4">
         <h2 className="text-2xl font-semibold">表单验证示例 / Form Validation</h2>
         <div className="bg-card p-6 rounded-lg border">
-          <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
               {/* 性别 Gender */}
-              <FormField
-                control={form.control}
-                name="gender"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>性别 / Gender</FormLabel>
-                    <FormControl>
+              <FieldGroup>
+                <Controller
+                  name="gender"
+                  control={form.control}
+                  render={({ field, fieldState }) => (
+                    <Field data-invalid={fieldState.invalid}>
+                      <FieldLabel htmlFor="gender">
+                        性别 / Gender
+                      </FieldLabel>
                       <RadioGroup
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
+                        id="gender"
+                        {...field}
+                        aria-invalid={fieldState.invalid}
                         className="flex flex-col space-y-3"
                       >
                         <div className="flex items-center space-x-2">
@@ -378,24 +376,22 @@ export default function RadioExample() {
                           </Label>
                         </div>
                       </RadioGroup>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              {/* 套餐 Plan */}
-              <FormField
-                control={form.control}
-                name="plan"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>选择套餐 / Select Plan</FormLabel>
-                    <FormControl>
+                    </Field>
+                  )}
+                />
+                <Controller
+                  name="plan"
+                  control={form.control}
+                  render={({ field, fieldState }) => (
+                    <Field data-invalid={fieldState.invalid}>
+                      <FieldLabel htmlFor="plan">
+                        选择套餐 / Select Plan
+                      </FieldLabel>
                       <RadioGroup
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
-                        className="space-y-3"
+                        id="plan"
+                        {...field}
+                        aria-invalid={fieldState.invalid}
+                        className="flex flex-col space-y-3"
                       >
                         <div className="flex items-center space-x-2 p-3 border rounded-lg hover:bg-muted/50">
                           <RadioGroupItem value="basic" id="form-plan-basic" />
@@ -416,19 +412,14 @@ export default function RadioExample() {
                           </Label>
                         </div>
                       </RadioGroup>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              {/* 同意协议 Agreement */}
-              <FormField
-                control={form.control}
-                name="agreement"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
+                    </Field>
+                  )}
+                />
+                <Controller
+                  name="agreement"
+                  control={form.control}
+                  render={({ field, fieldState }) => (
+                    <Field data-invalid={fieldState.invalid}>
                       <RadioGroup onValueChange={field.onChange} defaultValue={field.value}>
                         <div className="flex items-start space-x-2">
                           <RadioGroupItem value="agree" id="agreement" className="mt-1" />
@@ -437,20 +428,17 @@ export default function RadioExample() {
                           </Label>
                         </div>
                       </RadioGroup>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              {/* 通知方式 Notification */}
-              <FormField
-                control={form.control}
-                name="notification"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>通知方式 / Notification Preference</FormLabel>
-                    <FormControl>
+                    </Field>
+                  )}
+                />
+                <Controller
+                  name="notification"
+                  control={form.control}
+                  render={({ field, fieldState }) => (
+                    <Field data-invalid={fieldState.invalid}>
+                      <FieldLabel htmlFor="notification">
+                        通知方式 / Notification Preference
+                      </FieldLabel>
                       <RadioGroup
                         onValueChange={field.onChange}
                         defaultValue={field.value}
@@ -475,15 +463,10 @@ export default function RadioExample() {
                           </Label>
                         </div>
                       </RadioGroup>
-                    </FormControl>
-                    <FormDescription>
-                      选择你希望接收通知的方式 / Choose how you want to receive notifications
-                    </FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
+                    </Field>
+                  )}
+                />
+              </FieldGroup>
               {/* 提交按钮 Submit Button */}
               <Button
                 type="submit"
@@ -493,7 +476,6 @@ export default function RadioExample() {
                 {isLoading ? "提交中... / Submitting..." : "提交表单 / Submit Form"}
               </Button>
             </form>
-          </Form>
         </div>
       </section>
 

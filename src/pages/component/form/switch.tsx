@@ -3,20 +3,18 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Moon, Sun } from "lucide-react"
 import * as React from "react"
-import { useForm } from "react-hook-form"
+import { Controller, useForm } from "react-hook-form"
 import { toast } from "sonner"
 import * as z from "zod"
 
 import { Button } from "@/components/ui/button"
 import {
-    Form,
-    FormControl,
-    FormDescription,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
-} from "@/components/ui/form"
+  Field,
+  FieldContent,
+  FieldDescription,
+  FieldError,
+  FieldLabel
+} from "@/components/ui/field"
 import { Label } from "@/components/ui/label"
 import { Switch } from "@/components/ui/switch"
 
@@ -89,43 +87,45 @@ export default function SwitchExample() {
       <section className="space-y-4">
         <h2 className="text-2xl font-semibold">表单集成 / Form Integration</h2>
         <div className="bg-card p-6 rounded-lg border">
-          <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-              <FormField control={form.control} name="newsletter" render={({ field }) => (
-                <FormItem className="flex items-center justify-between">
-                  <FormLabel>订阅邮件 / Newsletter</FormLabel>
-                  <FormControl>
+              <Controller
+                name="newsletter"
+                control={form.control}
+                render={({ field, fieldState }) => (
+                  <Field data-invalid={fieldState.invalid}>
+                    <FieldLabel htmlFor={field.name}>订阅邮件 / Newsletter</FieldLabel>
                     <Switch checked={field.value} onCheckedChange={(v) => field.onChange(Boolean(v))} />
-                  </FormControl>
-                </FormItem>
-              )} />
-
-              <FormField control={form.control} name="notifications" render={({ field }) => (
-                <FormItem className="flex items-center justify-between">
-                  <FormLabel>通知 / Notifications</FormLabel>
-                  <FormControl>
+                    {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+                  </Field>
+                )}
+              />
+              <Controller
+                name="notifications"
+                control={form.control}
+                render={({ field, fieldState }) => (
+                  <Field data-invalid={fieldState.invalid}>
+                    <FieldLabel htmlFor={field.name}>桌面通知 / Desktop Notifications</FieldLabel>
                     <Switch checked={field.value} onCheckedChange={(v) => field.onChange(Boolean(v))} />
-                  </FormControl>
-                </FormItem>
-              )} />
-
-              <FormField control={form.control} name="terms" render={({ field }) => (
-                <FormItem className="flex items-center justify-between">
-                  <div>
-                    <FormLabel>同意条款 / Accept Terms</FormLabel>
-                    <FormDescription>请阅读并同意服务条款</FormDescription>
-                  </div>
-                  <FormControl>
+                    {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+                  </Field>
+                )}
+              />
+              <Controller
+                name="terms"
+                control={form.control}
+                render={({ field, fieldState }) => (
+                  <Field data-invalid={fieldState.invalid}>
+                    <FieldLabel htmlFor={field.name}>同意条款 / Accept Terms</FieldLabel>
+                    <FieldDescription>请阅读并同意服务条款</FieldDescription>
                     <Switch checked={field.value} onCheckedChange={(v) => field.onChange(Boolean(v))} />
-                  </FormControl>
-                </FormItem>
-              )} />
-
-              <FormMessage />
+                    {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+                  </Field>
+                )}
+              />     
+              <FieldContent />
 
               <Button type="submit" className="w-full" disabled={loading}>{loading ? "保存中..." : "保存设置 / Save Settings"}</Button>
             </form>
-          </Form>
         </div>
       </section>
     </div>
