@@ -75,6 +75,7 @@ export default function SliderExample() {
                       <Volume2 className={field.value > 70 ? "text-destructive" : ""} size={18} />
                         音量 ({field.value}%)</FieldLabel>
                     <Slider
+                      className="border-2 border-primary-300"
                       // 确保传入的是数组
                       value={[field.value]} 
                       // 解决方法：先接收原始参数 v，在内部进行断言并解构
@@ -93,6 +94,7 @@ export default function SliderExample() {
                   <Field data-invalid={fieldState.invalid}>
                     <FieldLabel htmlFor={field.name}>亮度调节</FieldLabel>
                     <Slider
+                      className="border-2 border-primary-300"
                         value={[field.value]}
                         onValueChange={field.onChange}
                         max={100}
@@ -124,6 +126,7 @@ export default function SliderExample() {
                       </span>
                     </div>
                     <Slider
+                      className="border-2 border-primary-300"
                       value={field.value}
                       onValueChange={field.onChange} // 数组对数组，无需解构
                       min={0}
@@ -144,11 +147,9 @@ export default function SliderExample() {
                       环境温度 ({field.value}°C)
                   </FieldLabel>
                   <Slider
+                    className="border-2 border-primary-300"
                     value={[field.value]}
-                    onValueChange={(v) => {
-                      const [val] = v as number[]; 
-                      field.onChange(val);
-                    }}
+                    onValueChange={field.onChange}
                     min={-10}
                     max={50}
                     step={1}

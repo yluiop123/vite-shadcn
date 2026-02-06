@@ -5,6 +5,7 @@ import {
     DropdownMenu,
     DropdownMenuCheckboxItem,
     DropdownMenuContent,
+    DropdownMenuGroup,
     DropdownMenuItem,
     DropdownMenuLabel,
     DropdownMenuSeparator,
@@ -240,27 +241,23 @@ export default function User() {
             cell: ({ row }) => {
                 const user = row.original as User;
                 return (
-                    <DropdownMenu>
-                        <DropdownMenuTrigger>
+                        <DropdownMenu>
+                            <DropdownMenuTrigger render={                    
                             <Button variant="ghost" className="h-8 w-8 p-0">
-                                <span className="sr-only">Open menu</span>
-                                <MoreHorizontal />
-                            </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end">
-                            <DropdownMenuLabel>{intl.formatMessage({ id: 'table.actions' })}</DropdownMenuLabel>
-
-                            {/* <DropdownMenuItem
-                                onClick={() => navigator.clipboard.writeText(user.username)}
-                            >
-                                Copy payment ID
-                            </DropdownMenuItem> */}
-                            <DropdownMenuSeparator />
-                            <DropdownMenuItem onClick={() => handleEdit(user)}>{intl.formatMessage({ id: 'button.edit' })}</DropdownMenuItem>
-                            <DropdownMenuItem onClick={() => handleDelete([user])}>{intl.formatMessage({ id: 'button.delete' })}</DropdownMenuItem>
-                            <DropdownMenuItem onClick={() => handleReset(user)}>{intl.formatMessage({ id: 'button.reset.password' })}</DropdownMenuItem>
-                        </DropdownMenuContent>
-                    </DropdownMenu>
+                                            <span className="sr-only">Open menu</span>
+                                            <MoreHorizontal />
+                                        </Button>} 
+                                />
+                            <DropdownMenuContent className="w-40" align="end">
+                                <DropdownMenuGroup>
+                                    <DropdownMenuLabel>{intl.formatMessage({ id: 'table.actions' })}</DropdownMenuLabel>
+                                    <DropdownMenuSeparator />
+                                    <DropdownMenuItem onClick={() => handleEdit(user)}>{intl.formatMessage({ id: 'button.edit' })}</DropdownMenuItem>
+                                    <DropdownMenuItem onClick={() => handleDelete([user])}>{intl.formatMessage({ id: 'button.delete' })}</DropdownMenuItem>
+                                    <DropdownMenuItem onClick={() => handleReset(user)}>{intl.formatMessage({ id: 'button.reset.password' })}</DropdownMenuItem>
+                                </DropdownMenuGroup>
+                            </DropdownMenuContent>
+                        </DropdownMenu>
                 )
             },
         }
@@ -297,7 +294,7 @@ export default function User() {
 
             <div className="flex items-center py-3 gap-4">
                 <GroupTreeSelect 
-                    className="w-300px"
+                    className="w-60"
                     value={params.group}
                     onChange={(node) => {
                         setParams({ ...params, group: node })

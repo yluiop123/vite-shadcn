@@ -79,7 +79,7 @@ export function Transfer({
         </div>
         {showSearch && (
           <input
-            placeholder="搜索 / Search"
+            placeholder="Search"
             value={leftFilter}
             onChange={(e) => setLeftFilter(e.target.value)}
             className="mb-2 w-full rounded border px-2 py-1 text-sm"
@@ -91,15 +91,15 @@ export function Transfer({
             <div
               key={item.key}
               className={cn(
-                "flex items-center justify-between gap-2 px-2 py-2 hover:bg-accent/50 cursor-pointer",
-                selectedKeys.includes(item.key) ? "bg-accent/30" : "",
+                "border border-primary group flex items-center justify-between gap-3 px-3 py-2 m-2 rounded-md cursor-pointer transition-all duration-200",
+                selectedKeys.includes(item.key) ? "bg-primary text-primary-foreground" : "hover:bg-accent",
                 item.disabled ? "opacity-50 cursor-not-allowed" : ""
               )}
               onClick={() => !item.disabled && toggleSelect(item.key)}
             >
               <div>
                 <div className="font-medium">{item.title}</div>
-                {item.description && <div className="text-xs text-muted-foreground">{item.description}</div>}
+                {item.description && <div className="text-xs">{item.description}</div>}
               </div>
               <div className="text-sm text-muted-foreground">{item.key}</div>
             </div>
@@ -147,15 +147,15 @@ export function Transfer({
             <div
               key={item.key}
               className={cn(
-                "flex items-center justify-between gap-2 px-2 py-2 hover:bg-accent/50 cursor-pointer",
-                selectedKeys.includes(item.key) ? "bg-accent/30" : "",
+                "border border-primary group flex items-center justify-between gap-3 px-3 py-2 m-2 rounded-md cursor-pointer transition-all duration-200",
+                selectedKeys.includes(item.key) ? "bg-primary text-primary-foreground" : "hover:bg-accent",
                 item.disabled ? "opacity-50 cursor-not-allowed" : ""
               )}
               onClick={() => !item.disabled && toggleSelect(item.key)}
             >
               <div>
                 <div className="font-medium">{item.title}</div>
-                {item.description && <div className="text-xs text-muted-foreground">{item.description}</div>}
+                {item.description && <div className="text-xs">{item.description}</div>}
               </div>
               <div className="text-sm text-muted-foreground">{item.key}</div>
             </div>

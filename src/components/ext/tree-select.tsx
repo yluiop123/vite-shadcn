@@ -180,7 +180,7 @@ function Tree({
               {multiple ? (
                 <Checkbox
                   className="h-4 w-4 shrink-0"
-                  checked={status===true}
+                  checked={status !== false}
                   indeterminate={status === "indeterminate"}
                   onCheckedChange={(checked) => onToggle(node, checked === true)}
                 />
