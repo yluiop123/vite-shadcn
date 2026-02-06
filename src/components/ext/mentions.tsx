@@ -84,7 +84,6 @@ const Mentions = React.forwardRef<HTMLTextAreaElement, MentionsProps>(
 
       const cursorPos = e.target.selectionStart || 0
       const search = extractSearchText(value, cursorPos)
-
       if (search !== null) {
         setSearchText(search)
         setMentionPosition(cursorPos)
@@ -92,12 +91,6 @@ const Mentions = React.forwardRef<HTMLTextAreaElement, MentionsProps>(
       } else {
         setIsOpen(false)
       }
-    }
-
-    // Handle blur
-    const handleBlur = () => {
-      setIsOpen(false)
-      onBlur?.(textValue)
     }
 
     // Handle mention selection
@@ -148,18 +141,59 @@ const Mentions = React.forwardRef<HTMLTextAreaElement, MentionsProps>(
 
     return (
       <Popover open={isOpen} onOpenChange={setIsOpen}>
-        <PopoverTrigger>
+      <PopoverTrigger
+        render={(triggerProps) => {
+          const { 
+            // onClick, 
+            // onPointerDown, 
+            // onKeyDown, 
+            ref: triggerRef, // 这里的 ref 可能是一个函数，也可能是一个对象
+            ...restProps 
+          } = triggerProps;
+          const mergedAttributes = {...restProps,disabled,placeholder,...props}
+          return (
+            <textarea
+              {...restProps} 
+              ref={(node) => {
+                // 1. 赋值给你本地的 ref
+                if (textareaRef) {
+                  (textareaRef as React.MutableRefObject<HTMLTextAreaElement | null>).current = node;
+                }
+                
+                // 2. 兼容性处理 Base UI 传过来的 triggerRef
+                if (typeof triggerRef === 'function') {
+                  triggerRef(node);
+                } else if (triggerRef) {
+                  (triggerRef as React.MutableRefObject<HTMLTextAreaElement | null>).current = node;
+                }
+              }}
+              value={textValue}
+              onChange={handleInputChange}
+              onBlur={(e) => {
+                if (e.relatedTarget?.closest('[data-base-ui-popover-popup]')) return;
+                if(textValue.endsWith(trigger)) return;
+                setIsOpen(false);
+                onBlur?.(textValue);
+              }}
+              
+              className={textareaClasses}
+              {...mergedAttributes}
+            />
+          );
+        }}
+      />
+        {/* <PopoverTrigger >
           <textarea
             ref={textareaRef}
             value={textValue}
             onChange={handleInputChange}
-            onBlur={handleBlur}
+            // onBlur={handleBlur}
             placeholder={placeholder}
             disabled={disabled}
             className={textareaClasses}
             {...props}
           />
-        </PopoverTrigger>
+        </PopoverTrigger> */}
 
         {isOpen && (
           <PopoverContent className="w-56 p-0" side="bottom" align="start">

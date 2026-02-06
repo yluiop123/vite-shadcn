@@ -17,36 +17,36 @@ import {
 const components: { title: string; href: string; description: string }[] = [
   {
     title: "Alert Dialog",
-    href: "/docs/primitives/alert-dialog",
+    href: "javascript:void(0);",
     description:
       "A modal dialog that interrupts the user with important content and expects a response.",
   },
   {
     title: "Hover Card",
-    href: "/docs/primitives/hover-card",
+    href: "javascript:void(0);",
     description:
       "For sighted users to preview content available behind a link.",
   },
   {
     title: "Progress",
-    href: "/docs/primitives/progress",
+    href: "javascript:void(0);",
     description:
       "Displays an indicator showing the completion progress of a task, typically displayed as a progress bar.",
   },
   {
     title: "Scroll-area",
-    href: "/docs/primitives/scroll-area",
+    href: "javascript:void(0);",
     description: "Visually or semantically separates content.",
   },
   {
     title: "Tabs",
-    href: "/docs/primitives/tabs",
+    href: "javascript:void(0);",
     description:
       "A set of layered sections of content—known as tab panels—that are displayed one at a time.",
   },
   {
     title: "Tooltip",
-    href: "/docs/primitives/tooltip",
+    href: "javascript:void(0);",
     description:
       "A popup that displays information related to an element when the element receives keyboard focus or the mouse hovers over it.",
   },
@@ -77,13 +77,13 @@ export default function NavigationMenuPage() {
                   </a>
                 </NavigationMenuLink>
               </li>
-              <ListItem href="/docs" title="Introduction">
+              <ListItem href="javascript:void(0);" title="Introduction">
                 Re-usable components built using Radix UI and Tailwind CSS.
               </ListItem>
-              <ListItem href="/docs/installation" title="Installation">
+              <ListItem href="javascript:void(0);" title="Installation">
                 How to install dependencies and structure your app.
               </ListItem>
-              <ListItem href="/docs/primitives/typography" title="Typography">
+              <ListItem href="javascript:void(0);" title="Typography">
                 Styles for headings, paragraphs, lists...etc
               </ListItem>
             </ul>
@@ -107,7 +107,7 @@ export default function NavigationMenuPage() {
         </NavigationMenuItem>
         <NavigationMenuItem>
           <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-            <Link to="/docs">Docs</Link>
+            <Link to="javascript:void(0);">Docs</Link>
           </NavigationMenuLink>
         </NavigationMenuItem>
         <NavigationMenuItem className="hidden md:block">
@@ -164,23 +164,23 @@ export default function NavigationMenuPage() {
         <NavigationMenuItem className="hidden md:block">
           <NavigationMenuTrigger>With Icon</NavigationMenuTrigger>
           <NavigationMenuContent>
-            <ul className="grid w-[200px] gap-4">
+            <ul className="grid w-30 gap-4">
               <li>
                 <NavigationMenuLink>
-                  <Link to="#" className="flex-row items-center gap-2">
-                    <CircleHelpIcon />
+                  <Link to="#" className="flex items-center gap-2 px-3 py-1 text-sm font-medium text-emerald-600 bg-emerald-50 rounded-full border border-emerald-100 transition-all hover:bg-emerald-100">
+                    <CircleHelpIcon className="w-4 h-4 stroke-[2.5px]"/>
                     Backlog
                   </Link>
                 </NavigationMenuLink>
                 <NavigationMenuLink>
-                  <Link to="#" className="flex-row items-center gap-2">
-                    <CircleIcon />
+                  <Link to="#" className="flex items-center gap-2 px-3 py-1 text-sm font-medium text-emerald-600 bg-emerald-50 rounded-full border border-emerald-100 transition-all hover:bg-emerald-100">
+                    <CircleIcon className="w-4 h-4 stroke-[2.5px]"/>
                     To Do
                   </Link>
                 </NavigationMenuLink>
                 <NavigationMenuLink>
-                  <Link to="#" className="flex-row items-center gap-2">
-                    <CircleCheckIcon />
+                  <Link to="#" className="flex items-center gap-2 px-3 py-1 text-sm font-medium text-emerald-600 bg-emerald-50 rounded-full border border-emerald-100 transition-all hover:bg-emerald-100">
+                    <CircleCheckIcon className="w-4 h-4 stroke-[2.5px]"/>
                     Done
                   </Link>
                 </NavigationMenuLink>

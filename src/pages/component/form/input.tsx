@@ -12,7 +12,6 @@ import { Input } from "@/components/ui/input"
 // New Imports
 import {
   Field,
-  FieldDescription,
   FieldError,
   FieldGroup,
   FieldLabel
@@ -71,29 +70,26 @@ export default function InputExample() {
             
             {/* 1. Username with Icon inside FieldGroup */}
             <Field>
-              <FieldLabel>用户名 / Username</FieldLabel>
-              <FieldGroup>
-                <User className="text-muted-foreground h-4 w-4 ml-3" />
+              <FieldLabel><User className="text-muted-foreground h-4 w-4 ml-3" />用户名 / Username</FieldLabel>
+              <FieldGroup>        
                 <Input 
                   {...register("username")} 
                   placeholder="2-20 个字符" 
-                  className="border-0 focus-visible:ring-0 shadow-none" 
+                  className="focus-visible:ring-0 shadow-none" 
                 />
               </FieldGroup>
-              <FieldDescription>用户名必须在2-20个字符之间</FieldDescription>
               {errors.username && <FieldError>{errors.username.message}</FieldError>}
             </Field>
 
             {/* 2. Email */}
             <Field>
-              <FieldLabel>邮箱地址 / Email Address</FieldLabel>
-              <FieldGroup>
-                <Mail className="text-muted-foreground h-4 w-4 ml-3" />
+              <FieldLabel><Mail className="text-muted-foreground h-4 w-4 ml-3" />邮箱地址 / Email Address</FieldLabel>
+              <FieldGroup>               
                 <Input 
                   {...register("email")} 
                   type="email" 
                   placeholder="example@email.com" 
-                  className="border-0 focus-visible:ring-0 shadow-none"
+                  className="focus-visible:ring-0 shadow-none"
                 />
               </FieldGroup>
               {errors.email && <FieldError>{errors.email.message}</FieldError>}
@@ -101,14 +97,13 @@ export default function InputExample() {
 
             {/* 3. Password with Toggle inside FieldGroup */}
             <Field>
-              <FieldLabel>密码 / Password</FieldLabel>
-              <FieldGroup>
-                <Lock className="text-muted-foreground h-4 w-4 ml-3" />
+              <FieldLabel><Lock className="text-muted-foreground h-4 w-4 ml-3" />密码 / Password</FieldLabel>
+              <FieldGroup>                
                 <Input
                   {...register("password")}
                   type={showPassword ? "text" : "password"}
                   placeholder="至少8个字符"
-                  className="border-0 focus-visible:ring-0 shadow-none"
+                  className="focus-visible:ring-0 shadow-none"
                 />
                 <button
                   type="button"

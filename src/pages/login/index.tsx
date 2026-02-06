@@ -97,7 +97,7 @@ export default function Login({
                     render={({ field, fieldState }) => (
                       <Field data-invalid={fieldState.invalid}>
                         <FieldLabel htmlFor={field.name}>{intl.formatMessage({ id: 'page.login.password' })}</FieldLabel>
-                        <Input placeholder="super" {...field} id={field.name} aria-invalid={fieldState.invalid} />
+                        <Input type="password" placeholder="super" {...field} id={field.name} aria-invalid={fieldState.invalid} />
                         {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
                       </Field>
                     )}

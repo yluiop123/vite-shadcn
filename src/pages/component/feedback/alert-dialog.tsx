@@ -1,13 +1,13 @@
 import {
-    AlertDialog,
-    AlertDialogAction,
-    AlertDialogCancel,
-    AlertDialogContent,
-    AlertDialogDescription,
-    AlertDialogFooter,
-    AlertDialogHeader,
-    AlertDialogTitle,
-    AlertDialogTrigger,
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 
@@ -35,11 +35,11 @@ export default function AlertDialogDemo() {
                 </AlertDialogHeader>
 
                 <AlertDialogFooter>
-                  <AlertDialogCancel>
-                    <Button variant="outline">Cancel</Button>
+                  <AlertDialogCancel variant="outline">
+                    Cancel
                   </AlertDialogCancel>
-                  <AlertDialogAction >
-                    <Button variant="destructive">Confirm</Button>
+                  <AlertDialogAction variant="destructive">
+                    Confirm
                   </AlertDialogAction>
                 </AlertDialogFooter>
               </AlertDialogContent>
@@ -58,11 +58,11 @@ export default function AlertDialogDemo() {
                   <AlertDialogDescription>You'll need to sign in again to continue.</AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
-                  <AlertDialogCancel>
-                    <Button variant="outline">Stay</Button>
+                  <AlertDialogCancel variant="outline">
+                    Stay
                   </AlertDialogCancel>
-                  <AlertDialogAction >
-                    <Button>Sign out</Button>
+                  <AlertDialogAction variant="destructive">
+                    Sign out
                   </AlertDialogAction>
                 </AlertDialogFooter>
               </AlertDialogContent>

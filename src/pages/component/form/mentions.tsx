@@ -251,7 +251,7 @@ export default function MentionsExample() {
           <Field >
             <FieldLabel>禁用输入 / Disabled input</FieldLabel>
             <FieldGroup>
-              <Mentions disabled options={mockUsers} placeholder="禁用的输入框..." defaultValue="这是一个禁用的输入框" />
+              <Mentions disabled={true} options={mockUsers} placeholder="禁用的输入框..." defaultValue="这是一个禁用的输入框" />
             </FieldGroup>
             <FieldDescription>禁用状态下无法输入和提及用户</FieldDescription>
           </Field>

@@ -41,7 +41,6 @@ export default function AutoCompleteProDemo() {
       label: (
         <div className="flex justify-between">
           <span>Vue</span>
-          <span className="text-muted-foreground text-xs">Frontend</span>
         </div>
       ),
     },
@@ -50,7 +49,6 @@ export default function AutoCompleteProDemo() {
       label: (
         <div className="flex justify-between">
           <span>React</span>
-          <span className="text-muted-foreground text-xs">Frontend</span>
         </div>
       ),
     },
@@ -59,7 +57,6 @@ export default function AutoCompleteProDemo() {
       label: (
         <div className="flex justify-between">
           <span>Spring Boot</span>
-          <span className="text-muted-foreground text-xs">Backend</span>
         </div>
       ),
     },
@@ -168,7 +165,7 @@ export default function AutoCompleteProDemo() {
       {/* =======================
        * Size & Status
        * ======================= */}
-      <section className="space-y-4">
+      <section className="space-y-4 ">
         <h2 className="text-lg font-semibold">
           尺寸 & 状态 / Size & Status
         </h2>
@@ -178,7 +175,7 @@ export default function AutoCompleteProDemo() {
           options={sizeOptions}
           placeholder="Small"
         />
-
+        
         <AutoCompletePro
           size="md"
           status="warning"

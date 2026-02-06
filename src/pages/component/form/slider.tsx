@@ -78,10 +78,7 @@ export default function SliderExample() {
                       // 确保传入的是数组
                       value={[field.value]} 
                       // 解决方法：先接收原始参数 v，在内部进行断言并解构
-                      onValueChange={(v) => {
-                        const [val] = v as number[]; 
-                        field.onChange(val);
-                      }}
+                      onValueChange={field.onChange}
                       max={100}
                       step={1}
                     />
@@ -97,14 +94,11 @@ export default function SliderExample() {
                     <FieldLabel htmlFor={field.name}>亮度调节</FieldLabel>
                     <Slider
                         value={[field.value]}
-                        onValueChange={(v) => {
-                          const [val] = v as number[]; 
-                          field.onChange(val);
-                        }}
+                        onValueChange={field.onChange}
                         max={100}
                       />
                       <div 
-                      className="h-2 w-full rounded-full transition-all duration-300" 
+                      className="h-2 w-full rounded-full transition-all duration-300 bg-primary-300" 
                       style={{ backgroundColor: `rgba(255, 255, 255, ${field.value / 100})`, filter: 'invert(1)' }}
                     />
                   </Field>
