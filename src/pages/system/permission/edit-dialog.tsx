@@ -38,13 +38,13 @@ export default function Index(props: {setOpen: (open: boolean) => void, open: bo
             name: "action",
             label: "page.system.permission.header.action",
             defaultValue: "",
-            validate: z.string()
+            validate: z.string().optional(),
         },
         {
             name: "parentId",
             label: "page.system.permission.header.parentPermission",
             defaultValue: '',
-            validate: z.string(),
+            validate: z.string().optional(),
             type: "permission"
         },
     ]

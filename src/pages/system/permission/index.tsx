@@ -4,6 +4,7 @@ import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
+  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
@@ -131,7 +132,8 @@ export function IndeterminateCheckbox({
   return (
     <Checkbox
       className={className + " cursor-pointer"}
-      checked={mergedChecked? true : false}
+      checked={mergedChecked!==false}
+      indeterminate={mergedChecked === "indeterminate"}
       onCheckedChange={onCheckedChange}
       {...rest}
     />
@@ -144,7 +146,7 @@ export default function Permission() {
     {
       accessorKey: 'name',
       header: ({ table }) => (
-        <>
+        <div className="flex items-center space-x-2">
           <IndeterminateCheckbox
             {...{
               checked: table.getIsAllRowsSelected(),
@@ -153,7 +155,7 @@ export default function Permission() {
                 table.toggleAllRowsSelected(!!checked)
               },
             }}
-          />{' '}
+          />
           <button
             {...{
               onClick: table.getToggleAllRowsExpandedHandler(),
@@ -161,25 +163,23 @@ export default function Permission() {
             className="inline-flex items-center justify-center w-6 h-6 cursor-pointer"
           >
             {table.getIsAllRowsExpanded() ? <ChevronDown className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />}
-          </button>{' '}
+          </button>
           {formatMessage({ id: "page.system.permission.header.name" })}
-        </>
+        </div>
       ),
       cell: ({ row, getValue }) => (
-        <div
-          
+        <div className="flex items-center space-x-2"
           style={{
             paddingLeft: `${row.depth * 2}rem`,
           }}
         >
-          <div>
             <IndeterminateCheckbox
               {...{
                 checked: row.getIsSelected(),
                 indeterminate: row.getIsSomeSelected(),
                 onCheckedChange: row.getToggleSelectedHandler(),
               }}
-            />{' '}
+            />
             {row.getCanExpand() ? (
               <button
                 {...{
@@ -191,9 +191,8 @@ export default function Permission() {
               </button>
             ) : (
               ''
-            )}{' '}
+            )}
             {getValue<boolean>()}
-          </div>
         </div>
       ),
       enableSorting: false,
@@ -256,8 +255,9 @@ export default function Permission() {
                         </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
+                      <DropdownMenuGroup>
                         <DropdownMenuLabel>{formatMessage({ id: 'table.actions' })}</DropdownMenuLabel>
-                        <DropdownMenuSeparator />
+                        <DropdownMenuSeparator />                    
                         <DropdownMenuItem onClick={() => handleEdit(permission)}>{formatMessage({ id: 'button.edit' })}</DropdownMenuItem>
                         <DropdownMenuItem onClick={() => handleDelete([permission.id])}>{formatMessage({ id: 'button.delete' })}</DropdownMenuItem>
                         <DropdownMenuItem onClick={() => handleAddChild(permission)}>{formatMessage({ id: 'button.addChild' })}</DropdownMenuItem>
@@ -265,6 +265,7 @@ export default function Permission() {
                         <DropdownMenuItem onClick={() => handleMove(permission, 'top')}>{formatMessage({ id: 'button.moveTop' })}</DropdownMenuItem>
                         <DropdownMenuItem onClick={() => handleMove(permission, 'up')}>{formatMessage({ id: 'button.moveUp' })}</DropdownMenuItem>
                         <DropdownMenuItem onClick={() => handleMove(permission, 'down')}>{formatMessage({ id: 'button.moveDown' })}</DropdownMenuItem>
+                      </DropdownMenuGroup>
                     </DropdownMenuContent>
                 </DropdownMenu>
             )
@@ -403,12 +404,14 @@ export default function Permission() {
                       setParams({ ...params, status: value||'' })
                   } defaultValue={params.status}>
                   <SelectTrigger className="flex items-center">
-                      <SelectValue placeholder="Status" />
+                      <SelectValue placeholder="Status">
+                        {formatMessage({ id: `dict.status.${params.status}` })}
+                      </SelectValue>
                   </SelectTrigger>
                   <SelectContent>
                       {Array.from(statusEnum).map(([key, value]) => {
                               return (
-                                  <SelectItem key={value} value={key}>{formatMessage({ id: `dict.status.${value}` })}</SelectItem>
+                                  <SelectItem key={key} value={value}>{formatMessage({ id: `dict.status.${value}` })}</SelectItem>
                               )
                           })}
                   </SelectContent>

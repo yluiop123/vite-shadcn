@@ -287,6 +287,15 @@ export default function User() {
             rowSelection,
         },
     })
+    const getColumnHeader = (columnId: string) => {
+        const column = table.getAllColumns().find((column) => column.id === columnId);
+        if (column) {
+            const header = column.columnDef.header;
+            const meta = column.columnDef.meta as { title?: string };
+            return typeof header === 'string' || typeof header === 'number' ? header : meta?.title || columnId;
+        }
+        return columnId;
+    }
     return (
         <div className="w-full p-3">
             <EditDialog id={id} setOpen={setIsEditDialogOpen} open={isEditDialogOpen} 
@@ -305,7 +314,9 @@ export default function User() {
                         setParams({ ...params, filterField: value?value : "" })
                     } defaultValue={params.filterField}>
                     <SelectTrigger className="flex items-center">
-                        <SelectValue placeholder="FilterField" />
+                        <SelectValue>
+                            {getColumnHeader(params.filterField)}
+                        </SelectValue>
                     </SelectTrigger>
                     <SelectContent>
                         {table

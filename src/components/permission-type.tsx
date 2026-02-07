@@ -2,12 +2,14 @@
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { permissionTypeEnum } from "@/lib/dict";
 import { useIntl } from "react-intl";
-export default function PermissionType({className}: {className?: string}) {
+export default function PermissionType(props:{className?:string,value?:string,onChange:(value:string|null)=>void}) {
     const { formatMessage } = useIntl();
     return (
-    <Select>
-        <SelectTrigger className={className}>
-            <SelectValue placeholder="Permission Type" />
+    <Select value={props.value} onValueChange={props.onChange}>
+        <SelectTrigger className={props.className}>
+            <SelectValue placeholder="Permission Type" >
+                {formatMessage({ id: `dict.permissionType.${props.value}`, defaultMessage: '' })}
+            </SelectValue>
         </SelectTrigger>
         <SelectContent>
             {Array.from(permissionTypeEnum).map(([key, value]) => {

@@ -4,6 +4,7 @@ import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
+  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
@@ -234,6 +235,7 @@ export default function Group() {
                         </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
+                      <DropdownMenuGroup> 
                         <DropdownMenuLabel>{formatMessage({ id: 'table.actions' })}</DropdownMenuLabel>
                         <DropdownMenuSeparator />
                         <DropdownMenuItem onClick={() => handleEdit(role)}>{formatMessage({ id: 'button.edit' })}</DropdownMenuItem>
@@ -243,6 +245,7 @@ export default function Group() {
                         <DropdownMenuItem onClick={() => handleMove(role, 'top')}>{formatMessage({ id: 'button.moveTop' })}</DropdownMenuItem>
                         <DropdownMenuItem onClick={() => handleMove(role, 'up')}>{formatMessage({ id: 'button.moveUp' })}</DropdownMenuItem>
                         <DropdownMenuItem onClick={() => handleMove(role, 'down')}>{formatMessage({ id: 'button.moveDown' })}</DropdownMenuItem>
+                      </DropdownMenuGroup>
                     </DropdownMenuContent>
                 </DropdownMenu>
             )
@@ -372,20 +375,25 @@ export default function Group() {
           
           <div className="flex items-center gap-2">
               <Label className="whitespace-nowrap">{formatMessage({ id: 'page.system.group.header.status' })}</Label>
-              <Select 
-                  onValueChange={(value) =>
-                      setParams({ ...params, status: value || '' })
-                  } defaultValue={params.status}>
-                  <SelectTrigger className="flex items-center">
-                      <SelectValue placeholder="Status" />
-                  </SelectTrigger>
-                  <SelectContent>
-                      {Array.from(statusEnum).map(([key, value]) => {
-                              return (
-                                  <SelectItem key={value} value={key}>{formatMessage({ id: `dict.status.${value}` })}</SelectItem>
-                              )
-                          })}
-                  </SelectContent>
+              <Select
+                value={params.status} // 受控组件
+                onValueChange={(value) => setParams({ ...params, status: value || '' })}
+              >
+                <SelectTrigger className="flex items-center">
+                  <SelectValue>
+                    {params.status
+                      ? formatMessage({ id: `dict.status.${statusEnum.get(params.status)}` })
+                      : 'Status'}
+                  </SelectValue>
+                </SelectTrigger>
+
+                <SelectContent>
+                  {Array.from(statusEnum).map(([key, value]) => (
+                    <SelectItem key={key} value={key}>
+                      {formatMessage({ id: `dict.status.${value}` })}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
               </Select>
           </div>
           <div className="ml-auto flex items-center gap-2">

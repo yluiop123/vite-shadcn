@@ -4,6 +4,7 @@ import {
     DropdownMenu,
     DropdownMenuCheckboxItem,
     DropdownMenuContent,
+    DropdownMenuGroup,
     DropdownMenuItem,
     DropdownMenuLabel,
     DropdownMenuSeparator,
@@ -217,16 +218,18 @@ export default function Role() {
                             </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
-                            <DropdownMenuLabel>{intl.formatMessage({ id: 'table.actions' })}</DropdownMenuLabel>
+                            <DropdownMenuGroup>
+                                <DropdownMenuLabel>{intl.formatMessage({ id: 'table.actions' })}</DropdownMenuLabel>
 
-                            {/* <DropdownMenuItem
-                                onClick={() => navigator.clipboard.writeText(user.username)}
-                            >
-                                Copy payment ID
-                            </DropdownMenuItem> */}
-                            <DropdownMenuSeparator />
-                            <DropdownMenuItem onClick={() => handleEdit(role)}>{intl.formatMessage({ id: 'button.edit' })}</DropdownMenuItem>
-                            <DropdownMenuItem onClick={() => handleDelete([role])}>{intl.formatMessage({ id: 'button.delete' })}</DropdownMenuItem>
+                                {/* <DropdownMenuItem
+                                    onClick={() => navigator.clipboard.writeText(user.username)}
+                                >
+                                    Copy payment ID
+                                </DropdownMenuItem> */}
+                                <DropdownMenuSeparator />
+                                <DropdownMenuItem onClick={() => handleEdit(role)}>{intl.formatMessage({ id: 'button.edit' })}</DropdownMenuItem>
+                                <DropdownMenuItem onClick={() => handleDelete([role])}>{intl.formatMessage({ id: 'button.delete' })}</DropdownMenuItem>
+                            </DropdownMenuGroup>
                         </DropdownMenuContent>
                     </DropdownMenu>
                 )
