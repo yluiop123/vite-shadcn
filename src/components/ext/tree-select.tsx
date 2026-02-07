@@ -5,7 +5,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { cn } from "@/lib/utils";
 import { ChevronDown, ChevronRight, X } from "lucide-react";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 
 // ------------------- 类型定义 -------------------
 
@@ -262,15 +262,9 @@ export default function TreeSelect(props: TreeSelectProps) {
     return Array.isArray(val) ? val : val ? [val] : [];
   });
 
-  useEffect(() => {
-    if (value !== undefined) {
-      setSelected(Array.isArray(value) ? value : [value]);
-    }
-  }, [value]);
-
   const handleToggle = (node: TreeNode, checked: boolean) => {
     let newSelected: string[];
-
+    debugger;
     if (multiple) {
       // 多选：联动逻辑
       const allChildIds = collectAllChildIds(node);
@@ -284,7 +278,7 @@ export default function TreeSelect(props: TreeSelectProps) {
       newSelected = [node.value];
       setOpen(false);
     }
-
+    console.log(newSelected);
     setSelected(newSelected);
 
     // 回调逻辑
