@@ -461,8 +461,7 @@ type Permission = {
    */
   action: string; // Operation name, further refining the specific operation of the permission (such as read, write, execute, etc.)
 };
-};
-
+```
 ## Theme
 
 1.Add a new theme color under src/themes.
