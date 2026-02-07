@@ -87,8 +87,6 @@ export default function TreeSelectExample() {
   })
 
   React.useEffect(() => {
-    form.setValue("countries", controlledValue)
-    
     // 更新选中信息
     const info: {value: string, title: string, path: string}[] = []
     const findPath = (nodes: TreeNode[], targetValue: string, currentPath: string[] = []): string[] | null => {
@@ -319,7 +317,9 @@ export default function TreeSelectExample() {
             >
               全选示例 / Select All
             </Button>
-            <Button size="sm" variant="outline" onClick={() => setControlledValue([])}>
+            <Button size="sm" variant="outline" onClick={() => {
+              setControlledValue([])
+              }}>
               清空 / Clear
             </Button>
             <label className="flex items-center gap-2 text-sm">

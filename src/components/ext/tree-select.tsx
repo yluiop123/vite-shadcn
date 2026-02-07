@@ -264,7 +264,6 @@ export default function TreeSelect(props: TreeSelectProps) {
 
   const handleToggle = (node: TreeNode, checked: boolean) => {
     let newSelected: string[];
-    debugger;
     if (multiple) {
       // 多选：联动逻辑
       const allChildIds = collectAllChildIds(node);
@@ -278,7 +277,6 @@ export default function TreeSelect(props: TreeSelectProps) {
       newSelected = [node.value];
       setOpen(false);
     }
-    console.log(newSelected);
     setSelected(newSelected);
 
     // 回调逻辑
@@ -316,7 +314,7 @@ export default function TreeSelect(props: TreeSelectProps) {
       <PopoverTrigger>
         <div
           className={cn(
-            "group relative flex min-h-[2.5rem] w-full cursor-pointer flex-wrap items-center gap-1.5 rounded-md border border-input bg-background py-1.5 pl-2 pr-9 text-sm transition-all duration-200",
+            "group relative flex min-h-10 w-full cursor-pointer flex-wrap items-center gap-1.5 rounded-md border border-input bg-background py-1.5 pl-2 pr-15 text-sm transition-all duration-200",
             "hover:border-primary/50",
             "focus-within:ring-1 focus-within:ring-ring focus-within:border-primary",
             className
@@ -362,7 +360,7 @@ export default function TreeSelect(props: TreeSelectProps) {
                 }}
               />
             )}
-            <div className="w-[1px] h-4 bg-border mx-0.5" />
+            <div className="w-px h-4 bg-border mx-0.5" />
             <ChevronDown className={cn("h-4 w-4 transition-transform duration-200", open && "rotate-180 text-primary")} />
           </div>
         </div>
@@ -370,7 +368,7 @@ export default function TreeSelect(props: TreeSelectProps) {
 
       <PopoverContent
         align="start"
-        className="p-0 w-[var(--radix-popover-trigger-width)] min-w-[240px] shadow-lg border-muted"
+        className="p-0 min-w-60 shadow-lg border-muted"
       >
         {filterable && (
           <div className="p-2 border-b border-muted">
@@ -383,7 +381,7 @@ export default function TreeSelect(props: TreeSelectProps) {
           </div>
         )}
 
-        <div className="max-h-[320px] overflow-y-auto p-2">
+        <div className="max-h-80 overflow-y-auto p-2">
           {treeData.length > 0 ? (
             <Tree
               nodes={treeData}
