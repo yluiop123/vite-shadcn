@@ -9,12 +9,6 @@ English | [简体中文](./README.zh-CN.md)
 <img height="500" src="./readme/images/form.png">
 <img height="500" src="./readme/images/rechart.png">
 
-## 🚀 Quick Start
-
-```bash
-pnpm install
-pnpm run dev
-```
 
 ## ✅ Task List
 
@@ -53,7 +47,7 @@ pnpm run dev
   - [x] Data display components
   - [x] Feedback components
   - [x] Form components (react-hook-form)
-  - [ ] Table components (tanstack/react-table)
+  - [x] Table components (tanstack/react-table)
   - [ ] AI components
   - [ ] Custom components
 
@@ -106,138 +100,373 @@ pnpm run dev
 
 </details>
 
+## Quick Start
 
-## 🛠️ command
+### 1) Environment
 
-| command | description             |
-|---------|-------------------------|
-| `dev` | `vite` |
-| `build` | `tsc -b && vite build` |
-| `build:github` | `tsc -b && vite build --mode github` |
-| `lint` | `eslint .` |
-| `preview` | `vite preview` |
-| `preview:github` | `vite preview --mode github` |
-| `analyze` | `cross-env ANALYZE=true vite build` |
-| `readme` | `node ./readme/readme.js && node ./readme/readme-zh-CN.js` |
+- **Node.js**: v18+  
+- **pnpm**: v10.28.2  
 
-## 📦 dependencies
+---
 
-- dependencies:
-  - @ant-design/charts: ^2.6.6
-  - @ant-design/plots: ^2.6.8
-  - @antv/l7: ^2.23.1
-  - @antv/larkmap: ^1.5.1
-  - @babylonjs/core: ^8.42.0
-  - @babylonjs/loaders: ^8.42.0
-  - @deck.gl/layers: ^9.2.6
-  - @deck.gl/react: ^9.2.6
-  - @dnd-kit/core: ^6.3.1
-  - @dnd-kit/modifiers: ^9.0.0
-  - @dnd-kit/sortable: ^10.0.0
-  - @dnd-kit/utilities: ^3.2.2
-  - @headless-tree/core: ^1.6.3
-  - @headless-tree/react: ^1.6.3
-  - @hookform/resolvers: ^5.0.1
-  - @observablehq/plot: ^0.6.17
-  - @radix-ui/react-accordion: ^1.2.12
-  - @radix-ui/react-alert-dialog: ^1.1.15
-  - @radix-ui/react-aspect-ratio: ^1.1.8
-  - @radix-ui/react-avatar: ^1.1.11
-  - @radix-ui/react-checkbox: ^1.3.3
-  - @radix-ui/react-collapsible: ^1.1.12
-  - @radix-ui/react-context-menu: ^2.2.16
-  - @radix-ui/react-dialog: ^1.1.15
-  - @radix-ui/react-dropdown-menu: ^2.1.16
-  - @radix-ui/react-form: ^0.1.8
-  - @radix-ui/react-hover-card: ^1.1.15
-  - @radix-ui/react-label: ^2.1.8
-  - @radix-ui/react-menubar: ^1.1.16
-  - @radix-ui/react-navigation-menu: ^1.2.14
-  - @radix-ui/react-popover: ^1.1.15
-  - @radix-ui/react-progress: ^1.1.8
-  - @radix-ui/react-radio-group: ^1.3.8
-  - @radix-ui/react-scroll-area: ^1.2.10
-  - @radix-ui/react-select: ^2.2.6
-  - @radix-ui/react-separator: ^1.1.8
-  - @radix-ui/react-slider: ^1.3.6
-  - @radix-ui/react-slot: ^1.2.4
-  - @radix-ui/react-switch: ^1.2.6
-  - @radix-ui/react-tabs: ^1.1.13
-  - @radix-ui/react-toast: ^1.2.15
-  - @radix-ui/react-toggle: ^1.1.10
-  - @radix-ui/react-toggle-group: ^1.1.11
-  - @radix-ui/react-tooltip: ^1.2.8
-  - @react-three/drei: ^10.7.7
-  - @react-three/fiber: ^9.5.0
-  - @react-three/postprocessing: ^3.0.4
-  - @tabler/icons-react: ^3.31.0
-  - @tailwindcss/vite: ^4.1.3
-  - @tanstack/react-table: ^8.21.3
-  - @uppy/core: ^5.2.0
-  - @uppy/react: ^5.1.1
-  - @uppy/tus: ^5.1.0
-  - axios: ^1.9.0
-  - cesium: ^1.133.1
-  - class-variance-authority: ^0.7.1
-  - clsx: ^2.1.1
-  - cmdk: ^1.1.1
-  - colorjs.io: ^0.5.2
-  - d3-geo: ^3.1.1
-  - date-fns: ^4.1.0
-  - deck.gl: ^9.2.5
-  - echarts-for-react: ^3.0.2
-  - embla-carousel-autoplay: ^8.6.0
-  - embla-carousel-react: ^8.6.0
-  - framer-motion: ^12.30.0
-  - leaflet: ^1.9.4
-  - leva: ^0.10.1
-  - lucide-react: ^0.488.0
-  - next-themes: ^0.4.6
-  - ol: ^10.7.0
-  - qrcode.react: ^4.2.0
-  - react: ^19.1.0
-  - react-colorful: ^5.6.1
-  - react-day-picker: ^9.13.0
-  - react-dom: ^19.1.0
-  - react-dropzone: ^14.4.0
-  - react-hook-form: ^7.56.3
-  - react-intl: ^7.1.11
-  - react-leaflet: ^5.0.0-rc.2
-  - react-map-gl: ^8.1.0
-  - react-openlayers: ^10.5.1
-  - react-resizable-panels: ^3.0.6
-  - react-router: ^7.6.2
-  - recharts: ^2.15.3
-  - resium: ^1.19.0-beta.1
-  - sonner: ^2.0.7
-  - tailwind-merge: ^3.2.0
-  - tailwindcss: ^4.1.3
-  - tailwindcss-animate: ^1.0.7
-  - three: ^0.182.0
-  - vaul: ^1.1.2
-  - zod: ^3.24.4
-  - zustand: ^5.0.5
+### 2) Tech Stack
 
-- devDependencies:
-  - @eslint/js: ^9.24.0
-  - @types/leaflet: ^1.9.21
-  - @types/mockjs: ^1.0.10
-  - @types/node: ^22.14.1
-  - @types/react: ^19.1.1
-  - @types/react-dom: ^19.1.2
-  - @vitejs/plugin-react-swc: ^3.8.1
-  - cross-env: ^7.0.3
-  - eslint: ^9.24.0
-  - eslint-plugin-react-hooks: ^5.2.0
-  - eslint-plugin-react-refresh: ^0.4.19
-  - globals: ^16.0.0
-  - msw: ^2.10.2
-  - rollup-plugin-visualizer: ^6.0.3
-  - tailwind-scrollbar: ^4.0.2
-  - typescript: ~5.8.3
-  - typescript-eslint: ^8.29.1
-  - vite: ^6.2.6
-  - vite-plugin-cesium-build: ^0.7.1
+- **Framework**: React 19 + Vite 6  
+- **State Management**: Zustand  
+- **UI Library**: ShadCN + TailwindCSS  
+- **Internationalization**: react-intl  
+- **Routing**: React Router v7  
+- **Mock API**: Mock Service Worker (MSW)  
+- **Build Tool**: Vite 6  
+
+---
+
+### 3) Installation & Run
+
+```bash
+# Clone repository
+git clone https://github.com/yluiop123/vite-shadcn.git
+cd <project-directory>
+
+# Install dependencies
+pnpm install
+
+# Start development server
+pnpm dev
+
+# Visit http://localhost:3000/
+```
+### 4）CLI Commands
+
+| Command        | Description                        | Notes                                |
+| -------------- | ---------------------------------- | ------------------------------------ |
+| dev            | vite                               | Start dev server with hot reload     |
+| build          | tsc -b && vite build               | Type check then build for production |
+| build:github   | tsc -b && vite build --mode github | Build for GitHub Pages               |
+| lint           | eslint .                           | Run ESLint checks                    |
+| preview        | vite preview                       | Preview production build             |
+| preview:github | vite preview --mode github         | Preview GitHub Pages build           |
+| analyze        | cross-env ANALYZE=true vite build  | Bundle size analysis                 |
+
+
+### 5）Environment Variables
+
+The project uses .env files for environment configuration.
+When using --mode, Vite will automatically load the corresponding .env.[mode] file.
+
+Common environment variables:
+
+```env
+VITE_BASE=/              # Base path for deployment
+VITE_ROUTE=browserRouter # Routing strategy
+VITE_MOCK_ENABLE=true    # Enable mock services
+VITE_BASE_API=/api/      # API base prefix
+VITE_CESIUM_TOKEN=###    # Cesium service access token
+
+```
+
+## Project Structure
+
+```
+vite-shadcn
+├── .github/                     # GitHub Settings File
+│   ├── workflows/
+│   │   └── main.yml            # CI/CD Workflow Configuration
+│   ├── copilot-instructions.md  # Copilot Instructions
+├── .trae/                       # Trae IDE Rules
+│   └── rules/
+├── public/                      # Static Resource Directory
+├── src/                         # Source Code Directory
+│   ├── assets/                  # Static Resource Directory
+│   ├── components/              # General Components
+│   │   ├── ext/                 # Extended Components
+│   │   ├── ui/                  # Shadcn UI Base Components
+│   │   ├── app-sidebar.tsx      # Application Sidebar
+│   │   ├── chart-area-interactive.tsx # Interactive Area Chart
+│   │   ├── color-switcher.tsx   # Color Switcher
+│   │   ├── dialog-form.tsx      # Form Dialog
+│   │   ├── group-tree-select.tsx # Group Tree Selector
+│   │   ├── nav-main.tsx         # Main Navigation
+│   │   ├── nav-user.tsx         # User Navigation
+│   │   ├── permission-tree-select.tsx # Permission Tree Selector
+│   │   ├── permission-tree-single-select.tsx # Permission Single Tree Selector
+│   │   ├── permission-type.tsx  # Permission Type
+│   │   ├── role-select.tsx      # Role Selector
+│   │   ├── section-cards.tsx    # Section Cards
+│   │   ├── sidebar-menutree.tsx # Sidebar Menu Tree
+│   │   ├── site-header.tsx      # Site Header
+│   │   └── ...                  # More Components
+│   ├── hooks/                   # React Hooks
+│   │   └── use-mobile.ts        # Mobile Detection Hook
+│   ├── lib/                     # Utility Library
+│   │   ├── axios.ts             # Axios Configuration
+│   │   ├── dict.ts              # Dictionary Utilities
+│   │   ├── fixLeafletIcon.ts    # Leaflet Icon Fixer
+│   │   ├── notify.ts            # Notification Utilities
+│   │   └── utils.ts             # General Utility Functions
+│   ├── locale/                  # Internationalization
+│   │   ├── en-US.ts             # English Translation
+│   │   └── zh-CN.ts             # Chinese Translation
+│   ├── mock/                    # Mock Data
+│   ├── pages/                   # Page Components
+│   │   ├── chart/               # Chart Pages
+│   │   ├── component/           # Component Examples
+│   │   ├── dashboard/           # Dashboard Pages
+│   │   ├── system/              # System Management Pages
+│   ├── store/                   # State Management
+│   ├── themes/                  # Theme Color Files
+│   ├── App.tsx                  # Application Root Component
+│   ├── index.css                # Global Styles
+│   ├── layout.tsx               # Application Layout
+│   └── main.tsx                 # Application Entry Point
+├── .env                         # Environment Variables
+├── .env.github                  # GitHub Environment Variables
+├── .gitignore                   # Git Ignore File
+├── .hintrc                      # Webhint Configuration File
+├── CODE_OF_CONDUCT.md           # Code of Conduct
+├── LICENSE                      # License
+├── components.json              # Component Configuration
+└── package.json                 # Project Configuration
+```
+
+---
+
+## Routing & Menu
+
+### Route Example (React Router v7)
+
+```ts
+//src\routes.ts
+const routeSetting: NavItem[] = [
+  {
+    key: "dashboard",
+    title: "menu.dashboard",
+    icon: LayoutDashboard,
+    children: [
+      { key: "normal", title: "menu.dashboard.normal", icon: Gauge },
+    ],
+  },
+];
+```
+
+The route configuration contains four core parameters：
+
+- **key**: The route path identifier, used to uniquely identify a navigation target
+- **title**: The internationalization key value, used for multi-language text mapping
+- **icon**: The menu icon element, used for visual identification
+- **children**: The child menu array, used to build nested navigation structures
+
+### Example Configuration for a Page
+
+1. Configure the route dashboard\normal
+
+```ts
+//src\routes.ts
+const routeSetting: NavItem[] = [
+  {
+    key: "dashboard",
+    title: "menu.dashboard",
+    icon: LayoutDashboard,
+    children: [
+      { key: "normal", title: "menu.dashboard.normal", icon: Gauge },
+    ],
+  },
+];
+```
+
+2. Configure the title key in the internationalization file
+
+```ts
+//src\locale\en-US.ts
+export default {
+    'menu.dashboard': 'Dashboard',
+    'menu.dashboard.normal': 'Normal',
+};
+```
+
+```ts
+//src\locale\zh-CN.ts
+export default {
+    'menu.dashboard': '仪表盘',
+    'menu.dashboard.normal': '普通仪表盘',
+};
+```
+
+3. Add the page component
+
+src\pages\component\general\index.tsx
+
+Note: The page component must be placed in the `index.tsx` file.
+
+4. Mock Permission Addition
+
+The following code simulates fetching the current user's permissions. You need to add the permission for the new menu in this code.
+
+```ts
+//src\mock\system\permission.ts
+    http.get<{ id: string }>(
+    "/api/system/permissions/detail/:id",
+```
+
+Corresponding function is getPermissionList
+
+```ts
+//src\mock\system\permission.ts
+function getPermissionList(locale: string) {
+    const dataArray: Permission[] = [
+            //supper menu permissions
+            {id: '0000', parentId:'',order: 0, path: "/dashboard",type: "directory",name:localeMap[locale]['menu.dashboard'] },
+            {id: '0001', parentId:'',order: 1, path: "/component", type: "menu",name:localeMap[locale]['menu.component'] },
+            {id: '000100', parentId:'0001',order: 0, path: "/component/general", type: "menu",name:localeMap[locale]['menu.component.general'] },
+```
+
+`component/general` page corresponds to the permission identifier `id: '000100'`, where the `type` field represents the permission type:
+
+- **directory**: Directory permission, which includes access permissions for all sub-menus in the directory
+- **menu**: Menu item permission, which only controls access permissions for the current menu item
+
+## Internationalization
+
+### Configuration Example (react-intl)：
+
+```ts
+//src\locale\en-US.ts
+export default {
+    'menu.dashboard': 'Dashboard',
+};
+```
+
+```ts
+//src\locale\zh-CN.ts
+export default {
+    'menu.dashboard': '仪表盘',
+};
+```
+
+### Page Usage Example：
+
+```ts
+import { useIntl } from "react-intl";
+
+const { formatMessage } = useIntl();
+<div>{formatMessage({ id: "menu.dashboard", defaultMessage: "Dashboard" })}</div>
+```
+
+---
+
+## Mock Data
+
+The project uses MSW to simulate data. The code for importing MSW is as follows:
+
+```ts
+//src\main.tsx
+const mockEnable = (import.meta.env.VITE_MOCK_ENABLE||'true')=='true';
+if(mockEnable){
+  initMSW().then(()=>{
+    createRootElement();
+  })
+}else{
+  createRootElement();
+}
+```
+
+Mock data entry is in the following file. If you want to add new mock data, refer to the following code to add a new handler.
+
+```ts
+//src\mock\index.ts
+import { setupWorker } from "msw/browser";
+import groupHandlers from "./components/group";
+import permissionHandlers from "./components/permission";
+import loginUserHandlers from "./login/user";
+import systemGroupHandlers from "./system/group";
+import systemPermissionHandlers from "./system/permission";
+import systemRoleHandlers from "./system/role";
+import systemUserHandlers from "./system/user";
+const mockHandlers = [
+  ...loginUserHandlers,
+  ...groupHandlers,
+  ...permissionHandlers,
+  ...systemUserHandlers,
+  ...systemRoleHandlers,
+  ...systemGroupHandlers,
+  ...systemPermissionHandlers
+];
+let worker: ReturnType<typeof setupWorker> | null = null;
+export default async function initMSW() {
+  if (worker) return worker;
+  worker = setupWorker(...mockHandlers);
+  await worker.start({
+
+    serviceWorker: {
+      url: `${import.meta.env.BASE_URL}mockServiceWorker.js`,
+      options: { type: 'module', updateViaCache: 'none' },
+    },
+    onUnhandledRequest: (req) => {
+      if (!req.url.startsWith('/api')) {
+        return 
+      }
+    },
+  });
+  return worker;
+}
+```
+---
+## Permission Control
+
+User permissions are obtained from userInfo.
+
+```ts
+import { useUserStore } from '@/store';
+const { userInfo} = useUserStore();
+```
+System Permission Management Includes the Following Concepts：
+- **rolePermissions**:A set of role permissions that define the specific permissions assigned to a role.
+- **userPermissions**:  A set of user permissions that define the permissions at the user account level.
+- **currentPermission**: The currently effective permission, which is the union of user permissions and the selected role permissions.
+- **currentMenuPermission**: The current menu permission, used to control the display of specific menu items.
+- **currentDirectoryPermission**: The current directory permission, used to control the visibility of directory nodes. Having directory permission automatically grants all child menu permissions under it.
+
+The system supports multi-role management mode. When a user selects "All Roles," the system integrates the union of user permissions and all role permissions as the current permission set, enabling flexible permission control strategies.
+
+## Theme
+
+1.Add a new theme color under src/themes.
+2.After adding the new theme color, it needs to be imported.
+
+```ts
+//src\index.css
+@import "@/themes/blue.css";
+@import "@/themes/green.css";
+@import "@/themes/orange.css";
+@import "@/themes/red.css";
+@import "@/themes/rose.css";
+@import "@/themes/violet.css";
+@import "@/themes/yellow.css";
+```
+
+- **Theme Color Switching**: Users can switch between different theme colors to personalize the visual experience.
+
+Below is an example of configuring theme colors. The string color values should match those in the src\themes directory.
+
+```ts
+//src\store\theme.ts
+export type Color =
+  | "default"
+  | "blue"
+  | "green"
+  | "orange"
+  | "red"
+  | "rose"
+  | "violet"
+  | "yellow";
+```
+
+```ts
+import {useThemeStore } from '@/store/index';
+const {color,setColor} = useThemeStore();
+setColor('blue')
+```
+
 
 ## 🧾 License
 

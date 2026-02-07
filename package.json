@@ -9,8 +9,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "preview:github": "vite preview --mode github",
-    "analyze": "cross-env ANALYZE=true vite build",
-    "readme": "node ./readme/readme.js && node ./readme/readme-zh-CN.js"
+    "analyze": "cross-env ANALYZE=true vite build"
   },
   "dependencies": {
     "@ant-design/charts": "^2.6.6",

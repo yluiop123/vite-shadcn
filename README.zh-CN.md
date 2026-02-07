@@ -9,13 +9,6 @@ VITE-SHADCN 是一个基于 `Shadcn` , `Vite` , `React`,`Zustand`,`React-Router`
 <img height="500" src="./readme/images/form-zh-CN.png">
 <img height="500" src="./readme/images/rechart-zh-CN.png">
 
-## 🚀 快速开始
-
-```bash
-pnpm install
-pnpm run dev
-```
-
 ## ✅ 任务清单
 
 - [x] 初始化项目
@@ -90,137 +83,373 @@ pnpm run dev
   - [ ] 实现微服务
 </details>
 
-## 🛠️ 脚本命令
+## 快速开始
 
-| 命令        | 描述             |
-|-------------|------------------|
-| `dev` | `vite` |
-| `build` | `tsc -b && vite build` |
-| `build:github` | `tsc -b && vite build --mode github` |
-| `lint` | `eslint .` |
-| `preview` | `vite preview` |
-| `preview:github` | `vite preview --mode github` |
-| `analyze` | `cross-env ANALYZE=true vite build` |
-| `readme` | `node ./readme/readme.js && node ./readme/readme-zh-CN.js` |
+### 1）环境
 
-## 📦 依赖
+- **Node.js**: v18+
+- **pnpm**: pnpm v10.28.2
 
-- 主依赖:
-  - @ant-design/charts: ^2.6.6
-  - @ant-design/plots: ^2.6.8
-  - @antv/l7: ^2.23.1
-  - @antv/larkmap: ^1.5.1
-  - @babylonjs/core: ^8.42.0
-  - @babylonjs/loaders: ^8.42.0
-  - @deck.gl/layers: ^9.2.6
-  - @deck.gl/react: ^9.2.6
-  - @dnd-kit/core: ^6.3.1
-  - @dnd-kit/modifiers: ^9.0.0
-  - @dnd-kit/sortable: ^10.0.0
-  - @dnd-kit/utilities: ^3.2.2
-  - @headless-tree/core: ^1.6.3
-  - @headless-tree/react: ^1.6.3
-  - @hookform/resolvers: ^5.0.1
-  - @observablehq/plot: ^0.6.17
-  - @radix-ui/react-accordion: ^1.2.12
-  - @radix-ui/react-alert-dialog: ^1.1.15
-  - @radix-ui/react-aspect-ratio: ^1.1.8
-  - @radix-ui/react-avatar: ^1.1.11
-  - @radix-ui/react-checkbox: ^1.3.3
-  - @radix-ui/react-collapsible: ^1.1.12
-  - @radix-ui/react-context-menu: ^2.2.16
-  - @radix-ui/react-dialog: ^1.1.15
-  - @radix-ui/react-dropdown-menu: ^2.1.16
-  - @radix-ui/react-form: ^0.1.8
-  - @radix-ui/react-hover-card: ^1.1.15
-  - @radix-ui/react-label: ^2.1.8
-  - @radix-ui/react-menubar: ^1.1.16
-  - @radix-ui/react-navigation-menu: ^1.2.14
-  - @radix-ui/react-popover: ^1.1.15
-  - @radix-ui/react-progress: ^1.1.8
-  - @radix-ui/react-radio-group: ^1.3.8
-  - @radix-ui/react-scroll-area: ^1.2.10
-  - @radix-ui/react-select: ^2.2.6
-  - @radix-ui/react-separator: ^1.1.8
-  - @radix-ui/react-slider: ^1.3.6
-  - @radix-ui/react-slot: ^1.2.4
-  - @radix-ui/react-switch: ^1.2.6
-  - @radix-ui/react-tabs: ^1.1.13
-  - @radix-ui/react-toast: ^1.2.15
-  - @radix-ui/react-toggle: ^1.1.10
-  - @radix-ui/react-toggle-group: ^1.1.11
-  - @radix-ui/react-tooltip: ^1.2.8
-  - @react-three/drei: ^10.7.7
-  - @react-three/fiber: ^9.5.0
-  - @react-three/postprocessing: ^3.0.4
-  - @tabler/icons-react: ^3.31.0
-  - @tailwindcss/vite: ^4.1.3
-  - @tanstack/react-table: ^8.21.3
-  - @uppy/core: ^5.2.0
-  - @uppy/react: ^5.1.1
-  - @uppy/tus: ^5.1.0
-  - axios: ^1.9.0
-  - cesium: ^1.133.1
-  - class-variance-authority: ^0.7.1
-  - clsx: ^2.1.1
-  - cmdk: ^1.1.1
-  - colorjs.io: ^0.5.2
-  - d3-geo: ^3.1.1
-  - date-fns: ^4.1.0
-  - deck.gl: ^9.2.5
-  - echarts-for-react: ^3.0.2
-  - embla-carousel-autoplay: ^8.6.0
-  - embla-carousel-react: ^8.6.0
-  - framer-motion: ^12.30.0
-  - leaflet: ^1.9.4
-  - leva: ^0.10.1
-  - lucide-react: ^0.488.0
-  - next-themes: ^0.4.6
-  - ol: ^10.7.0
-  - qrcode.react: ^4.2.0
-  - react: ^19.1.0
-  - react-colorful: ^5.6.1
-  - react-day-picker: ^9.13.0
-  - react-dom: ^19.1.0
-  - react-dropzone: ^14.4.0
-  - react-hook-form: ^7.56.3
-  - react-intl: ^7.1.11
-  - react-leaflet: ^5.0.0-rc.2
-  - react-map-gl: ^8.1.0
-  - react-openlayers: ^10.5.1
-  - react-resizable-panels: ^3.0.6
-  - react-router: ^7.6.2
-  - recharts: ^2.15.3
-  - resium: ^1.19.0-beta.1
-  - sonner: ^2.0.7
-  - tailwind-merge: ^3.2.0
-  - tailwindcss: ^4.1.3
-  - tailwindcss-animate: ^1.0.7
-  - three: ^0.182.0
-  - vaul: ^1.1.2
-  - zod: ^3.24.4
-  - zustand: ^5.0.5
+### 2）技术栈
 
-- 开发依赖:
-  - @eslint/js: ^9.24.0
-  - @types/leaflet: ^1.9.21
-  - @types/mockjs: ^1.0.10
-  - @types/node: ^22.14.1
-  - @types/react: ^19.1.1
-  - @types/react-dom: ^19.1.2
-  - @vitejs/plugin-react-swc: ^3.8.1
-  - cross-env: ^7.0.3
-  - eslint: ^9.24.0
-  - eslint-plugin-react-hooks: ^5.2.0
-  - eslint-plugin-react-refresh: ^0.4.19
-  - globals: ^16.0.0
-  - msw: ^2.10.2
-  - rollup-plugin-visualizer: ^6.0.3
-  - tailwind-scrollbar: ^4.0.2
-  - typescript: ~5.8.3
-  - typescript-eslint: ^8.29.1
-  - vite: ^6.2.6
-  - vite-plugin-cesium-build: ^0.7.1
+- **框架**: React 19 + Vite6
+- **状态管理**: Zustand
+- **UI 组件库**: ShadCN + TailwindCSS
+- **国际化**: react-intl
+- **路由**: React Router v7
+- **接口模拟**: Mock Service Worker (MSW)
+- **构建工具**: Vite6
+
+### 3）安装启动
+
+```bash
+# 克隆项目
+git clone https://github.com/yluiop123/vite-shadcn.git
+cd <项目目录>
+
+# 安装依赖
+pnpm install   
+
+# 本地开发启动
+pnpm dev    
+
+#项目启动后访问 http://localhost:3000/   
+```
+
+### 4）命令行
+
+我将为您更新表格，添加说明列：
+
+| 命令  | 描述  | 说明  |
+| --- | --- | --- |
+| dev | vite | 启动开发服务器，支持热重载和实时编译 |
+| build | tsc -b && vite build | 构建生产版本，先进行 TypeScript 类型检查，再打包项目 |
+| build:github | tsc -b && vite build --mode github | 构建 GitHub 部署版本，使用特定的构建配置 |
+| lint | eslint . | 运行 ESLint 检查代码质量，识别潜在问题 |
+| preview | vite preview | 预览生产构建的项目，用于本地测试构建结果 |
+| preview:github | vite preview --mode github | 预览 GitHub 部署版本的构建结果 |
+| analyze | cross-env ANALYZE=true vite build | 分析打包结果，生成 bundle 分析报告 |
+
+### 5）环境变量
+
+项目默认使用 `.env` 文件作为环境变量配置。当通过 `--mode` 参数指定特定模式时，Vite 会自动加载对应的环境变量文件。例如，`build:github` 命令会加载 `.env.github` 文件中的配置。
+
+以下是常用的环境变量配置及其说明：
+
+```
+VITE_BASE=/              # 项目部署的相对路径，用于指定应用的基础 URL
+VITE_ROUTE=browserRouter # 路由类型，决定应用使用的路由策略
+VITE_MOCK_ENABLE=true    # 是否启用 Mock 数据服务，用于开发和测试
+VITE_BASE_API=/api/      # API 请求的统一前缀，用于后端接口调用
+VITE_CESIUM_TOKEN=###    # Cesium 地图服务的认证令牌
+```
+
+## 目录结构
+
+```
+vite-shadcn
+├── .github/                     # GitHub 配置文件
+│   ├── workflows/
+│   │   └── main.yml            # CI/CD 工作流配置
+│   ├── copilot-instructions.md  # Copilot 指令
+├── .trae/                       # Trae IDE 规则
+│   └── rules/
+├── public/                      # 静态资源目录
+├── src/                         # 源代码目录
+│   ├── assets/                  # 静态资源
+│   ├── components/              # 通用组件
+│   │   ├── ext/                 # 扩展组件
+│   │   ├── ui/                  # Shadcn UI 基础组件
+│   │   ├── app-sidebar.tsx      # 应用侧边栏
+│   │   ├── chart-area-interactive.tsx # 交互式面积图
+│   │   ├── color-switcher.tsx   # 颜色切换器
+│   │   ├── dialog-form.tsx      # 表单对话框
+│   │   ├── group-tree-select.tsx # 分组树选择器
+│   │   ├── nav-main.tsx         # 主导航
+│   │   ├── nav-user.tsx         # 用户导航
+│   │   ├── permission-tree-select.tsx # 权限树选择器
+│   │   ├── permission-tree-single-select.tsx # 权限单选树
+│   │   ├── permission-type.tsx  # 权限类型
+│   │   ├── role-select.tsx      # 角色选择器
+│   │   ├── section-cards.tsx    # 区域卡片
+│   │   ├── sidebar-menutree.tsx # 侧边栏菜单树
+│   │   ├── site-header.tsx      # 站点头部
+│   │   └── ...                  # 更多组件
+│   ├── hooks/                   # React Hooks
+│   │   └── use-mobile.ts        # 移动端检测 Hook
+│   ├── lib/                     # 工具库
+│   │   ├── axios.ts             # Axios 配置
+│   │   ├── dict.ts              # 字典工具
+│   │   ├── fixLeafletIcon.ts    # Leaflet 图标修复
+│   │   ├── notify.ts            # 通知工具
+│   │   └── utils.ts             # 通用工具函数
+│   ├── locale/                  # 国际化
+│   │   ├── en-US.ts             # 英文翻译
+│   │   └── zh-CN.ts             # 中文翻译
+│   ├── mock/                    # Mock 数据
+│   ├── pages/                   # 页面组件
+│   │   ├── chart/               # 图表页面
+│   │   ├── component/           # 组件示例页面
+│   │   ├── dashboard/           # 仪表板页面
+│   │   ├── system/              # 系统管理页面
+│   ├── store/                   # 状态管理
+│   ├── themes/                  # 主题色文件
+│   ├── App.tsx                  # 应用根组件
+│   ├── index.css                # 全局样式
+│   ├── layout.tsx               # 应用布局
+│   └── main.tsx                 # 应用入口
+├── .env                         # 环境变量
+├── .env.github                  # GitHub 环境变量
+├── .gitignore                   # Git 忽略文件
+├── .hintrc                      # Webhint 配置
+├── CODE_OF_CONDUCT.md           # 行为准则
+├── LICENSE                      # 许可证
+├── components.json              # 组件配置
+└── package.json                 # 项目配置
+```
+
+---
+
+## 路由与菜单
+
+### 路由示例（React Router v7）：
+
+```ts
+//src\routes.ts
+const routeSetting: NavItem[] = [
+  {
+    key: "dashboard",
+    title: "menu.dashboard",
+    icon: LayoutDashboard,
+    children: [
+      { key: "normal", title: "menu.dashboard.normal", icon: Gauge },
+    ],
+  },
+];
+```
+
+路由配置包含四个核心参数：
+
+- **key**: 路由路径标识符，用于唯一确定导航目标
+- **title**: 国际化配置键值，用于多语言文本映射
+- **icon**: 菜单图标元素，用于视觉标识
+- **children**: 子菜单数组，用于构建嵌套导航结构
+
+### 如下，是其中一个页面的配置示例：
+
+1. 配置路由dashboard\normal
+
+```ts
+//src\routes.ts
+const routeSetting: NavItem[] = [
+  {
+    key: "dashboard",
+    title: "menu.dashboard",
+    icon: LayoutDashboard,
+    children: [
+      { key: "normal", title: "menu.dashboard.normal", icon: Gauge },
+    ],
+  },
+];
+```
+
+2.国家化文件中配置title中的key
+
+```ts
+//src\locale\en-US.ts
+export default {
+    'menu.dashboard': 'Dashboard',
+    'menu.dashboard.normal': 'Normal',
+};
+```
+
+```ts
+//src\locale\zh-CN.ts
+export default {
+    'menu.dashboard': '仪表盘',
+    'menu.dashboard.normal': '普通仪表盘',
+};
+```
+
+3.增加页面
+
+src\pages\component\general\index.tsx
+
+注意必须在index.tsx下。
+
+4.mock权限增加
+
+下面这段模拟的是获取当前用户权限，需要在这段代码里增加新增菜单的权限。
+
+```ts
+//src\mock\system\permission.ts
+    http.get<{ id: string }>(
+    "/api/system/permissions/detail/:id",
+```
+
+对应的function 是getPermissionList
+
+```ts
+//src\mock\system\permission.ts
+function getPermissionList(locale: string) {
+    const dataArray: Permission[] = [
+            //supper menu permissions
+            {id: '0000', parentId:'',order: 0, path: "/dashboard",type: "directory",name:localeMap[locale]['menu.dashboard'] },
+            {id: '0001', parentId:'',order: 1, path: "/component", type: "menu",name:localeMap[locale]['menu.component'] },
+            {id: '000100', parentId:'0001',order: 0, path: "/component/general", type: "menu",name:localeMap[locale]['menu.component.general'] },
+```
+
+`component/general` 页面对应的权限标识为 `id: '000100'`，其中 `type` 字段表示权限类型：
+
+- **directory**: 目录权限，包含该目录下所有子菜单的访问权限
+- **menu**: 菜单项权限，仅控制当前菜单项的访问权限
+
+## 国际化
+
+### 配置示例（react-intl）：
+
+```ts
+//src\locale\en-US.ts
+export default {
+    'menu.dashboard': 'Dashboard',
+};
+```
+
+```ts
+//src\locale\zh-CN.ts
+export default {
+    'menu.dashboard': '仪表盘',
+};
+```
+
+### 页面使用示例：
+
+```ts
+import { useIntl } from "react-intl";
+
+const { formatMessage } = useIntl();
+<div>{formatMessage({ id: "menu.dashboard", defaultMessage: "Dashboard" })}</div>
+```
+
+---
+
+## 模拟数据
+
+项目使用 MSW 模拟数据，msw的引入代码如下
+
+```ts
+//src\main.tsx
+const mockEnable = (import.meta.env.VITE_MOCK_ENABLE||'true')=='true';
+if(mockEnable){
+  initMSW().then(()=>{
+    createRootElement();
+  })
+}else{
+  createRootElement();
+}
+```
+
+mock数据的入口在如下文件，如果要新增mock的话，参照如下代码新增一个handlers就行了
+
+```ts
+//src\mock\index.ts
+import { setupWorker } from "msw/browser";
+import groupHandlers from "./components/group";
+import permissionHandlers from "./components/permission";
+import loginUserHandlers from "./login/user";
+import systemGroupHandlers from "./system/group";
+import systemPermissionHandlers from "./system/permission";
+import systemRoleHandlers from "./system/role";
+import systemUserHandlers from "./system/user";
+const mockHandlers = [
+  ...loginUserHandlers,
+  ...groupHandlers,
+  ...permissionHandlers,
+  ...systemUserHandlers,
+  ...systemRoleHandlers,
+  ...systemGroupHandlers,
+  ...systemPermissionHandlers
+];
+let worker: ReturnType<typeof setupWorker> | null = null;
+export default async function initMSW() {
+  if (worker) return worker;
+  worker = setupWorker(...mockHandlers);
+  // 启动 MSW
+  await worker.start({
+
+    serviceWorker: {
+      url: `${import.meta.env.BASE_URL}mockServiceWorker.js`,
+      options: { type: 'module', updateViaCache: 'none' },
+    },
+    onUnhandledRequest: (req) => {
+      if (!req.url.startsWith('/api')) {
+        return // 直接跳过，不拦截
+      }
+    },
+  });
+  return worker;
+}
+```
+
+## 权限控制
+
+用户权限从userInfo中获取
+
+```ts
+import { useUserStore } from '@/store';
+const { userInfo} = useUserStore();
+```
+
+系统权限管理包含以下概念：
+
+- **rolePermissions**: 角色权限集合，定义特定角色所拥有的权限
+- **userPermissions**: 用户权限集合，定义用户账户级别的权限
+- **currentPermission**: 当前生效权限，为用户权限与所选角色权限的并集
+- **currentMenuPermission**: 当前菜单权限，用于控制具体菜单项的显示
+- **currentDirectoryPermission**: 当前目录权限，用于控制目录节点的显示，拥有目录权限时自动获得其下所有子菜单权限
+
+系统支持多角色管理模式。当用户选择"全部角色"时，系统将整合用户权限与所有角色权限的并集作为当前权限集，实现灵活的权限控制策略。
+
+## 主题
+
+1.新增主题色在src\themes下
+
+2.新增主题色后，需要导入
+
+```ts
+//src\index.css
+@import "@/themes/blue.css";
+@import "@/themes/green.css";
+@import "@/themes/orange.css";
+@import "@/themes/red.css";
+@import "@/themes/rose.css";
+@import "@/themes/violet.css";
+@import "@/themes/yellow.css";
+```
+
+- 主题色切换
+
+下面可以配置主题色，Color的字符串颜色和src\themes中的一致
+
+```ts
+//src\store\theme.ts
+export type Color =
+  | "default"
+  | "blue"
+  | "green"
+  | "orange"
+  | "red"
+  | "rose"
+  | "violet"
+  | "yellow";
+```
+
+```ts
+import {useThemeStore } from '@/store/index';
+const {color,setColor} = useThemeStore();
+setColor('blue')
+```
+
 
 ## 🧾 License
 
