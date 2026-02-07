@@ -251,9 +251,9 @@ const routeSetting: NavItem[] = [
     ],
   },
 ];
-```
+``
 
-2.国家化文件中配置title中的key
+2.国际化文件中配置title中的key
 
 ```ts
 //src\locale\en-US.ts
@@ -409,6 +409,41 @@ const { userInfo} = useUserStore();
 - **currentDirectoryPermission**: 当前目录权限，用于控制目录节点的显示，拥有目录权限时自动获得其下所有子菜单权限
 
 系统支持多角色管理模式。当用户选择"全部角色"时，系统将整合用户权限与所有角色权限的并集作为当前权限集，实现灵活的权限控制策略。
+
+后端返回的权限字段
+```ts
+//src\mock\components\permission.ts
+type Permission = {
+  name: string//权限名称，用于显示在菜单或权限列表中
+  id: string//权限ID，用于唯一标识权限
+  path: string//权限路径，用于标识具体的资源或操作
+  type: string//权限类型，指示权限的具体作用（如目录：directory、菜单：menu、操作：action、功能：function、接口：api）
+  action?: string//type=action时才会有，操作名称，进一步细化权限的具体操作（如读取、写入、执行等）
+  status?: "0" | "1"//权限状态，0表示禁用，1表示启用
+  create?: string,//创建时间，记录权限创建的时间
+  parentId?: string//父权限ID，用于构建权限树结构
+  order: number//排序顺序，用于在菜单或权限列表中排序显示，后端自动生成
+}
+```
+前端权限字段
+```ts
+//src\store\user.ts
+type Permission = {
+  path: string;//权限路径，用于标识具体的资源或操作
+  role: string;//角色名称，指定该权限所属的角色
+  type: string;
+  //权限类型，指示权限的具体作用（如目录：directory、菜单：menu、操作：action、功能：function、接口：api）
+  /**
+   * 权限类型，指示权限的具体作用（如目录：directory、菜单：menu、操作：action、功能：function、接口：api）
+   * - directory: 目录权限，包含该目录下所有子菜单的访问权限
+   * - menu: 菜单项权限，仅控制当前菜单项的访问权限
+   * - action: 表示菜单下的具体动作（如读取、写入、执行等）
+   * - function: 功能权限，用于执行特定的系统功能
+   * - api: 接口权限，用于访问后端提供的API接口
+   */
+  action: string;//操作名称，进一步细化权限的具体操作（如读取、写入、执行等）
+};
+```
 
 ## 主题
 
