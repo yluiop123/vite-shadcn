@@ -410,7 +410,7 @@ const { userInfo} = useUserStore();
 
 系统支持多角色管理模式。当用户选择"全部角色"时，系统将整合用户权限与所有角色权限的并集作为当前权限集，实现灵活的权限控制策略。
 
-后端返回的权限字段
+Backend permission fields:
 ```ts
 //src\mock\components\permission.ts
 type Permission = {
@@ -425,7 +425,7 @@ type Permission = {
   order: number//排序顺序，用于在菜单或权限列表中排序显示，后端自动生成
 }
 ```
-前端权限字段
+Frontend permission fields:
 ```ts
 //src\store\user.ts
 type Permission = {
