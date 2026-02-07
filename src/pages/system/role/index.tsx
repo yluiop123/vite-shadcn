@@ -283,7 +283,9 @@ export default function Role() {
                             setParams({ ...params, status: value?value:'' })
                         } defaultValue={params.status}>
                         <SelectTrigger className="flex items-center">
-                            <SelectValue placeholder="Status" />
+                            <SelectValue placeholder="Status" >
+                                {intl.formatMessage({ id: `dict.status.${statusEnum.get(params.status||'') || ''}` })}
+                            </SelectValue>
                         </SelectTrigger>
                         <SelectContent>
                             {Array.from(statusEnum).map(([key, value]) => {
