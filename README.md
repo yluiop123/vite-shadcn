@@ -1,6 +1,8 @@
 # vite-shadcn
 
 VITE-SHADCN is a Shadcn Admin UI built with `Shadcn` , `Vite` , `React`,`Zustand`,`React-Router`
+Branch Description: main branch is based on base-ui, radix-ui branch is based on radix-ui.
+
 
 English | [简体中文](./README.zh-CN.md)
 
