@@ -290,6 +290,7 @@ export default function TreeSelect(props: TreeSelectProps) {
   const [filter, setFilter] = useState("");
 
   const treeData = useMemo(() => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const transform = (nodes: any[]): TreeNode[] =>
       nodes.map((item) => ({
         ...item,
@@ -381,18 +382,27 @@ export default function TreeSelect(props: TreeSelectProps) {
               <Badge
                 key={node.value}
                 variant="secondary"
-                className="flex items-center gap-1 px-2 py-0.5 font-normal border-primary/20 text-primary bg-primary/5"
+                // className="flex items-center gap-1 px-2 py-0.5 font-normal border-primary/20 text-primary bg-primary/5"
+                render={() => {    
+                  return (
+                    <div className={cn(
+                      "h-5 gap-1 rounded-4xl border border-transparent px-2 py-0.5 text-xs font-medium transition-all has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5 [&>svg]:size-3! inline-flex items-center justify-center w-fit whitespace-nowrap shrink-0  focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive overflow-hidden group/badge"                    
+                      ,"flex items-center gap-1 px-2 py-0.5 font-normal border-primary/20 text-primary bg-primary/5"
+                   )}>
+                    {node.title}
+                      {multiple && (
+                        <X
+                          className="pointer-events-auto h-3.5 w-3.5 cursor-pointer rounded-full p-0.5 hover:bg-destructive hover:text-white transition-colors"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleToggle(node, false);
+                          }}
+                        />
+                      )}
+                    </div>
+                )}}
               >
-                {node.title}
-                {multiple && (
-                  <X
-                    className="h-3.5 w-3.5 cursor-pointer rounded-full p-0.5 hover:bg-destructive hover:text-white transition-colors"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleToggle(node, false);
-                    }}
-                  />
-                )}
+                
               </Badge>
             ))}
 
