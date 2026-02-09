@@ -135,7 +135,7 @@ export default function FacetedTable() {
 
   return (
     <div className="p-6">
-      <div className="rounded-md border border-border overflow-auto max-h-[500px]">
+      <div className="rounded-md border border-border overflow-auto max-h-125">
         <Table>
           {/* ---------- Sticky Header ---------- */}
           <TableHeader className="sticky top-0 z-10 bg-background">

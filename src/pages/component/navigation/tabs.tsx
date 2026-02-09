@@ -30,7 +30,7 @@ export default function TabsDemoPage() {
         title="基础用法"
         subtitle="Basic Usage"
       >
-        <Tabs defaultValue="a" className="w-[420px]">
+        <Tabs defaultValue="a" className="w-105">
           <TabsList className="grid grid-cols-2 w-full">
             <TabsTrigger value="a">
               标签 A (Tab A)

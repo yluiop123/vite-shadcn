@@ -88,7 +88,7 @@ export function ChartPieInteractive() {
         </div>
         <Select value={activeMonth} onValueChange={setActiveMonth}>
           <SelectTrigger
-            className="ml-auto h-7 w-[130px] rounded-lg pl-2.5"
+            className="ml-auto h-7 w-32.5 rounded-lg pl-2.5"
             aria-label="Select a value"
           >
             <SelectValue placeholder="Select month" />
@@ -126,7 +126,7 @@ export function ChartPieInteractive() {
         <ChartContainer
           id={id}
           config={chartConfig}
-          className="mx-auto aspect-square w-full max-w-[300px]"
+          className="mx-auto aspect-square w-full max-w-75"
         >
           <PieChart>
             <ChartTooltip

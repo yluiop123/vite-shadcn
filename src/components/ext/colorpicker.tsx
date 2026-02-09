@@ -36,7 +36,7 @@ export function ColorPicker({ color, onChange }: { color: string, onChange: (c: 
       <PopoverTrigger>
         <Button 
           variant="outline" 
-          className="w-[280px] justify-between shadow-sm hover:bg-accent hover:text-accent-foreground transition-all border-input bg-background"
+          className="w-70 justify-between shadow-sm hover:bg-accent hover:text-accent-foreground transition-all border-input bg-background"
         >
           <div className="flex items-center gap-2">
             <div className="h-4 w-4 rounded-full border shadow-inner transition-transform group-hover:scale-110" style={{ backgroundColor: color }} />
@@ -53,7 +53,7 @@ export function ColorPicker({ color, onChange }: { color: string, onChange: (c: 
       <PopoverContent className="w-72 p-4 space-y-4 shadow-2xl border-border bg-popover text-popover-foreground">
         {/* 1. 拾色器 (Color Picker) */}
         <div className="relative rounded-lg overflow-hidden border border-border">
-          <HexColorPicker color={color} onChange={onChange} className="!w-full !h-36" />
+          <HexColorPicker color={color} onChange={onChange} className="w-full! h-36!" />
         </div>
 
         {/* 2. 数值输入区 */}

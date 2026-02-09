@@ -57,7 +57,7 @@ export default function Index({open,setOpen,title,fields,values,onSubmit}:
     return (
         <Dialog open={open} 
         onOpenChange={setOpen}> 
-            <DialogContent className="sm:max-w-[425px]">
+            <DialogContent className="sm:max-w-106.25">
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
                     <DialogHeader>
                         <DialogTitle>{title}</DialogTitle>

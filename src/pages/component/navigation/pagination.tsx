@@ -82,7 +82,7 @@ export default function PaginationPage() {
       </Pagination>
 
       {/* ===== 页面内容 / Page Content ===== */}
-      <div className="border rounded-md p-4 w-[300px] text-center text-sm bg-card">
+      <div className="border rounded-md p-4 w-75 text-center text-sm bg-card">
         <p>当前显示第 {page} 页内容</p>
         <p className="text-muted-foreground">
           Showing content for page {page}.
