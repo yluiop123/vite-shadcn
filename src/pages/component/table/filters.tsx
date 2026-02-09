@@ -2,26 +2,32 @@
 "use client"
 
 import {
-    Column,
-    ColumnDef,
-    ColumnFiltersState,
-    flexRender,
-    getCoreRowModel,
-    getFilteredRowModel,
-    useReactTable,
+  Column,
+  ColumnDef,
+  ColumnFiltersState,
+  FilterFn,
+  flexRender,
+  getCoreRowModel,
+  getFilteredRowModel,
+  useReactTable,
 } from "@tanstack/react-table"
 
 import { Input } from "@/components/ui/input"
 import { useState } from "react"
 
 import {
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
 } from "@/components/ui/table"
+import {
+  RankingInfo,
+  rankItem
+} from '@tanstack/match-sorter-utils'
+
 type Person = {
   id: number
   firstName: string
@@ -96,6 +102,19 @@ function ColumnFilter<TData>({
     />
   )
 }
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const fuzzyFilter: FilterFn<any> = (row: { getValue: (arg0: any) => any; }, columnId: any, value: string, addMeta: (arg0: { itemRank: RankingInfo; }) => void) => {
+  // Rank the item
+  const itemRank = rankItem(row.getValue(columnId), value)
+
+  // Store the itemRank info
+  addMeta({
+    itemRank,
+  })
+
+  // Return if the item should be filtered in/out
+  return itemRank.passed
+}
 export default function FiltersTable() {
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
 
@@ -108,6 +127,9 @@ export default function FiltersTable() {
     onColumnFiltersChange: setColumnFilters,
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
+    filterFns: {
+      fuzzy: fuzzyFilter,
+    },
   })
 
   return (

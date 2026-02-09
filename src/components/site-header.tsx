@@ -59,9 +59,9 @@ export function SiteHeader() {
         <div className="ml-auto flex items-center gap-2">
           <DropdownMenu>
             <DropdownMenuTrigger>
-              <Button variant="outline" className="w-15 h-7">
+              <div className="w-15 h-6 border border-foreground/10 bg-foreground/10 rounded-md flex items-center justify-center">
                 {intl.formatMessage({id:'header.language'})}
-              </Button>
+              </div>
             </DropdownMenuTrigger>
             <DropdownMenuContent >
               <DropdownMenuRadioGroup value={locale} onValueChange={setLanguage}>

@@ -1,23 +1,27 @@
 "use client";
 
 import {
-    ColumnDef,
-    flexRender,
-    getCoreRowModel,
-    useReactTable,
+  ColumnDef,
+  flexRender,
+  getCoreRowModel,
+  useReactTable,
+  FilterFn,
 } from "@tanstack/react-table";
 import * as React from "react";
 
 import { Badge } from "@/components/ui/badge";
 import {
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
 } from "@/components/ui/table";
-
+import {
+  RankingInfo,
+  rankItem
+} from '@tanstack/match-sorter-utils';
 // 数据定义
 type Person = {
   firstName: string;
@@ -90,7 +94,19 @@ const columns: ColumnDef<Person>[] = [
     header: "Progress",
   },
 ];
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const fuzzyFilter: FilterFn<any> = (row: { getValue: (arg0: any) => any; }, columnId: any, value: string, addMeta: (arg0: { itemRank: RankingInfo; }) => void) => {
+  // Rank the item
+  const itemRank = rankItem(row.getValue(columnId), value)
 
+  // Store the itemRank info
+  addMeta({
+    itemRank,
+  })
+
+  // Return if the item should be filtered in/out
+  return itemRank.passed
+}
 export default function BasicTable() {
   const [data] = React.useState(() => [...defaultData]);
 
@@ -98,6 +114,9 @@ export default function BasicTable() {
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
+    filterFns: {
+      fuzzy: fuzzyFilter,
+    },
   });
 
   return (
