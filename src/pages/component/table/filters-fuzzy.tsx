@@ -30,19 +30,9 @@ import { faker } from '@faker-js/faker'
 import {
     RankingInfo,
     compareItems,
-    rankItem,
+    rankItem
 } from '@tanstack/match-sorter-utils'
 
-
-declare module '@tanstack/react-table' {
-  //add fuzzy filter to the filterFns
-  interface FilterFns {
-    fuzzy: FilterFn<unknown>
-  }
-  interface FilterMeta {
-    itemRank: RankingInfo
-  }
-}
 
 export type Person = {
   id: number
@@ -94,36 +84,31 @@ function makeData(...lens: number[]) {
 }
 // Define a custom fuzzy filter function that will apply ranking info to rows (using match-sorter utils)
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const fuzzyFilter: FilterFn<any> = (row, columnId, value, addMeta) => {
-  // Rank the item
+const fuzzyFilter: FilterFn<Person> = (row, columnId, value, addMeta) => {
   const itemRank = rankItem(row.getValue(columnId), value)
 
-  // Store the itemRank info
   addMeta({
     itemRank,
   })
 
-  // Return if the item should be filtered in/out
   return itemRank.passed
 }
 
 // Define a custom fuzzy sort function that will sort by rank if the row has ranking information
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const fuzzySort: SortingFn<any> = (rowA, rowB, columnId) => {
-  let dir = 0
+const fuzzySort: SortingFn<Person> = (rowA, rowB, columnId) => {
+  const metaA = rowA.columnFiltersMeta[columnId] as
+    | { itemRank: RankingInfo }
+    | undefined
 
-  // Only sort by rank if the column has ranking information
-  if (rowA.columnFiltersMeta[columnId]) {
-    dir = compareItems(
-      // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
-      rowA.columnFiltersMeta[columnId]?.itemRank!,
-      // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
-      rowB.columnFiltersMeta[columnId]?.itemRank!,
-    )
+  const metaB = rowB.columnFiltersMeta[columnId] as
+    | { itemRank: RankingInfo }
+    | undefined
+
+  if (metaA && metaB) {
+    return compareItems(metaA.itemRank, metaB.itemRank)
   }
 
-  // Provide an alphanumeric fallback for when the item ranks are equal
-  return dir === 0 ? sortingFns.alphanumeric(rowA, rowB, columnId) : dir
+  return sortingFns.alphanumeric(rowA, rowB, columnId)
 }
 
 export default function FilterFuzzyTable() {
@@ -158,7 +143,7 @@ export default function FilterFuzzyTable() {
         id: 'fullName',
         header: 'Full Name',
         cell: (info) => info.getValue(),
-        filterFn: 'fuzzy', //using our custom fuzzy filter function
+        filterFn: fuzzyFilter, //using our custom fuzzy filter function
         // filterFn: fuzzyFilter, //or just define with the function
         sortingFn: fuzzySort, //sort by fuzzy rank (falls back to alphanumeric)
       },
@@ -181,7 +166,7 @@ export default function FilterFuzzyTable() {
     },
     onColumnFiltersChange: setColumnFilters,
     onGlobalFilterChange: setGlobalFilter,
-    globalFilterFn: 'fuzzy', //apply fuzzy filter to the global filter (most common use case for fuzzy filter)
+    globalFilterFn: fuzzyFilter, //apply fuzzy filter to the global filter (most common use case for fuzzy filter)
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(), //client side filtering
     getSortedRowModel: getSortedRowModel(),

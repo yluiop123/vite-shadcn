@@ -7,12 +7,8 @@ import {
     TableRow
 } from "@/components/ui/table";
 import {
-    rankItem
-} from '@tanstack/match-sorter-utils';
-import {
     Cell,
     ColumnDef,
-    FilterFn,
     Header,
     flexRender,
     getCoreRowModel,
@@ -192,19 +188,6 @@ export default function ColumnDndTable() {
   )
 
   const rerender = () => setData(() => makeData(20))
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const fuzzyFilter: FilterFn<any> = (row, columnId, value, addMeta) => {
-  // Rank the item
-  const itemRank = rankItem(row.getValue(columnId), value)
-
-  // Store the itemRank info
-  addMeta({
-    itemRank,
-  })
-
-  // Return if the item should be filtered in/out
-  return itemRank.passed
-}
   const table = useReactTable({
     data,
     columns,
@@ -216,9 +199,6 @@ const fuzzyFilter: FilterFn<any> = (row, columnId, value, addMeta) => {
     debugTable: true,
     debugHeaders: true,
     debugColumns: true,
-    filterFns: {
-        fuzzy: fuzzyFilter, 
-    }
   })
 
   // reorder columns after drag & drop

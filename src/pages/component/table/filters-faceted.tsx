@@ -1,23 +1,23 @@
 "use client";
 
 import {
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
 } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 import {
-    Column,
-    ColumnFiltersState,
-    flexRender,
-    getCoreRowModel,
-    getFacetedMinMaxValues,
-    getFacetedUniqueValues,
-    getFilteredRowModel,
-    useReactTable,
+  Column,
+  ColumnFiltersState,
+  flexRender,
+  getCoreRowModel,
+  getFacetedMinMaxValues,
+  getFacetedUniqueValues,
+  getFilteredRowModel,
+  useReactTable
 } from "@tanstack/react-table";
 import * as React from "react";
 
@@ -118,7 +118,6 @@ const columns = [
     header: "Progress",
   },
 ];
-
 // -------------------- 主组件 --------------------
 export default function FacetedTable() {
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
