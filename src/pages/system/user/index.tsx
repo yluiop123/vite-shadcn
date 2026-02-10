@@ -1,3 +1,4 @@
+import ActionAuth from "@/components/action-auth";
 import GroupTreeSelect from "@/components/group-tree-select";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -252,9 +253,15 @@ export default function User() {
                                 <DropdownMenuGroup>
                                     <DropdownMenuLabel>{intl.formatMessage({ id: 'table.actions' })}</DropdownMenuLabel>
                                     <DropdownMenuSeparator />
+                                    <ActionAuth action="edit">
                                     <DropdownMenuItem onClick={() => handleEdit(user)}>{intl.formatMessage({ id: 'button.edit' })}</DropdownMenuItem>
+                                    </ActionAuth>
+                                    <ActionAuth action="delete">
                                     <DropdownMenuItem onClick={() => handleDelete([user])}>{intl.formatMessage({ id: 'button.delete' })}</DropdownMenuItem>
+                                    </ActionAuth>
+                                    <ActionAuth action="edit">
                                     <DropdownMenuItem onClick={() => handleReset(user)}>{intl.formatMessage({ id: 'button.reset.password' })}</DropdownMenuItem>
+                                    </ActionAuth>
                                 </DropdownMenuGroup>
                             </DropdownMenuContent>
                         </DropdownMenu>
@@ -341,9 +348,13 @@ export default function User() {
                     className="max-w-sm"
                 />
                 <div className="ml-auto flex items-center gap-2">
-                    <Button onClick={() => setIsAddDialogOpen(true)}>{intl.formatMessage({ id: 'button.add' })}</Button>
+                    <ActionAuth action="add">
+                        <Button onClick={() => setIsAddDialogOpen(true)}>{intl.formatMessage({ id: 'button.add' })}</Button>
+                    </ActionAuth>
                     <AddDialog open={isAddDialogOpen} setOpen={setIsAddDialogOpen} onSave={() => setParams({ ...params, page: 1 })}/>
-                    <Button onClick={() => handleDelete(table.getSelectedRowModel().rows.map(row => row.original))}>{intl.formatMessage({ id: 'button.delete' })}</Button>
+                    <ActionAuth action="delete">
+                        <Button onClick={() => handleDelete(table.getSelectedRowModel().rows.map(row => row.original))}>{intl.formatMessage({ id: 'button.delete' })}</Button>
+                    </ActionAuth>
                 </div>
                 <DropdownMenu>
                     <DropdownMenuTrigger>

@@ -1,3 +1,4 @@
+import ActionAuth from "@/components/action-auth";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
@@ -257,14 +258,20 @@ export default function Permission() {
                     <DropdownMenuContent align="end">
                       <DropdownMenuGroup>
                         <DropdownMenuLabel>{formatMessage({ id: 'table.actions' })}</DropdownMenuLabel>
-                        <DropdownMenuSeparator />                    
-                        <DropdownMenuItem onClick={() => handleEdit(permission)}>{formatMessage({ id: 'button.edit' })}</DropdownMenuItem>
-                        <DropdownMenuItem onClick={() => handleDelete([permission.id])}>{formatMessage({ id: 'button.delete' })}</DropdownMenuItem>
+                        <DropdownMenuSeparator />    
+                        <ActionAuth action="delete">
+                        <DropdownMenuItem onClick={() => handleDelete([permission.id])}>{formatMessage({ id: 'button.delete' })}</DropdownMenuItem>               
+                        </ActionAuth>
+                        <ActionAuth action="add">
                         <DropdownMenuItem onClick={() => handleAddChild(permission)}>{formatMessage({ id: 'button.addChild' })}</DropdownMenuItem>
                         <DropdownMenuItem onClick={() => handleAddBrother(permission)}>{formatMessage({ id: 'button.addBrother' })}</DropdownMenuItem>
+                        </ActionAuth>
+                        <ActionAuth action="edit">
+                        <DropdownMenuItem onClick={() => handleEdit(permission)}>{formatMessage({ id: 'button.edit' })}</DropdownMenuItem>
                         <DropdownMenuItem onClick={() => handleMove(permission, 'top')}>{formatMessage({ id: 'button.moveTop' })}</DropdownMenuItem>
                         <DropdownMenuItem onClick={() => handleMove(permission, 'up')}>{formatMessage({ id: 'button.moveUp' })}</DropdownMenuItem>
                         <DropdownMenuItem onClick={() => handleMove(permission, 'down')}>{formatMessage({ id: 'button.moveDown' })}</DropdownMenuItem>
+                        </ActionAuth>
                       </DropdownMenuGroup>
                     </DropdownMenuContent>
                 </DropdownMenu>
@@ -418,8 +425,12 @@ export default function Permission() {
               </Select>
           </div>
           <div className="ml-auto flex items-center gap-2">
+              <ActionAuth action="add">
               <Button onClick={() => handleAddChild(null)}>{formatMessage({ id: 'button.add' })}</Button>
+              </ActionAuth>
+              <ActionAuth action="delete">
               <Button onClick={() => handleDelete(table.getSelectedRowModel().flatRows.map((row) => row.original.id))}>{formatMessage({ id: 'button.delete' })}</Button>
+              </ActionAuth>
               <DropdownMenu>
                   <DropdownMenuTrigger>
                       <Button variant="outline" className="ml-auto">

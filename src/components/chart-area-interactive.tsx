@@ -142,7 +142,7 @@ const chartConfig = {
 
 export function ChartAreaInteractive() {
   const isMobile = useIsMobile()
-  const [timeRange, setTimeRange] = React.useState<string>("90d")
+  const [timeRange, setTimeRange] = React.useState<string|null>("90d")
 
   React.useEffect(() => {
     if (isMobile) {
@@ -177,7 +177,7 @@ export function ChartAreaInteractive() {
         <CardAction>
           <ToggleGroup
             multiple={false}
-            value={[...timeRange]}
+            value={[timeRange]}
             onValueChange={(value) => setTimeRange(value[0])}
             variant="outline"
             className="hidden *:data-[slot=toggle-group-item]:px-4! @[767px]/card:flex"
@@ -186,7 +186,7 @@ export function ChartAreaInteractive() {
             <ToggleGroupItem value="30d">Last 30 days</ToggleGroupItem>
             <ToggleGroupItem value="7d">Last 7 days</ToggleGroupItem>
           </ToggleGroup>
-          <Select value={timeRange} onValueChange={(value) => setTimeRange(value||'')}>
+          <Select value={timeRange} onValueChange={setTimeRange}>
             <SelectTrigger
               className="flex w-40 **:data-[slot=select-value]:block **:data-[slot=select-value]:truncate @[767px]/card:hidden"
               size="sm"

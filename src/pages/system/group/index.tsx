@@ -1,3 +1,4 @@
+import ActionAuth from "@/components/action-auth";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
@@ -51,7 +52,6 @@ import { toast } from "sonner";
 import AddBrotherDialog from "./add-brother-dialog";
 import AddChildDialog from "./add-child-dialog";
 import EditDialog from "./edit-dialog";
-
 function StatusSwitch({ initial, onChange }: { initial: string; onChange: (val: string) => void }) {
   const [checked, setChecked] = useState(initial === "1")
   return (
@@ -144,7 +144,7 @@ export default function Group() {
     {
       accessorKey: 'name',
       header: ({ table }) => (
-        <>
+        <div className="flex items-center space-x-2">
           <IndeterminateCheckbox
             {...{
               checked: table.getIsAllRowsSelected(),
@@ -163,15 +163,14 @@ export default function Group() {
             {table.getIsAllRowsExpanded() ? <ChevronDown className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />}
           </button>{' '}
           {formatMessage({ id: "page.system.group.header.name" })}
-        </>
+        </div>
       ),
       cell: ({ row, getValue }) => (
-        <div
+        <div className="flex items-center space-x-2"
           style={{
             paddingLeft: `${row.depth * 2}rem`,
           }}
         >
-          <div>
             <IndeterminateCheckbox
               {...{
                 checked: row.getIsSelected(),
@@ -192,7 +191,6 @@ export default function Group() {
               ''
             )}{' '}
             {getValue<boolean>()}
-          </div>
         </div>
       ),
       enableSorting: false,
@@ -238,13 +236,19 @@ export default function Group() {
                       <DropdownMenuGroup> 
                         <DropdownMenuLabel>{formatMessage({ id: 'table.actions' })}</DropdownMenuLabel>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem onClick={() => handleEdit(role)}>{formatMessage({ id: 'button.edit' })}</DropdownMenuItem>
+                        <ActionAuth action="edit">
                         <DropdownMenuItem onClick={() => handleDelete([role.id])}>{formatMessage({ id: 'button.delete' })}</DropdownMenuItem>
+                        </ActionAuth>
+                        <ActionAuth action="add">
                         <DropdownMenuItem onClick={() => handleAddChild(role)}>{formatMessage({ id: 'button.addChild' })}</DropdownMenuItem>
                         <DropdownMenuItem onClick={() => handleAddBrother(role)}>{formatMessage({ id: 'button.addBrother' })}</DropdownMenuItem>
+                        </ActionAuth>
+                        <ActionAuth action="edit">
                         <DropdownMenuItem onClick={() => handleMove(role, 'top')}>{formatMessage({ id: 'button.moveTop' })}</DropdownMenuItem>
                         <DropdownMenuItem onClick={() => handleMove(role, 'up')}>{formatMessage({ id: 'button.moveUp' })}</DropdownMenuItem>
                         <DropdownMenuItem onClick={() => handleMove(role, 'down')}>{formatMessage({ id: 'button.moveDown' })}</DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => handleEdit(role)}>{formatMessage({ id: 'button.edit' })}</DropdownMenuItem>
+                        </ActionAuth>
                       </DropdownMenuGroup>
                     </DropdownMenuContent>
                 </DropdownMenu>
@@ -397,8 +401,12 @@ export default function Group() {
               </Select>
           </div>
           <div className="ml-auto flex items-center gap-2">
+              <ActionAuth action="add">
               <Button onClick={() => handleAddChild(null)}>{formatMessage({ id: 'button.add' })}</Button>
+              </ActionAuth>
+              <ActionAuth action="delete">
               <Button onClick={() => handleDelete(table.getSelectedRowModel().flatRows.map((row) => row.original.id))}>{formatMessage({ id: 'button.delete' })}</Button>
+              </ActionAuth>
               <DropdownMenu>
                   <DropdownMenuTrigger>
                       <Button variant="outline" className="ml-auto">

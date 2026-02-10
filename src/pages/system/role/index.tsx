@@ -1,3 +1,4 @@
+import ActionAuth from "@/components/action-auth";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
@@ -227,8 +228,12 @@ export default function Role() {
                                     Copy payment ID
                                 </DropdownMenuItem> */}
                                 <DropdownMenuSeparator />
+                                <ActionAuth action="edit">
                                 <DropdownMenuItem onClick={() => handleEdit(role)}>{intl.formatMessage({ id: 'button.edit' })}</DropdownMenuItem>
+                                </ActionAuth>
+                                <ActionAuth action="delete">
                                 <DropdownMenuItem onClick={() => handleDelete([role])}>{intl.formatMessage({ id: 'button.delete' })}</DropdownMenuItem>
+                                </ActionAuth>
                             </DropdownMenuGroup>
                         </DropdownMenuContent>
                     </DropdownMenu>
@@ -297,9 +302,13 @@ export default function Role() {
                     </Select>
                 </div>
                 <div className="ml-auto flex items-center gap-2">
+                    <ActionAuth action="add">
                     <Button onClick={() => setIsAddDialogOpen(true)}>{intl.formatMessage({ id: 'button.add' })}</Button>
+                    </ActionAuth>
                     <AddDialog open={isAddDialogOpen} setOpen={setIsAddDialogOpen} onSave={() => setParams({ ...params, page: 1 })}/>
+                    <ActionAuth action="delete">
                     <Button onClick={() => handleDelete(table.getSelectedRowModel().rows.map(row => row.original))}>{intl.formatMessage({ id: 'button.delete' })}</Button>
+                    </ActionAuth>
                     <DropdownMenu>
                         <DropdownMenuTrigger>
                             <Button variant="outline" className="ml-auto">
