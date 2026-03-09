@@ -50,7 +50,7 @@ export default function GroupTreeSelect({ onChange: onChangeHandle, value, ...pr
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
-    axios.get('/common/groups').then(res => {
+    axios.get('/system/groups').then(res => {
       setData(buildTree(res.data.data))
       setLoading(true)
     })
