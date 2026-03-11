@@ -83,7 +83,7 @@ type Permission = {
   type: string
   action?: string
   status?: "0" | "1"
-  create?: string,
+  createTime?: string,
   parentId?: string
   order: number
 }
@@ -231,7 +231,7 @@ function getPermissionList(locale: string) {
       ];
       dataArray.forEach((item) => {
         item.status = '1';
-        item.create = '2023-01-01 00:00:00';
+        item.createTime = '2023-01-01 00:00:00';
       });
   return dataArray;
 }

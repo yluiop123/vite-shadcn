@@ -106,7 +106,7 @@ type Permission = {
   type: string
   action: string
   status: "0" | "1"
-  create: string,
+  createTime: string,
   parentId?: string
   order: number
   subRows?: Permission[]
@@ -236,10 +236,10 @@ export default function Permission() {
       cell: ({ row }) => <div className="lowercase">{row.getValue("order")}</div>,
     },
     {
-      accessorKey: "create",
+      accessorKey: "createTime",
       header: formatMessage({ id: "page.system.permission.header.createTime" }),
       cell: ({ row }) => (
-        <div className="capitalize">{row.getValue("create")}</div>
+        <div className="capitalize">{row.getValue("createTime")}</div>
       ),
     },
     {

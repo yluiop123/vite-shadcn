@@ -21,8 +21,8 @@ type Role = {
   name: string;
   role: string;
   status: "0" | "1";
-  create: string;
-  update: string;
+  createTime: string;
+  updateTime: string;
   permissions: string[];
 };
 function getRoleList(locale: string) {
@@ -33,8 +33,8 @@ function getRoleList(locale: string) {
       name: `${role.super}`,
       role: `super`,
       status: "1",
-      create: "2025-01-01 23:59:59",
-      update: "2025-01-01 23:59:59",
+      createTime: "2025-01-01 23:59:59",
+      updateTime: "2025-01-01 23:59:59",
       permissions: [
         "0000",
         "0001",
@@ -75,8 +75,8 @@ function getRoleList(locale: string) {
       name: `${role.admin}`,
       role: `admin`,
       status: "1",
-      create: "2025-01-01 23:59:59",
-      update: "2025-01-01 23:59:59",
+      createTime: "2025-01-01 23:59:59",
+      updateTime: "2025-01-01 23:59:59",
       permissions: [
         "0000",
         "0004",
@@ -103,8 +103,8 @@ function getRoleList(locale: string) {
       name: `${role.user}`,
       role: `user`,
       status: "1",
-      create: "2025-01-01 23:59:59",
-      update: "2025-01-01 23:59:59",
+      createTime: "2025-01-01 23:59:59",
+      updateTime: "2025-01-01 23:59:59",
       permissions: [
         "0000",
         "0001",

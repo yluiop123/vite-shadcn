@@ -44,8 +44,8 @@ type User = {
   group: string;
   groupName: string;
   status: "0" | "1";
-  create: string;
-  update: string;
+  createTime: string;
+  updateTime: string;
   phone: string;
   roles: Record<string,string>[];
   permissions: string[];
@@ -108,8 +108,8 @@ function getUserList(locale: string) {
       groupName: dataArray[i % 6].name,
       status: "1",
       phone: `${13800000000 + i}`,
-      create: "2025-01-01 23:59:59",
-      update: "2025-01-01 23:59:59",
+      createTime: "2025-01-01 23:59:59",
+      updateTime: "2025-01-01 23:59:59",
       roles: [{role:'super',name:roles['super']},
       {role:'admin',name:roles['admin']},
       {role:'user',name:roles['user']}].slice(0, (i % 3) + 1),

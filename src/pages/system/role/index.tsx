@@ -129,8 +129,8 @@ export default function Role() {
         name: string
         role: string
         status: "0" | "1"
-        create: string
-        update: string
+        createTime: string
+        updateTime: string
     }
     const columns: ColumnDef<Role>[] = [
         {
@@ -188,10 +188,10 @@ export default function Role() {
             ),
         },
         {
-            accessorKey: "create",
+            accessorKey: "createTime",
             header: intl.formatMessage({ id: 'page.system.role.header.createTime' }),
             cell: ({ row }) => (
-                <div >{row.getValue("create")}</div>
+                <div >{row.getValue("createTime")}</div>
             ),
         },
         {

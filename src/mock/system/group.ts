@@ -37,7 +37,7 @@ function getGroupList(locale: string) {
         depth: 1,
         order: 0,
         status: "1",
-        create: "2023-01-01",
+        createTime: "2023-01-01",
       },
       {
         id: "0002",
@@ -46,7 +46,7 @@ function getGroupList(locale: string) {
         depth: 1,
         order: 1,
         status: "1",
-        create: "2023-01-01",
+        createTime: "2023-01-01",
       },
       {
         id: "0003",
@@ -55,7 +55,7 @@ function getGroupList(locale: string) {
         depth: 1,
         order: 2,
         status: "1",
-        create: "2023-01-01",
+        createTime: "2023-01-01",
       },
       {
         id: "000301",
@@ -64,7 +64,7 @@ function getGroupList(locale: string) {
         depth: 2,
         order: 0,
         status: "1",
-        create: "2023-01-01",
+        createTime: "2023-01-01",
       },
       {
         id: "000302",
@@ -73,7 +73,7 @@ function getGroupList(locale: string) {
         depth: 2,
         order: 1,
         status: "1",
-        create: "2023-01-01",
+        createTime: "2023-01-01",
       },
       {
         id: "000303",
@@ -82,7 +82,7 @@ function getGroupList(locale: string) {
         depth: 2,
         order: 2,
         status: "1",
-        create: "2023-01-01",
+        createTime: "2023-01-01",
       },
     ];
   return dataArray;

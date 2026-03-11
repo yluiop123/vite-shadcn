@@ -138,8 +138,8 @@ export default function User() {
         group: string
         groupName: string
         status: "0" | "1"
-        create: string
-        update: string
+        createTime: string
+        updateTime: string
         phone: string
     }
     const columns: ColumnDef<User>[] = [
@@ -219,10 +219,10 @@ export default function User() {
             ),
         },
         {
-            accessorKey: "create",
+            accessorKey: "createTime",
             header: intl.formatMessage({ id: 'page.system.user.header.createTime' }),
             cell: ({ row }) => (
-                <div >{row.getValue("create")}</div>
+                <div >{row.getValue("createTime")}</div>
             ),
         },
         {

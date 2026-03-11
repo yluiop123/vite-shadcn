@@ -104,7 +104,7 @@ type Group = {
   id: string
   status: "0" | "1"
   remark: string
-  create: string,
+  createTime: string,
   parentId?: string
   order: number
   subRows?: Group[]
@@ -213,10 +213,10 @@ export default function Group() {
       cell: ({ row }) => <div className="lowercase">{row.getValue("order")}</div>,
     },
     {
-      accessorKey: "create",
+      accessorKey: "createTime",
       header: formatMessage({ id: "page.system.group.header.createTime" }),
       cell: ({ row }) => (
-        <div className="capitalize">{row.getValue("create")}</div>
+        <div className="capitalize">{row.getValue("createTime")}</div>
       ),
     },
     {
