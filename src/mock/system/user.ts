@@ -41,7 +41,7 @@ type User = {
   name: string;
   username: string;
   email: string;
-  group: string;
+  groupId: string;
   groupName: string;
   status: "0" | "1";
   createTime: string;
@@ -104,7 +104,7 @@ function getUserList(locale: string) {
       name: `${user}${userId}`,
       username: `user${userId}`,
       email: `user${userId}@example.com`,
-      group: dataArray[i % 6].id,
+      groupId: dataArray[i % 6].id,
       groupName: dataArray[i % 6].name,
       status: "1",
       phone: `${13800000000 + i}`,
@@ -126,7 +126,7 @@ const handlers = [
     const {
       filterField,
       filterValue,
-      group,
+      groupId,
       page,
       size,
       orderField,
@@ -136,7 +136,7 @@ const handlers = [
     const filterList = list.filter(
       (item) =>
         item[filterField as keyof User].toString().startsWith(filterValue) &&
-        item.group.startsWith(group)
+        item.groupId.startsWith(groupId)
     );
     if (orderField) {
       filterList.sort((a, b) => {

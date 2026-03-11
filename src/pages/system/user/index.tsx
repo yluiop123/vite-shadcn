@@ -68,7 +68,7 @@ export default function User() {
         size: number
         filterField: string
         filterValue: string
-        group: string
+        groupId: string
         // groupName: string
         orderField?: string
         orderValue?: "asc" | "desc"
@@ -79,7 +79,7 @@ export default function User() {
         size: 10,
         filterField: 'name',
         filterValue: '',
-        group: '',
+        groupId: '',
         // groupName: ''
     } as TableParams);
 
@@ -135,7 +135,7 @@ export default function User() {
         name: string
         username: string
         email: string
-        group: string
+        groupId: string
         groupName: string
         status: "0" | "1"
         createTime: string
@@ -311,9 +311,9 @@ export default function User() {
             <div className="flex items-center py-3 gap-4">
                 <GroupTreeSelect 
                     className="w-60"
-                    value={params.group}
+                    value={params.groupId}
                     onChange={(node) => {
-                        setParams({ ...params, group: node })
+                        setParams({ ...params, groupId: node })
                     }}
                 />
                 <Select

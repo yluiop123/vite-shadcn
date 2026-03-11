@@ -47,7 +47,7 @@ export default function Index(props: {setOpen: (open: boolean) => void, open: bo
             })
         },
         {
-            name: "group",
+            name: "groupId",
             label: "page.system.user.header.groupName",
             defaultValue: "",
             validate: z.string(),
@@ -81,7 +81,7 @@ export default function Index(props: {setOpen: (open: boolean) => void, open: bo
                     label: item.name,
                     value: item.role,
                 }));
-                user.group = user.group?[user.group]:[];
+                user.groupId = user.groupId?[user.groupId]:[];
                 setValues (user);
             } 
         })

@@ -30,7 +30,7 @@ const handlers = [
         data: {
           username: "super",
           email: "yluiop123@qq.com",
-          group: "01",
+          groupId: "01",
           groupName: localeMap[locale]["groupName"],
           name: "YL",
           roles: [
