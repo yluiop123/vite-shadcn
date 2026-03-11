@@ -111,7 +111,7 @@ export default function Role() {
             return;
         }
         axios.delete("/system/roles", {
-            data: rows.map(item => item.id)
+            data: { ids: rows.map(item => item.id) }
         }).then(res => {
             setParams({ ...params, page: 1 });
             toast.success(res.data.message);

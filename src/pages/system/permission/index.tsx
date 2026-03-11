@@ -332,7 +332,7 @@ export default function Permission() {
           return;
       }
       axios.delete("/system/permissions", {
-          data: rows
+          data: { ids: rows }
       }).then(res => {
           setParams({ ...params, page: 1 });
           toast.success(res.data.message);

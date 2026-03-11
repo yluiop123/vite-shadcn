@@ -316,7 +316,7 @@ export default function Group() {
           return;
       }
       axios.delete("/system/groups", {
-          data: rows
+          data: { ids: rows }
       }).then(res => {
           setParams({ ...params, page: 1 });
           toast.success(res.data.message);

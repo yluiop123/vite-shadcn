@@ -117,7 +117,7 @@ export default function User() {
             return;
         }
         axios.delete("/system/users", {
-            data: rows.map(item => item.id)
+            data: { ids: rows.map(item => item.id) }
         }).then(res => {
             setParams({ ...params, page: 1 });
             toast.success(res.data.message);
