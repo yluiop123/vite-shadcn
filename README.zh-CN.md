@@ -346,7 +346,7 @@ type Permission = {
   type: string//权限类型，指示权限的具体作用（如目录：directory、菜单：menu、操作：action、功能：function、接口：api）
   action?: string//type=action时才会有，操作名称，进一步细化权限的具体操作（如读取、写入、执行等）
   status?: "0" | "1"//权限状态，0表示禁用，1表示启用
-  create?: string,//创建时间，记录权限创建的时间
+  createTime?: string,//创建时间，记录权限创建的时间
   parentId?: string//父权限ID，用于构建权限树结构
   order: number//排序顺序，用于在菜单或权限列表中排序显示，后端自动生成
 }
