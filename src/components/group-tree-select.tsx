@@ -7,6 +7,7 @@ type OmittedTreeSelectProps  = Omit<TreeSelectProps, 'value' | 'onChange'|'data'
 type GroupTreeSelectProps = OmittedTreeSelectProps & {
   value?: string;
   onChange?: (value: string) => void;
+  disabled?: boolean;
 };
 export type GroupNode =TreeNode & {
   children?: GroupNode[]

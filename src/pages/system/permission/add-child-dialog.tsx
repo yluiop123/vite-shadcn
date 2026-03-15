@@ -10,16 +10,16 @@ export default function Index(props: {setOpen: (open: boolean) => void, open: bo
     const intl = useIntl();
     const fields:Field[] = [
         {
-            name: "name",
-            label: "page.system.permission.header.name",
-            defaultValue: "",
-            validate: z.string().min(2)
-        },
-        {
             name: "id",
             label: "page.system.permission.header.id",
             defaultValue: "",
             validate: z.string().regex(/^[a-zA-Z0-9]{2,}$/)
+        },
+        {
+            name: "name",
+            label: "page.system.permission.header.name",
+            defaultValue: "",
+            validate: z.string().min(2)
         },
         {
             name: "path",
@@ -45,7 +45,8 @@ export default function Index(props: {setOpen: (open: boolean) => void, open: bo
             label: "page.system.permission.header.parentPermission",
             defaultValue: '',
             validate: z.string().optional(),
-            type: "permission"
+            type: "permission",
+            disabled: true,
         },
     ]
     const [values, setValues] = useState<Record<string, unknown>>({});

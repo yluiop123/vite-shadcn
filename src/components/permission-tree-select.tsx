@@ -6,6 +6,7 @@ type PermissionTreeSelectProps = {
   onChange: (ids: string[]) => void
   placeholder?: string
   className?: string
+  disabled?: boolean
 }
 export type PermissionNode = TreeNode & {
   children?: PermissionNode[]

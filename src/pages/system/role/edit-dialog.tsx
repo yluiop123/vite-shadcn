@@ -10,6 +10,15 @@ export default function Index(props: {setOpen: (open: boolean) => void, open: bo
     const intl = useIntl();
     const fields:Field[] = [
         {
+            name: "id",
+            label: "page.system.role.header.role",
+            defaultValue: "",
+            validate: z.string().regex(/^[a-zA-Z0-9]{2,}$/, {
+                message: intl.formatMessage({ id: 'validate.role' }),
+            }),
+            disabled: true,
+        },
+        {
             name: "name",
             label: "page.system.role.header.name",
             defaultValue: "",

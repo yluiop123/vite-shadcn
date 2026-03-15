@@ -10,14 +10,6 @@ export default function Index(props: {setOpen: (open: boolean) => void, open: bo
     const intl = useIntl();
     const fields:Field[] = [
         {
-            name: "name",
-            label: "page.system.group.header.name",
-            defaultValue: "",
-            validate: z.string().min(2, {
-                message: intl.formatMessage({ id: 'validate.groupName' }),
-            })
-        },
-        {
             name: "id",
             label: "page.system.group.header.id",
             defaultValue: "",
@@ -26,11 +18,20 @@ export default function Index(props: {setOpen: (open: boolean) => void, open: bo
             })
         },
         {
+            name: "name",
+            label: "page.system.group.header.name",
+            defaultValue: "",
+            validate: z.string().min(2, {
+                message: intl.formatMessage({ id: 'validate.groupName' }),
+            })
+        },
+        {
             name: "brotherId",
             label: "page.system.group.header.brotherGroup",
             defaultValue: id,
             validate: z.string(),
-            type: "group"
+            type: "group",
+            disabled: true,
         },
     ]
     const [values, setValues] = useState<Record<string, unknown>>({});

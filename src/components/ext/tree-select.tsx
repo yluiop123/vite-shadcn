@@ -42,6 +42,7 @@ export type TreeSelectProps = {
   maxTagCount?: number;
   fieldNames?: FieldNames;
   className?: string;
+  disabled?: boolean;
 };
 
 // ------------------- 工具函数 -------------------
@@ -269,6 +270,7 @@ export default function TreeSelect(props: TreeSelectProps) {
     placeholder = "",
     filterable = true,
     maxTagCount = 3,
+    disabled = false,
     fieldNames = {
       value: "value",
       title: "title",
@@ -358,10 +360,9 @@ export default function TreeSelect(props: TreeSelectProps) {
       ? [findNode(treeData, mergedSelected[0])!]
       : [];
   }, [treeData, mergedSelected, multiple]);
-
   return (
     <Popover open={open} onOpenChange={setOpen}>
-      <PopoverTrigger>
+      <PopoverTrigger disabled={disabled}>
         <div
           className={cn(
             "group relative flex min-h-10 w-full cursor-pointer flex-wrap items-center gap-1.5 rounded-md border border-input bg-background py-1.5 pl-2 pr-15 text-sm transition-all duration-200",

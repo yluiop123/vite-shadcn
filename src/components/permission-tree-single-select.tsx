@@ -6,6 +6,7 @@ type PermissionTreeSelectProps = {
   onChange: (ids: string) => void
   placeholder?: string
   className?: string
+  disabled?: boolean
 }
 export type PermissionNode = TreeNode & {
   children?: PermissionNode[]
@@ -51,7 +52,6 @@ function buildTree(data: PermissionNode[]): PermissionNode[] {
 export default function PermissionTreeSelect({onChange:onChangeHandle, ...props}:PermissionTreeSelectProps) {
   const [data, setData] = useState<PermissionNode[]>([])
   const [loading, setLoading] = useState(false)
-
   useEffect(()=>{
     axios.get('/system/permissions').then(res=>{
         setData(buildTree(res.data.data));

@@ -45,7 +45,8 @@ export default function Index(props: {setOpen: (open: boolean) => void, open: bo
             label: "page.system.permission.header.brotherPermission",
             defaultValue: '',
             validate: z.string().optional(),
-            type: "permission"
+            type: "permission",
+            disabled: true,
         },
     ]
     const [values, setValues] = useState<Record<string, unknown>>({});

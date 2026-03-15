@@ -16,7 +16,7 @@ export default function Index(props: {open: boolean,setOpen:(open:boolean)=>void
             name: "username",
             label: "page.system.user.header.userName",
             defaultValue: "",
-            validate: z.string().min(2, {
+            validate: z.string().min(4, {
                 message: intl.formatMessage({ id: 'validate.username' }),
             })
         },

@@ -10,6 +10,15 @@ export default function Index(props: {setOpen: (open: boolean) => void, open: bo
     const intl = useIntl();
     const fields:Field[] = [
         {
+            name: "id",
+            label: "page.system.group.header.id",
+            defaultValue: "",
+            validate: z.string().regex(/^[a-zA-Z0-9]{2,}$/, {
+                message: intl.formatMessage({ id: 'validate.groupId' }),
+            }),
+            disabled: true,
+        },
+        {
             name: "name",
             label: "page.system.group.header.name",
             defaultValue: "",
@@ -17,21 +26,14 @@ export default function Index(props: {setOpen: (open: boolean) => void, open: bo
                 message: intl.formatMessage({ id: 'validate.groupName' }),
             })
         },
-        // {
-        //     name: "id",
-        //     label: "page.system.group.header.id",
-        //     defaultValue: "",
-        //     validate: z.string().regex(/^[a-zA-Z0-9]{2,}$/, {
-        //         message: intl.formatMessage({ id: 'validate.groupId' }),
-        //     })
-        // },
-        // {
-        //     name: "parentId",
-        //     label: "page.system.group.header.parentGroup",
-        //     defaultValue: "",
-        //     validate: z.string(),
-        //     type: "group"
-        // },
+        {
+            name: "parentId",
+            label: "page.system.group.header.parentGroup",
+            defaultValue: "",
+            validate: z.string(),
+            type: "group",
+            disabled: true,
+        },
     ]
     const [values, setValues] = useState<Record<string, unknown>>({});
 

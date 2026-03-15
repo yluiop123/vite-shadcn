@@ -30,6 +30,7 @@ type Field = {
     validate?: z.ZodTypeAny;
     defaultValue?: string|string[];
     type?: string;
+    disabled?: boolean;
 };
 
 export default function Index({open,setOpen,title,fields,values,onSubmit}: 
@@ -58,13 +59,13 @@ export default function Index({open,setOpen,title,fields,values,onSubmit}:
         <Dialog open={open} 
         onOpenChange={setOpen}> 
             <DialogContent className="sm:max-w-106.25">
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
                     <DialogHeader>
                         <DialogTitle>{title}</DialogTitle>
                         <DialogDescription></DialogDescription>
                     </DialogHeader>
                     {fields.map((f) => (
-                        <FieldGroup>
+                        <FieldGroup >                       
                             <Controller
                             name={f.name}
                             control={form.control}
@@ -75,23 +76,23 @@ export default function Index({open,setOpen,title,fields,values,onSubmit}:
                                 </FieldLabel>
 {
                                         f?.type === "permissions"?
-                                        <PermissionTreeSelect {...field} className="p-3"/>
+                                        <PermissionTreeSelect disabled={f.disabled} {...field} className="p-3"/>
                                         :
                                         f?.type === "permission"?
-                                        <PermissionTreeSingleSelect {...field} className="p-3"/>
+                                        <PermissionTreeSingleSelect disabled={f.disabled} {...field} className="p-3"/>
                                         :
                                         f?.type === "roles"?
                                         <RoleSelect {...field} className="p-3"/>
                                         :
                                         f?.type === "group"?
-                                        <GroupTreeSelect
+                                        <GroupTreeSelect disabled={f.disabled}
                                             {...field} className="p-3"
                                         />
                                         :
                                         f?.type === "permissionType"?
                                         <PermissionType {...field} className="p-3"/>
                                         :
-                                        <Input placeholder="" {...field} className="p-3"/>
+                                        <Input disabled={f.disabled} placeholder="" {...field} className="p-3"/>
                                     }
                                 {fieldState.invalid && (
                                     <FieldError errors={[fieldState.error]} />
@@ -100,39 +101,6 @@ export default function Index({open,setOpen,title,fields,values,onSubmit}:
                             )}
                             />                            
                         </FieldGroup>
-                        // <Field 
-                        //     key={f.name}
-                        //     control={form.control}
-                        //     name={f.name}
-                        //     render={({ field }) => (
-                        //         <FormItem>
-                        //             <FormLabel>{intl.formatMessage({ id: f.label })}</FormLabel>
-                        //             <FormControl>
-                        //                 {
-                        //                 f?.type === "permissions"?
-                        //                 <PermissionTreeSelect {...field} className="p-3"/>
-                        //                 :
-                        //                 f?.type === "permission"?
-                        //                 <PermissionTreeSingleSelect {...field} className="p-3"/>
-                        //                 :
-                        //                 f?.type === "roles"?
-                        //                 <RoleSelect {...field} className="p-3"/>
-                        //                 :
-                        //                 f?.type === "group"?
-                        //                 <GroupTreeSelect
-                        //                     {...field} className="p-3"
-                        //                 />
-                        //                 :
-                        //                 f?.type === "permissionType"?
-                        //                 <PermissionType {...field} className="p-3"/>
-                        //                 :
-                        //                 <Input placeholder="" {...field} className="p-3"/>
-                        //             }
-                        //             </FormControl>
-                        //             <FormMessage />
-                        //         </FormItem>
-                        //     )}
-                        // />
                     ))}
                     <DialogFooter>
                         <Button type="submit">{intl.formatMessage({ id: 'button.save' })}</Button>
