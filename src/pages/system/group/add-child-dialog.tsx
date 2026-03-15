@@ -1,6 +1,7 @@
 import DialogForm, { Field } from "@/components/dialog-form";
 import axios from "@/lib/axios";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { UseFormReturn } from "react-hook-form";
 import { useIntl } from "react-intl";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -16,7 +17,7 @@ export default function Index(props: {setOpen: (open: boolean) => void, open: bo
             validate: z.string().regex(/^[a-zA-Z0-9]{2,}$/, {
                 message: intl.formatMessage({ id: 'validate.groupId' }),
             })
-        },        
+        },
         {
             name: "name",
             label: "page.system.group.header.name",
@@ -31,7 +32,6 @@ export default function Index(props: {setOpen: (open: boolean) => void, open: bo
             defaultValue: id,
             validate: z.string(),
             type: "group",
-            disabled: true,
         },
     ]
     const [values, setValues] = useState<Record<string, unknown>>({});
@@ -45,7 +45,8 @@ export default function Index(props: {setOpen: (open: boolean) => void, open: bo
         return acc;
     }, {} as Record<string, z.ZodTypeAny>);
     const formSchema = z.object(schemaShape);
-    // 2. Define a submit handler. 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const formRef = useRef<UseFormReturn<any>>(null);
     function onSubmit(fieldValues: z.infer<typeof formSchema>) {
         axios.post("/system/groups/addChild", {
             ...fieldValues
@@ -55,12 +56,20 @@ export default function Index(props: {setOpen: (open: boolean) => void, open: bo
                 toast.success(res.data.message);
                 onSave();
             }else {
-                toast.error(res.data.message);
+                const data = res.data.data || {};
+                Object.keys(data).forEach((field) => {
+                    formRef.current?.setError(field, {
+                        type: "server", // 标注这是服务器返回的错误
+                        message: data[field]
+                    });
+                });
+                // toast.error(res.data.message);
             }
         })
     }
     return (
-        open && Object.keys(values).length > 0 &&<DialogForm
+        open && Object.keys(values).length > 0 &&<DialogForm 
+            ref={formRef}
             setOpen={setOpen}
             open={open}
             title={intl.formatMessage({ id: 'button.addChild' })}

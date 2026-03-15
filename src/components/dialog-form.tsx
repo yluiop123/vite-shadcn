@@ -19,8 +19,8 @@ import {
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect } from "react";
-import { Controller, useForm } from "react-hook-form";
+import { forwardRef, useEffect, useImperativeHandle } from "react";
+import { Controller, useForm, UseFormReturn } from "react-hook-form";
 import { useIntl } from "react-intl";
 import { z } from "zod";
 import PermissionType from "./permission-type";
@@ -33,9 +33,14 @@ type Field = {
     disabled?: boolean;
 };
 
-export default function Index({open,setOpen,title,fields,values,onSubmit}: 
-    {open: boolean,setOpen:(open:boolean)=>void,title:string,
-        fields: Field[],values?: Record<string, unknown>, onSubmit:  (values: Record<string, unknown>) => void}) {
+const DialogForm =  forwardRef<UseFormReturn<any>, {
+    open: boolean
+    setOpen: (open:boolean)=>void
+    title:string
+    fields: Field[]
+    values?: Record<string, unknown>
+    onSubmit: (values: Record<string, unknown>) => void
+}>(({open,setOpen,title,fields,values,onSubmit}, ref) => {
     const schemaShape = fields.reduce((acc, field) => {
         acc[field.name] = field.validate || z.string().optional();
         return acc;
@@ -46,6 +51,7 @@ export default function Index({open,setOpen,title,fields,values,onSubmit}:
         resolver: zodResolver(formSchema),
         defaultValues: Object.fromEntries(fields.map(item => [item.name, item.defaultValue || ""])),
     });
+    useImperativeHandle(ref, () => form);
     useEffect(() => {
         if (open) {
             if (values) {
@@ -65,7 +71,7 @@ export default function Index({open,setOpen,title,fields,values,onSubmit}:
                         <DialogDescription></DialogDescription>
                     </DialogHeader>
                     {fields.map((f) => (
-                        <FieldGroup >                       
+                        <FieldGroup >
                             <Controller
                             name={f.name}
                             control={form.control}
@@ -110,5 +116,7 @@ export default function Index({open,setOpen,title,fields,values,onSubmit}:
         </Dialog >
     )
 }
+)
+export default DialogForm;
 export type { Field };
 

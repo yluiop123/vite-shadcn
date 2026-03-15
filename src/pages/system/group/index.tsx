@@ -377,7 +377,7 @@ export default function Group() {
               <Button onClick={() => handleAddChild(null)}>{formatMessage({ id: 'button.add' })}</Button>
               </ActionAuth>
               <ActionAuth action="delete">
-              <Button onClick={() => handleDelete(table.getSelectedRowModel().flatRows .filter(row => row.getIsSelected()).map((row) => row.original.id))}>{formatMessage({ id: 'button.delete' })}</Button>
+              <Button onClick={() => handleDelete(table.getSelectedRowModel().flatRows.filter(row => row.getIsSelected()).map((row) => row.original.id))}>{formatMessage({ id: 'button.delete' })}</Button>
               </ActionAuth>
               <DropdownMenu>
                   <DropdownMenuTrigger>

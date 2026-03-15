@@ -34,7 +34,7 @@ export default function Index(props: {open: boolean,setOpen:(open:boolean)=>void
             defaultValue: "",
             validate: z.string().email({
                 message: intl.formatMessage({ id: 'validate.email' }),
-            })
+            }),
         },
         {
             name: "phone",

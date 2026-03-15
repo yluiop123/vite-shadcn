@@ -31,7 +31,7 @@ instance.interceptors.request.use(
 instance.interceptors.response.use(
   (response) => {
     const data = response.data;
-    if (data.code !== 200) {
+    if (data.code !== 200 && data.code !== 40001) {
       notify.error(data.message || "请求错误");
       return Promise.reject(data);
     }
