@@ -18,14 +18,6 @@ export default function Index(props: {setOpen: (open: boolean) => void, open: bo
             })
         },
         {
-            name: "role",
-            label: "page.system.role.header.role",
-            defaultValue: "",
-            validate: z.string().regex(/^[a-zA-Z]{2,}$/, {
-                message: intl.formatMessage({ id: 'validate.role' }),
-            })
-        },
-        {
             name: "permissions",
             label: "page.system.user.header.permissions",
             defaultValue: [],

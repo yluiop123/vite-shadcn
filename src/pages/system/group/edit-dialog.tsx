@@ -17,21 +17,21 @@ export default function Index(props: {setOpen: (open: boolean) => void, open: bo
                 message: intl.formatMessage({ id: 'validate.groupName' }),
             })
         },
-        {
-            name: "id",
-            label: "page.system.group.header.id",
-            defaultValue: "",
-            validate: z.string().regex(/^[a-zA-Z0-9]{2,}$/, {
-                message: intl.formatMessage({ id: 'validate.groupId' }),
-            })
-        },
-        {
-            name: "parentId",
-            label: "page.system.group.header.parentGroup",
-            defaultValue: "",
-            validate: z.string(),
-            type: "group"
-        },
+        // {
+        //     name: "id",
+        //     label: "page.system.group.header.id",
+        //     defaultValue: "",
+        //     validate: z.string().regex(/^[a-zA-Z0-9]{2,}$/, {
+        //         message: intl.formatMessage({ id: 'validate.groupId' }),
+        //     })
+        // },
+        // {
+        //     name: "parentId",
+        //     label: "page.system.group.header.parentGroup",
+        //     defaultValue: "",
+        //     validate: z.string(),
+        //     type: "group"
+        // },
     ]
     const [values, setValues] = useState<Record<string, unknown>>({});
 

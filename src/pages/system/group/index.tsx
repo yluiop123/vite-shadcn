@@ -110,33 +110,6 @@ type Group = {
   subRows?: Group[]
 }
 
-type IndeterminateCheckboxProps = {
-  indeterminate?: boolean
-  checked?: boolean
-  className?: string
-  onCheckedChange?: (checked: boolean | "indeterminate") => void
-}
-
-export function IndeterminateCheckbox({
-  indeterminate,
-  checked,
-  className = "",
-  onCheckedChange,
-  ...rest
-}: IndeterminateCheckboxProps) {
-  // 合并 checked 状态
-  const mergedChecked: boolean | "indeterminate" =
-    indeterminate && !checked ? "indeterminate" : !!checked
-
-  return (
-    <Checkbox
-      className={className + " cursor-pointer"}
-      checked={mergedChecked? true : false}
-      onCheckedChange={onCheckedChange}
-      {...rest}
-    />
-  )
-}
 
 export default function Group() {
   const { formatMessage } = useIntl();
@@ -145,15 +118,15 @@ export default function Group() {
       accessorKey: 'name',
       header: ({ table }) => (
         <div className="flex items-center space-x-2">
-          <IndeterminateCheckbox
-            {...{
-              checked: table.getIsAllRowsSelected(),
-              indeterminate: table.getIsSomeRowsSelected(),
-              onCheckedChange: (checked) => {
-                table.toggleAllRowsSelected(!!checked)
-              },
+          <Checkbox
+            className="cursor-pointer"
+            checked={table.getIsAllRowsSelected()}
+            indeterminate={table.getIsSomeRowsSelected()}
+            onCheckedChange={(checked) => {
+              table.toggleAllRowsSelected(checked)
             }}
-          />{' '}
+          />
+          {' '}
           <button
             {...{
               onClick: table.getToggleAllRowsExpandedHandler(),
@@ -171,13 +144,13 @@ export default function Group() {
             paddingLeft: `${row.depth * 2}rem`,
           }}
         >
-            <IndeterminateCheckbox
-              {...{
-                checked: row.getIsSelected(),
-                indeterminate: row.getIsSomeSelected(),
-                onCheckedChange: row.getToggleSelectedHandler(),
-              }}
-            />{' '}
+            <Checkbox
+              className="cursor-pointer"
+              checked={row.subRows.length>0?row.getIsAllSubRowsSelected():row.getIsSelected()}
+              indeterminate={row.subRows.length>0&&row.getIsSomeSelected()} 
+              onCheckedChange={row.getToggleSelectedHandler()}
+            />
+            {' '}
             {row.getCanExpand() ? (
               <button
                 {...{
@@ -236,9 +209,6 @@ export default function Group() {
                       <DropdownMenuGroup> 
                         <DropdownMenuLabel>{formatMessage({ id: 'table.actions' })}</DropdownMenuLabel>
                         <DropdownMenuSeparator />
-                        <ActionAuth action="edit">
-                        <DropdownMenuItem onClick={() => handleDelete([role.id])}>{formatMessage({ id: 'button.delete' })}</DropdownMenuItem>
-                        </ActionAuth>
                         <ActionAuth action="add">
                         <DropdownMenuItem onClick={() => handleAddChild(role)}>{formatMessage({ id: 'button.addChild' })}</DropdownMenuItem>
                         <DropdownMenuItem onClick={() => handleAddBrother(role)}>{formatMessage({ id: 'button.addBrother' })}</DropdownMenuItem>
@@ -351,6 +321,8 @@ export default function Group() {
     onColumnVisibilityChange: setColumnVisibility,
     onRowSelectionChange: setRowSelection,
     getExpandedRowModel: getExpandedRowModel(),
+    enableRowSelection: true,
+    enableSubRowSelection: true,
     state: {
       expanded,
       sorting,
@@ -405,7 +377,7 @@ export default function Group() {
               <Button onClick={() => handleAddChild(null)}>{formatMessage({ id: 'button.add' })}</Button>
               </ActionAuth>
               <ActionAuth action="delete">
-              <Button onClick={() => handleDelete(table.getSelectedRowModel().flatRows.map((row) => row.original.id))}>{formatMessage({ id: 'button.delete' })}</Button>
+              <Button onClick={() => handleDelete(table.getSelectedRowModel().flatRows .filter(row => row.getIsSelected()).map((row) => row.original.id))}>{formatMessage({ id: 'button.delete' })}</Button>
               </ActionAuth>
               <DropdownMenu>
                   <DropdownMenuTrigger>

@@ -55,14 +55,14 @@ export default function Index(props: {open: boolean,setOpen:(open:boolean)=>void
             name: "roles",
             label: "page.system.user.header.roles",
             defaultValue: [],
-            validate: z.array(rolesSchema).min(1),
+            validate: z.array(rolesSchema).optional(),
             type: "roles"
         },
         {
             name: "permissions",
             label: "page.system.user.header.permissions",
             defaultValue: [],
-            validate: z.array(z.string()),
+            validate: z.array(z.string()).optional(),
             type: "permissions"
         },
     ]
@@ -74,7 +74,7 @@ export default function Index(props: {open: boolean,setOpen:(open:boolean)=>void
     // 2. Define a submit handler. 
     function onSubmit(values: z.infer<typeof formSchema>) {
         values.roles = values.roles.map((item: { label: string; value: string;}) => (item.value));
-        values.groupId = values.groupId?values.groupId[0]:'';
+        values.groupId = values.groupId?values.groupId:'';
         axios.post("/system/users/add", {
             ...values
         }).then(res => {

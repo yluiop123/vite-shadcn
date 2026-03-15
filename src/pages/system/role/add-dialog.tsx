@@ -8,19 +8,19 @@ export default function Index(props: {open: boolean,setOpen:(open:boolean)=>void
     const intl = useIntl();
     const fields:Field[] = [
         {
+            name: "id",
+            label: "page.system.role.header.role",
+            defaultValue: "",
+            validate: z.string().regex(/^[a-zA-Z0-9]{2,}$/, {
+                message: intl.formatMessage({ id: 'validate.role' }),
+            })
+        },
+        {
             name: "name",
             label: "page.system.role.header.name",
             defaultValue: "",
             validate: z.string().min(2, {
                 message: intl.formatMessage({ id: 'validate.roleName' }),
-            })
-        },
-        {
-            name: "role",
-            label: "page.system.role.header.role",
-            defaultValue: "",
-            validate: z.string().regex(/^[a-zA-Z]{2,}$/, {
-                message: intl.formatMessage({ id: 'validate.role' }),
             })
         },
         {
@@ -38,7 +38,7 @@ export default function Index(props: {open: boolean,setOpen:(open:boolean)=>void
     const formSchema = z.object(schemaShape);
     // 2. Define a submit handler. 
     function onSubmit(values: z.infer<typeof formSchema>) {
-        axios.post("/system/users/add", {
+        axios.post("/system/roles/add", {
             ...values
         }).then(res => {
             if(res.data.code === 200) {

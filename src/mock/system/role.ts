@@ -19,7 +19,6 @@ const localeMap: Record<string, Record<string, string>> = {
 type Role = {
   id: string;
   name: string;
-  role: string;
   status: "0" | "1";
   createTime: string;
   updateTime: string;
@@ -29,9 +28,8 @@ function getRoleList(locale: string) {
   const role = localeMap[locale];
   const list = [
     {
-      id: `0001`,
+      id: `super`,
       name: `${role.super}`,
-      role: `super`,
       status: "1",
       createTime: "2025-01-01 23:59:59",
       updateTime: "2025-01-01 23:59:59",
@@ -71,9 +69,8 @@ function getRoleList(locale: string) {
       ],
     },
     {
-      id: `0002`,
+      id: `admin`,
       name: `${role.admin}`,
-      role: `admin`,
       status: "1",
       createTime: "2025-01-01 23:59:59",
       updateTime: "2025-01-01 23:59:59",
@@ -99,9 +96,8 @@ function getRoleList(locale: string) {
       ],
     },
     {
-      id: `0003`,
+      id: `user`,
       name: `${role.user}`,
-      role: `user`,
       status: "1",
       createTime: "2025-01-01 23:59:59",
       updateTime: "2025-01-01 23:59:59",
@@ -130,11 +126,11 @@ const handlers = [
   http.post<never, never>("/api/system/roles", async ({ request }) => {
     const locale = request.headers.get("locale") || "zh";
     const body = await request.clone().json();
-    const { role, name, status, page, size, orderField, orderValue } = body;
+    const { id, name, status, page, size, orderField, orderValue } = body;
     const list = getRoleList(locale);
     let filterList = list;
-    if (role) {
-      filterList = filterList.filter((item) => item.role.startsWith(role));
+    if (id) {
+      filterList = filterList.filter((item) => item.id.startsWith(id));
     }
     if (name) {
       filterList = filterList.filter((item) => item.name.startsWith(name));

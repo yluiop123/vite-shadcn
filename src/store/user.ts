@@ -13,7 +13,7 @@ type UserInfo = {
   groupName?: string;
   name?: string;
   roles?: {
-    role: string;
+    id: string;
     name: string;
   }[];
   rolePermissions?: Permission[];

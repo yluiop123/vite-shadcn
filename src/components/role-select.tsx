@@ -7,7 +7,7 @@ export default function RoleSelect({...props}) {
   const options: Option[] =
     userInfo?.roles?.map((role) => ({
       label: role.name,
-      value: role.role
+      value: role.id
     })) || [];
 
   return (

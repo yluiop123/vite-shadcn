@@ -1,16 +1,16 @@
 import {
+  autoUpdate,
+  flip,
+  offset,
+  shift,
+  useFloating
+} from "@floating-ui/react"
+import {
   IconDotsVertical,
   IconLogout,
   IconUserCircle
 } from "@tabler/icons-react"
-import { useState, useRef } from "react"
-import {
-  useFloating,
-  offset,
-  flip,
-  shift,
-  autoUpdate
-} from "@floating-ui/react"
+import { useRef, useState } from "react"
 
 import {
   Avatar,
@@ -122,15 +122,15 @@ export function NavUser() {
             >
               {intl.formatMessage({ id: 'sidebar.user.all' })}
             </button>
-
+              
             {userInfo?.roles?.map(role => (
               <button
-                key={role.role}
+                key={role.id}
                 className={cn(
                   "w-full rounded-md px-2 py-1.5 text-left text-sm hover:bg-accent",
-                  userInfo?.currentRole === role.role && "bg-accent text-accent-foreground"
+                  userInfo?.currentRole === role.id && "bg-accent text-accent-foreground"
                 )}
-                onClick={() => updateUserInfo({ currentRole: role.role })}
+                onClick={() => updateUserInfo({ currentRole: role.id })}
               >
                 {role.name}
               </button>

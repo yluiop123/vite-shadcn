@@ -126,7 +126,7 @@ export default function User() {
     }
     function handleStatusChange(row: User) {
         axios.post("/system/users/edit",
-            {...row}).then(res => {
+            {status: row.status, id: row.id}).then(res => {
             toast.success(res.data.message);
         })
     }

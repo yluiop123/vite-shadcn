@@ -67,7 +67,7 @@ export default function Role() {
     type TableParams = {
         page: number
         size: number
-        role?: string
+        id?: string
         name?: string
         status?: string
         orderField?: string
@@ -77,7 +77,7 @@ export default function Role() {
     const [params, setParams] = useState({
         page: 1,
         size: 10,
-        role: '',
+        id: '',
         name: '',
         status: 'all'
     } as TableParams);
@@ -120,14 +120,13 @@ export default function Role() {
     }
     function handleStatusChange(row: Role) {
         axios.post("/system/roles/edit",
-            {...row}).then(res => {
+            {status: row.status, id: row.id}).then(res => {
             toast.success(res.data.message);
         })
     }
     type Role = {
         id: string
         name: string
-        role: string
         status: "0" | "1"
         createTime: string
         updateTime: string
@@ -181,10 +180,10 @@ export default function Role() {
             cell: ({ row }) => <div >{row.getValue("name")}</div>,
         },
         {
-            accessorKey: "role",
+            accessorKey: "id",
             header: intl.formatMessage({ id: 'page.system.role.header.role' }),
             cell: ({ row }) => (
-                <div >{row.getValue("role")}</div>
+                <div >{row.getValue("id")}</div>
             ),
         },
         {
@@ -278,7 +277,7 @@ export default function Role() {
                 </div>
                 <div className="flex items-center gap-4">
                     <Label className="whitespace-nowrap" htmlFor="roleId">{intl.formatMessage({ id: 'page.system.role.header.role' })}</Label>
-                    <Input id="roleId" type="text" placeholder="" value={params.role} onChange={(e) => setParams({ ...params, role: e.target.value })} />
+                    <Input id="roleId" type="text" placeholder="" value={params.id} onChange={(e) => setParams({ ...params, role: e.target.value })} />
                 </div>                
                 
                 <div className="flex items-center gap-2">

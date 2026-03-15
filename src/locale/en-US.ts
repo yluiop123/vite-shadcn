@@ -109,7 +109,7 @@ export default {
     'validate.username': 'Username must be at least 4 characters."',
     'validate.email': 'Invalid email address.',
     'validate.phone': 'Invalid phone number.',
-    'validate.role': 'RoleId: at least 2 English letters.',
+    'validate.role': 'RoleId: at least 2 English letters or numbers.',
     'validate.roleName': 'RoleName must be at least 2 characters.',
     'validate.groupId': 'GroupId: at least 2 English letters or numbers.',
     'validate.groupName': 'GroupName must be at least 2 characters.',

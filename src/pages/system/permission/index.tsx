@@ -112,35 +112,6 @@ type Permission = {
   subRows?: Permission[]
 }
 
-type IndeterminateCheckboxProps = {
-  indeterminate?: boolean
-  checked?: boolean
-  className?: string
-  onCheckedChange?: (checked: boolean | "indeterminate") => void
-}
-
-export function IndeterminateCheckbox({
-  indeterminate,
-  checked,
-  className = "",
-  onCheckedChange,
-  ...rest
-}: IndeterminateCheckboxProps) {
-  // 合并 checked 状态
-  const mergedChecked: boolean | "indeterminate" =
-    indeterminate && !checked ? "indeterminate" : !!checked
-
-  return (
-    <Checkbox
-      className={className + " cursor-pointer"}
-      checked={mergedChecked!==false}
-      indeterminate={mergedChecked === "indeterminate"}
-      onCheckedChange={onCheckedChange}
-      {...rest}
-    />
-  )
-}
-
 export default function Permission() {
   const { formatMessage } = useIntl();
   const columns: ColumnDef<Permission>[] = [
@@ -148,13 +119,12 @@ export default function Permission() {
       accessorKey: 'name',
       header: ({ table }) => (
         <div className="flex items-center space-x-2">
-          <IndeterminateCheckbox
-            {...{
-              checked: table.getIsAllRowsSelected(),
-              indeterminate: table.getIsSomeRowsSelected(),
-              onCheckedChange: (checked) => {
-                table.toggleAllRowsSelected(!!checked)
-              },
+          <Checkbox
+            className="cursor-pointer"
+            checked={table.getIsAllRowsSelected()}
+            indeterminate={table.getIsSomeRowsSelected()}
+            onCheckedChange={(checked) => {
+              table.toggleAllRowsSelected(checked)
             }}
           />
           <button
@@ -174,12 +144,11 @@ export default function Permission() {
             paddingLeft: `${row.depth * 2}rem`,
           }}
         >
-            <IndeterminateCheckbox
-              {...{
-                checked: row.getIsSelected(),
-                indeterminate: row.getIsSomeSelected(),
-                onCheckedChange: row.getToggleSelectedHandler(),
-              }}
+            <Checkbox
+              className="cursor-pointer"
+              checked={row.subRows.length>0?row.getIsAllSubRowsSelected():row.getIsSelected()}
+              indeterminate={row.subRows.length>0&&row.getIsSomeSelected()} 
+              onCheckedChange={row.getToggleSelectedHandler()}
             />
             {row.getCanExpand() ? (
               <button
@@ -259,9 +228,6 @@ export default function Permission() {
                       <DropdownMenuGroup>
                         <DropdownMenuLabel>{formatMessage({ id: 'table.actions' })}</DropdownMenuLabel>
                         <DropdownMenuSeparator />    
-                        <ActionAuth action="delete">
-                        <DropdownMenuItem onClick={() => handleDelete([permission.id])}>{formatMessage({ id: 'button.delete' })}</DropdownMenuItem>               
-                        </ActionAuth>
                         <ActionAuth action="add">
                         <DropdownMenuItem onClick={() => handleAddChild(permission)}>{formatMessage({ id: 'button.addChild' })}</DropdownMenuItem>
                         <DropdownMenuItem onClick={() => handleAddBrother(permission)}>{formatMessage({ id: 'button.addBrother' })}</DropdownMenuItem>
@@ -375,6 +341,8 @@ export default function Permission() {
     onColumnVisibilityChange: setColumnVisibility,
     onRowSelectionChange: setRowSelection,
     getExpandedRowModel: getExpandedRowModel(),
+    enableRowSelection: true,
+    enableSubRowSelection: true,
     state: {
       expanded,
       sorting,

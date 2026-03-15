@@ -35,12 +35,12 @@ const handlers = [
     const id = params.id;
     console.log(id);
     const dataArray = [
-      { id: "0001", name: localeMap[locale]['0001'],parentId:"00",depth:1,order:0 },
-      { id: "0002", name: localeMap[locale]['0002'],parentId:"00",depth:1,order:1 },
-      { id: "0003", name: localeMap[locale]['0003'],parentId:"00",depth:1,order:2 },
-      { id: "000301", name: localeMap[locale]['000301'],parentId:"0003",depth:2,order:0 },
-      { id: "000302", name: localeMap[locale]['000302'],parentId:"0003",depth:2,order:1 },
-      { id: "000303", name: localeMap[locale]['000303'],parentId:"0003",depth:2,order:2 },
+      { id: "0001", name: localeMap[locale]['0001'],parentId:"00",order:0 },
+      { id: "0002", name: localeMap[locale]['0002'],parentId:"00",order:1 },
+      { id: "0003", name: localeMap[locale]['0003'],parentId:"00",order:2 },
+      { id: "000301", name: localeMap[locale]['000301'],parentId:"0003",order:0 },
+      { id: "000302", name: localeMap[locale]['000302'],parentId:"0003",order:1 },
+      { id: "000303", name: localeMap[locale]['000303'],parentId:"0003",order:2 },
     ]
     return HttpResponse.json({
         code: 200,

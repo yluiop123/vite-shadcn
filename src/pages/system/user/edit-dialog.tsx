@@ -57,14 +57,14 @@ export default function Index(props: {setOpen: (open: boolean) => void, open: bo
             name: "roles",
             label: "page.system.user.header.roles",
             defaultValue: [],
-            validate: z.array(rolesSchema).min(1),
+            validate: z.array(rolesSchema).min(1).optional(),
             type: "roles"
         },
         {
             name: "permissions",
             label: "page.system.user.header.permissions",
             defaultValue: [],
-            validate: z.array(z.string()),
+            validate: z.array(z.string()).optional(),
             type: "permissions"
         },
     ]
@@ -77,11 +77,11 @@ export default function Index(props: {setOpen: (open: boolean) => void, open: bo
         axios.get("/system/users/detail/" + id).then(res => {
             if (res.data.code === 200) {
                 const user = res.data.data;
-                user.roles = user.roles.map((item: { role: string; name: string; }) => ({
+                user.roles = user.roles.map((item: { id: string; name: string; }) => ({
                     label: item.name,
-                    value: item.role,
+                    value: item.id,
                 }));
-                user.groupId = user.groupId?[user.groupId]:[];
+                user.groupId = user.groupId?user.groupId:'';
                 setValues (user);
             } 
         })
