@@ -277,7 +277,7 @@ export default function Role() {
                 </div>
                 <div className="flex items-center gap-4">
                     <Label className="whitespace-nowrap" htmlFor="roleId">{intl.formatMessage({ id: 'page.system.role.header.role' })}</Label>
-                    <Input id="roleId" type="text" placeholder="" value={params.id} onChange={(e) => setParams({ ...params, role: e.target.value })} />
+                    <Input id="roleId" type="text" placeholder="" value={params.id} onChange={(e) => setParams({ ...params, id: e.target.value })} />
                 </div>                
                 
                 <div className="flex items-center gap-2">

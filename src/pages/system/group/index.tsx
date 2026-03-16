@@ -120,7 +120,7 @@ export default function Group() {
         <div className="flex items-center space-x-2">
           <Checkbox
             className="cursor-pointer"
-            checked={table.getIsAllRowsSelected()}
+            checked={table.getIsAllRowsSelected()} 
             indeterminate={table.getIsSomeRowsSelected()}
             onCheckedChange={(checked) => {
               table.toggleAllRowsSelected(checked)
