@@ -43,15 +43,17 @@ jobs:
           cache: 'pnpm'
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
+        working-directory: vite-shadcn
       - name: Build
         run: pnpm run build:github
+        working-directory: vite-shadcn
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
           # 上传 dist 文件夹
-          path: './dist'
+          path: './vite-shadcn/dist'
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4

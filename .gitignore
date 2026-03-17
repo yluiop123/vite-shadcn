@@ -7,9 +7,14 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-node_modules
-dist
-dist-ssr
+# Dependencies
+**/node_modules
+
+# Build outputs
+**/dist
+**/dist-ssr
+
+# Local env files
 *.local
 
 # Editor directories and files
@@ -22,3 +27,44 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Maven / Gradle build
+**/target/
+**/build/
+
+# Maven wrapper
+.mvn/wrapper/maven-wrapper.jar
+
+# Keep src 下的 target/build
+!**/src/main/**/target/
+!**/src/test/**/target/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+# IntelliJ IDEA
+.idea
+*.iws
+*.iml
+*.ipr
+
+# VS Code
+.vscode/
+
+# STS
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+# NetBeans
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+# Others
+HELP.md
