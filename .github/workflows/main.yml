@@ -41,6 +41,7 @@ jobs:
         with:
           node-version: lts/*
           cache: 'pnpm'
+          cache-dependency-path: './vite-shadcn/pnpm-lock.yaml'
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
         working-directory: vite-shadcn
