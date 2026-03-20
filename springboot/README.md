@@ -1,4 +1,7 @@
+
 # Spring Boot Backend Project
+
+English | [简体中文](./README.zh-CN.md)
 
 ## Project Overview
 
