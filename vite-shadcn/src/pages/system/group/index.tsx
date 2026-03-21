@@ -148,10 +148,7 @@ export default function Group() {
               className="cursor-pointer"
               checked={row.getIsSelected()}
               indeterminate={row.getIsSomeSelected()}
-              onCheckedChange={(checked) => {
-                // 手动调用切换函数，确保状态同步
-                row.toggleSelected(!!checked);
-              }}
+              onCheckedChange={row.getToggleSelectedHandler()}
             />
             {' '}
             {row.getCanExpand() ? (

@@ -41,6 +41,7 @@ import {
   getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
+  Row,
   SortingState,
   useReactTable,
   VisibilityState,
@@ -113,6 +114,28 @@ type Permission = {
 }
 
 export default function Permission() {
+  const toggleRow = (row: Row<Permission>, checked: boolean, selection: Record<string, boolean>) => {
+    selection[row.id] = checked;
+    row.subRows.forEach((sub) => toggleRow(sub, checked, selection));
+  };
+
+  // 核心：判断父节点是否全选 / 半选
+  const getRowCheckState = (row: Row<Permission>) => {
+    if (!row.subRows || row.subRows.length === 0) {
+      return { checked: !!row.getIsSelected(), indeterminate: false };
+    }
+    let all = true;
+    let some = false;
+    row.subRows.forEach((sub) => {
+      const state = getRowCheckState(sub);
+      if (!state.checked || state.indeterminate) all = false;
+      if (state.checked || state.indeterminate) some = true;
+    });
+    return {
+      checked: all,
+      indeterminate: some && !all,
+    };
+  };
   const { formatMessage } = useIntl();
   const columns: ColumnDef<Permission>[] = [
     {
@@ -138,7 +161,9 @@ export default function Permission() {
           {formatMessage({ id: "page.system.permission.header.name" })}
         </div>
       ),
-      cell: ({ row, getValue }) => (
+      cell: ({ row, getValue }) => {
+        const { checked, indeterminate } = getRowCheckState(row);
+        return (
         <div className="flex items-center space-x-2"
           style={{
             paddingLeft: `${row.depth * 2}rem`,
@@ -146,9 +171,15 @@ export default function Permission() {
         >
             <Checkbox
               className="cursor-pointer"
-              checked={row.subRows.length>0?row.getIsAllSubRowsSelected():row.getIsSelected()}
-              indeterminate={row.subRows.length>0&&row.getIsSomeSelected()} 
-              onCheckedChange={row.getToggleSelectedHandler()}
+              checked={checked}
+              indeterminate={indeterminate}
+              onCheckedChange={(checked) => {
+                const newSelection = { ...rowSelection };
+                toggleRow(row, checked, newSelection);
+                setRowSelection(newSelection);
+                debugger;
+                table.setRowSelection(newSelection);
+              }}
             />
             {row.getCanExpand() ? (
               <button
@@ -164,7 +195,7 @@ export default function Permission() {
             )}
             {getValue<boolean>()}
         </div>
-      ),
+      )},
       enableSorting: false,
       enableHiding: false,
     },

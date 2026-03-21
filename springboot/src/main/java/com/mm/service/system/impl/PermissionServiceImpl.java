@@ -63,6 +63,7 @@ public class PermissionServiceImpl implements PermissionService {
     @Transactional
     public void deletePermissions(List<String> ids) {
         List<Permission> list = permissionRepository.findAllById(ids);
+
         if (list.isEmpty()) {
             throw  new BusinessException("权限不存在");
         }
