@@ -77,7 +77,7 @@ This project is an enterprise-level permission management system built with Spri
   
   ```bash
   git clone <repository-url>
-  cd mm-boot
+  cd springboot
   ```
   
 2. **Database Configuration**

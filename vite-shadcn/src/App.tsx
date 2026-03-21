@@ -1,6 +1,6 @@
+import { Toaster } from "@/components/ui/sonner";
 import PageLayout from '@/layout';
 import { routes } from '@/routes';
-import { Toaster } from "@/components/ui/sonner";
 import { useLocaleStore } from "@/store/index";
 import { lazy } from 'react';
 import { IntlProvider } from 'react-intl';
@@ -12,6 +12,7 @@ import {
     Routes
 } from "react-router";
 
+const Swagger = lazy(() => import("@/pages/swagger"));
 const Login = lazy(() => import("@/pages/login"));
 const modules = import.meta.glob('./pages/**/index.tsx');
 const getLazyComponent = (path: string) => {
@@ -29,6 +30,7 @@ export default function Index() {
         <IntlProvider locale={locale} messages={messages}>
             <Router >
                 <Routes>
+                    <Route path="/swagger" element={<Swagger />} />
                     <Route path="/login" element={<Login />} />
                     {routes.length > 0 && <Route path="/" element={<Navigate to={routes[0].path} />} />}
                     <Route path="*" element={<Navigate to="/login" />} />

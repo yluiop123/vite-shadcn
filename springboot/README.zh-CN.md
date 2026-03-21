@@ -69,7 +69,7 @@
 1. **克隆项目**
 ```bash
 git clone <repository-url>
-cd mm-boot
+cd springboot
 ```
 
 2. **数据库配置**
