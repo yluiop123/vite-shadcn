@@ -31,8 +31,7 @@ export default function Index(props: {setOpen: (open: boolean) => void, open: bo
             name: "parentId",
             label: "page.system.group.header.parentGroup",
             defaultValue: "",
-            validate: z.string(),
-            type: "group",
+            validate: z.string().optional(),
             disabled: true,
         },
     ]
@@ -45,7 +44,7 @@ export default function Index(props: {setOpen: (open: boolean) => void, open: bo
         axios.get("/system/groups/detail/" + id).then(res => {
             if (res.data.code === 200) {
                 const group = res.data.data;
-                setValues (group);     
+                setValues (group);
             } 
         })
     }, [id])
