@@ -41,7 +41,9 @@ import {
   getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
+  Row,
   SortingState,
+  Table as TanstackTable,
   useReactTable,
   VisibilityState,
 } from "@tanstack/react-table";
@@ -113,6 +115,43 @@ type Group = {
 
 export default function Group() {
   const { formatMessage } = useIntl();
+    const collectRowIds = (row: Group) => {
+      let ids = [row.id]
+  
+      if (row.subRows?.length) {
+        row.subRows.forEach((sub) => {
+          ids = ids.concat(collectRowIds(sub))
+        })
+      }
+  
+      return ids
+    }
+  
+    const updateParentSelection = (row: Row<Group>, next: Record<string, boolean>) => {
+      const parent = row.getParentRow()
+      if (!parent) return
+      // ✅ 全部用 next 判断（关键）
+      const allSelected = parent.subRows.every((r) => next[r.id] === true)
+      next[parent.id] = allSelected
+      updateParentSelection(parent, next)
+    }
+  
+    const toggleRowWithChildrenAndParent = (row: Row<Group>, checked: boolean, table: TanstackTable<Group>) => {
+      table.setRowSelection((prev) => {
+        const next = { ...prev }
+  
+        // 处理当前节点和所有子节点
+        const ids = collectRowIds(row.original)
+        ids.forEach((id) => {
+          next[id] = checked
+        })
+  
+        // 更新父节点状态
+        updateParentSelection(row, next)
+  
+        return next
+      })
+    }
   const columns: ColumnDef<Group>[] = [
     {
       accessorKey: 'name',
@@ -148,7 +187,9 @@ export default function Group() {
               className="cursor-pointer"
               checked={row.getIsSelected()}
               indeterminate={row.getIsSomeSelected()}
-              onCheckedChange={row.getToggleSelectedHandler()}
+              onCheckedChange={(checked) => {
+                toggleRowWithChildrenAndParent(row, checked, table)
+              }}
             />
             {' '}
             {row.getCanExpand() ? (
@@ -307,7 +348,8 @@ export default function Group() {
         toast.success(res.data.message);
     })
   }
-  const table = useReactTable({
+  const table = useReactTable<Group>({
+    getRowId: row => row.id,
     onExpandedChange: setExpanded,
     getSubRows: row => row.subRows,
     data: data.list,

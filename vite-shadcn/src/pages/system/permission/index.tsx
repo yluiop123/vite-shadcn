@@ -43,8 +43,9 @@ import {
   getSortedRowModel,
   Row,
   SortingState,
+  Table as TanstackTable,
   useReactTable,
-  VisibilityState,
+  VisibilityState
 } from "@tanstack/react-table";
 import { ChevronDown, ChevronRight, MoreHorizontal } from "lucide-react";
 import React, { useEffect, useState } from 'react';
@@ -114,29 +115,46 @@ type Permission = {
 }
 
 export default function Permission() {
-  const toggleRow = (row: Row<Permission>, checked: boolean, selection: Record<string, boolean>) => {
-    selection[row.id] = checked;
-    row.subRows.forEach((sub) => toggleRow(sub, checked, selection));
-  };
 
-  // 核心：判断父节点是否全选 / 半选
-  const getRowCheckState = (row: Row<Permission>) => {
-    if (!row.subRows || row.subRows.length === 0) {
-      return { checked: !!row.getIsSelected(), indeterminate: false };
-    }
-    let all = true;
-    let some = false;
-    row.subRows.forEach((sub) => {
-      const state = getRowCheckState(sub);
-      if (!state.checked || state.indeterminate) all = false;
-      if (state.checked || state.indeterminate) some = true;
-    });
-    return {
-      checked: all,
-      indeterminate: some && !all,
-    };
-  };
   const { formatMessage } = useIntl();
+
+  const collectRowIds = (row: Permission) => {
+    let ids = [row.id]
+
+    if (row.subRows?.length) {
+      row.subRows.forEach((sub) => {
+        ids = ids.concat(collectRowIds(sub))
+      })
+    }
+
+    return ids
+  }
+
+  const updateParentSelection = (row: Row<Permission>, next: Record<string, boolean>) => {
+    const parent = row.getParentRow()
+    if (!parent) return
+    // ✅ 全部用 next 判断（关键）
+    const allSelected = parent.subRows.every((r) => next[r.id] === true)
+    next[parent.id] = allSelected
+    updateParentSelection(parent, next)
+  }
+
+  const toggleRowWithChildrenAndParent = (row: Row<Permission>, checked: boolean, table: TanstackTable<Permission>) => {
+    table.setRowSelection((prev) => {
+      const next = { ...prev }
+
+      // 处理当前节点和所有子节点
+      const ids = collectRowIds(row.original)
+      ids.forEach((id) => {
+        next[id] = checked
+      })
+
+      // 更新父节点状态
+      updateParentSelection(row, next)
+
+      return next
+    })
+  }
   const columns: ColumnDef<Permission>[] = [
     {
       accessorKey: 'name',
@@ -161,8 +179,7 @@ export default function Permission() {
           {formatMessage({ id: "page.system.permission.header.name" })}
         </div>
       ),
-      cell: ({ row, getValue }) => {
-        const { checked, indeterminate } = getRowCheckState(row);
+      cell: ({row, getValue }) => {
         return (
         <div className="flex items-center space-x-2"
           style={{
@@ -171,14 +188,11 @@ export default function Permission() {
         >
             <Checkbox
               className="cursor-pointer"
-              checked={checked}
-              indeterminate={indeterminate}
+              checked={row.getIsSelected()}
+              indeterminate={row.getIsSomeSelected()}
               onCheckedChange={(checked) => {
-                const newSelection = { ...rowSelection };
-                toggleRow(row, checked, newSelection);
-                setRowSelection(newSelection);
                 debugger;
-                table.setRowSelection(newSelection);
+                toggleRowWithChildrenAndParent(row, checked, table) 
               }}
             />
             {row.getCanExpand() ? (
@@ -361,6 +375,7 @@ export default function Permission() {
   const table = useReactTable({
     onExpandedChange: setExpanded,
     getSubRows: row => row.subRows,
+    getRowId: row => row.id,
     data: data.list,
     columns,
     onSortingChange: setSorting,
@@ -374,6 +389,7 @@ export default function Permission() {
     getExpandedRowModel: getExpandedRowModel(),
     enableRowSelection: true,
     enableSubRowSelection: true,
+    enableMultiRowSelection: true,
     state: {
       expanded,
       sorting,
