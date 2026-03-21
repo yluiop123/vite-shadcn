@@ -104,9 +104,9 @@ function getUserList(locale: string) {
       phone: `${13800000000 + i}`,
       createTime: "2025-01-01 23:59:59",
       updateTime: "2025-01-01 23:59:59",
-      roles: [{role:'super',name:roles['super']},
-      {role:'admin',name:roles['admin']},
-      {role:'user',name:roles['user']}].slice(0, (i % 3) + 1),
+      roles: [{id:'super',name:roles['super']},
+      {id:'admin',name:roles['admin']},
+      {id:'user',name:roles['user']}].slice(0, (i % 3) + 1),
       permissions: ['0000','0001'],
     };
   }) as User[];
@@ -115,7 +115,6 @@ function getUserList(locale: string) {
 const handlers = [
   http.post<never, never>("/api/system/users", async ({ request }) => {
     const locale = request.headers.get("locale") || "zh";
-
     const body = await request.clone().json();
     const {
       filterField,

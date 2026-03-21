@@ -1,11 +1,13 @@
 package com.mm.service.system.impl;
 
 import com.mm.domain.common.BusinessException;
-import com.mm.domain.common.ErrorCode;
 import com.mm.domain.system.group.req.*;
 import com.mm.entity.Group;
+import com.mm.entity.User;
 import com.mm.repository.system.GroupRepository;
+import com.mm.repository.system.UserRepository;
 import com.mm.service.system.GroupService;
+import com.mm.service.system.UserService;
 import jakarta.persistence.criteria.Predicate;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +30,9 @@ import static com.mm.config.Constanst.STATUS_ENABLE;
 public class GroupServiceImpl implements GroupService {
     @Autowired
     private GroupRepository groupRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Override
     public List<Group> queryGroups(QueryGroupReq req) {
@@ -55,9 +60,12 @@ public class GroupServiceImpl implements GroupService {
     @Transactional
     public void deleteGroups(List<String> ids) {
         List<Group> list = groupRepository.findAllById(ids);
-
         if (list.isEmpty()) {
-            return;
+            throw new BusinessException("组织不存在");
+        }
+        List<String> groupIds = list.stream().map(Group::getId).toList();
+        if(userRepository.existsByGroupIdIn(groupIds)){
+            throw new BusinessException("组织下有用户，不能删除");
         }
         // 1 收集受影响的 parentId
         Set<String> parentIds = list.stream()
@@ -115,19 +123,19 @@ public class GroupServiceImpl implements GroupService {
     public Group addChild(AddChildGroupReq user) {
         boolean exists = groupRepository.existsById(user.getId());
         if(exists){
-            throw  new BusinessException(ErrorCode.VALIDATE_ERROR.getCode(), "组织编码已存在");
+            throw  new BusinessException("组织编码已存在");
         }
         if(StringUtils.isEmpty(user.getParentId())){
             if(user.getId().length()!=2){
-                throw  new BusinessException(ErrorCode.VALIDATE_ERROR.getCode(), "组织编码长度必须为2");
+                throw  new BusinessException( "组织编码长度必须为2");
             }
         }else{
             String parentId = StringUtils.left(user.getId(), user.getId().length() - 2);
             if(user.getParentId().length()+2!=user.getId().length()){
-                throw  new BusinessException(ErrorCode.VALIDATE_ERROR.getCode(), "组织编码长度必须为"+(user.getParentId().length()+2));
+                throw  new BusinessException("组织编码长度必须为"+(user.getParentId().length()+2));
             }
             if(!StringUtils.equals(parentId, user.getParentId())){
-                throw  new BusinessException(ErrorCode.VALIDATE_ERROR.getCode(), "组织编码必须以"+user.getParentId()+"开头");
+                throw  new BusinessException("组织编码必须以"+user.getParentId()+"开头");
             }
         }
         Optional<Group> lastGroupOptional = groupRepository.findFirstByParentIdOrderByOrderDesc(user.getParentId());
@@ -150,7 +158,7 @@ public class GroupServiceImpl implements GroupService {
     public Group addBrother(AddBrotherGroupReq user) {
         boolean exists = groupRepository.existsById(user.getId());
         if(exists){
-            throw  new BusinessException(ErrorCode.VALIDATE_ERROR.getCode(), "组织编码已存在");
+            throw  new BusinessException("组织编码已存在");
         }
         Optional<Group> brotherGroupOptional = groupRepository.findById(user.getBrotherId());
         Group brotherGroup = brotherGroupOptional.orElse(null);
@@ -164,10 +172,10 @@ public class GroupServiceImpl implements GroupService {
         String idParentId = StringUtils.left(id, id.length() - 2);
         String parentIdDefault = StringUtils.defaultString(parentId);
         if(id.length()!=parentIdDefault.length()+2){
-            throw  new BusinessException(ErrorCode.VALIDATE_ERROR.getCode(), "组织编码长度必须为"+(parentIdDefault.length()+2));
+            throw  new BusinessException("组织编码长度必须为"+(parentIdDefault.length()+2));
         }
         if(!parentIdDefault.equals(idParentId)){
-            throw  new BusinessException(ErrorCode.VALIDATE_ERROR.getCode(), "组织编码必须以"+parentId+"开头");
+            throw  new BusinessException("组织编码必须以"+parentId+"开头");
         }
         Specification<Group> spec = (root, query, cb) -> {
             List<Predicate> predicates = new ArrayList<>();

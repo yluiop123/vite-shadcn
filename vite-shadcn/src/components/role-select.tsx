@@ -3,7 +3,7 @@ import { useUserStore } from "@/store";
 
 export default function RoleSelect({...props}) {
   const { userInfo } = useUserStore();
-
+  debugger;
   const options: Option[] =
     userInfo?.roles?.map((role) => ({
       label: role.name,

@@ -5,7 +5,7 @@ spring:
     url: jdbc:postgresql://localhost:5432/mm
     username: postgres
     password: postgres
-#    driver-class-name: org.postgresql.Driver
+    driver-class-name: org.postgresql.Driver
     # HikariCP 特有配置
     hikari:
       # 连接池中允许的最大连接数（推荐值：CPU核数 * 2 + 1）

@@ -20,6 +20,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,9 +63,16 @@ public class PermissionServiceImpl implements PermissionService {
     @Transactional
     public void deletePermissions(List<String> ids) {
         List<Permission> list = permissionRepository.findAllById(ids);
-
         if (list.isEmpty()) {
-            return;
+            throw  new BusinessException("权限不存在");
+        }
+        for (Permission permission : list) {
+            if(!CollectionUtils.isEmpty(permission.getRoles())){
+                throw  new BusinessException("权限"+permission.getId()+"已被角色引用，不能删除");
+            }
+            if (!CollectionUtils.isEmpty(permission.getUsers())) {
+                throw  new BusinessException("权限"+permission.getId()+"已被用户引用，不能删除");
+            }
         }
         // 1 收集受影响的 parentId
         Set<String> parentIds = list.stream()
@@ -118,19 +126,19 @@ public class PermissionServiceImpl implements PermissionService {
     public Permission addChild(AddChildPermissionReq req) {
         boolean exists = permissionRepository.existsById(req.getId());
         if(exists){
-            throw  new BusinessException(ErrorCode.VALIDATE_ERROR.getCode(), "权限编码已存在");
+            throw  new BusinessException( "权限编码已存在");
         }
         if(StringUtils.isEmpty(req.getParentId())){
             if(req.getId().length()!=4){
-                throw  new BusinessException(ErrorCode.VALIDATE_ERROR.getCode(), "权限编码长度必须为4");
+                throw  new BusinessException( "权限编码长度必须为4");
             }
         }else{
             String parentId = StringUtils.left(req.getId(), req.getId().length() - 2);
             if(req.getParentId().length()+2!=req.getId().length()){
-                throw  new BusinessException(ErrorCode.VALIDATE_ERROR.getCode(), "权限编码长度必须为"+(req.getParentId().length()+2));
+                throw  new BusinessException( "权限编码长度必须为"+(req.getParentId().length()+2));
             }
             if(!StringUtils.equals(parentId, req.getParentId())){
-                throw  new BusinessException(ErrorCode.VALIDATE_ERROR.getCode(), "权限编码必须以"+req.getParentId()+"开头");
+                throw  new BusinessException("权限编码必须以"+req.getParentId()+"开头");
             }
         }
         Optional<Permission> lastPermissionOptional = permissionRepository.findFirstByParentIdOrderByOrderDesc(req.getParentId());
@@ -155,7 +163,7 @@ public class PermissionServiceImpl implements PermissionService {
     public Permission addBrother(AddBrotherPermissionReq req) {
         boolean exists = permissionRepository.existsById(req.getId());
         if(exists){
-            throw  new BusinessException(ErrorCode.VALIDATE_ERROR.getCode(), "权限编码已存在");
+            throw  new BusinessException("权限编码已存在");
         }
 
         Optional<Permission> brotherGroupOptional = permissionRepository.findById(req.getBrotherId());
@@ -170,10 +178,10 @@ public class PermissionServiceImpl implements PermissionService {
         String idParentId = StringUtils.left(id, id.length() - 2);
         String parentIdDefault = StringUtils.defaultString(parentId);
         if(id.length()!=parentIdDefault.length()+2){
-            throw  new BusinessException(ErrorCode.VALIDATE_ERROR.getCode(), "权限编码长度必须为"+(parentIdDefault.length()+2));
+            throw  new BusinessException("权限编码长度必须为"+(parentIdDefault.length()+2));
         }
         if(!parentIdDefault.equals(idParentId)){
-            throw  new BusinessException(ErrorCode.VALIDATE_ERROR.getCode(), "权限编码必须以"+parentId+"开头");
+            throw  new BusinessException("权限编码必须以"+parentId+"开头");
         }
         Specification<Permission> spec = (root, query, cb) -> {
             List<Predicate> predicates = new ArrayList<>();

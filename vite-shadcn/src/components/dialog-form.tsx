@@ -33,6 +33,7 @@ type Field = {
     disabled?: boolean;
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const DialogForm =  forwardRef<UseFormReturn<any>, {
     open: boolean
     setOpen: (open:boolean)=>void
@@ -88,7 +89,7 @@ const DialogForm =  forwardRef<UseFormReturn<any>, {
                                         <PermissionTreeSingleSelect disabled={f.disabled} {...field} className="p-3"/>
                                         :
                                         f?.type === "roles"?
-                                        <RoleSelect {...field} className="p-3"/>
+                                        <RoleSelect disabled={f.disabled} {...field} className="p-3"/>
                                         :
                                         f?.type === "group"?
                                         <GroupTreeSelect disabled={f.disabled}

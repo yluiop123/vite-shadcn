@@ -6,6 +6,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface UserRepository extends JpaRepository<User,String>, JpaSpecificationExecutor<User> {
 
@@ -23,4 +25,7 @@ public interface UserRepository extends JpaRepository<User,String>, JpaSpecifica
     // 2. 只抓取用户直属权限
     @EntityGraph(attributePaths = {"permissions"})
     User findWithPermissionsByUsername(String username);
+
+    boolean existsByGroupIdIn(List<String> groupIds);
+
 }

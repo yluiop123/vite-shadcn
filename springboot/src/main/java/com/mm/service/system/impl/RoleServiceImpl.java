@@ -1,5 +1,6 @@
 package com.mm.service.system.impl;
 
+import com.mm.domain.common.BusinessException;
 import com.mm.domain.common.PageData;
 import com.mm.domain.system.role.req.AddRoleReq;
 import com.mm.domain.system.role.req.EditRoleReq;
@@ -20,6 +21,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -108,7 +110,20 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
+    @Transactional
     public void deleteRoles(List<String> ids) {
+        List<Role> list = roleRepository.findAllById(ids);
+        if (list.isEmpty()) {
+            throw new BusinessException("角色不存在");
+        }
+        for (Role role : list) {
+            if(!CollectionUtils.isEmpty(role.getPermissions())){
+                throw new BusinessException("角色"+role.getId()+"已被权限引用，不能删除");
+            }
+            if(!CollectionUtils.isEmpty(role.getUsers())){
+                throw new BusinessException("角色"+role.getId()+"已被用户引用，不能删除");
+            }
+        }
         roleRepository.deleteAllById(ids);
     }
 

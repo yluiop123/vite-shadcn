@@ -1,5 +1,6 @@
 package com.mm.service.system.impl;
 
+import com.mm.domain.common.BusinessException;
 import com.mm.domain.common.PageData;
 import com.mm.domain.login.resp.PermissionInfo;
 import com.mm.domain.login.resp.RoleInfo;
@@ -140,13 +141,13 @@ public class UserServiceImpl implements UserService {
                 user.setStatus(req.getStatus());
             }
 
-            if (!CollectionUtils.isEmpty(req.getRoles())) {
+            if (req.getRoles()!=null) {
                 List<Role> roles = roleRepository.findAllById(req.getRoles());
                 user.getRoles().clear();
                 user.getRoles().addAll(roles);
             }
 
-            if (!CollectionUtils.isEmpty(req.getPermissions())) {
+            if (req.getPermissions()!=null) {
                 List<Permission> permissions = permissionRepository.findAllById(req.getPermissions());
                 user.getPermissions().clear();
                 user.getPermissions().addAll(permissions);
@@ -159,6 +160,18 @@ public class UserServiceImpl implements UserService {
     }
     @Override
     public void deleteUsers(List<String> ids) {
+        List<User> list = userRepository.findAllById(ids);
+        if(CollectionUtils.isEmpty(list)){
+            throw new BusinessException("用户不存在");
+        }
+        for (User user : list) {
+            if(!CollectionUtils.isEmpty(user.getRoles())){
+                throw new BusinessException("用户"+user.getUsername()+"已被角色引用，不能删除");
+            }
+            if(!CollectionUtils.isEmpty(user.getPermissions())){
+                throw new BusinessException("用户"+user.getId()+"已被权限引用，不能删除");
+            }
+        }
         userRepository.deleteAllById(ids);
     }
 

@@ -34,9 +34,9 @@ const handlers = [
           groupName: localeMap[locale]["groupName"],
           name: "YL",
           roles: [
-            { role: "super", name: localeMap[locale]["super"] },
-            { role: "admin", name: localeMap[locale]["admin"] },
-            { role: "user", name: localeMap[locale]["user"] },
+            { id: "super", name: localeMap[locale]["super"] },
+            { id: "admin", name: localeMap[locale]["admin"] },
+            { id: "user", name: localeMap[locale]["user"] },
           ],
           rolePermissions: [
             //supper menu permissions

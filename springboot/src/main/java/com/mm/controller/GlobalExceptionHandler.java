@@ -1,6 +1,7 @@
 package com.mm.controller;
 
 import com.mm.domain.common.BusinessException;
+import com.mm.domain.common.ErrorCode;
 import com.mm.domain.common.Response;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.FieldError;
@@ -20,7 +21,7 @@ public class GlobalExceptionHandler {
     // 捕获自定义业务异常
     @ExceptionHandler(BusinessException.class)
     public Response<?> handleBusinessException(BusinessException e){
-        return Response.error(e.getCode(), e.getMessage());
+        return Response.error(ErrorCode.VALIDATE_ERROR.getCode(), e.getMessage());
     }
 
     // 捕获参数绑定异常（@Valid 校验失败）

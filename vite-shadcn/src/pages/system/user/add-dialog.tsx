@@ -70,6 +70,7 @@ export default function Index(props: {open: boolean,setOpen:(open:boolean)=>void
         acc[field.name] = field.validate || z.string().optional();
         return acc;
     }, {} as Record<string, z.ZodTypeAny>);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const formSchema = z.object(schemaShape);
     // 2. Define a submit handler. 
     function onSubmit(values: z.infer<typeof formSchema>) {
