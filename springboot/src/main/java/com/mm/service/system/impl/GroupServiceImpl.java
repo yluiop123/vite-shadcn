@@ -14,8 +14,6 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +22,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import static com.mm.config.Constanst.STATUS_ALL;
+import static com.mm.config.Constanst.STATUS_ENABLE;
 
 @Service
 public class GroupServiceImpl implements GroupService {
@@ -216,6 +215,11 @@ public class GroupServiceImpl implements GroupService {
 
     @Override
     public List<Group> queryGroups(){
-        return groupRepository.findAll();
+        Specification<Group> spec = (root, query, cb) -> {
+            List<Predicate> predicates = new ArrayList<>();
+            predicates.add(cb.equal(root.get("status"), STATUS_ENABLE));
+            return cb.and(predicates.toArray(new Predicate[0]));
+        };
+        return groupRepository.findAll(spec);
     }
 }

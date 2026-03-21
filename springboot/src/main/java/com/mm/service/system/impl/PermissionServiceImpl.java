@@ -28,6 +28,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import static com.mm.config.Constanst.STATUS_ALL;
+import static com.mm.config.Constanst.STATUS_ENABLE;
 
 @Service
 public class PermissionServiceImpl implements PermissionService {
@@ -227,6 +228,11 @@ public class PermissionServiceImpl implements PermissionService {
     }
     @Override
     public List<Permission> queryPermissions() {
-        return permissionRepository.findAll();
+        Specification<Permission> spec = (root, query, cb) -> {
+            List<Predicate> predicates = new ArrayList<>();
+            predicates.add(cb.equal(root.get("status"), STATUS_ENABLE));
+            return cb.and(predicates.toArray(new Predicate[0]));
+        };
+        return permissionRepository.findAll(spec);
     }
 }
