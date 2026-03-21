@@ -146,9 +146,12 @@ export default function Group() {
         >
             <Checkbox
               className="cursor-pointer"
-              checked={row.subRows.length>0?row.getIsAllSubRowsSelected():row.getIsSelected()}
-              indeterminate={row.subRows.length>0&&row.getIsSomeSelected()} 
-              onCheckedChange={row.getToggleSelectedHandler()}
+              checked={row.getIsSelected()}
+              indeterminate={row.getIsSomeSelected()}
+              onCheckedChange={(checked) => {
+                // 手动调用切换函数，确保状态同步
+                row.toggleSelected(!!checked);
+              }}
             />
             {' '}
             {row.getCanExpand() ? (

@@ -26,7 +26,13 @@ VITE-SHADCN 是一个基于 `Shadcn` , `Vite` , `React`,`Zustand`,`React-Router`
 [vite-shadcn README](./vite-shadcn/README.zh-CN.md)
 
 ---
-### 2）springboot
+
+### 2）database
+    此文件夹包含数据库相关DDL、DDM脚本。
+    文件夹类型即为数据库类型，如postgres、mysql等。
+    
+---
+### 3）springboot
 
 - **后端框架**: Spring Boot 4.0.2
 - **Java版本**: 25

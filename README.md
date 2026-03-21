@@ -28,7 +28,12 @@ English | [简体中文](./README.zh-CN.md)
 
 ---
 
-### 2) springboot
+### 2) database
+This folder contains database-related DDL and DDM scripts.
+Folder type is the database type, such as postgres, mysql, etc. 
+
+---
+### 3) springboot
 
 - **Backend**: Spring Boot 4.0.2  
 - **Java Version**: 25  
