@@ -33,7 +33,7 @@ VITE-SHADCN 是一个基于 `Shadcn` , `Vite` , `React`,`Zustand`,`React-Router`
 ```bash
 # 克隆项目
 git clone https://github.com/yluiop123/vite-shadcn.git
-cd <项目目录>
+cd <项目目录>/vite-shadcn
 
 # 安装依赖
 pnpm install   
@@ -41,7 +41,8 @@ pnpm install
 # 本地开发启动
 pnpm dev    
 
-#项目启动后访问 http://localhost:3000/   
+#项目启动后访问 http://localhost:3000/
+#Swagger-UI地址 http://localhost:3000/swagger
 ```
 
 ### 4）命令行

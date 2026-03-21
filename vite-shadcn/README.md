@@ -38,7 +38,7 @@ English | [简体中文](./README.zh-CN.md)
 ```bash
 # Clone repository
 git clone https://github.com/yluiop123/vite-shadcn.git
-cd <project-directory>
+cd <project-directory>/vite-shadcn
 
 # Install dependencies
 pnpm install
@@ -47,6 +47,7 @@ pnpm install
 pnpm dev
 
 # Visit http://localhost:3000/
+# Swagger-UI address http://localhost:3000/swagger
 ```
 ### 4）CLI Commands
 
