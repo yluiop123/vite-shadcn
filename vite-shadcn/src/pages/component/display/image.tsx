@@ -10,7 +10,7 @@ export default function ImageDemo() {
         <Card className="w-64">
           <CardHeader className="items-center">
             <Avatar className="size-24">
-              <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+              <AvatarImage src="/orange.png" alt="@shadcn" />
               <AvatarFallback>CN</AvatarFallback>
             </Avatar>
             <CardTitle>With Image</CardTitle>
@@ -43,19 +43,19 @@ export default function ImageDemo() {
       <h2 className="text-xl font-bold">Different Sizes 不同尺寸</h2>
       <div className="flex items-center gap-4 p-4 bg-gray-50 rounded-lg">
         <Avatar className="size-10">
-          <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+          <AvatarImage src="/orange.png" alt="@shadcn" />
           <AvatarFallback>CN</AvatarFallback>
         </Avatar>
         <Avatar className="size-16">
-          <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+          <AvatarImage src="/orange.png" alt="@shadcn" />
           <AvatarFallback>CN</AvatarFallback>
         </Avatar>
         <Avatar className="size-24">
-          <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+          <AvatarImage src="/orange.png" alt="@shadcn" />
           <AvatarFallback>CN</AvatarFallback>
         </Avatar>
         <Avatar className="size-32">
-          <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+          <AvatarImage src="/orange.png" alt="@shadcn" />
           <AvatarFallback>CN</AvatarFallback>
         </Avatar>
       </div>
@@ -63,7 +63,7 @@ export default function ImageDemo() {
       <h2 className="text-xl font-bold">Avatar Groups 头像组合</h2>
       <div className="flex items-center -space-x-4 p-4 bg-gray-50 rounded-lg">
         <Avatar className="size-12 border-2 border-white">
-          <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+          <AvatarImage src="/orange.png" alt="@shadcn" />
           <AvatarFallback>CN</AvatarFallback>
         </Avatar>
         <Avatar className="size-12 border-2 border-white">
@@ -84,7 +84,7 @@ export default function ImageDemo() {
         <Card className="w-64">
           <CardHeader className="items-center">
             <Avatar className="size-24 rounded-md">
-              <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+              <AvatarImage src="/orange.png" alt="@shadcn" />
               <AvatarFallback className="rounded-md">CN</AvatarFallback>
             </Avatar>
             <CardTitle>Rounded Medium</CardTitle>
