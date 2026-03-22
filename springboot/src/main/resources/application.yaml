@@ -49,5 +49,5 @@ springdoc:
     # OpenAPI 描述文件的路径，默认是 /v3/api-docs
     path: /api-docs
   # 只扫描特定的包
-  packages-to-scan: com.mm.controller
+  packages-to-scan: com.orange.controller
 
