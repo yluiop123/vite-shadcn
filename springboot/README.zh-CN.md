@@ -179,8 +179,12 @@ springboot/
 - **RBAC模型**: 本系统采用 RBAC 模型，用户、角色、权限和分组之间通过关联表进行管理。
 - **接口权限配置**: 本项目使用 Spring Security 进行权限控制,可以通过`@PreAuthorize`注解来配置接口权限。
   其中权限规则为：`type#path:action` （action配置`type#path`）或者 `权限编码`。 
-  其中 `type` 为权限类型（menu/directory/action/function/api），`path` 为权限路径（路由/URL），`action` 为自定义权限动作（add/delete/edit等）。
-  此处的逻辑代码在 `com.orange.security.JwtUserDetailsService.java` 的 `getPermissionStrs` 方法中。
+  其中 
+  `type` 为权限类型（menu/directory/action/function/api），
+  `path` 为权限路径（路由/URL），
+  `action` 为自定义权限动作（add/delete/edit等）。
+  此处的逻辑代码在 `com.orange.security.JwtUserDetailsService.java` 
+  的 `getPermissionStrs` 方法中。
 ```java
     @Operation(summary = "查询用户列表", description = "根据查询条件分页返回用户列表")
     @PostMapping
