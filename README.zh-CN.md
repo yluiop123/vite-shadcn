@@ -1,10 +1,10 @@
-# vite-shadcn
+# ORANGE
 
-VITE-SHADCN 是一个基于 `Shadcn` , `Vite` , `React`,`Zustand`,`React-Router` 等构建的SHADCN ADMIN UI 。
+ORANGE 是一个基于 `Shadcn` , `Vite` , `React`,`Zustand`,`React-Router` 等构建的SHADCN ADMIN UI 。
 
-项目访问地址： https://yluiop123.github.io/vite-shadcn
+项目访问地址： https://yluiop123.github.io/orange
 
-swagger 地址： https://yluiop123.github.io/vite-shadcn/#/swagger
+swagger 地址： https://yluiop123.github.io/orange/#/swagger
 
 [English](./README.md) | 简体中文
 
