@@ -22,7 +22,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
-          <Avatar className="h-8 w-8 rounded-lg grayscale">
+          <Avatar className="h-15 w-15 rounded-lg ml-15">
             <AvatarImage src="orange.png" />
             <AvatarFallback className="rounded-lg">Orange</AvatarFallback>
           </Avatar>

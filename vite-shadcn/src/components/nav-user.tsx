@@ -57,7 +57,7 @@ export function NavUser() {
             open && "bg-sidebar-accent text-sidebar-accent-foreground"
           )}
         >
-          <Avatar className="h-8 w-8 rounded-lg grayscale">
+          <Avatar className="h-8 w-8 rounded-lg">
             <AvatarImage src="orange.png" />
             <AvatarFallback className="rounded-lg">CN</AvatarFallback>
           </Avatar>
