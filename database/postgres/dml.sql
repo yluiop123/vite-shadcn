@@ -42,12 +42,12 @@ INSERT INTO public.sys_permission (id,"name","path","action","type",status,paren
 	 ('00050100','新增','/system/role','add','action','1','000501',0),
 	 ('00050101','删除','/system/role','delete','action','1','000501',1),
 	 ('00050102','编辑','/system/role','edit','action','1','000501',2),
-	 ('00050300','新增','/system/group','add','action','1','000503',0),
-	 ('00050301','删除','/system/group','delete','action','1','000503',1),
-	 ('00050302','编辑','/system/group','edit','action','1','000503',2),
-	 ('00050400','新增','/system/permission','add','action','1','000504',0),
-	 ('00050401','删除','/system/permission','delete','action','1','000504',1),
-	 ('00050402','编辑','/system/permission','edit','action','1','000504',2);
+	 ('00050200','新增','/system/group','add','action','1','000502',0),
+	 ('00050201','删除','/system/group','delete','action','1','000502',1),
+	 ('00050202','编辑','/system/group','edit','action','1','000502',2),
+	 ('00050300','新增','/system/permission','add','action','1','000503',0),
+	 ('00050301','删除','/system/permission','delete','action','1','000503',1),
+	 ('00050302','编辑','/system/permission','edit','action','1','000503',2);
 INSERT INTO public.sys_role (id,"name",status) VALUES
 	 ('admin','管理员','1'),
 	 ('user','用户','1'),
@@ -105,12 +105,12 @@ INSERT INTO public.sys_role_permission (role_id,permission_id) VALUES
 	 ('admin','00050100'),
 	 ('admin','00050101'),
 	 ('admin','00050102'),
+	 ('admin','00050200'),
+	 ('admin','00050201'),
+	 ('admin','00050202'),
 	 ('admin','00050300'),
 	 ('admin','00050301'),
 	 ('admin','00050302'),
-	 ('admin','00050400'),
-	 ('admin','00050401'),
-	 ('admin','00050402'),
 	 ('user','0000');
 INSERT INTO public.sys_user (id,"name",username,email,group_id,phone,status,"password") VALUES
 	 ('100000001','用户1','user001','user001@example.com','0001','13800000001','1',NULL),
