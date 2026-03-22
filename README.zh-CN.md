@@ -1,9 +1,8 @@
 # vite-shadcn
 
 VITE-SHADCN 是一个基于 `Shadcn` , `Vite` , `React`,`Zustand`,`React-Router` 等构建的SHADCN ADMIN UI 。
-
-分支说明：main 分支为基于base-ui，radix-ui 基于radix-ui。
-
+项目访问地址： https://yluiop123.github.io/vite-shadcn
+swagger 地址： https://yluiop123.github.io/vite-shadcn/#/swagger
 [English](./README.md) | 简体中文
 
 <img height="500" src="./readme/images/dashboard-zh-CN.png">
