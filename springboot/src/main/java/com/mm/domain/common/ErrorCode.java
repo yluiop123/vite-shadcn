@@ -7,7 +7,7 @@ public enum ErrorCode {
     PARAM_ERROR(40001, "参数错误"),
     VALIDATE_ERROR(40002, "服务器校验异常"),
     UNAUTHORIZED(40101, "未登录"),
-    FORBIDDEN(40301, "无权限"),
+    AUTH_DENIED(40301, "无权限"),
     NOT_FOUND(40401, "数据不存在"),
 
     SYSTEM_ERROR(50000, "系统异常");

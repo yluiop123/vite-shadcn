@@ -40,7 +40,13 @@ public class Response<T> {
         r.timestamp = System.currentTimeMillis();
         return r;
     }
-
+    public static <T> Response<T> error(ErrorCode errorCode) {
+        Response<T> r = new Response<>();
+        r.code = errorCode.getCode();
+        r.message = errorCode.getMessage();
+        r.timestamp = System.currentTimeMillis();
+        return r;
+    }
     public static <T> Response<T> error(int code, String message, T data) {
         Response<T> r = new Response<>();
         r.code = code;
