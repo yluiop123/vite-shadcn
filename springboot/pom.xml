@@ -8,11 +8,11 @@
 		<version>4.0.2</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.mm</groupId>
-	<artifactId>mm</artifactId>
+	<groupId>com.orange</groupId>
+	<artifactId>orange</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>MM-BOOT</name>
-	<description>mm-boot</description>
+	<name>ORANGE-BOOT</name>
+	<description>orange-boot</description>
 	<url/>
 	<licenses>
 		<license/>

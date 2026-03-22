@@ -1,8 +1,10 @@
 spring:
+  server:
+    port: 8080
   application:
-    name: MM-BOOT
+    name: ORANGE-BOOT
   datasource:
-    url: jdbc:postgresql://localhost:5432/mm
+    url: jdbc:postgresql://localhost:5432/orange
     username: postgres
     # 数据库密码，从环境变量中获取，本地开发取默认值 postgres
     password: ${DB_PASSWORD:postgres}
