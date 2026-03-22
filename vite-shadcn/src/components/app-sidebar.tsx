@@ -1,9 +1,12 @@
 "use client"
 
-import * as React from "react"
-
 import { NavMain } from "@/components/nav-main"
 import { NavUser } from "@/components/nav-user"
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage
+} from "@/components/ui/avatar"
 import {
   Sidebar,
   SidebarContent,
@@ -13,12 +16,16 @@ import {
 } from "@/components/ui/sidebar"
 import { cn } from "@/lib/utils"
 import { routeSetting } from "@/routes"
+import * as React from "react"
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
-        Orange
+          <Avatar className="h-8 w-8 rounded-lg grayscale">
+            <AvatarImage src="orange.png" />
+            <AvatarFallback className="rounded-lg">Orange</AvatarFallback>
+          </Avatar>
       </SidebarHeader>
       
       <SidebarContent 
