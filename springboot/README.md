@@ -1,230 +1,112 @@
-
 # Spring Boot Backend Project
 
-English | [简体中文](./README.zh-CN.md)
+[English](./README.md) \| Simplified Chinese
 
 ## Project Overview
 
-This project is an enterprise-level permission management system built with Spring Boot 4.0.2. It adopts JWT authentication and the RBAC (Role-Based Access Control) model, providing complete management features for users, roles, permissions, and groups.
+This project is an enterprise-level permission management system built
+with Spring Boot 4.0.2. It uses JWT authentication and the RBAC
+(Role-Based Access Control) model, providing complete management
+features for users, roles, permissions, and groups.
+
+Swagger API documentation: https://yluiop123.github.io/orange/#/swagger
 
 ## Tech Stack
 
-- **Backend Framework**: Spring Boot 4.0.2
-- **Java Version**: 25
+- **Backend Framework**: Spring Boot 4
+- **Java Version**: Java 17+
 - **Database**: PostgreSQL
 - **Security Framework**: Spring Security + JWT
 - **API Documentation**: SpringDoc OpenAPI 3.0
 - **Cache**: Caffeine
 - **ORM**: Spring Data JPA
 - **Build Tool**: Maven
-- **Development Tools**: Lombok
-
-## Core Modules
-
-### 1. User Management
-
-- CRUD operations for users
-- User status management
-- User group management
-
-### 2. Role Management
-
-- CRUD operations for roles
-- Role-permission assignment
-- Role status management
-
-### 3. Permission Management
-
-- Tree-structured permission management
-- CRUD operations for permissions
-- Parent-child permission relationships
-
-### 4. Group Management
-
-- Organizational tree structure management
-- CRUD operations for groups
-- Group movement and sorting
-
-### 5. Authentication & Authorization
-
-- JWT token authentication
-- Login / Logout functionality
-- Permission validation
-
-## Database Design
-
-### Core Tables
-
-- `sys_user` – User table
-- `sys_role` – Role table
-- `sys_permission` – Permission table
-- `sys_group` – Group table
-- `user_role` – User-Role mapping table
-- `role_permission` – Role-Permission mapping table
-- `user_permission` – User-Permission mapping table
+- **Development Tool**: Lombok
 
 ## Quick Start
 
-### Requirements
+### Clone the Project
 
-- Java 25
-- PostgreSQL
-- Maven 3.6+
+```bash
+git clone <repository-url>
+cd springboot
+```
 
-### Installation Steps
+### Database Configuration
 
-1. **Clone the project**
-  
-  ```bash
-  git clone <repository-url>
-  cd springboot
-  ```
-  
-2. **Database Configuration**
-  
-  ```sql
-  CREATE DATABASE mm;
-  ```
-  
+Create the database and execute the ddl.sql and ddm.sql files in the
+database directory.
 
-Modify `application.yaml`:
+Modify the database connection in application.yaml:
 
 ```yaml
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/mm
+    url: jdbc:postgresql://localhost:5432/orange
     username: your_username
     password: your_password
 ```
 
-3. **Generate JWT Key Pair**
-  
-  ```bash
-  openssl genpkey -algorithm RSA -out private_key.pem -pkeyopt rsa_keygen_bits:2048
-  openssl rsa -pubout -in private_key.pem -out public_key.pem
-  ```
-  
+### Access URLs
 
-Place the keys under: `src/main/resources/keys/`
+- Home: http://localhost:8080
+- API Docs: http://localhost:8080/swagger-ui.html
+- OpenAPI: http://localhost:8080/api-docs
 
-4. **Build the project**
-  
-  ```bash
-  mvn clean install
-  ```
-  
-5. **Run the project**
-  
-  ```bash
-  mvn spring-boot:run
-  ```
-  
+## Production Configuration
 
-## Access URLs
+### Generate JWT Key Pair
 
-- Application Home: http://localhost:8080
-- Swagger UI: http://localhost:8080/swagger-ui.html
-- OpenAPI Docs: http://localhost:8080/api-docs
+```bash
+openssl genpkey -algorithm RSA -out private_key.pem -pkeyopt rsa_keygen_bits:2048
+openssl rsa -pubout -in private_key.pem -out public_key.pem
+```
 
-## API Endpoints
-
-### Authentication
-
-- `POST /login` – User login
-- `POST /logout` – User logout
-
-### User APIs
-
-- `GET /user/list` – Get user list
-- `POST /user/add` – Create user
-- `PUT /user/edit` – Update user
-- `DELETE /user/delete` – Delete user
-
-### Role APIs
-
-- `GET /role/list` – Get role list
-- `POST /role/add` – Create role
-- `PUT /role/edit` – Update role
-- `DELETE /role/delete` – Delete role
-
-### Permission APIs
-
-- `GET /permission/tree` – Get permission tree
-- `POST /permission/add` – Create permission
-- `PUT /permission/edit` – Update permission
-- `DELETE /permission/delete` – Delete permission
-
-### Group APIs
-
-- `GET /group/tree` – Get group tree
-- `POST /group/add` – Create group
-- `PUT /group/edit` – Update group
-- `DELETE /group/delete` – Delete group
-
-## Configuration
-
-### JWT Configuration
+Place the generated keys on the server and configure:
 
 ```yaml
 jwt:
   private-key: classpath:keys/private_key.pem
   public-key: classpath:keys/public_key.pem
-  access-expire: 900
-  refresh-expire: 604800
 ```
 
-### Cache Configuration
+### Database Password
+
+Use environment variable DB_PASSWORD:
 
 ```yaml
-spring:
-  cache:
-    type: caffeine
-    cache-names:
-      - group
-    caffeine:
-      spec: initialCapacity=100,maximumSize=10000,expireAfterWrite=30m,recordStats
+password: ${DB_PASSWORD:postgres}
 ```
 
-## Development Guide
+## Project Structure
 
-### Coding Standards
+```
+springboot/
+├── src/main/java/com/orange/
+│   ├── config/
+│   ├── controller/
+│   ├── domain/
+│   ├── entity/
+│   ├── repository/
+│   ├── security/
+│   ├── service/
+│   └── OrangeBootApplication.java
+├── src/main/resources/
+│   ├── keys/
+│   └── application.yaml
+└── pom.xml
+```
 
-- Use Lombok to reduce boilerplate code
-- Follow Spring Boot best practices
-- Use JPA for data access
-- Implement unified exception handling
+## Database Design
 
-### Extending the Project
+Core entities: User, Role, Permission, Group.
 
-1. Add Entity under `entity` package
-2. Add Repository under `repository` package
-3. Add Service under `service` package
-4. Add Controller under `controller` package
+Relationships: - Many-to-One: User -\> Group - Many-to-Many: User \<-\>
+Role - Many-to-Many: Role \<-\> Permission - Many-to-Many: User \<-\>
+Permission
 
-## Deployment
+## Permission Control
 
-### Production Configuration
-
-1. Update database connection
-2. Configure JWT expiration
-3. Enable database DDL auto-update
-4. Configure logging
-
-### Performance Optimization Tips
-
-- Enable connection pooling
-- Configure caching strategies
-- Use indexes
-- Enable GZIP compression
-
-## Troubleshooting
-
-### Common Issues
-
-1. Database connection failure
-2. JWT authentication failure
-3. Authorization failure
-
-### Logs
-
-Logs are printed to console.
+- Uses RBAC model
+- Permissions configured via Spring Security @PreAuthorize
+- Rule format: type#path:action or permission code
