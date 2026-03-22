@@ -4,7 +4,8 @@ spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/mm
     username: postgres
-    password: postgres
+    # 数据库密码，从环境变量中获取，本地开发取默认值 postgres
+    password: ${DB_PASSWORD:postgres}
     driver-class-name: org.postgresql.Driver
     # HikariCP 特有配置
     hikari:
