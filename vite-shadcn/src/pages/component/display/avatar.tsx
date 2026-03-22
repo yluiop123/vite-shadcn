@@ -11,7 +11,7 @@ export default function AvatarDemo() {
           <AvatarFallback>CN</AvatarFallback>
         </Avatar>
         <Avatar>
-          <AvatarImage src="https://github.com/radix-ui.png" />
+          <AvatarImage src="/orange.png" />
           <AvatarFallback>RU</AvatarFallback>
         </Avatar>
         <Avatar>

@@ -14,7 +14,8 @@ import { useRef, useState } from "react"
 
 import {
   Avatar,
-  AvatarFallback
+  AvatarFallback,
+  AvatarImage
 } from "@/components/ui/avatar"
 import {
   SidebarMenu,
@@ -57,6 +58,7 @@ export function NavUser() {
           )}
         >
           <Avatar className="h-8 w-8 rounded-lg grayscale">
+            <AvatarImage src="/orange.png" />
             <AvatarFallback className="rounded-lg">CN</AvatarFallback>
           </Avatar>
 
