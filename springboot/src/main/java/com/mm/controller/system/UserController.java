@@ -9,11 +9,12 @@ import com.mm.domain.system.user.req.QueryUserReq;
 import com.mm.domain.system.user.resp.UserBean;
 import com.mm.service.system.UserService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-@Tag(name = "用户管理", description = "包含用户的增、删、改、查相关接口")
+@Tag(name = "用户管理", description = "用户管理相关接口")
 @RestController
 @RequestMapping("/api/system/users")
 @CrossOrigin
@@ -28,30 +29,39 @@ public class UserController {
         return Response.ok(pageData);
     }
 
+    @Operation(summary = "删除用户", description = "根据用户ID列表删除用户")
     @DeleteMapping
     public Response<String> deleteUsers(@RequestBody DeleteUserReq req) {
         userService.deleteUsers(req.getIds());
         return Response.ok("删除成功");
     }
 
+    @Operation(summary = "添加用户", description = "根据用户信息添加新用户")
     @PostMapping("/add")
     public Response<String> addUser(@RequestBody AddUserReq user) {
         userService.addUser(user);
         return Response.ok("操作成功");
     }
+
+    @Operation(summary = "编辑用户", description = "根据用户ID编辑用户信息")
     @PostMapping("/edit")
     public Response<String> editUser(@RequestBody EditUserReq user) {
         userService.editUser(user);
         return Response.ok("操作成功");
     }
+
+    @Operation(summary = "重置用户密码", description = "根据用户ID重置用户密码")
     @PostMapping("/reset/{userId}")
-    public Response<String> resetUser(@PathVariable("userId") String userId) {
+    public Response<String> resetUser(@Parameter(description = "用户ID")
+                                          @PathVariable("userId") String userId) {
         userService.resetUser(userId);
         return Response.ok("操作成功");
     }
 
+    @Operation(summary = "查询用户详情", description = "根据用户ID查询用户详情")
     @GetMapping("/detail/{userId}")
-    public Response<UserBean> queryUser(@PathVariable("userId") String userId) {
+    public Response<UserBean> queryUser(@Parameter(description = "用户ID")
+                                          @PathVariable("userId") String userId) {
         UserBean user = userService.queryUser(userId);
         return Response.ok(user);
     }
