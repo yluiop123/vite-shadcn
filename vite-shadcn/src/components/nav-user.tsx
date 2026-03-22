@@ -58,7 +58,7 @@ export function NavUser() {
           )}
         >
           <Avatar className="h-8 w-8 rounded-lg grayscale">
-            <AvatarImage src="/orange.png" />
+            <AvatarImage src="orange.png" />
             <AvatarFallback className="rounded-lg">CN</AvatarFallback>
           </Avatar>
 
