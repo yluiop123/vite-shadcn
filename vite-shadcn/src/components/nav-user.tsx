@@ -106,7 +106,7 @@ export function NavUser() {
 
             {/* Profile */}
             <button
-              className="flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-sm hover:bg-accent"
+              className="flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-sm hover:text-primary"
             >
               <IconUserCircle className="size-4" />
               {intl.formatMessage({ id: 'sidebar.user.message' })}
@@ -117,8 +117,8 @@ export function NavUser() {
             {/* Roles */}
             <button
               className={cn(
-                "w-full rounded-md px-2 py-1.5 text-left text-sm hover:bg-accent",
-                userInfo?.currentRole === 'all' && "bg-accent text-accent-foreground"
+                "w-full rounded-md px-2 py-1.5 text-left text-sm hover:bg-accent hover:text-primary",
+                userInfo?.currentRole === 'all' && "bg-primary text-accent-foreground"
               )}
               onClick={() => updateUserInfo({ currentRole: 'all' })}
             >
@@ -129,8 +129,8 @@ export function NavUser() {
               <button
                 key={role.id}
                 className={cn(
-                  "w-full rounded-md px-2 py-1.5 text-left text-sm hover:bg-accent",
-                  userInfo?.currentRole === role.id && "bg-accent text-accent-foreground"
+                  "w-full rounded-md px-2 py-1.5 text-left text-sm hover:bg-accent hover:text-primary",
+                  userInfo?.currentRole === role.id && "bg-primary text-accent-foreground"
                 )}
                 onClick={() => updateUserInfo({ currentRole: role.id })}
               >
