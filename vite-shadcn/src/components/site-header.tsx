@@ -76,7 +76,7 @@ export function SiteHeader() {
           <ColorSwitcher />
           <Button variant="ghost" size="sm" className="hidden sm:flex" title="code">
             <a
-              href="https://github.com/yluiop123/vite-shadcn"
+              href="https://github.com/yluiop123/orange"
               rel="noopener noreferrer"
               target="_blank"
               className="dark:text-foreground"

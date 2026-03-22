@@ -1,6 +1,6 @@
-# vite-shadcn
+# Orange
 
-VITE-SHADCN is a Shadcn Admin UI built with `Shadcn` , `Vite` , `React`,`Zustand`,`React-Router`
+ORANGE is a Shadcn Admin UI built with `Shadcn` , `Vite` , `React`,`Zustand`,`React-Router`
 
 Branch Description: main branch is based on base-ui, radix-ui branch is based on radix-ui.
 
@@ -37,7 +37,7 @@ English | [简体中文](./README.zh-CN.md)
 
 ```bash
 # Clone repository
-git clone https://github.com/yluiop123/vite-shadcn.git
+git clone https://github.com/yluiop123/orange.git
 cd <project-directory>/vite-shadcn
 
 # Install dependencies
@@ -81,7 +81,7 @@ VITE_CESIUM_TOKEN=###    # Cesium service access token
 ## Project Structure
 
 ```
-vite-shadcn
+orange
 ├── .github/                     # GitHub Settings File
 │   ├── workflows/
 │   │   └── main.yml            # CI/CD Workflow Configuration

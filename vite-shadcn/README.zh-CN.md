@@ -1,6 +1,6 @@
-# vite-shadcn
+# ORANGE
 
-VITE-SHADCN 是一个基于 `Shadcn` , `Vite` , `React`,`Zustand`,`React-Router` 等构建的SHADCN ADMIN UI 。
+ORANGE 是一个基于 `Shadcn` , `Vite` , `React`,`Zustand`,`React-Router` 等构建的SHADCN ADMIN UI 。
 
 分支说明：main 分支为基于base-ui，radix-ui 基于radix-ui。
 
@@ -32,7 +32,7 @@ VITE-SHADCN 是一个基于 `Shadcn` , `Vite` , `React`,`Zustand`,`React-Router`
 
 ```bash
 # 克隆项目
-git clone https://github.com/yluiop123/vite-shadcn.git
+git clone https://github.com/yluiop123/orange.git
 cd <项目目录>/vite-shadcn
 
 # 安装依赖
@@ -74,7 +74,7 @@ VITE_CESIUM_TOKEN=###    # Cesium 地图服务的认证令牌
 ## 目录结构
 
 ```
-vite-shadcn
+orange
 ├── .github/                     # GitHub 配置文件
 │   ├── workflows/
 │   │   └── main.yml            # CI/CD 工作流配置
