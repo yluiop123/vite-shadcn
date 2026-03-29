@@ -1,6 +1,9 @@
 # ORANGE
 
-ORANGE is a Shadcn Admin UI built with `Shadcn` , `Vite` , `React`,`Zustand`,`React-Router`
+<img height="80" src="./readme/images/orange.png">
+
+ORANGE is a full-stack project with a React frontend located in the vite-shadcn directory, a Java Spring Boot backend in the springboot directory, and a PostgreSQL database in the database directory. Future expansions will include additional frontend frameworks (Vue, Angular, etc.), backend languages (Go, Python, Node.js, Rust, C#, C++, etc.), and databases (MySQL, MariaDB, etc.).
+
 
 Project URL: https://yluiop123.github.io/orange
 

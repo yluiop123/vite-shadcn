@@ -1,6 +1,7 @@
 # ORANGE
+<img height="80" src="./readme/images/orange.png">
 
-ORANGE 是一个基于 `Shadcn` , `Vite` , `React`,`Zustand`,`React-Router` 等构建的SHADCN ADMIN UI 。
+ORANGE 是一个前后端分离项目，前端在vite-shadcn目录下（react版本），后端在springboot目录下（java版本），数据库在database目录下（已实现postgres版本）。后期前端会扩展vue、angular等，后端会扩展（go、python、node、rust、c#、c++等），数据库会扩展mysql、mariadb等。
 
 项目访问地址： https://yluiop123.github.io/orange
 
